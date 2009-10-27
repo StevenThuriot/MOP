@@ -1,0 +1,66 @@
+\input{Templates/A4-12pt-latin1-dutch}
+
+\def\ligne#1{%
+  \hbox to \hsize{%
+    \vbox{\centering #1}}}%
+
+\def\bovenaan#1#2#3{%
+  \hbox to \hsize{%
+    \rlap{\vtop{\raggedright #1}}%
+    \hss
+    \clap{\vtop{\centering #2}}%
+    \hss
+    \llap{\vtop{\raggedleft #3}}}}%
+
+\def\onderaan#1#2#3{%
+  \hbox to \hsize{%
+    \rlap{\vbox{\raggedright #1}}%
+    \hss
+    \clap{\vbox{\centering #2}}%
+    \hss
+    \llap{\vbox{\raggedleft #3}}}}%
+
+\def\maakvoorblad{%
+  \thispagestyle{empty}\vbox to \vsize{%
+    
+    \bovenaan{}{}{}
+    
+    \vfill
+    
+    \hrule height 2pt
+    \par
+	  \begin{center}
+	     \Huge \strut \@titel \par
+	  \end{center}
+    \hrule height 2pt
+		\par
+
+    \vspace{13mm}
+    
+    \ligne{\Large \@auteur}
+    \vspace{5mm}
+    \ligne{\@opleiding}
+    
+    \vspace{1cm}
+    \vfill
+    \vfill
+    
+    \onderaan{\@promotor}{}{\@academiejaar}
+    }%
+  \cleardoublepage
+  }
+
+\def\titel#1{\def\@titel{#1}}	
+\def\auteur#1{\def\@auteur{#1}}
+\def\opleiding#1{\def\@opleiding{#1}}
+\def\academiejaar#1{\def\@academiejaar{Academiejaar: #1}}
+\def\promotor#1{\def\@promotor{#1}}
+
+\makeatother
+
+%Default waarden
+\auteur{Auteur}
+\opleiding{Opleiding}
+\titel{Titel}
+\academiejaar{Academiejaar}
+\promotor{Promotor}

@@ -1,0 +1,92 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{graphicx,subfigure}
+\usepackage[english]{babel}
+\usepackage{listings}
+
+\begin{document}
+	\section{Introduction}
+		Inleiding hier
+	\section{System Operations}
+		\subsection{Task Management}
+			The system revolves around Tasks. There are many different entities to keep in mind such as Users, Resources or Projects.
+			But all of these things somehow have to do with Tasks itself.
+			\subsubsection{Creation of tasks}
+				When creating a Task, the User asked to give details about the task at hand. The user is expected to enter a short description, the start time of the task, the deadline and the average duration of the task.
+				Also, the user is presented with a list of resources and other tasks already in the system. The user then selects a few dependencies for the task he's creating and resources he wishes to allocate.
+				When creating a task, the user has to make sure he does not violate the business rule when creating this Task. This means the user enters a duration, start date and end date. The start date must come before the end date and the difference between end- and start date has to be larger or equal then the duration. Also the systems tests if the entered description is an empty string. If this happens, an error is shown.\\
+				\begin{figure}[h!]
+					\begin{center}
+						\includegraphics[scale=0.5]{images/ssd_create_task.jpg}
+					\end{center}
+					\caption{System Sequence Diagram describing the creation of a task}
+				\end{figure}
+			\subsubsection{Removing Tasks}
+			When a task is to be removed. It first has to check how that will affect other entities in te system. Is a Task still required by other Tasks in a dependency?
+			If this is the case. The user will recieve an errormessage and is asked how he wants to proceed: Cancel the operation or delete all the dependent tasks.
+			\begin{figure}[h!]
+				\begin{center}
+					\includegraphics[scale=0.5]{images/ssd_remove_task.jpg}
+				\end{center}
+				\caption{System Sequence Diagram describing the removal of a task}
+			\end{figure}
+			\subsubsection{Modifying Tasks}
+			When modifying tasks, the system has to make sure the user follows all the rules described above. This is because the user has the option to change all of the schedule variables, dependencies and required resources.
+			This means that the Business Rule has to be tested, aswell as the Empty Description rule. Checking is also done on the task dependencies. For instance, it shouldn't be possible to create a task A, dependant on task B. And modify task B to be dependant on task A. This would create a dependency loop.
+			\begin{figure}[h!]
+				\begin{center}
+					\includegraphics[scale=0.5]{images/ssd_modify_task.jpg}
+				\end{center}
+				\caption{System Sequence Diagram describing the editing of a task}
+			\end{figure}
+		\subsection{Resource Management}
+		
+			\subsubsection{Reservations}
+		
+		\subsection{Project Management}
+		
+	\section{Subsystem Descriptions}
+		\subsection{Task manipulation}
+			%Design uitleggen. Ook de GRASP patterns erbij zetten
+			\subsubsection{Design}
+				
+			%Functionaliteiten beschrijven
+			\subsubsection{Functionality}
+			
+			%Klasses met hun verantwoordelijkheden beschrijven
+			\subsubsection{Class Descriptions}
+			
+		\subsection{Resource manipulation}
+			%Design uitleggen. Ook de GRASP patterns erbij zetten
+			\subsubsection{Design}
+			
+			%Functionaliteiten beschrijven
+			\subsubsection{Functionality}
+			
+			%Klasses met hun verantwoordelijkheden beschrijven
+			\subsubsection{Class Descriptions}
+		\subsection{Project manipulation}
+			%Design uitleggen. Ook de GRASP patterns erbij zetten
+			\subsubsection{Design}
+			
+			%Functionaliteiten beschrijven
+			\subsubsection{Functionality}
+			
+			%Klasses met hun verantwoordelijkheden beschrijven
+			\subsubsection{Class Descriptions}
+		
+	%Welke delen moeten allemaal gewijzigd worden moest er iets veranderen aan de hierarchie?
+	\section{Class Descriptions}
+	
+	\section{Testing}
+		\subsection{Technology}
+		
+		\subsection{Testing Approach}
+	
+	\section{Project Management}
+		\subsection{Planning}
+		
+		\subsection{Teamwork}
+		
+	\section{Self-Evaluation}
+	
+\end{document}

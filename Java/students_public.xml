@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+
+<mop:taskplanner xmlns:mop="http://www.cs.kuleuven.be/mop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.cs.kuleuven.be/mop http://www.cs.kuleuven.be/~thomash/mop_iteratie1.xsd">
+
+	<mop:projects>
+		<mop:project id="projectDev">
+			<mop:description>MOP Development Project</mop:description>
+		</mop:project>
+
+		<mop:project id="projectGarden">
+			<mop:description>Garden Maintenance</mop:description>
+		</mop:project>
+	</mop:projects>
+
+	<mop:resources>
+		<mop:resource id="roomDev">
+			<mop:description>Development room</mop:description>
+			<mop:type>Room</mop:type>
+		</mop:resource>
+
+		<mop:resource id="roomShed">
+			<mop:description>Gardening Shed</mop:description>
+			<mop:type>Room</mop:type>
+		</mop:resource>
+
+		<mop:resource id="toolLawnMower">
+			<mop:description>Lawn Mower</mop:description>
+			<mop:type>Tool</mop:type>
+		</mop:resource>
+
+		<mop:resource id="toolComputer">
+			<mop:description>Computer</mop:description>
+			<mop:type>Tool</mop:type>
+		</mop:resource>
+	</mop:resources>
+
+	<mop:user>
+		<mop:name>Alice</mop:name>
+
+		<mop:tasks>
+			<mop:task id="taskFixLawnMower">
+				<mop:description>Fix Lawn Mower</mop:description>
+				<mop:startDate>2009-10-18T08:00:00</mop:startDate>
+				<mop:endDate>2009-10-21T20:00:00</mop:endDate>
+				<mop:duration>1440</mop:duration>
+				<mop:status>Successful</mop:status>
+				<mop:refProject>projectGarden</mop:refProject>
+				<mop:requiredResources>
+					<mop:refResource>toolLawnMower</mop:refResource>
+					<mop:refResource>roomShed</mop:refResource>
+				</mop:requiredResources>
+				<mop:dependsOn>
+					<mop:refTask></mop:refTask>
+				</mop:dependsOn>
+			</mop:task>
+
+			<mop:task id="taskMowLawn">
+				<mop:description>Mow Lawn</mop:description>
+				<mop:startDate>2009-10-20T08:00:00</mop:startDate>
+				<mop:endDate>2009-10-25T20:00:00</mop:endDate>
+				<mop:duration>180</mop:duration>
+				<mop:status>Unfinished</mop:status>
+				<mop:refProject>projectGarden</mop:refProject>
+				<mop:requiredResources>
+					<mop:refResource>toolLawnMower</mop:refResource>
+				</mop:requiredResources>
+				<mop:dependsOn>
+					<mop:refTask>taskFixLawnMower</mop:refTask>
+				</mop:dependsOn>
+			</mop:task>
+
+			<mop:task id="taskMakeDesign">
+				<mop:description>Make UML Design</mop:description>
+				<mop:startDate>2009-10-01T08:00:00</mop:startDate>
+				<mop:endDate>2009-10-28T20:00:00</mop:endDate>
+				<mop:duration>14400</mop:duration>
+				<mop:status>Unfinished</mop:status>
+				<mop:refProject>projectDev</mop:refProject>
+				<mop:requiredResources>
+					<mop:refResource>roomDev</mop:refResource>
+					<mop:refResource>toolComputer</mop:refResource>
+				</mop:requiredResources>
+				<mop:dependsOn>
+					<mop:refTask></mop:refTask>
+				</mop:dependsOn>
+			</mop:task>
+
+			<mop:task id="taskCode">
+				<mop:description>Implement the design</mop:description>
+				<mop:startDate>2009-10-01T08:00:00</mop:startDate>
+				<mop:endDate>2009-10-28T20:00:00</mop:endDate>
+				<mop:duration>10080</mop:duration>
+				<mop:status>Unfinished</mop:status>
+				<mop:refProject>projectDev</mop:refProject>
+				<mop:requiredResources>
+					<mop:refResource>roomDev</mop:refResource>
+					<mop:refResource>toolComputer</mop:refResource>
+				</mop:requiredResources>
+				<mop:dependsOn>
+					<mop:refTask>taskMakeDesign</mop:refTask>
+				</mop:dependsOn>
+			</mop:task>
+		</mop:tasks>
+
+		<mop:reservations>
+			<mop:reservation>
+				<mop:time>2009-10-21T08:00:00</mop:time>
+				<mop:duration>3060</mop:duration>
+				<mop:refResource>toolLawnMower</mop:refResource>
+			</mop:reservation>
+
+			<mop:reservation>
+				<mop:time>2009-10-01T08:00:00</mop:time>
+				<mop:duration>40320</mop:duration>
+				<mop:refResource>toolComputer</mop:refResource>
+			</mop:reservation>
+
+			<mop:reservation>
+				<mop:time>2009-10-01T08:00:00</mop:time>
+				<mop:duration>40320</mop:duration>
+				<mop:refResource>roomDev</mop:refResource>
+			</mop:reservation>
+		</mop:reservations>
+	</mop:user>
+
+</mop:taskplanner>
