@@ -1,0 +1,32 @@
+\BOOKMARK [1][-]{section.1}{Introduction}{}
+\BOOKMARK [1][-]{section.2}{System Operations}{}
+\BOOKMARK [2][-]{subsection.2.1}{Task Management}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.1.1}{Creation of tasks}{subsection.2.1}
+\BOOKMARK [3][-]{subsubsection.2.1.2}{Removing Tasks}{subsection.2.1}
+\BOOKMARK [3][-]{subsubsection.2.1.3}{Modifying Tasks}{subsection.2.1}
+\BOOKMARK [3][-]{subsubsection.2.1.4}{Updating a Task status}{subsection.2.1}
+\BOOKMARK [2][-]{subsection.2.2}{Resource Management}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.2.1}{Creating Resources}{subsection.2.2}
+\BOOKMARK [3][-]{subsubsection.2.2.2}{Remove Resource}{subsection.2.2}
+\BOOKMARK [2][-]{subsection.2.3}{Reservations}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.3.1}{Create Reservations}{subsection.2.3}
+\BOOKMARK [2][-]{subsection.2.4}{Project Management}{section.2}
+\BOOKMARK [3][-]{subsubsection.2.4.1}{Create Project}{subsection.2.4}
+\BOOKMARK [3][-]{subsubsection.2.4.2}{Remove Project}{subsection.2.4}
+\BOOKMARK [1][-]{section.3}{Subsystem Descriptions}{}
+\BOOKMARK [2][-]{subsection.3.1}{User}{section.3}
+\BOOKMARK [2][-]{subsection.3.2}{Task manipulation}{section.3}
+\BOOKMARK [3][-]{subsubsection.3.2.1}{Design}{subsection.3.2}
+\BOOKMARK [3][-]{subsubsection.3.2.2}{Functionality}{subsection.3.2}
+\BOOKMARK [3][-]{subsubsection.3.2.3}{Class Descriptions}{subsection.3.2}
+\BOOKMARK [2][-]{subsection.3.3}{Resource manipulation}{section.3}
+\BOOKMARK [3][-]{subsubsection.3.3.1}{Design}{subsection.3.3}
+\BOOKMARK [2][-]{subsection.3.4}{Project manipulation}{section.3}
+\BOOKMARK [1][-]{section.4}{Class Descriptions}{}
+\BOOKMARK [1][-]{section.5}{Testing}{}
+\BOOKMARK [2][-]{subsection.5.1}{Technology}{section.5}
+\BOOKMARK [2][-]{subsection.5.2}{Testing Approach}{section.5}
+\BOOKMARK [1][-]{section.6}{Project Management}{}
+\BOOKMARK [2][-]{subsection.6.1}{Planning}{section.6}
+\BOOKMARK [2][-]{subsection.6.2}{Teamwork}{section.6}
+\BOOKMARK [1][-]{section.7}{Self-Evaluation}{}
