@@ -8,6 +8,10 @@ import controller.DispatchController;
 
 import model.User;
 
+/**
+ * @author koen
+ *
+ */
 public class MainGUI implements Runnable{
 	private ArrayList<User> users;
 	private User currentUser;
@@ -49,7 +53,6 @@ public class MainGUI implements Runnable{
 	}
 	
 	public void run(){
-		//Thread currentThread = Thread.currentThread();
 		ArrayList<String> uNames = new ArrayList<String>();
 		for(User u: users){
 			uNames.add(u.getName());
