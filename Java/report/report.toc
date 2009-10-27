@@ -1,33 +1,33 @@
 \select@language {english}
-\contentsline {section}{\numberline {1}Introduction}{5}{section.1}
-\contentsline {section}{\numberline {2}System Operations}{5}{section.2}
-\contentsline {subsection}{\numberline {2.1}Task Management}{5}{subsection.2.1}
-\contentsline {subsubsection}{\numberline {2.1.1}Creation of tasks}{5}{subsubsection.2.1.1}
-\contentsline {subsubsection}{\numberline {2.1.2}Removing Tasks}{5}{subsubsection.2.1.2}
-\contentsline {subsubsection}{\numberline {2.1.3}Modifying Tasks}{6}{subsubsection.2.1.3}
-\contentsline {subsubsection}{\numberline {2.1.4}Updating a Task status}{7}{subsubsection.2.1.4}
+\contentsline {section}{\numberline {1}Introduction}{6}{section.1}
+\contentsline {section}{\numberline {2}System Operations}{6}{section.2}
+\contentsline {subsection}{\numberline {2.1}Task Management}{6}{subsection.2.1}
+\contentsline {subsubsection}{\numberline {2.1.1}Creation of tasks}{6}{subsubsection.2.1.1}
+\contentsline {subsubsection}{\numberline {2.1.2}Removing Tasks}{7}{subsubsection.2.1.2}
+\contentsline {subsubsection}{\numberline {2.1.3}Modifying Tasks}{7}{subsubsection.2.1.3}
+\contentsline {subsubsection}{\numberline {2.1.4}Updating a Task status}{8}{subsubsection.2.1.4}
 \contentsline {subsection}{\numberline {2.2}Resource Management}{8}{subsection.2.2}
 \contentsline {subsubsection}{\numberline {2.2.1}Creating Resources}{8}{subsubsection.2.2.1}
-\contentsline {subsubsection}{\numberline {2.2.2}Remove Resource}{8}{subsubsection.2.2.2}
+\contentsline {subsubsection}{\numberline {2.2.2}Remove Resource}{9}{subsubsection.2.2.2}
 \contentsline {subsection}{\numberline {2.3}Reservations}{9}{subsection.2.3}
 \contentsline {subsubsection}{\numberline {2.3.1}Create Reservations}{9}{subsubsection.2.3.1}
-\contentsline {subsection}{\numberline {2.4}Project Management}{9}{subsection.2.4}
-\contentsline {subsubsection}{\numberline {2.4.1}Create Project}{9}{subsubsection.2.4.1}
-\contentsline {subsubsection}{\numberline {2.4.2}Remove Project}{9}{subsubsection.2.4.2}
-\contentsline {section}{\numberline {3}Subsystem Descriptions}{9}{section.3}
-\contentsline {subsection}{\numberline {3.1}User}{9}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Task manipulation}{10}{subsection.3.2}
-\contentsline {subsubsection}{\numberline {3.2.1}Design}{10}{subsubsection.3.2.1}
-\contentsline {subsubsection}{\numberline {3.2.2}Functionality}{11}{subsubsection.3.2.2}
-\contentsline {subsubsection}{\numberline {3.2.3}Class Descriptions}{11}{subsubsection.3.2.3}
-\contentsline {subsection}{\numberline {3.3}Resource manipulation}{11}{subsection.3.3}
-\contentsline {subsubsection}{\numberline {3.3.1}Design}{11}{subsubsection.3.3.1}
-\contentsline {subsection}{\numberline {3.4}Project manipulation}{11}{subsection.3.4}
-\contentsline {section}{\numberline {4}Class Descriptions}{14}{section.4}
-\contentsline {section}{\numberline {5}Testing}{14}{section.5}
-\contentsline {subsection}{\numberline {5.1}Technology}{14}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Testing Approach}{15}{subsection.5.2}
-\contentsline {section}{\numberline {6}Project Management}{15}{section.6}
-\contentsline {subsection}{\numberline {6.1}Planning}{15}{subsection.6.1}
-\contentsline {subsection}{\numberline {6.2}Teamwork}{16}{subsection.6.2}
-\contentsline {section}{\numberline {7}Self-Evaluation}{16}{section.7}
+\contentsline {subsection}{\numberline {2.4}Project Management}{10}{subsection.2.4}
+\contentsline {subsubsection}{\numberline {2.4.1}Create Project}{10}{subsubsection.2.4.1}
+\contentsline {subsubsection}{\numberline {2.4.2}Remove Project}{10}{subsubsection.2.4.2}
+\contentsline {section}{\numberline {3}Subsystem Descriptions}{11}{section.3}
+\contentsline {subsection}{\numberline {3.1}User}{11}{subsection.3.1}
+\contentsline {subsection}{\numberline {3.2}Task manipulation}{11}{subsection.3.2}
+\contentsline {subsubsection}{\numberline {3.2.1}Design}{11}{subsubsection.3.2.1}
+\contentsline {subsubsection}{\numberline {3.2.2}Functionality}{12}{subsubsection.3.2.2}
+\contentsline {subsubsection}{\numberline {3.2.3}Class Descriptions}{12}{subsubsection.3.2.3}
+\contentsline {subsection}{\numberline {3.3}Resource manipulation}{12}{subsection.3.3}
+\contentsline {subsubsection}{\numberline {3.3.1}Design}{12}{subsubsection.3.3.1}
+\contentsline {subsection}{\numberline {3.4}Project manipulation}{12}{subsection.3.4}
+\contentsline {section}{\numberline {4}Class Descriptions}{15}{section.4}
+\contentsline {section}{\numberline {5}Testing}{15}{section.5}
+\contentsline {subsection}{\numberline {5.1}Technology}{15}{subsection.5.1}
+\contentsline {subsection}{\numberline {5.2}Testing Approach}{16}{subsection.5.2}
+\contentsline {section}{\numberline {6}Project Management}{16}{section.6}
+\contentsline {subsection}{\numberline {6.1}Planning}{16}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Teamwork}{17}{subsection.6.2}
+\contentsline {section}{\numberline {7}Self-Evaluation}{17}{section.7}

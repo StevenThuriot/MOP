@@ -2,7 +2,7 @@
 
 \begin{document}
 \auteur{Kwinten Missiaen, Steven Thuriot, Koen van den Dries, Bart Vangeneugden}
-\opleiding{Methodologieï¿½n voor Ontwerp van Programmatuur}
+\opleiding{Methodologieën voor Ontwerp van Programmatuur}
 \titel{Taskmanager: Iteratie 1}
 \academiejaar{2009 - 2010}
 \promotor{Tom Holvoet\\Mario Cruz Torres}
@@ -23,9 +23,9 @@
 \newpage
 \section{Introduction}
 		This document serves as a documentation instrument for the first Iteration of the MOP Team Assignment.\\
-		In the following chapters, the reader will get a general overview of the outer- and inner workins of the application, accompanied by several diagrams. At first, we will discuss the view layer. The user will be explained how the user interacts with the system. Delving deeper, we lay out how packages were used to ensure safe, decoupled and thought-through class-to-class communication.
-		Once this is covered, we explain in detail just which classes have which responsability, and why. Also our testing approach is explained in short.\\
-		We conclude with our team organisation, planning and a short self-evaluation.
+		In the following chapters, the reader will get a general overview of the outer- and inner workings of the application, accompanied by several diagrams. At first, we will discuss the view layer. The user will be explained how the user interacts with the system. Delving deeper, we lay out how packages were used to ensure safe, decoupled and thought-through class-to-class communication.
+		Once this is covered, we explain in detail just which classes have which responsibility, and why. Also our testing approach is explained in short.\\
+		We conclude with our team organization, planning and a short self-evaluation.
 	\section{System Operations}
 		\subsection{Task Management}
 			The system revolves around Tasks. There are many different entities to keep in mind such as Users, Resources or Projects.
@@ -42,7 +42,7 @@
 					\caption{System Sequence Diagram describing the creation of a task}
 				\end{figure}
 			\subsubsection{Removing Tasks}
-			When a task is to be removed. It first has to check how that will affect other entities in te system. Is a Task still required by other Tasks in a dependency?
+			When a task is to be removed. It first has to check how that will affect other entities in the system. Is a Task still required by other Tasks in a dependency?
 			If this is the case. The user will receive an error message and is asked how he wants to proceed: Cancel the operation or delete all the dependent tasks.
 			\begin{figure}[h!]
 				\begin{center}
