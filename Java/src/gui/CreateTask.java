@@ -82,21 +82,21 @@ public class CreateTask extends UseCase {
 			try {
 				dController.getTaskController().createTask(descr, startDate, dueDate, duration, deps, reqRes, user);
 			} catch (EmptyStringException e) {
-				System.err.println("Empty description");
+				System.out.println("Empty description");
 			} catch (BusinessRule1Exception e) {
-				System.err.println("Task not completable");
+				System.out.println("Task not completable");
 			} catch (DependencyCycleException e) {
-				System.err.println("Cyclic Dependency");
+				System.out.println("Cyclic Dependency");
 			}
 		}else{
 			try {
 				dController.getTaskController().createTask(descr, startDate, dueDate, duration, user);
 			} catch (EmptyStringException e) {
-				System.err.println("Empty description");
+				System.out.println("Empty description");
 			} catch (BusinessRule1Exception e) {
-				System.err.println("Task not completable");
+				System.out.println("Task not completable");
 			} catch (DependencyCycleException e) {
-				System.err.println("Cyclic Dependency");
+				System.out.println("Cyclic Dependency");
 			}
 		}
 	}

@@ -40,7 +40,7 @@ public class RemoveResource extends UseCase {
 			try {
 				dController.getResourceController().removeResource(res.get(choice));
 			} catch (ResourceBusyException e) {
-				System.err.println("Resource is required by a task, Aborting...Done");
+				System.out.println("Resource is required by a task, Aborting...Done");
 			}
 		}		
 	}

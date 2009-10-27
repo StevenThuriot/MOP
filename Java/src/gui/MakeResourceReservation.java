@@ -52,7 +52,7 @@ public class MakeResourceReservation extends UseCase {
 		try {
 			dController.getResourceController().createReservation(startDate, duration, resource, user);
 		} catch (NotAvailableException e) {
-			System.err.println("Resource is already reserved");
+			System.out.println("Resource is already reserved");
 		}
 	}
 

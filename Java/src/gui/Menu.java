@@ -22,7 +22,7 @@ public class Menu {
 		in = i;
 		out = o;
 		s = new Scanner(in);
-		//System.err.println(s.delimiter().pattern());
+		//System.out.println(s.delimiter().pattern());
 		//s.useDelimiter(Pattern.compile("\n+",Pattern.UNIX_LINES));
 		s.useDelimiter(System.getProperty("line.separator"));
 		df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");

@@ -37,7 +37,7 @@ public class CreateResource extends UseCase {
 		try {
 			dController.getResourceController().createResource(descr, ResourceType.values()[choice]);
 		} catch (EmptyStringException e) {
-			System.err.println("Empty Description");
+			System.out.println("Empty Description");
 		}
 	}
 
