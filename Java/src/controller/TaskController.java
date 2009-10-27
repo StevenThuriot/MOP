@@ -58,7 +58,7 @@ public class TaskController {
 	 * @param t
 	 * @throws DependencyException
 	 */
-	public void removeTask(Task t) /*throws DependencyException*/ {
+	public void removeTask(Task t){
 		t.remove();
 	}
 	

@@ -183,6 +183,12 @@ public void remove(){
 		t.remove();
 	}
 	
+	//removes this task from all required resources
+	for(Resource r: this.getRequiredResources()){
+		r.removeTaskUsing(this);
+	}
+	
+	
 	// removes this task from the list that its user keeps
 	this.getUser().removeTask(this);
 }

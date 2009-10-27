@@ -4,25 +4,27 @@
 \contentsline {subsection}{\numberline {2.1}Task Management}{6}{subsection.2.1}
 \contentsline {subsubsection}{\numberline {2.1.1}Creation of tasks}{6}{subsubsection.2.1.1}
 \contentsline {subsubsection}{\numberline {2.1.2}Removing Tasks}{7}{subsubsection.2.1.2}
-\contentsline {subsubsection}{\numberline {2.1.3}Modifying Tasks}{7}{subsubsection.2.1.3}
-\contentsline {subsubsection}{\numberline {2.1.4}Updating a Task status}{8}{subsubsection.2.1.4}
-\contentsline {subsection}{\numberline {2.2}Resource Management}{8}{subsection.2.2}
-\contentsline {subsubsection}{\numberline {2.2.1}Creating Resources}{8}{subsubsection.2.2.1}
-\contentsline {subsubsection}{\numberline {2.2.2}Remove Resource}{9}{subsubsection.2.2.2}
-\contentsline {subsection}{\numberline {2.3}Reservations}{9}{subsection.2.3}
-\contentsline {subsubsection}{\numberline {2.3.1}Create Reservations}{9}{subsubsection.2.3.1}
-\contentsline {subsection}{\numberline {2.4}Project Management}{10}{subsection.2.4}
-\contentsline {subsubsection}{\numberline {2.4.1}Create Project}{10}{subsubsection.2.4.1}
-\contentsline {subsubsection}{\numberline {2.4.2}Remove Project}{10}{subsubsection.2.4.2}
-\contentsline {section}{\numberline {3}Subsystem Descriptions}{11}{section.3}
-\contentsline {subsection}{\numberline {3.1}User}{11}{subsection.3.1}
-\contentsline {subsection}{\numberline {3.2}Task manipulation}{11}{subsection.3.2}
-\contentsline {subsection}{\numberline {3.3}Resource manipulation}{12}{subsection.3.3}
-\contentsline {subsection}{\numberline {3.4}Project manipulation}{13}{subsection.3.4}
-\contentsline {section}{\numberline {4}Testing}{17}{section.4}
-\contentsline {subsection}{\numberline {4.1}Technology}{17}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Testing Approach}{17}{subsection.4.2}
-\contentsline {section}{\numberline {5}Project Management}{18}{section.5}
-\contentsline {subsection}{\numberline {5.1}Planning}{18}{subsection.5.1}
-\contentsline {subsection}{\numberline {5.2}Teamwork}{18}{subsection.5.2}
-\contentsline {section}{\numberline {6}Self-Evaluation}{19}{section.6}
+\contentsline {subsubsection}{\numberline {2.1.3}Modifying Tasks}{8}{subsubsection.2.1.3}
+\contentsline {subsubsection}{\numberline {2.1.4}Updating a Task status}{9}{subsubsection.2.1.4}
+\contentsline {subsection}{\numberline {2.2}Resource Management}{10}{subsection.2.2}
+\contentsline {subsubsection}{\numberline {2.2.1}Creating Resources}{10}{subsubsection.2.2.1}
+\contentsline {subsubsection}{\numberline {2.2.2}Remove Resource}{10}{subsubsection.2.2.2}
+\contentsline {subsection}{\numberline {2.3}Reservations}{11}{subsection.2.3}
+\contentsline {subsubsection}{\numberline {2.3.1}Create Reservations}{11}{subsubsection.2.3.1}
+\contentsline {subsection}{\numberline {2.4}Project Management}{11}{subsection.2.4}
+\contentsline {subsubsection}{\numberline {2.4.1}Create Project}{11}{subsubsection.2.4.1}
+\contentsline {subsubsection}{\numberline {2.4.2}Remove Project}{11}{subsubsection.2.4.2}
+\contentsline {section}{\numberline {3}Package Communication}{11}{section.3}
+\contentsline {section}{\numberline {4}Class Descriptions}{12}{section.4}
+\contentsline {subsection}{\numberline {4.1}User}{12}{subsection.4.1}
+\contentsline {subsection}{\numberline {4.2}Task manipulation}{12}{subsection.4.2}
+\contentsline {subsection}{\numberline {4.3}Resource manipulation}{13}{subsection.4.3}
+\contentsline {subsection}{\numberline {4.4}Project manipulation}{16}{subsection.4.4}
+\contentsline {section}{\numberline {5}Software Initialization}{18}{section.5}
+\contentsline {section}{\numberline {6}Testing}{19}{section.6}
+\contentsline {subsection}{\numberline {6.1}Technology}{19}{subsection.6.1}
+\contentsline {subsection}{\numberline {6.2}Testing Approach}{19}{subsection.6.2}
+\contentsline {section}{\numberline {7}Project Management}{20}{section.7}
+\contentsline {subsection}{\numberline {7.1}Planning}{20}{subsection.7.1}
+\contentsline {subsection}{\numberline {7.2}Teamwork}{20}{subsection.7.2}
+\contentsline {section}{\numberline {8}Self-Evaluation}{21}{section.8}
