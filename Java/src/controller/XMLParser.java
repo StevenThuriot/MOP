@@ -186,8 +186,29 @@ public class XMLParser {
 			    Status status = Status.valueOf(this.getNodeByName(childNode, "mop:status").getTextContent());
 			    
 			    String projectID = this.getNodeByName(childNode, "mop:refProject").getTextContent();
+				
+			    Task task = controller.getTaskController().createTask(description, startDate, dueDate, duration, user);
+			    controller.getTaskController().updateTaskStatus(task, status);
 			    
-			    Node resNode = this.getNodeByName(childNode, "mop:requiredResources");
+			    if (projectID.length() > 0 && projectID != null)
+			    {
+				    Project project = projectMap.get(projectID);
+				    controller.getProjectController().bind(project, task);
+			    }
+			    
+			    taskMap.put(id, task);
+		    }
+		}
+		
+		//Link dependencies and resources
+		for (int i = 0; i < taskList.getLength(); i++) {
+			Node childNode = taskList.item(i);
+			
+			if (childNode.getNodeName() != "#text" && childNode.getNodeName().length() > 0)
+		    {
+				String id = childNode.getAttributes().item(0).getTextContent();
+				
+				Node resNode = this.getNodeByName(childNode, "mop:requiredResources");
 				NodeList resList = resNode.getChildNodes();
 				
 				ArrayList<Resource> requiredResources = new ArrayList<Resource>();
@@ -196,7 +217,11 @@ public class XMLParser {
 					Node resChild = resList.item(j);
 					if (resChild.getNodeName() != "#text" && resChild.getNodeName().length() > 0) {
 						String requiredResourceID = resChild.getTextContent();
-						requiredResources.add(resourceMap.get(requiredResourceID));
+						
+						if(requiredResourceID.length() > 0)
+						{
+							requiredResources.add(resourceMap.get(requiredResourceID));
+						}
 					}
 				}
 				
@@ -208,22 +233,25 @@ public class XMLParser {
 					Node depChild = dependsList.item(j);
 					if (depChild.getNodeName() != "#text" && depChild.getNodeName().length() > 0) {
 						String requiredTaskID = depChild.getTextContent();
-						if (taskMap.containsKey(requiredTaskID)) {
+
+						if(requiredTaskID.length() > 0)
+						{
 							dependencyList.add(taskMap.get(requiredTaskID));
-						}						
+						}
 					}
 				}
 				
-			    Task task = controller.getTaskController().createTask(description, startDate, dueDate, duration, dependencyList, requiredResources, user);
-			    controller.getTaskController().updateTaskStatus(task, status);
-			    
-			    if (projectID.length() > 0 && projectID != null)
-			    {
-				    Project project = projectMap.get(projectID);
-				    controller.getProjectController().bind(project, task);
-			    }
-			    
-			    taskMap.put(id, task);
+				Task task = taskMap.get(id);				
+				
+				if (requiredResources.size() > 0) {
+					for (Resource r : requiredResources)
+						task.addRequiredResource(r);
+				}
+				
+				if (dependencyList.size() > 0) {
+					for (Task t : dependencyList)
+						task.addDependency(t);
+				}
 		    }
 		}
 		
