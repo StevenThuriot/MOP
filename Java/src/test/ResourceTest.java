@@ -85,8 +85,9 @@ public class ResourceTest {
 	@Test
 	public void removeResourceFromManager() throws ResourceBusyException
 	{
+		Resource rclone = resource.clone();
 		ResourceManager.getInstance().remove(resource);
-		assertEquals(0, ResourceManager.getInstance().findAll().size());
+		assertTrue(ResourceManager.getInstance().findAll().contains(rclone));
 	}
 
 	/**
