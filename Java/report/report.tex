@@ -2,7 +2,7 @@
 
 \begin{document}
 \auteur{Kwinten Missiaen, Steven Thuriot, Koen van den Dries, Bart Vangeneugden}
-\opleiding{Methodologieën voor Ontwerp van Programmatuur}
+\opleiding{Methodologieï¿½n voor Ontwerp van Programmatuur}
 \titel{Taskmanager: Iteratie 1}
 \academiejaar{2009 - 2010}
 \promotor{Tom Holvoet\\Mario Cruz Torres}
@@ -93,43 +93,40 @@
 			\subsubsection{Remove Project}
 			A project can be removed without too many details. If the user wants to remove a project, all of the tasks connected to that project are removed. The user simply selects a Projects and all of the underlying tasks/dependent tasks are removed with it.
 	\section{Subsystem Descriptions}
-		\subsection{User}
-		The system evolves around the User. The user can be considered the Information Expert.
-		When starting with a User object, almost the entire Object hierarchy can be described.
+		
+			\subsection{User}
+			At first, we intended the User class to be responsible for the creation of Projects and Tasks, because a User object contains a list of Tasks and Projects that belong to that User. In the end, we chose not to do so. We felt that that the indirection was not necessary and that it might not benefit the cohesion of the User class.
 
-		We looked and discussed the model and responsibility of the User-class from many different angles. We came to the conclusion that the User of the System represents the User in the system. Therefore all of the Tasks, Reservations he creates in a way 'belong' to him.
+			While not described in the project assigment, we assumed the system could become a multi-user system in the next iteration(s). We therefore based our design on this.
 
-		However not described, we assumed the system could become a multi-user system in the next iteration(s). We therefore based our design on this.
-		\subsection{Task manipulation}
+			Every User object is responsible for keeping track of the Projects and Tasks that belong to him. The system can ask the User object to return a list of these Projects or Tasks.
+
+			\subsection{Task manipulation}
 			%Design uitleggen. Ook de GRASP patterns erbij zetten
-			\subsubsection{Design}
 			Tasks are collected in the User. They contain a list of Resources the User might require to execute the Task.
 			A Task has attributes which define it's own description, a Start and End time as well as a Duration.
 			Also, a Task has a list of Tasks on which the Task may depend. This means the status of the Task at hand is dependent on the Status of it's dependent Tasks.\\
 			Keeping Low Coupling and High Cohesion in mind, Task has the following responsibilities:
 			\begin{itemize}
-				\item{Collecting Resources}
-				\item{Keep a recursive dependency list}
-				\item{Check for the business rule recursively}
-				\item{Check for the Task status recursively}
+				\item{Keepin track of its name, start date, due date, duration and status}
+				\item{Keeping track of the resources required to execute the task}
+				\item{Keeping track of its dependencies, as well as the tasks that depend on this task}
+				\item{Checking for the business rule 1 and preventing the construction of loops in the dependency scheme}
+				\item{Updating the status of dependant tasks when necessary}
 			\end{itemize}
-			A Task is not however an Information Expert or Creator of Resources. As described in the next chapter, a Resource has it's own management.
-			We do feel it is necessary for the Task to know about it's Resources.\\
-			A Task is Information Expert about Task itself. It makes sure the dependent Tasks as (recursively) correct according to the Business Rule. This means a Task can only be 'successful' when it's dependencies are 'successful'. Also end times of Tasks have to match earlies end times of dependent Tasks.			
-			%Functionaliteiten beschrijven
-			\subsubsection{Functionality}
+			A Task is not an Information Expert or Creator of Resources. As described in the next chapter, a Resource has its own management.
+			We do feel it is necessary for the Task to know about its Resources.\\
+			However, a Task is Information Expert about Task itself. Therefore, we felt that the Task class should be responsible for enforcing business rule 1, preventing the construction of dependency loops, and updating the status of dependent tasks when necessary (as described in the use case 'update task status').
 			
-			%Klasses met hun verantwoordelijkheden beschrijven
-			\subsubsection{Class Descriptions}
+			While designing, it was suggested that perhaps the Task class has two distinct responsibilities this way: one concerning its own details, and one concerning the way it interacts with other Tasks in the dependency graph. In the end, we chose to stick to one single Task class, as we felt that the cohesion of this class was sufficiently high.
 			
-		\subsection{Resource manipulation}
+			\subsection{Resource manipulation}
 			%Design uitleggen. Ook de GRASP patterns erbij zetten
-			\subsubsection{Design}
 			Resources can be accessed via Tasks. This is because a Task can define which resources are required for that Task.
-			However when a Resource is just created, or when a Task to which a Resource was allocated gets removed, the Resource has no more place in an Object Oriented structure. The object would not exists.
-			Therefore we decided to keep a reference of each Resource in a class with a static instance.
+			However when a Resource is just created, or when a Task to which a Resource was allocated gets removed, the Resource will not be referenced to by any Task. The object would not exists.
+			Therefore we decided that it was necessary to keep a reference of each Resource in a class with a static instance.
 
-			A Resource itself is in Information Expert as well as a Creator for Reservations. We decided to put the responsibility of creating and storing Reservations in Resource because a Resource needs this information to check it's own availability as seen in the following diagram Create Reservation.
+			A Resource itself is an Information Expert as well as a Creator for Reservations. We decided to put the responsibility of creating and storing Reservations in Resource because a Resource needs this information to check it's own availability, as displayed in the diagram 'Create Reservation'.
 			\begin{figure}[h!]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/create_reservation.jpg}
@@ -137,7 +134,17 @@
 				\caption{Create Reservation Sequence Diagram}
 			\end{figure}
 
-			As shown in the diagram 'Create Reservation Sequence Diagram', all the Resources are retrieved from the Singleton ResourceManager. Once selected, a Resource can check it's own availability. When available the Resource itself creates the Reservation.
+			As shown in the diagram , all the Resources are retrieved from the Singleton ResourceManager. The resource is responsible for keeping track of its reservations and checking whether it is available. When available the Resource itself creates the Reservation.
+			
+			The ResourceManager keeps track of all the resources, and is responsible for the construction or destruction of Resource objects. When the ResourceManager tries to destroy a Resource, it is the Resource's responsibility to check if this operation is allowed. According to use case 'Remove Resource' this operation will fail if any task requires the resource. The Resource object will then hand an exception to the ResourceManager, which is responsible for communicating it to the GUI. A sequence diagram of this operation is shown in figure 'Remove Sequence Diagram'.
+			
+			\begin{figure}[h!]
+			\begin{center}
+			\includegraphics[scale = 0.5]{images/RemoveResource.png}
+			\end{center}
+			\caption{Remove Resource Sequence Diagram}
+			\end{figure}
+			
 
 			The OO-structure is shown in the class diagram: Resource Class Diagram which contains all the necessary classes for the Resource subsystem.
 			
@@ -147,7 +154,9 @@
 				\end{center}
 				\caption{Resource Class Diagram}
 			\end{figure}
-		\subsection{Project manipulation}
+			
+			
+			\subsection{Project manipulation}
 			When we assumed the project could become a multi-user application. We thought of Projects as a link between multiple Users and Tasks. Therefore, a Project can contain multiple Tasks, and multiple Users can be assigned to it.
 			\begin{figure}[h!]
 				\begin{center}
@@ -155,6 +164,14 @@
 				\end{center}
 				\caption{Project Class Diagram}
 			\end{figure}
+			
+			The responsibilities of the Project class are as follows:
+			\begin{itemize}
+			\item Keeping track of its own details (description)
+			\item Keeping track of the Tasks that are in the project
+			\item Binding or removing Tasks from or to the project
+			\end{itemize}
+
 			When the application user creates a Project, he becomes a owner of that Project, this is how the User acts as a container of the Project Object. Tasks can be added to the Project however the User wishes to do this. However, it's not the User object that calls the Project constructor. It is our opinion that it is not the User's responsibility to create this object, rather then it's the Project's responsibility to aggregate the User.
 			\begin{figure}[h!]
 				\begin{center}
@@ -169,11 +186,7 @@
 				\end{center}
 				\caption{Assign Task to Project Sequence Diagram}
 			\end{figure}
-			It is also the Project's responsibility to bind a Task to the Project. We feel that this direction should be maintained because a Project 'contains' or 'aggregates' a Task. This binding is done in the Project's constructor.			
-			
-	%Welke delen moeten allemaal gewijzigd worden moest er iets veranderen aan de hierarchie?
-	\section{Class Descriptions}
-		
+			It is also the Project's responsibility to bind a Task to the Project. We feel that this direction should be maintained because a Project 'contains' or 'aggregates' a Task. This binding is done in the Project's constructor.	
 	\section{Testing}
 		\subsection{Technology}
 		We decided to use JUnit4 for testing.
@@ -204,7 +217,15 @@
 		We have 3 weekly physical meetings, where 1 would be with our team advisor. In these meetings, we discussed what everyone had done in the past days. Whenever somebody was unclear, or the group had doubts about which method or pattern would be the best to use, time was never an issue to come to a general solution that seemed best to everyone.\\
 		We also used several team collaboration tools provided by Google such as Google Code and Google Groups. This gave advantages such as a mailing list, subversion with the option to review code at each revision, issue lists and hosted files.\\
 		We tried to keep all the information as centralized as possible by using a separate Subversion repository for the Visual Paradigm file. This way every team member always had the most up to date diagrams available.\\
-		Development of the project was divided in 4 groups of functionality: Controllers, Models, View and Testing. Each member of the team was assigned one of these tasks. Steven Thuriot took on Controllers and the parsing of XML, Kwinten Missiaen Models, Koen Van Den Dries the View and Bart Vangeneugden Testing. The report was structured and drafted by Bart Vangeneugden however every team member wrote about the part of development he was responsible for.
+		Development of the project was divided in 4 groups of functionality: Controllers, Models, View and Testing. Each member of the team was assigned one of these tasks. Steven Thuriot took on Controllers and the parsing of XML, Kwinten Missiaen Models, Koen Van Den Dries the View and Bart Vangeneugden Testing. The report was structured and drafted by Bart Vangeneugden however every team member wrote about the part of development he was responsible for.\\
+		We had a total of 18 hours meeting physically for the project. Besides that every group member worked at home. A short estimate follows:\\
+		 \begin{tabular}{l|l}
+		Member & Time(+/-)\\ \hline
+		Kwinten Missiaen & 30\\
+		Steven Thuriot & 25\\
+		Koen van den Dries & \\
+		Bart Vangeneugden & 25\\
+		\end{tabular}
 	\section{Self-Evaluation}
 	It is our opinion that we had a great team effort. However, we can improve. In this iteration we were too eager to get a first version of Class- and other diagrams ready. It would have been a better choice to make a good class-per-class analysis before drawing.\\
 	To conclude we had no real problems regarding teamwork. Also we learned a lot about project organization.
