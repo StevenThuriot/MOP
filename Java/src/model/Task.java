@@ -291,7 +291,7 @@ public boolean canHaveAsDependency(Task task){
  * 			The task to be checked.
  */
 public boolean dependencyHasNoCycle(Task task){
-	return !task.isRecursivelyDependentOn(this);
+	return !task.isRecursivelyDependentOn(this) && task!=this;
 }
 
 /**

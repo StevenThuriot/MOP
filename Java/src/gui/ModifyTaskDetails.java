@@ -108,50 +108,62 @@ public class ModifyTaskDetails extends UseCase {
 					"Change description", "Change schedule", "Return to Menu");
 			switch (choice) {
 				case 0:
-					descr.clear();
-					for(Task t : tasks){
-						descr.add(t.getDescription());
-					}
-					choice2 = menu.menu("Select task", descr);
-					try {
-						dController.getTaskController().addDependency(task, tasks.get(choice2));
-						deps.add(tasks.remove(choice2));
-					} catch (BusinessRule1Exception e) {
-						System.out.println("Dependency would violate BusinessRule1");
-						choice2 = menu.menu("Select Action", "Retry", "Abort");
-						exit = choice2==1;
-						continue;
-					} catch (DependencyCycleException e) {
-						System.out.println("Dependency would cause cycle");
-						choice2 = menu.menu("Select Action", "Retry", "Abort");
-						exit = choice2==1;
-						continue;
+					if (!tasks.isEmpty()) {
+						descr.clear();
+						for (Task t : tasks) {
+							descr.add(t.getDescription());
+						}
+						choice2 = menu.menu("Select task", descr);
+						try {
+							dController.getTaskController().addDependency(task, tasks.get(choice2));
+							deps.add(tasks.remove(choice2));
+						} catch (BusinessRule1Exception e) {
+							System.out.println("Dependency would violate BusinessRule1");
+							choice2 = menu.menu("Select Action", "Retry", "Abort");
+							exit = choice2 == 1;
+							continue;
+						} catch (DependencyCycleException e) {
+							System.out.println("Dependency would cause cycle");
+							choice2 = menu.menu("Select Action", "Retry", "Abort");
+							exit = choice2 == 1;
+							continue;
+						}
+					}else{
+						System.out.println("No more task to add");
 					}
 					break;
 				case 1:
-					descr.clear();
-					for (Task t : deps) {
-						descr.add(t.getDescription());
-					}
-					choice2 = menu.menu("Select task", descr);
-					try {
-						dController.getTaskController().removeDependency(task, deps.get(choice2));
-						tasks.add(deps.remove(choice2));
-					} catch (DependencyException e) {
-						System.out.println("Dependency does not exist");
-						choice2 = menu.menu("Select Action", "Retry", "Abort");
-						exit = choice2==1;
-						continue;
+					if (!deps.isEmpty()) {
+						descr.clear();
+						for (Task t : deps) {
+							descr.add(t.getDescription());
+						}
+						choice2 = menu.menu("Select task", descr);
+						try {
+							dController.getTaskController().removeDependency(task, deps.get(choice2));
+							tasks.add(deps.remove(choice2));
+						} catch (DependencyException e) {
+							System.out.println("Dependency does not exist");
+							choice2 = menu.menu("Select Action", "Retry", "Abort");
+							exit = choice2 == 1;
+							continue;
+						}	
+					}else{
+						System.out.println("No dependencies to remove");
 					}
 					break;
 				case 2:
-					descr.clear();
-					for (Resource r : res) {
-						descr.add(r.getDescription());
+					if (!res.isEmpty()) {
+						descr.clear();
+						for (Resource r : res) {
+							descr.add(r.getDescription());
+						}
+						choice2 = menu.menu("Select resource", descr);
+						dController.getTaskController().addRequiredResource(task, res.get(choice2));
+						req.add(res.remove(choice2));
+					}else{
+						System.out.println("No resources to add");
 					}
-					choice2 = menu.menu("Select resource", descr);
-					dController.getTaskController().addRequiredResource(task, res.get(choice2));
-					req.add(res.remove(choice2));
 					break;
 				case 3:
 					try {
