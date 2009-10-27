@@ -24,7 +24,6 @@ public class CreateTask extends UseCase {
 		this.dController = dController;
 		this.menu = menu;
 		this.user = user;
-		//this.users =mainGUI.getUsers();
 	}
 
 	@Override
@@ -35,9 +34,7 @@ public class CreateTask extends UseCase {
 	private void createTask(){
 		String descr = menu.prompt("Give Task Description");
 		ArrayList<Task> tasks = new ArrayList<Task>();
-		//for(User u : users){
-			tasks.addAll(dController.getTaskController().getTasks(user));
-		//}
+		tasks.addAll(dController.getTaskController().getTasks(user));
 		boolean hasDep = menu.dialogYesNo("I can has Dependency?");
 		ArrayList<Task> deps = new ArrayList<Task>();
 		ArrayList<String> tDescrS = new ArrayList<String>();

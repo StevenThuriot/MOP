@@ -43,10 +43,6 @@ public class MainGUI implements Runnable{
 		useCases.add(new ModifyTaskDetails());
 	}
 	
-	public ArrayList<User> getUsers(){
-		//TODO shallow copy?????
-		return users;
-	}
 	
 	public User getCurrentUser(){
 		return currentUser;
