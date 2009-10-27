@@ -129,6 +129,61 @@ public class TaskController {
 		return task.getDependencies();
 	}
 	
+	
+	/**
+	 * Add dependency to task
+	 * @param task
+	 * @param dependency
+	 * @throws BusinessRule1Exception
+	 * @throws DependencyCycleException
+	 */
+	public void addDependency(Task task, Task dependency) throws BusinessRule1Exception, DependencyCycleException
+	{
+		task.addDependency(dependency);
+	}
+	
+	/**
+	 * Remove dependency from task
+	 * @param task
+	 * @param dependency
+	 * @throws DependencyException
+	 */
+	public void removeDependency(Task task, Task dependency) throws DependencyException{
+		task.removeDependency(dependency);
+	}
+	
+	/**
+	 * Add required resource to task
+	 * @param task
+	 * @param resource
+	 */
+	public void addRequiredResource(Task task, Resource resource){
+		task.addRequiredResource(resource);
+	}
+	
+	/**
+	 * Set new task description
+	 * @param task
+	 * @param description
+	 * @throws NullPointerException
+	 * @throws EmptyStringException
+	 */
+	public void setTaskDescription(Task task, String description) throws NullPointerException, EmptyStringException{
+		task.setDescription(description);
+	}
+	
+	/**
+	 * Set task schedule
+	 * @param task
+	 * @param startDate
+	 * @param dueDate
+	 * @param duration
+	 * @throws BusinessRule1Exception
+	 */
+	public void setTaskSchedule(Task task, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws BusinessRule1Exception{
+		task.updateTaskTiming(startDate, dueDate, duration);
+	}
+	
 	/**
 	 * Get the resources this task requiers
 	 * @param task

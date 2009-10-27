@@ -9,15 +9,13 @@ import model.User;
 import controller.DispatchController;
 
 public class FocusWork extends UseCase {
-	private MainGUI mainGUI;
 	
 	public FocusWork(){}
 	
-	private FocusWork(Menu menu, DispatchController dController, User user, MainGUI mainGUI){
+	private FocusWork(Menu menu, DispatchController dController, User user){
 		this.menu = menu;
 		this.dController = dController;
 		this.user = user;
-		this.mainGUI = mainGUI;
 	}
 
 	@Override
@@ -27,7 +25,7 @@ public class FocusWork extends UseCase {
 
 	@Override
 	public void startUseCase(Menu menu, DispatchController dController, MainGUI mainGUI) {
-		(new FocusWork(menu, dController,mainGUI.getCurrentUser(),mainGUI)).focusWork();
+		(new FocusWork(menu, dController,mainGUI.getCurrentUser())).focusWork();
 	}
 	
 	private void focusWork() {
@@ -74,10 +72,10 @@ public class FocusWork extends UseCase {
 				case 0:
 					continue loop;
 				case 1:
-					(new UpdateTaskStatus()).startUseCase(menu, dController, mainGUI);
+					(new UpdateTaskStatus()).startUseCase(menu, dController, user, task);
 					break;
 				case 2:
-					(new ModifyTaskDetails()).startUseCase(menu, dController, mainGUI);
+					(new ModifyTaskDetails()).startUseCase(menu, dController, user, task);
 					break;
 				case 3:
 					break loop;

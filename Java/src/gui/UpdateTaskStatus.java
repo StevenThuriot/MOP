@@ -29,6 +29,10 @@ public class UpdateTaskStatus extends UseCase {
 		(new UpdateTaskStatus(menu,dController,mainGUI.getCurrentUser())).updateTaskStatus();
 	}
 	
+	public void startUseCase(Menu menu, DispatchController dController, User user, Task task) {
+		(new UpdateTaskStatus(menu,dController,user)).updateTaskStatus(task);
+	}
+	
 	private void updateTaskStatus(){
 		ArrayList<Task> tasks = new ArrayList<Task>();
 		tasks.addAll(dController.getTaskController().getTasks(user));
@@ -38,7 +42,13 @@ public class UpdateTaskStatus extends UseCase {
 		}
 		int choice = menu.menu("Select Task", descr);
 		Task task = tasks.get(choice);
+		updateTaskStatus(task);
+	}
+
+	private void updateTaskStatus(Task task) {
+		int choice;
 		menu.println(task.getDescription());
+		ArrayList<String> descr = new ArrayList<String>();
 		descr.clear();
 		for (Task t : dController.getTaskController().getDependentTasks(task)) {
 			descr.add(t.getDescription());
