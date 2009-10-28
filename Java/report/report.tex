@@ -63,7 +63,7 @@
 			 \subsubsection{Updating a Task status}
 			Updating a status of a task is integrated in modifying a task, but requires special attention as many different rules apply when adjusting the status of a Task.
 
-			Updating the status can directly reflect the status of dependent tasks. When a task was marked Succesful, but is reverted to Failed or Unfinished the user will be asked to update the status of all dependent tasks or leave everything including this tasks status unchanged. This is because may have to revert back to Failed or Unfinished because they depended on the succesful completion of this task.
+			Updating the status can directly reflect the status of dependent tasks. When a task was marked Successful, but is reverted to Failed or Unfinished the user will be asked to update the status of all dependent tasks or leave everything including this tasks status unchanged. This is because may have to revert back to Failed or Unfinished because they depended on the successful completion of this task.
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/ssd_update_task.jpg}
@@ -128,7 +128,7 @@
 				\end{center}
 				\caption{Class diagram of the GUI}
 			\end{figure}
-			The project uses a text based UI. All use case are handled by a subclass of the abstract UseCase class, in the figure the use case for Create Task is given as example. MainGUI keeps a list of instance of these use cases. When the user initiates a use case MainGUI calls the corresponding useCase, passing on the dispatch controller which will be discussed later, the useCase then creates a new instance of itself with all field intialized to handle the rest of the use case. The class Menu handles the actual communication with the user through the console, formatting al the in and output.
+			The project uses a text based UI. All use case are handled by a subclass of the abstract UseCase class, in the figure the use case for Create Task is given as example. MainGUI keeps a list of instance of these use cases. When the user initiates a use case MainGUI calls the corresponding use case, passing on the dispatch controller which will be discussed later, the use case then creates a new instance of itself with all field initialized to handle the rest of the use case. The class Menu handles the actual communication with the user through the console, formatting all the in and output.
 			
 	\section{Package Communication}
 	       The whole project is divided in four big packages. These packages are 'model', 'controller' and 'gui'. The last package is 'test', which has been separated from the rest of the project for obvious reasons.
