@@ -63,7 +63,7 @@
 			 \subsubsection{Updating a Task status}
 			Updating a status of a task is integrated in modifying a task, but requires special attention as many different rules apply when adjusting the status of a Task.
 
-			Updating the status can directly reflect the status of dependent tasks. When a ta
+			Updating the status can directly reflect the status of dependent tasks. When a task was marked Succesful, but is reverted to Failed or Unfinished the user will be asked to update the status of all dependent tasks or leave everything including this tasks status unchanged. This is because may have to revert back to Failed or Unfinished because they depended on the succesful completion of this task.
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/ssd_update_task.jpg}
@@ -76,21 +76,60 @@
 			The system will only check for a valid description. This means the description can not be empty.
 
 			Once created, the resource is available for binding to Tasks, or Reservations.
+			\begin{figure}[H]
+				\begin{center}
+					\includegraphics[scale=0.5]{images/SSD_Create_Resource.png}
+				\end{center}
+				\caption{System Sequence Diagram describing the creating of a new resource}
+			\end{figure}
 			\subsubsection{Remove Resource}
 			A Resource can be removed. However, the system will first check it's dependency's with Task objects and/or Reservations.
 			If the Resource is required by any of these, the system can not remove the Resource.
+			\begin{figure}[H]
+				\begin{center}
+					\includegraphics[scale=0.5]{images/SSD_Remove_Resource.png}
+				\end{center}
+				\caption{System Sequence Diagram describing the removing of a resource}
+			\end{figure}
 		\subsection{Reservations}
 			\subsubsection{Create Reservations}
 			Once a Resource is created, the User has the option to make a Reservation for that Resource.
 			When creating a Reservation, the user is asked for the period of time he wants to make the Reservation after being shown a list of current Reservations for the Resource.
 
 			After the user enters this data, the system controls the entered data to see if it does not conflict with previous Reservations.
+			\begin{figure}[H]
+				\begin{center}
+					\includegraphics[scale=0.5]{images/SSD_Make_Resource_Reservation.png}
+				\end{center}
+				\caption{System Sequence Diagram describing the making of a reservation}
+			\end{figure}
 		\subsection{Project Management}
 			\subsubsection{Create Project}
 			A project can be created. A project can contain many Tasks, but does not have to. Our assumption is that at least one User is allocated to a Project, but several Users can subscribe.
 			The system asks the user for a short description of that Project. If this description was not empty, the system creates the Project.
+			\begin{figure}[H]
+				\begin{center}
+					\includegraphics[scale=0.5]{images/SSD_Create_Project.png}
+				\end{center}
+				\caption{System Sequence Diagram describing the creating of a project}
+			\end{figure}
 			\subsubsection{Remove Project}
 			A project can be removed without too many details. If the user wants to remove a project, all of the tasks connected to that project are removed. The user simply selects a Projects and all of the underlying tasks/dependent tasks are removed with it.
+			\begin{figure}[H]
+				\begin{center}
+					\includegraphics[scale=0.5]{images/SSD_Remove_Project.png}
+				\end{center}
+				\caption{System Sequence Diagram describing the removing of a project}
+			\end{figure}
+		\subsection{User Interface}
+			\begin{figure}[H]
+				\begin{center}
+					\includegraphics[width=1.0\textwidth]{images/gui.png}
+				\end{center}
+				\caption{Class diagram of the GUI}
+			\end{figure}
+			The project uses a text based UI. All use case are handled by a subclass of the abstract UseCase class, in the figure the use case for Create Task is given as example. MainGUI keeps a list of instance of these use cases. When the user initiates a use case MainGUI calls the corresponding useCase, passing on the dispatch controller which will be discussed later, the useCase then creates a new instance of itself with all field intialized to handle the rest of the use case. The class Menu handles the actual communication with the user through the console, formatting al the in and output.
+			
 	\section{Package Communication}
 	       The whole project is divided in four big packages. These packages are 'model', 'controller' and 'gui'. The last package is 'test', which has been separated from the rest of the project for obvious reasons.
        
