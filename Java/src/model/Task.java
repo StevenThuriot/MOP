@@ -286,7 +286,6 @@ private void removeDependent(Task dependent){
  * This is false if this dependency would lead to a cycle in the dependencies.
  */
 public boolean canHaveAsDependency(Task task){
-	
 	return dependencyHasNoCycle(task) && dependencySatisfiesBusinessRule1(task);
 }
 
