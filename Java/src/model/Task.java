@@ -89,6 +89,12 @@ public class Task {
 	 */
 	private Status status;
 	
+	/**
+	 * A TaskDependencyManager object keeping track of the dependencies of this task,
+	 * and responsible for keeping them consistent.
+	 */
+	private TaskDependencyManager tdm;
+	
 /**
  * 	Initializes a Task object with the given User, start date, due date and duration.
  * @param 	user
@@ -681,6 +687,14 @@ public String getDescription() {
  */
 public String toString(){
 	return getDescription();
+}
+
+/**
+ * Returns the TaskDependencyManager for this Task.
+ * @return
+ */
+public TaskDependencyManager getTaskDependencyManager(){
+	return tdm;
 }
 
 }
