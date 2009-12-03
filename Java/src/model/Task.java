@@ -6,12 +6,7 @@ import java.util.Collections;
 import java.util.List;
 
 import java.util.GregorianCalendar;
-
-import exception.BusinessRule1Exception;
-import exception.DependencyCycleException;
-import exception.DependencyException;
-import exception.EmptyStringException;
-import exception.TaskFailedException;
+import exception.*;
 
 
 public class Task {
@@ -459,6 +454,23 @@ public void setDescription(String newDescription) throws EmptyStringException, N
 }
 
 /**
+ * Sets <newDescription> to be the new description of this task.
+ * @param	newDescription
+ * 			The new description
+ * @throws EmptyStringException 
+ * @post	| new.getDescription()== newDescription
+ */
+protected void doSetDescription(String newDescription) throws EmptyStringException, NullPointerException{
+	if (newDescription == null)
+		throw new NullPointerException("Null was passed");
+		
+	if(newDescription == "")
+		throw new EmptyStringException("A task should have a non-empty description");
+	
+	this.description = newDescription;
+}
+
+/**
  * Set <newUser> as the User to be responsible for this Task.
  * 
  * @param 	newUser
@@ -611,6 +623,7 @@ public Boolean canBeExecuted(){
 	for(Resource r: getRequiredResources()){
 		resourceReady = resourceReady && (r.availableAt(now, this.getDuration()));
 	}
+	
 	for(Task t: getDependencies()){
 		depReady = depReady && (t.getStatus() == Status.Successful);
 	}
