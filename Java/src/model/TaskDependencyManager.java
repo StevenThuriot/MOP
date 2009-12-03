@@ -40,6 +40,21 @@ public class TaskDependencyManager {
 	private ArrayList<Task> dependentTasks;
 	
 	/**
+	 * Creates a new TaskDependencyManager, allocated to the task <task>.
+	 * @param task
+	 * @post	It's allocated to the task <task>.
+	 * 			| new.getTask() == task
+	 * @post	It contains no references to dependencies or dependent tasks.
+	 * 			| new.getDependencies().isEmpty()
+	 * 			| new.getDependentTasks().isEmpty()
+	 */
+	protected TaskDependencyManager(Task task){
+		this.task = task;
+		dependencies = new ArrayList<Task>();
+		dependentTasks = new ArrayList<Task>();
+	}
+	
+	/**
 	 * Returns the task to which this TaskDependencyManager is allocated.
 	 * @return
 	 */
@@ -161,6 +176,7 @@ public class TaskDependencyManager {
 	protected List<Task> getDependentTasks(){
 		return Collections.unmodifiableList(dependentTasks);
 	}
+	
 	
 	
 }

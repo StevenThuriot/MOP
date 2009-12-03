@@ -53,26 +53,6 @@ public class Task {
 	private User user;
 
 	/**
-	 * An ArrayList containing the Tasks that this Task is depending on.
-	 * @invar	Every effective element in $dependencies references a Task.
-	 * 			TODO: formal definition
-	 * @invar	$dependencies and $dependentTasks must be consistent:
-	 * 			Every element in $dependencies must have this task as a dependent task.
-	 */
-	private ArrayList<Task> dependencies;
-
-	/**
-	 * An ArrayList containing the Tasks that depend on this Task.
-	 * @invar 	Every element in $dependentTasks references a Task.
-	 * 			TODO: formal definition
-	 * @invar	$dependencies and $dependenTasks must be consistent:
-	 * 			Every element in $dependentTasks has this task as a dependency
-	 * 			TODO: formal definition
-	 */
-	private ArrayList<Task> dependentTasks;
-
-
-	/**
 	 * An ArrayList containing the Resources that this Task requires to be performed.
 	 * @invar 	Every effective element in $requiredResources is a Resource.
 	 * 			TODO: formal definition
@@ -127,10 +107,8 @@ public Task(String description, User user, GregorianCalendar startDate, Gregoria
 	this.setStartDate(startDate);
 	this.setDueDate(dueDate);
 	this.setDuration(duration);
+	tdm = new TaskDependencyManager(this);
 	
-	
-	dependencies = new ArrayList<Task>();
-	dependentTasks = new ArrayList<Task>();
 	requiredResources = new ArrayList<Resource>();
 	if(!satisfiesBusinessRule1())
 		throw new BusinessRule1Exception("Business Rule 1 is not satisfied.");
@@ -230,8 +208,7 @@ public void addDependency(Task dependency) throws BusinessRule1Exception, Depend
 		throw new DependencyCycleException(
 				"This dependency would create a dependency cycle");
 	
-	dependency.addDependent(this);
-	dependencies.add(dependency);
+	getTaskDependencyManager().addDependency(dependency);
 }
 
 /**
@@ -243,10 +220,7 @@ public void addDependency(Task dependency) throws BusinessRule1Exception, Depend
  * 			|! (new.getDependentTasks()).contains(dependent)
  */
 public void removeDependency(Task dependency) throws DependencyException{
-	if(!(this.getDependencies()).contains(dependency))
-		throw new DependencyException("Dependency doesn't exist.");
-	dependency.removeDependent(this);
-	dependencies.remove(dependency);
+	getTaskDependencyManager().removeDependency(dependency);
 }
 
 /**
@@ -263,27 +237,6 @@ public void addRequiredResource(Resource resource){
 public void removeRequiredResource(Resource resource){
 	requiredResources.remove(resource);
 	resource.removeTaskUsing(this);
-}
-
-/**
- * This method adds a dependent task to the current task. It is private because
- * at the moment it should only be called when another task adds a dependency 
- * to this task.
- * @post 	<dependent> is now a task depending on this task.
- * 			|getDependentTasks.contains(dependent)
- */
-private void addDependent(Task dependent){
-	dependentTasks.add(dependent);
-}
-
-/**
- * This method removes a dependent task from the current task. It is private because
- * at the moment it should only be called when another task removes a dependency 
- * on this task.
- * @param dependent
- */
-private void removeDependent(Task dependent){
-	dependentTasks.remove(dependent);
 }
 
 /**
@@ -406,22 +359,14 @@ public boolean canBeFinished(){
  */
 public boolean isRecursivelyDependentOn(Task task){
 	
-	if(this.dependsOn(task))
-		return true;
-	
-	boolean recurDep = false;
-	for(Task t: getDependencies()){
-		recurDep = recurDep || t.dependsOn(task);
-	}
-	
-	return recurDep;
+	return getTaskDependencyManager().isRecursivelyDependentOn(task);
 }
 
 /**
  * Indicates whether the current Task is dependent on a given Task <task>.
  */
 public boolean dependsOn(Task task){
-	return getDependencies().contains(task);
+	return getTaskDependencyManager().dependsOn(task);
 }
 
 /**
@@ -594,14 +539,14 @@ public User getUser(){
  * Returns an ArrayList containing the tasks on which the current task depends.
  */
 public List<Task> getDependencies(){
-	return Collections.unmodifiableList(dependencies);
+	return getTaskDependencyManager().getDependencies();
 }
 
 /**
  * Returns an ArrayList containing all the tasks that depend on this task.
  */
 public List<Task> getDependentTasks(){
-	return Collections.unmodifiableList(dependentTasks);
+	return getTaskDependencyManager().getDependentTasks();
 }
 
 /**
@@ -698,7 +643,3 @@ public TaskDependencyManager getTaskDependencyManager(){
 }
 
 }
-
-
-
-
