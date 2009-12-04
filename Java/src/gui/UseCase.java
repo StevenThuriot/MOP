@@ -10,7 +10,7 @@ import model.User;
  * @author koen
  *
  */
-public abstract class UseCase {
+public abstract class UseCase implements Describable{
 	
 	protected Menu menu;
 	protected User user;

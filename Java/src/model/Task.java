@@ -4,12 +4,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
+import gui.Describable;
 
 import java.util.GregorianCalendar;
 import exception.*;
 
 
-public class Task {
+public class Task implements Describable{
 	
 
 	/**

@@ -3,11 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import gui.Describable;
 
 
 import exception.EmptyStringException;
 
-public class Project {
+public class Project implements Describable{
 
 	
 	/**

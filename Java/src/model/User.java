@@ -5,10 +5,11 @@ import static java.util.Collections.unmodifiableList;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import gui.Describable;
 
 import exception.EmptyStringException;
 
-public class User {
+public class User implements Describable{
 	
 	/**
 	 * A String that describes the name of the user.
@@ -49,6 +50,13 @@ public class User {
 	 */
 	public String getName() {
 		return name;
+	}
+	
+	/**
+	 * Returns a description of this user.
+	 */
+	public String getDescription() {
+		return getName();
 	}
 	
 	/**
