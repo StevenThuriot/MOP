@@ -1,4 +1,4 @@
-package test;
+package controller;
 
 import model.Project;
 import model.User;
