@@ -1,4 +1,4 @@
-package test;
+package model;
 
 import model.Project;
 import model.User;
