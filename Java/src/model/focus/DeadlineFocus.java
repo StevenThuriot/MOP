@@ -12,6 +12,9 @@ public class DeadlineFocus extends FocusStrategy {
 	public DeadlineFocus(int amount) {
 		this.amount = amount;
 	}
+	/**
+	 * Sort the given list of tasks by using a Comparator that compares deadlines.
+	 */
 	protected List<Task> sort(List<Task> tasks)
 	{
 		Collections.sort(tasks,new TaskDeadlineComparator());
