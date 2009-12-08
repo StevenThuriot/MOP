@@ -64,6 +64,7 @@ public class Task implements Describable{
 	 * 			 	|| $status == Status.unfinished)
 	 */
 	private Status status;
+	private TaskState taskState;
 	
 	/**
 	 * A TaskDependencyManager object keeping track of the dependencies of this task,
@@ -382,6 +383,10 @@ public void updateTaskStatus(Status newStatus) throws DependencyException{
 	this.setStatus(newStatus);
 }
 
+public void doUpdateTaskStatus(TaskState newState) throws DependencyException{
+	this.taskState = newState;
+}
+
 /**
  * Updates the status of this task. This method works recursively,
  * If the status is changed from successful to unfinished or failed, 
@@ -400,6 +405,13 @@ public void updateTaskStatusRecursively(Status newStatus){
 	this.setStatus(newStatus);
 }
 
+/**
+ * Updates the task's dates
+ * @param newStart
+ * @param newDue
+ * @param newDuration
+ * @throws BusinessRule1Exception
+ */
 public void updateTaskTiming(GregorianCalendar newStart, GregorianCalendar newDue, 
 			int newDuration) throws BusinessRule1Exception{
 	// copy current startDate to <oldStart>
@@ -612,7 +624,6 @@ public Status getStatus(){
  * Returns whether a task can be executed right now.
  * This is true when all its dependencies are (successfully) finished and
  * all of its required resources are available.
- * TODO: formal documentation
  */
 public Boolean canBeExecuted(){
 	
