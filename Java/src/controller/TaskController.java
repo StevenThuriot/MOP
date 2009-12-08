@@ -5,6 +5,8 @@ package controller;
 
 import java.util.*;
 
+import controller.FocusFactory.FocusType;
+
 import exception.BusinessRule1Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
@@ -14,6 +16,7 @@ import model.Resource;
 import model.Status;
 import model.Task;
 import model.User;
+import model.focus.FocusWork;
 
 /**
  * Controller to interact with tasks.
@@ -194,49 +197,13 @@ public class TaskController {
 	}
 	
 	/**
-	 * Show all the tasks for today. If there aren't any, show the first 10 to come.
+	 * Shows all the tasks according to a certain FocusType strategy.
 	 * @param user
 	 * @return
 	 */
-	public List<Task> focusWork(User user)
+	public List<Task> focusWork(User user,FocusType type,int var1,int var2)
 	{
-		ArrayList<Task> focus = new ArrayList<Task>();
-		ArrayList<Task> list = new ArrayList<Task>(); 
-		list.addAll(this.getTasks(user));
+		return FocusFactory.createFocus(type, user, var1, var2).getTasks();
 		
-		GregorianCalendar today = new GregorianCalendar();
-		Comparator<Task> taskComparator = new Comparator<Task>() {
-			
-			@Override
-			public int compare(Task t1, Task t2) {
-				return t1.getDueDate().compareTo(t2.getDueDate());
-			}
-		};
-		
-		for (Task task : list)
-		{
-			GregorianCalendar due = task.getDueDate();
-			if (due.get(GregorianCalendar.DAY_OF_MONTH) == today.get(GregorianCalendar.DAY_OF_MONTH)
-					&& due.get(GregorianCalendar.MONTH) == today.get(GregorianCalendar.MONTH)
-					&& due.get(GregorianCalendar.YEAR) == today.get(GregorianCalendar.YEAR))
-			{
-				focus.add(task);
-			}
-		}
-		Collections.sort(focus, taskComparator);
-		if (focus.size() == 0)
-		{	Collections.sort(list, taskComparator);
-			
-			int size = list.size();
-			if (size > 10)
-			{
-				size = 10;
-			}
-			
-			for (int i = 0; i < size; i++) {
-				focus.add(list.get(i));
-			}
-		}
-		return Collections.unmodifiableList(focus);		
 	}
 }

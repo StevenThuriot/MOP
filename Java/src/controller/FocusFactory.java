@@ -1,9 +1,6 @@
 package controller;
-
-import model.focus.DeadlineFocus;
-import model.focus.DurationFocus;
-import model.focus.FocusStrategy;
-import model.focus.FocusWork;
+import model.User;
+import model.focus.*;
 
 public class FocusFactory {
 	FocusFactory()
@@ -14,16 +11,16 @@ public class FocusFactory {
 		 DurationFocus,
 		 DeadlineFocus
 	 }
-	public static FocusWork createFocus(FocusType type)
+	public static FocusWork createFocus(FocusType type, User user,int var1,int var2)
 	{
-		switch(type)
-		{
-		case DurationFocus:
-			return new FocusWork(new DurationFocus(0, 0));
-		case DeadlineFocus:
-			return new FocusWork(new DeadlineFocus(0));
-		default:
-			return new FocusWork(new FocusStrategy());
+		switch(type) {
+    		case DeadlineFocus:
+                return new FocusWork(user,new DeadlineFocus(var1));
+            case DurationFocus:
+                return new FocusWork(user, new DurationFocus(var1, var2));
+            default:
+                return new FocusWork(user, new FocusStrategy());
 		}
+		
 	}
 }
