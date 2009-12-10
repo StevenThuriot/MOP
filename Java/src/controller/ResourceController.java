@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.GregorianCalendar;
 
@@ -8,7 +10,6 @@ import exception.NotAvailableException;
 import exception.ResourceBusyException;
 import model.Reservation;
 import model.Resource;
-import model.ResourceManager;
 import model.ResourceType;
 import model.User;
 import model.repositories.RepositoryManager;
@@ -40,7 +41,9 @@ public class ResourceController {
 	 * @throws EmptyStringException
 	 */
 	public Resource createResource(String description, ResourceType type) throws EmptyStringException {
-		return ResourceManager.getInstance().createResource(description, type);
+	    Resource res = new Resource(description, type);
+	    manager.add(res);
+	    return res;
 	}
 
 	/**
@@ -49,15 +52,21 @@ public class ResourceController {
 	 * @throws ResourceBusyException
 	 */
 	public void removeResource(Resource r) throws ResourceBusyException {
-		ResourceManager.getInstance().remove(r);
+		manager.remove(r);
 	}
 	
 	/**
 	 * Get a list of all reservations
 	 * @return
 	 */
-	public List<Reservation> getReservations() {
-		return ResourceManager.getInstance().getReservations();
+	public List<Reservation> getReservations() {        
+        ArrayList<Reservation> reservations = new  ArrayList<Reservation>();
+        for(Resource resource : manager.getResources())
+        {
+            List<Reservation> reservation = resource.getReservations();
+            reservations.addAll(reservation);
+        }
+        return  Collections.unmodifiableList(reservations);
 	}
 	
 	/**
@@ -65,7 +74,7 @@ public class ResourceController {
 	 * @return
 	 */
 	public List<Resource> getResources() {
-		return  ResourceManager.getInstance().findAll();
+		return  manager.getResources();
 	}
 
 	/**
