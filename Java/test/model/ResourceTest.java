@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 import model.Resource;
-import model.ResourceManager;
 import model.ResourceType;
 import model.Task;
 import model.User;
@@ -26,7 +25,7 @@ public class ResourceTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		resource = ResourceManager.getInstance().createResource("Description",ResourceType.Room);
+		resource = new Resource("Description",ResourceType.Room);
 		user = new User("John");
 	}
 
@@ -57,38 +56,6 @@ public class ResourceTest {
 		resource = new Resource(null, null);
 	}
 	
-	/**
-	 * Create a resource via ResourceManager with empty description
-	 * @throws EmptyStringException
-	 */
-	@Test(expected=EmptyStringException.class)
-	public void createEmptyViaManager() throws EmptyStringException
-	{
-		ResourceManager.getInstance().createResource("", ResourceType.Room);
-	}
-	
-	/**
-	 * Create a resource successfully via the ResourceManager. Checks if it exisist
-	 * @throws EmptyStringException
-	 */
-	@Test
-	public void createViaManager() throws EmptyStringException
-	{
-		resource = ResourceManager.getInstance().createResource("ABC123", ResourceType.Room);
-		assertTrue(ResourceManager.getInstance().findAll().contains(resource));
-	}
-	
-	/**
-	 * Check to see if a Resource is actually removed
-	 * @throws ResourceBusyException 
-	 */
-	@Test
-	public void removeResourceFromManager() throws ResourceBusyException
-	{
-		Resource rclone = resource.clone();
-		ResourceManager.getInstance().remove(resource);
-		assertTrue(ResourceManager.getInstance().findAll().contains(rclone));
-	}
 
 	/**
 	 * Try to remove a resource that is required by a task
@@ -107,7 +74,7 @@ public class ResourceTest {
 		Task task = new Task("Descr",user, startDate,endDate,1440);
 		task.addRequiredResource(resource);
 		
-		ResourceManager.getInstance().remove(resource);
+		resource.remove();
 	}
 
 }

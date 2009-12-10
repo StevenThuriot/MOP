@@ -6,11 +6,18 @@ import java.util.List;
 
 
 public class Repository<T> extends ArrayList<T>{
-
     /**
      * 
      */
     private static final long serialVersionUID = 1L;
+    /**
+     * Default Constructor
+     */
+    public Repository()
+    {
+        super();
+    }
+    
     /**
      * Adds an object to the repository. Throws NullPointerException if the parameter is null. Returns false if the repository allready contains this object.
      */
