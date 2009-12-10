@@ -11,12 +11,28 @@ import model.Resource;
 import model.ResourceManager;
 import model.ResourceType;
 import model.User;
+import model.repositories.RepositoryManager;
 
 /**
  * Controller to interact with resources
  */
 public class ResourceController {
-	/**
+    /**
+     * Repository Manager
+     */
+    private RepositoryManager manager;
+    
+    /**
+     * Constructor that takes a RepositoryManager as argument. Will throw NullPointerException if the latter was null.
+     * @param manager
+     */
+	public ResourceController(RepositoryManager manager) {
+	    if(manager==null)
+	        throw new NullPointerException();
+        this.manager = manager;
+    }
+
+    /**
 	 * Create a new resource
 	 * @param description
 	 * @param type

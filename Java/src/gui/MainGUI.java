@@ -28,7 +28,7 @@ public class MainGUI implements Runnable{
 		menu = new Menu(in,out);
 		this.in = in;
 		this.out = out;
-		dController = new DispatchController();
+		dController = new DispatchController(manager);
 		this.manager = manager;
 		useCases = new ArrayList<UseCase>();
 		useCases.add(new CreateTask());

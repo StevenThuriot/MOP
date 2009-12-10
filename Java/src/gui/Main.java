@@ -20,7 +20,8 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		DispatchController controller = new DispatchController();
+	    RepositoryManager manager = new RepositoryManager();
+		DispatchController controller = new DispatchController(manager);
 		
 		XMLParser parser = new XMLParser("students_public.xml", controller);
 		
@@ -50,8 +51,6 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		RepositoryManager manager = new RepositoryManager();
-		
 		manager.add(user);
 		
 		MainGUI mainGUI = new MainGUI(System.in,System.out,manager);
