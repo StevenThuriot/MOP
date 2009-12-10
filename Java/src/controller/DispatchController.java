@@ -3,6 +3,8 @@
  */
 package controller;
 
+import model.repositories.RepositoryManager;
+
 /**
  * Controller to easily interact with all the other controllers.
  */
@@ -20,13 +22,20 @@ public class DispatchController {
 	 */
 	private TaskController taskController;
 	
+	/**
+	 * Repository Manager
+	 */
+	private RepositoryManager manager;
 	
 	/**
 	 * The Constructor
 	 */
-	public DispatchController() {
-		this.projectController = new ProjectController();
-		this.resourceController = new ResourceController();
+	public DispatchController(RepositoryManager manager) {
+	    if(manager==null)
+            throw new NullPointerException();
+	    this.manager = manager;
+		this.projectController = new ProjectController(manager);
+		this.resourceController = new ResourceController(manager);
 		this.taskController = new TaskController();
 	}
 

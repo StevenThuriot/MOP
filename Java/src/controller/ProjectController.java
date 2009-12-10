@@ -8,11 +8,28 @@ import exception.EmptyStringException;
 import model.Project;
 import model.Task;
 import model.User;
+import model.repositories.RepositoryManager;
 
 /**
  *	Controller to interact with projects
  */
 public class ProjectController {
+    /**
+     * RepositoryManager
+     */
+    private RepositoryManager manager;
+    
+    /**
+     * Constructor that takes a RepositoryManager as argument. Will throw NullPointerException if the latter was null.
+     * @param manager
+     */
+    public ProjectController(RepositoryManager manager)
+    {
+        if(manager==null)
+            throw new NullPointerException();
+        this.manager = manager;
+    }
+    
 	/**
 	 * Create a new Project
 	 * @param description
@@ -22,6 +39,7 @@ public class ProjectController {
 	 */
 	public Project createProject(String description, User user) throws EmptyStringException {
 		Project project = new Project(user, description);
+		manager.add(project);
 		return project;
 	}
 
@@ -31,6 +49,7 @@ public class ProjectController {
 	 */
 	public void removeProject(Project p) {
 		p.remove();
+		manager.remove(p);
 	}
 
 	/**
@@ -39,7 +58,7 @@ public class ProjectController {
 	 * @return
 	 */
 	public List<Project> getProjects(User user) {
-		return user.getProjects();
+		return manager.getProjects();
 	}
 	
 	/**
