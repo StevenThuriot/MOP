@@ -28,6 +28,11 @@ public class RepositoryManager {
         return resourceRepository.add(r);
     }
     
+    public boolean add(User u)
+    {
+        return userRepository.add(u);
+    }
+    
     public boolean remove(Project p)
     {
         return projectRepository.remove(p);

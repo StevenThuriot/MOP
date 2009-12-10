@@ -47,4 +47,11 @@ public class FocusStrategyTest {
         List<Task> tasks = new FocusWork(user,new DurationFocus(0,Integer.MAX_VALUE)).getTasks();
         assertTrue(tasks.get(0).getDuration() < tasks.get(1).getDuration());
     }
+    
+    @Test
+    public void testSortDeadline()
+    {
+        List<Task> tasks = new FocusWork(user,new DeadlineFocus(0)).getTasks();
+        assertTrue(tasks.get(0).getDueDate().before(tasks.get(1).getDueDate()));
+    }
 }

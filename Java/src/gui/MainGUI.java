@@ -7,13 +7,14 @@ import java.util.ArrayList;
 import controller.DispatchController;
 
 import model.User;
+import model.repositories.RepositoryManager;
 
 /**
  * @author koen
  *
  */
 public class MainGUI implements Runnable{
-	private ArrayList<User> users;
+	private RepositoryManager manager;
 	private User currentUser;
 	private DispatchController dController;
 	@SuppressWarnings("unused")
@@ -23,12 +24,12 @@ public class MainGUI implements Runnable{
 	private ArrayList<UseCase> useCases;
 	private Menu menu;
 	
-	public MainGUI(InputStream in, PrintStream out, ArrayList<User> u){
+	public MainGUI(InputStream in, PrintStream out, RepositoryManager manager){
 		menu = new Menu(in,out);
 		this.in = in;
 		this.out = out;
 		dController = new DispatchController();
-		users = u;
+		this.manager = manager;
 		useCases = new ArrayList<UseCase>();
 		useCases.add(new CreateTask());
 		useCases.add(new RemoveTask());
@@ -50,10 +51,10 @@ public class MainGUI implements Runnable{
 	
 	public void run(){
 		ArrayList<String> uNames = new ArrayList<String>();
-		for(User u: users){
+		for(User u: manager.getUsers()){
 			uNames.add(u.getName());
 		}
-		currentUser = users.get(menu.menu("Select User", uNames));
+		currentUser = manager.getUsers().get(menu.menu("Select User", uNames));
 		ArrayList<String> useCDescr = new ArrayList<String>(useCases.size());
 		for(UseCase u : useCases){
 			useCDescr.add(u.getDescription());

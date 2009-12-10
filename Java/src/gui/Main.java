@@ -1,8 +1,6 @@
 package gui;
 
 import java.text.ParseException;
-import java.util.ArrayList;
-
 import javax.naming.NameNotFoundException;
 
 import org.w3c.dom.DOMException;
@@ -15,6 +13,7 @@ import exception.DependencyException;
 import exception.EmptyStringException;
 
 import model.User;
+import model.repositories.RepositoryManager;
 
 public class Main {
 	/**
@@ -51,10 +50,11 @@ public class Main {
 			e.printStackTrace();
 		}
 
-		ArrayList<User> users = new ArrayList<User>();
-		users.add(user);
+		RepositoryManager manager = new RepositoryManager();
 		
-		MainGUI mainGUI = new MainGUI(System.in,System.out,users);
+		manager.add(user);
+		
+		MainGUI mainGUI = new MainGUI(System.in,System.out,manager);
 		
 		Thread t = new Thread(mainGUI);
 		
