@@ -1,8 +1,6 @@
 package model;
 
 import java.util.GregorianCalendar;
-
-
 import exception.*;
 
 public abstract class TaskState {
@@ -63,22 +61,34 @@ public abstract class TaskState {
 	{
 		return false;
 	}
-	
+
 	/**
-	 * Updates the task's dates
-	 * @param newStart
-	 * @param newDue
-	 * @param newDuration
-	 * @throws BusinessRule1Exception
+	 * Returns whether a task is performed or not.
+	 * @return
 	 */
-	protected void updateTaskTiming(GregorianCalendar newStart, GregorianCalendar newDue, int newDuration) throws BusinessRule1Exception
+	protected Boolean isPerformed()
 	{
-		throw new BusinessRule1Exception();
+		return false;
 	}
 	
-	//Will the observer do this, and how?
-	//protected void updateTaskStatusRecursively(Status newStatus);
+	/**
+	 * Set <newDueDate> to be the new due date for this Task.
+	 * 
+	 * @param 	newDueDate
+	 * 			The new due date for this Task.
+	 * @post	<newDueDate> is the new due date for this Task.
+	 * 			new.getDueDate() == newDueDate
+	 */
+	protected void setDueDate(GregorianCalendar newDueDate) throws NullPointerException {
+		//TODO: Implement rules
+		if (newDueDate == null)
+			throw new NullPointerException("Null was passed");
 		
+		this.getContext().doSetDueDate( newDueDate );
+	}		
+	
+	//Will the observer do this, and how?
+	//protected void updateTaskStatusRecursively(Status newStatus);	
 	
 	/**
 	 * Set the current state to successful
@@ -86,6 +96,7 @@ public abstract class TaskState {
 	 */
 	protected void setSuccessful() throws IllegalStateChangeException 
 	{
+		//TODO: Implement method
 		throw new IllegalStateChangeException();
 	}
 	
@@ -95,6 +106,7 @@ public abstract class TaskState {
 	 */
 	protected void setUnfinished() throws IllegalStateChangeException 
 	{
+		//TODO: Implement method
 		throw new IllegalStateChangeException();
 	}
 	
@@ -103,7 +115,8 @@ public abstract class TaskState {
 	 * @throws IllegalStateChangeException
 	 */
 	protected void setFailed() throws IllegalStateChangeException
-{
+	{
+		//TODO: Implement method
 		throw new IllegalStateChangeException();
 	}
 	

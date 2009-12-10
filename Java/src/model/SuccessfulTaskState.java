@@ -14,12 +14,7 @@ public class SuccessfulTaskState extends TaskState {
 	 */
 	@Override
 	protected boolean canBeFinished() {
-		boolean canBeF = true;
-		
-		for(Task t: this.getContext().getDependencies()){
-			canBeF = canBeF && t.canBeFinished();
-		}
-		return canBeF;
+		return true;
 	}
 	
 	/**
@@ -29,21 +24,15 @@ public class SuccessfulTaskState extends TaskState {
 	 */
 	@Override
 	protected Boolean canBeExecuted(){
-		
 		boolean resourceReady = true;
-		boolean depReady = true;
 		
 		GregorianCalendar now = new GregorianCalendar();
 		
 		for(Resource r: this.getContext().getRequiredResources()){
 			resourceReady = resourceReady && (r.availableAt(now, this.getContext().getDuration()));
 		}
-		
-		for(Task t: this.getContext().getDependencies()){
-			depReady = depReady && t.isSuccesful();
-		}
-		
-		return resourceReady && depReady;
+
+		return resourceReady;
 	}
 	
 	/**
@@ -52,6 +41,16 @@ public class SuccessfulTaskState extends TaskState {
 	 */
 	@Override
 	protected Boolean isSuccesful()
+	{
+		return true;
+	}
+	
+	/**
+	 * Returns whether a task is performed or not.
+	 * @return
+	 */
+	@Override
+	protected Boolean isPerformed()
 	{
 		return true;
 	}
