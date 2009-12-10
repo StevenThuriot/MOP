@@ -2,6 +2,8 @@ package model.repositories;
 
 import java.util.List;
 
+import exception.ResourceBusyException;
+
 import model.Project;
 import model.Resource;
 import model.User;
@@ -63,15 +65,18 @@ public class RepositoryManager {
      */
     public boolean remove(Project p)
     {
+        p.remove();
         return projectRepository.remove(p);
     }
     /**
      * Overridable method remove. Will remove a Resource to the Resource repository if it exists
      * @param p
      * @return
+     * @throws ResourceBusyException 
      */
-    public boolean remove(Resource r)
+    public boolean remove(Resource r) throws ResourceBusyException
     {
+        r.remove();
         return resourceRepository.remove(r);
     }
     /**
