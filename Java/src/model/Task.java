@@ -535,6 +535,21 @@ public void setDueDate(GregorianCalendar newDueDate) throws NullPointerException
 }
 
 /**
+ * Set <newDueDate> to be the new due date for this Task.
+ * 
+ * @param 	newDueDate
+ * 			The new due date for this Task.
+ * @post	<newDueDate> is the new due date for this Task.
+ * 			new.getDueDate() == newDueDate
+ */
+protected void doSetDueDate(GregorianCalendar newDueDate) throws NullPointerException {
+	if (newDueDate == null)
+		throw new NullPointerException("Null was passed");
+	
+	this.dueDate = newDueDate;
+}
+
+/**
  * Set <newDuration> to be the new duration of this Task.
  * 
  * @param 	newDuration

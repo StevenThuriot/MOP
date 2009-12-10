@@ -34,4 +34,14 @@ public class UnavailableTaskState extends TaskState {
 			throws EmptyStringException, NullPointerException {
 		this.getContext().doSetDescription(newDescription);
 	}
+		
+	/**
+	 * Returns whether a task can be executed right now.
+	 * This is true when all its dependencies are (successfully) finished and
+	 * all of its required resources are available.
+	 */
+	@Override
+	protected Boolean canBeExecuted(){
+		return false;
+	}
 }

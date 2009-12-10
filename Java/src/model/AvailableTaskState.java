@@ -1,6 +1,4 @@
 package model;
-import java.util.GregorianCalendar;
-
 import exception.*;
 
 public class AvailableTaskState extends TaskState {
@@ -36,9 +34,7 @@ public class AvailableTaskState extends TaskState {
 		}
 		return canBeF;
 	}
-	
-
-	
+		
 	/**
 	 * Returns whether a task can be executed right now.
 	 * This is true when all its dependencies are (successfully) finished and
@@ -46,20 +42,6 @@ public class AvailableTaskState extends TaskState {
 	 */
 	@Override
 	protected Boolean canBeExecuted(){
-		
-		boolean resourceReady = true;
-		boolean depReady = true;
-		
-		GregorianCalendar now = new GregorianCalendar();
-		
-		for(Resource r: this.getContext().getRequiredResources()){
-			resourceReady = resourceReady && (r.availableAt(now, this.getContext().getDuration()));
-		}
-		
-		for(Task t: this.getContext().getDependencies()){
-			depReady = depReady && t.isSuccesful();
-		}
-		
-		return resourceReady && depReady;
+		return true;
 	}
 }
