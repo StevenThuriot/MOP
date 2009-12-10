@@ -16,7 +16,6 @@ import model.Resource;
 import model.Status;
 import model.Task;
 import model.User;
-import model.focus.FocusWork;
 
 /**
  * Controller to interact with tasks.
