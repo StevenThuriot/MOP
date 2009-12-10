@@ -44,6 +44,7 @@ public class Project implements Describable{
 		projectTasks = new ArrayList<Task>();
 		setDescription(newDescription);
 		setUser(newUser);
+		this.user.addProject(this);
 	}
 	
 	/**
@@ -60,6 +61,7 @@ public class Project implements Describable{
 				task.remove();
 			}
 		}
+		this.user.removeProject(this);
 	}
 	
 	/**
