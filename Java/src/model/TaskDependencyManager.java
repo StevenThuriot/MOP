@@ -86,7 +86,10 @@ public class TaskDependencyManager {
 	 * 			| The TaskDependencyManager is not currently dependent on <dependency>
 	 * 			| !this.dependsOn(dependency) 
 	 * @post 	The TaskDependencyManager is no longer dependent on <dependency>
-	 * 			|! (new.dependsOn(dependency))
+	 * 			|! (new.dependsOn(dependency))3
+	 * @post	<dependency> no longer holds a reference to the Task of this 
+	 * 			TaskDependencyManger.
+	 * 			|! (dependency.getTaskDependencyManager().neededFor(new.getTask()))
 	 */
 	protected void removeDependency(Task dependency) throws DependencyException{
 		if(!(this.dependsOn(dependency)))
@@ -132,13 +135,13 @@ public class TaskDependencyManager {
 	 * @return
 	 */
 	protected boolean isRecursivelyDependentOn(Task t){
-		if(this.dependsOn(task))
+		if(this.dependsOn(t))
 			return true;
 		
 		boolean recurDep = false;
 		for(Task dep: getDependencies()){
 			TaskDependencyManager tdm = dep.getTaskDependencyManager();
-			recurDep = recurDep || tdm.dependsOn(task);
+			recurDep = recurDep || tdm.isRecursivelyDependentOn(t);
 		}
 		
 		return recurDep;
