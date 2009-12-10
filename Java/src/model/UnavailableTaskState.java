@@ -4,7 +4,7 @@ import exception.*;
 
 public class UnavailableTaskState extends TaskState {
 
-	public UnavailableTaskState(Task context) {
+	protected UnavailableTaskState(Task context) {
 		super(context);
 	}
 
@@ -13,7 +13,7 @@ public class UnavailableTaskState extends TaskState {
 	 * A task can not be finished when it is failed or any of its dependencies is failed.
 	 */
 	@Override
-	public boolean canBeFinished() {
+	protected boolean canBeFinished() {
 		boolean canBeF = true;
 		
 		for(Task t: this.getContext().getDependencies()){
@@ -30,7 +30,7 @@ public class UnavailableTaskState extends TaskState {
 	 * @post	| new.getDescription()== newDescription
 	 */
 	@Override
-	public void setDescription(String newDescription)
+	protected void setDescription(String newDescription)
 			throws EmptyStringException, NullPointerException {
 		this.getContext().doSetDescription(newDescription);
 	}

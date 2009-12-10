@@ -32,7 +32,7 @@ public abstract class TaskState {
 	 * @throws IllegalStateCall 
 	 * @post	| new.getDescription()== newDescription
 	 */
-	public void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCall {
+	protected void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCall {
 		throw new IllegalStateCall();
 	}
 	
@@ -40,7 +40,7 @@ public abstract class TaskState {
 	 * Returns a boolean indicating whether the current task can be finished.
 	 * A task can not be finished when it is failed or any of its dependencies is failed.
 	 */
-	public boolean canBeFinished()
+	protected boolean canBeFinished()
 	{
 		return false;
 	}
@@ -50,11 +50,20 @@ public abstract class TaskState {
 	 * This is true when all its dependencies are (successfully) finished and
 	 * all of its required resources are available.
 	 */
-	public Boolean canBeExecuted() 
+	protected Boolean canBeExecuted() 
 	{
 		return false;
 	}
 
+	/**
+	 * Returns whether a task is succesful or not.
+	 * @return
+	 */
+	protected Boolean isSuccesful()
+	{
+		return false;
+	}
+	
 	/**
 	 * Updates the task's dates
 	 * @param newStart
@@ -62,20 +71,20 @@ public abstract class TaskState {
 	 * @param newDuration
 	 * @throws BusinessRule1Exception
 	 */
-	public void updateTaskTiming(GregorianCalendar newStart, GregorianCalendar newDue, int newDuration) throws BusinessRule1Exception
+	protected void updateTaskTiming(GregorianCalendar newStart, GregorianCalendar newDue, int newDuration) throws BusinessRule1Exception
 	{
 		throw new BusinessRule1Exception();
 	}
 	
-	//Will the observer put do this, and how?
-	//public abstract void updateTaskStatusRecursively(Status newStatus);
+	//Will the observer do this, and how?
+	//protected void updateTaskStatusRecursively(Status newStatus);
 		
 	
 	/**
 	 * Set the current state to successful
 	 * @throws IllegalStateChangeException
 	 */
-	public void setSuccessful() throws IllegalStateChangeException 
+	protected void setSuccessful() throws IllegalStateChangeException 
 	{
 		throw new IllegalStateChangeException();
 	}
@@ -84,7 +93,7 @@ public abstract class TaskState {
 	 * Set the current state to unfinished
 	 * @throws IllegalStateChangeException
 	 */
-	public void setUnfinished() throws IllegalStateChangeException 
+	protected void setUnfinished() throws IllegalStateChangeException 
 	{
 		throw new IllegalStateChangeException();
 	}
@@ -93,7 +102,7 @@ public abstract class TaskState {
 	 * Set the current state to failed
 	 * @throws IllegalStateChangeException
 	 */
-	public void setFailed() throws IllegalStateChangeException
+	protected void setFailed() throws IllegalStateChangeException
 {
 		throw new IllegalStateChangeException();
 	}

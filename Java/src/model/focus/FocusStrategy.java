@@ -1,7 +1,6 @@
 package model.focus;
 import java.util.List;
 import model.Task;
-import model.User;
 
 /**
  * Strategy class

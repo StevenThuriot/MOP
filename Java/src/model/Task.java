@@ -383,7 +383,15 @@ public void updateTaskStatus(Status newStatus) throws DependencyException{
 	this.setStatus(newStatus);
 }
 
-public void doUpdateTaskStatus(TaskState newState) throws DependencyException{
+/**
+ * Updates the status of this task. This method does not work recursively, 
+ * and it throws an error if there are other tasks depending on this one and
+ * the status is changed from successful to unfinished or failed.
+ * @param 	newStatus
+ * @throws 	DependencyException
+ * TODO: finish documentation
+ */
+protected void doUpdateTaskStatus(TaskState newState) throws DependencyException{
 	this.taskState = newState;
 }
 
@@ -618,6 +626,15 @@ public Status getStatus(){
 		return Status.Available;
 	else
 		return Status.Unavailable;
+}
+
+/**
+ * Returns whether a task is succesful or not.
+ * @return
+ */
+public Boolean isSuccesful()
+{
+	return taskState.isSuccesful();
 }
 
 /**

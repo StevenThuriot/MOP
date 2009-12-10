@@ -1,10 +1,11 @@
 package model;
+import java.util.GregorianCalendar;
 
 import exception.*;
 
 public class AvailableTaskState extends TaskState {
 
-	public AvailableTaskState(Task context) {
+	protected AvailableTaskState(Task context) {
 		super(context);
 	}
 
@@ -16,7 +17,7 @@ public class AvailableTaskState extends TaskState {
 	 * @post	| new.getDescription()== newDescription
 	 */
 	@Override
-	public void setDescription(String newDescription)
+	protected void setDescription(String newDescription)
 			throws EmptyStringException, NullPointerException {
 		this.getContext().doSetDescription(newDescription);
 	}	
@@ -26,7 +27,7 @@ public class AvailableTaskState extends TaskState {
 	 * A task can not be finished when it is failed or any of its dependencies is failed.
 	 */
 	@Override
-	public boolean canBeFinished()
+	protected boolean canBeFinished()
 	{
 		boolean canBeF = true;
 		
@@ -34,5 +35,31 @@ public class AvailableTaskState extends TaskState {
 			canBeF = canBeF && t.canBeFinished();
 		}
 		return canBeF;
+	}
+	
+
+	
+	/**
+	 * Returns whether a task can be executed right now.
+	 * This is true when all its dependencies are (successfully) finished and
+	 * all of its required resources are available.
+	 */
+	@Override
+	protected Boolean canBeExecuted(){
+		
+		boolean resourceReady = true;
+		boolean depReady = true;
+		
+		GregorianCalendar now = new GregorianCalendar();
+		
+		for(Resource r: this.getContext().getRequiredResources()){
+			resourceReady = resourceReady && (r.availableAt(now, this.getContext().getDuration()));
+		}
+		
+		for(Task t: this.getContext().getDependencies()){
+			depReady = depReady && t.isSuccesful();
+		}
+		
+		return resourceReady && depReady;
 	}
 }
