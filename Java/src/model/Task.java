@@ -98,7 +98,7 @@ public class Task implements Describable{
  * 			TODO: formal definition
  */
 public Task(String description, User user, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws EmptyStringException, BusinessRule1Exception{
-	
+	//TODO: hier status constructor aanroepen
 	this.setDescription(description);
 	this.setUser(user);
 	this.setStartDate(startDate);

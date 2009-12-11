@@ -237,38 +237,6 @@ public class Resource implements Describable{
 		this.type = type;
 	}
 
-	@Override
-	public boolean equals(Object obj) {
-		if (this == obj)
-			return true;
-		if (obj == null)
-			return false;
-		if (getClass() != obj.getClass())
-			return false;
-		Resource other = (Resource) obj;
-		if (description == null) {
-			if (other.description != null)
-				return false;
-		} else if (!description.equals(other.description))
-			return false;
-		if (reservations == null) {
-			if (other.reservations != null)
-				return false;
-		} else if (!reservations.equals(other.reservations))
-			return false;
-		if (tasksUsing == null) {
-			if (other.tasksUsing != null)
-				return false;
-		} else if (!tasksUsing.equals(other.tasksUsing))
-			return false;
-		if (type == null) {
-			if (other.type != null)
-				return false;
-		} else if (!type.equals(other.type))
-			return false;
-		return true;
-	}
-	
 	@SuppressWarnings("unchecked")
 	public Resource clone()
 	{

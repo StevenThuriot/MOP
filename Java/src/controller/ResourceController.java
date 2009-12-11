@@ -42,8 +42,9 @@ public class ResourceController {
 	 */
 	public Resource createResource(String description, ResourceType type) throws EmptyStringException {
 	    Resource res = new Resource(description, type);
-	    manager.add(res);
-	    return res;
+	    if(manager.add(res))
+	    	return res;
+	    return null;
 	}
 
 	/**

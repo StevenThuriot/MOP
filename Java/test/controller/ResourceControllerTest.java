@@ -5,9 +5,9 @@ import java.util.GregorianCalendar;
 
 import model.Reservation;
 import model.Resource;
-import model.ResourceManager;
 import model.ResourceType;
 import model.User;
+import model.repositories.RepositoryManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,10 +24,12 @@ public class ResourceControllerTest {
 	private ResourceController controller;
 	private Resource resource;
 	private User user;
+	private RepositoryManager manager;
 	
 	@Before
 	public void setUp() throws Exception {
-		controller = new ResourceController();
+		manager = new RepositoryManager();
+		controller = new ResourceController(manager);
 		resource = new Resource("Room 101", ResourceType.Room);
 		user = new User("John");
 	}
@@ -71,13 +73,13 @@ public class ResourceControllerTest {
 	public void createResource() throws EmptyStringException
 	{
 		resource = controller.createResource("Room 101", ResourceType.Room);
-		assertTrue(ResourceManager.getInstance().findAll().contains(resource));
+		assertTrue(manager.getProjects().contains(resource));
 	}
 	
 	public void removeResource() throws EmptyStringException, ResourceBusyException
 	{
 		resource = controller.createResource("Room 101", ResourceType.Room);
-		ResourceManager.getInstance().remove(resource);
-		assertFalse(ResourceManager.getInstance().findAll().contains(resource));
+		manager.remove(resource);
+		assertFalse(manager.getProjects().contains(resource));
 	}
 }

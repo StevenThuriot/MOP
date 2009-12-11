@@ -2,6 +2,7 @@ package controller;
 
 import model.Project;
 import model.User;
+import model.repositories.RepositoryManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -26,7 +27,8 @@ public class ProjectControllerTest {
 	@Before
 	public void setUp()
 	{
-		controller = new ProjectController();
+		RepositoryManager manager = new RepositoryManager();
+		controller = new ProjectController(manager);
 		user = new User("John");
 	}
 	
