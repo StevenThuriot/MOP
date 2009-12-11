@@ -68,6 +68,15 @@ public class ResourceTest {
 	}
 	
 
+	@Test
+	public void doesEqualsWork() throws EmptyStringException
+	{
+		Resource res1 = new Resource("Room1",ResourceType.Room);
+		Resource res2 = new Resource("room2",ResourceType.Room);
+		assertFalse(res1.equals(res2));
+		assertTrue(res1.equals(res1));
+	}
+	
 	/**
 	 * Try to remove a resource that is required by a task
 	 * Expected to throw a ResourceBusyException
