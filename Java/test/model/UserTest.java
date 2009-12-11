@@ -91,4 +91,23 @@ public class UserTest {
 		assertFalse(user.getProjects().contains(p));		
 	}
 	
+	@Test
+	public void setName() throws EmptyStringException{
+		//Null argument - exception should be thrown
+		try {
+			user.setName(null);
+			fail();
+		} catch (NullPointerException e){}
+		
+		// Empty description - exception should be thrown
+		try{
+			user.setName("");
+			fail();
+		} catch (EmptyStringException e){}
+		
+		// Valid name - name should be changed
+		user.setName("Mario");
+		assertTrue(user.getName() == "Mario");
+	}
+	
 }

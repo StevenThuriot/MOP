@@ -115,10 +115,6 @@ public class Resource implements Describable{
 	public void remove() throws ResourceBusyException{
 		if(this.requiredByTask())
 			throw new ResourceBusyException("Resource is still being used.");
-		
-		for(Task t: this.tasksUsing){
-			t.removeRequiredResource(this);
-		}
 	}
 	
 	/**
@@ -126,6 +122,13 @@ public class Resource implements Describable{
 	 */
 	public List<Reservation> getReservations() {
 		return Collections.unmodifiableList(reservations);
+	}
+	
+	/**
+	 * Returns an ArrayList of the Tasks that require this resource.
+	 */
+	public List<Task> getTasksUsing(){
+		return Collections. unmodifiableList(tasksUsing);
 	}
 
 	/**

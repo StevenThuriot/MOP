@@ -16,6 +16,7 @@ import org.junit.Test;
 
 import exception.BusinessRule1Exception;
 import exception.EmptyStringException;
+import exception.NotAvailableException;
 import exception.ResourceBusyException;
 
 public class ResourceTest {
@@ -23,16 +24,26 @@ public class ResourceTest {
 	private Resource resource;
 	private User user;
 	
+	Task task1;
+	
 	@Before
 	public void setUp() throws Exception {
 		resource = new Resource("Description",ResourceType.Room);
 		user = new User("John");
+		
+		GregorianCalendar startDate = new GregorianCalendar(2009,10,1,12,00);
+		GregorianCalendar endDate = new GregorianCalendar(2009,10,5,12,00);
+		GregorianCalendar correctDuration = new GregorianCalendar();
+		correctDuration.setTime(new Date((endDate.getTime().getTime() - startDate.getTime().getTime() - (1000 * 3600)))); //End - Begin - 1 hour
+		task1 = new Task("Descr",user, startDate,endDate,1440);
+		
 	}
 
 	@After
 	public void tearDown() throws Exception {
 		user = null;
 		resource = null;
+		task1 = null;
 		//TODO: Verswijder alle resources uit ResourceManager
 	}
 	
@@ -67,14 +78,47 @@ public class ResourceTest {
 	@Test(expected=ResourceBusyException.class)
 	public void removeBusyResource() throws ResourceBusyException, EmptyStringException, BusinessRule1Exception
 	{
-		GregorianCalendar startDate = new GregorianCalendar(2009,10,1,12,00);
-		GregorianCalendar endDate = new GregorianCalendar(2009,10,5,12,00);
-		GregorianCalendar correctDuration = new GregorianCalendar();
-		correctDuration.setTime(new Date((endDate.getTime().getTime() - startDate.getTime().getTime() - (1000 * 3600)))); //End - Begin - 1 hour
-		Task task = new Task("Descr",user, startDate,endDate,1440);
-		task.addRequiredResource(resource);
+
+		task1.addRequiredResource(resource);
 		
 		resource.remove();
 	}
+	
+	/**
+	 * Tests the behavior of a newly made Resource object
+	 */
+	@Test
+	public void initialization(){
+		//Description should be "Description"
+		assertEquals("Description", resource.getDescription());
+		
+		//Reservations and tasks using should be initialized as empty arraylists
+		assertTrue(resource.getReservations().isEmpty());
+		assertTrue(resource.getTasksUsing().isEmpty());
+		assertFalse(resource.requiredByTask());
+	}
+	
+	/**
+	 * Tests the behavior of reservations
+	 * @throws NotAvailableException 
+	 * @throws NotAvailableException 
+	 */
+	@Test
+	public void reservations() throws NotAvailableException{
+		
+		GregorianCalendar startDate = new GregorianCalendar(2009,10,1,12,00);
+		resource.createReservation(startDate, 100, user);
+		
+		GregorianCalendar startDate2 = new GregorianCalendar(2009,10,1,10,00);
+		// Overlap - exception should be thrown
+		try {
+			resource.createReservation(startDate2, 120, user);
+			fail();
+		} catch (NotAvailableException e) {}
+		
+	}
+	
+	
+	
 
 }
