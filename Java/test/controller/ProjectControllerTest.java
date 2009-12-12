@@ -27,7 +27,7 @@ public class ProjectControllerTest {
 	@Before
 	public void setUp()
 	{
-		RepositoryManager manager = new RepositoryManager();
+	    RepositoryManager manager = new RepositoryManager();
 		controller = new ProjectController(manager);
 		user = new User("John");
 	}
