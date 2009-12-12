@@ -1,5 +1,7 @@
 package model.focus;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import model.Task;
@@ -9,13 +11,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import controller.TaskController;
+
 import static org.junit.Assert.*;
 
 
 public class FocusStrategyTest {
     
     private User user;
-    
+    private TaskController controller = new TaskController();
     /**
      * Setting all variables to be used in tests
      * @throws Exception
@@ -23,6 +27,13 @@ public class FocusStrategyTest {
     @Before
     public void setUp() throws Exception {
         user = new User("John");
+        GregorianCalendar end1 = new GregorianCalendar();
+        end1.add(Calendar.DAY_OF_MONTH, 1);
+        GregorianCalendar end2 = new GregorianCalendar();
+        end2.add(Calendar.MONTH, 1);
+        controller.createTask("Task1", new GregorianCalendar(), end1, 10, user);
+        controller.createTask("Task2", new GregorianCalendar(), end2, 3600, user);
+        
     }
     
     /**
@@ -38,7 +49,7 @@ public class FocusStrategyTest {
     public void testEmptySetDeadline()
     {
         FocusWork work = new FocusWork(user,new DeadlineFocus(0));
-        assertTrue(work.getTasks().isEmpty());
+        assertEquals(0,work.getTasks().size());
     }
     
     @Test
@@ -51,7 +62,7 @@ public class FocusStrategyTest {
     @Test
     public void testSortDeadline()
     {
-        List<Task> tasks = new FocusWork(user,new DeadlineFocus(0)).getTasks();
+        List<Task> tasks = new FocusWork(user,new DeadlineFocus(10)).getTasks();
         assertTrue(tasks.get(0).getDueDate().before(tasks.get(1).getDueDate()));
     }
 }

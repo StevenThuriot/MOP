@@ -22,10 +22,6 @@ public class DispatchController {
 	 */
 	private TaskController taskController;
 	
-	/**
-	 * Repository Manager
-	 */
-	private RepositoryManager manager;
 	
 	/**
 	 * The Constructor
@@ -33,7 +29,6 @@ public class DispatchController {
 	public DispatchController(RepositoryManager manager) {
 	    if(manager==null)
             throw new NullPointerException();
-	    this.manager = manager;
 		this.projectController = new ProjectController(manager);
 		this.resourceController = new ResourceController(manager);
 		this.taskController = new TaskController();

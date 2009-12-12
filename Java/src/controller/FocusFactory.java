@@ -3,13 +3,10 @@ import model.User;
 import model.focus.*;
 
 public class FocusFactory {
-	FocusFactory()
-	{
-		
-	}
 	 public enum FocusType{
 		 DurationFocus,
-		 DeadlineFocus
+		 DeadlineFocus,
+		 Default
 	 }
 	 /**
 	  * Statische methode om een FocusWork aan te maken
