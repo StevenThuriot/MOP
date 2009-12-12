@@ -9,9 +9,9 @@ public class TaskDeadlineComparator implements Comparator<Task> {
 	 */
 	public int compare(Task arg0, Task arg1) {
 		if(arg0.getDueDate().before(arg1.getDueDate()))
-			return 1;
+			return -1;
 		if(arg0.getDueDate().after(arg1.getDueDate()))
-			return -1;			
+			return 1;			
 		return 0;
 	}
 

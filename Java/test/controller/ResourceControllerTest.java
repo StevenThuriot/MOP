@@ -75,9 +75,16 @@ public class ResourceControllerTest {
 	public void createResource() throws EmptyStringException
 	{
 		resource = controller.createResource("Room 101", ResourceType.Room);
-		assertTrue(manager.getProjects().contains(resource));
+	    assertTrue(manager.getResources().contains(resource));
 	}
 	
+	/**
+	 * Does a resource get removed properly?
+	 * Created through the controller, checks existence in the RepositoryManager
+	 * @throws EmptyStringException
+	 * @throws ResourceBusyException
+	 */
+	@Test
 	public void removeResource() throws EmptyStringException, ResourceBusyException
 	{
 		resource = controller.createResource("Room 101", ResourceType.Room);

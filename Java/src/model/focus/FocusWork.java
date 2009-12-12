@@ -1,5 +1,6 @@
 package model.focus;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Task;
@@ -24,7 +25,28 @@ public class FocusWork {
      */
 	public List<Task> getTasks()
 	{
-		List<Task> tasks = currentUser.getTasks();
+		List<Task> tasks = this.copyList(currentUser.getTasks());
 		return strategy.filter(strategy.sort(tasks));		
+	}
+	
+	/**
+	 * Copy the list from an unmodifiable List to a new list so sorting and filtering can occur
+	 * @param original
+	 * @return
+	 */
+	private List<Task> copyList(List<Task> original)
+	{
+	    List<Task> tasks = new ArrayList<Task>();
+	    for(Task t:original)
+	        tasks.add(t);
+	    return tasks;
+	}
+	
+	/**
+	 * Method to return the strategy used. Only used for testing purposes
+	 */
+	public FocusStrategy getStrategy()
+	{
+	    return strategy;
 	}
 }

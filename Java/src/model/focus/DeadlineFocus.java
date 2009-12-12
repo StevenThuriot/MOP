@@ -1,5 +1,6 @@
 package model.focus;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -27,6 +28,10 @@ public class DeadlineFocus extends FocusStrategy {
 	 */
 	protected List<Task> filter(List<Task> tasks)
 	{
-		return tasks.subList(0, amount - 1);
+	    if(amount==0)
+	        return new ArrayList<Task>();
+	    if(amount > tasks.size())
+	        amount = tasks.size();
+		return tasks.subList(0, amount);
 	}
 }
