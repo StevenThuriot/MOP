@@ -17,8 +17,8 @@ import controller.TaskControllerTest;
 
 @RunWith(value=Suite.class)
 @SuiteClasses(value={UserTest.class,TaskTest.class,ResourceTest.class,
-		ProjectControllerTest.class,ResourceControllerTest.class,TaskControllerTest.class, 
-		TaskDependencyTest.class,TypeRepoTest.class,GenericRepoTest.class})
+		ProjectControllerTest.class,ResourceControllerTest.class,TaskControllerTest.class,
+		TaskDependencyTest.class,TaskDependencyTest.class,TypeRepoTest.class,GenericRepoTest.class})
 public class AllTests {
 
 }

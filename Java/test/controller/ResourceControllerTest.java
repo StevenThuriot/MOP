@@ -26,6 +26,7 @@ public class ResourceControllerTest {
 	private User user;
 	private RepositoryManager manager;
 	
+	
 	@Before
 	public void setUp() throws Exception {
 		manager = new RepositoryManager();
@@ -48,6 +49,7 @@ public class ResourceControllerTest {
 	 */
 	@Test
 	public void createReservation() throws NotAvailableException
+	
 	{
 		GregorianCalendar begin = new GregorianCalendar();
 		Reservation reservatie = controller.createReservation(begin, 140, resource, user);
