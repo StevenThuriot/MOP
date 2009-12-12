@@ -155,21 +155,68 @@ public Task(String description, User user,GregorianCalendar startDate, Gregorian
 /**
  * This method removes the task. It works recursively: any other tasks that may
  * be dependent on this task will be removed as well.
- * TODO: specification
+ * @post	All dependencies with all other tasks will be broken
+ * 			| for each Task t: !(t.getDependencies().contains(this))
+ * 			|					&& ! (t.getDepepenentTasks().contains(this))
+ * @post	No resources will still depend on this task
+ * 			| for each Resource r: !r.getTasksUsing().contains(this)
+ * @post	No user will be connected with this task any longer.
+ * 			| for each User u: !(u.getTasks().contains(this))
+ * In short, the remaining object is completely decoupled from any other model objects,
+ * and should not be used anymore.
  */
-public void remove(){
-	
+public void removeRecursively(){
 	//removes all other dependent tasks recursively
 	for(Task t: this.getDependentTasks()){
-		t.remove();
+		t.removeRecursively();
 	}
-	
 	//removes this task from all required resources
 	for(Resource r: this.getRequiredResources()){
 		r.removeTaskUsing(this);
 	}
-	
-	
+	//break dependencies with all tasks that this task depends on
+	for(Task t: this.getDependencies()){
+		try {
+			this.removeDependency(t);
+			//Exception should not occur -- dependency is always there
+		} catch (DependencyException e) {}
+	}
+	// removes this task from the list that its user keeps
+	this.getUser().removeTask(this);
+}
+
+/**
+ * Removes a task. This method is non-recursive: dependent tasks will not be deleted. Instead,
+ * dependencies will be broken.
+ * @post	All dependencies with all other tasks will be broken
+ * 			| for each Task t: !(t.getDependencies().contains(this))
+ * 			|					&& ! (t.getDepepenentTasks().contains(this))
+ * @post	No resources will still depend on this task
+ * 			| for each Resource r: !r.getTasksUsing().contains(this)
+ * @post	No user will be connected with this task any longer.
+ * 			| for each User u: !(u.getTasks().contains(this))
+ * In short, the remaining object is completely decoupled from any other model objects,
+ * and should not be used anymore.
+ */
+public void remove(){
+	//removes this task from all required resources
+	for(Resource r: this.getRequiredResources()){
+		r.removeTaskUsing(this);
+	}
+	//break all dependencies in both directions
+	for(Task t: this.getDependencies()){
+		try {
+			this.removeDependency(t);
+			//Exception should not occur -- dependency is always present
+		} catch (DependencyException e) {}
+	}
+	for(Task t: this.getDependentTasks()){
+		try {
+			t.removeDependency(this);
+			//Exception should not occur - dependency is always present
+		} catch (DependencyException e) {}
+		
+	}
 	// removes this task from the list that its user keeps
 	this.getUser().removeTask(this);
 }
