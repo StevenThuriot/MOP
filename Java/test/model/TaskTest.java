@@ -64,8 +64,6 @@ public class TaskTest {
 		user = new User("John");
 		startDate = new GregorianCalendar(2009,10,1,12,00);
 		endDate = new GregorianCalendar(2009,10,5,12,00);
-		correctDuration = new GregorianCalendar();
-		correctDuration.setTime(new Date((endDate.getTime().getTime() - startDate.getTime().getTime() - (1000 * 3600)))); //End - Begin - 1 hour
 		resource = new Resource("Projector", ResourceType.Tool);
 		task = new Task("Descr",user,startDate,endDate,120);
 			
@@ -85,29 +83,40 @@ public class TaskTest {
 	}
 	
 	/**
-	 * Resources should be instantiated as an empty list
+	 * Tests the initialization behavior of Task.
+	 * @throws EmptyStringException 
 	 */
 	@Test
-	public void getResourceList()
-	{
-		assertEquals(new ArrayList<Resource>(), task.getRequiredResources());
+	public void initialization() throws EmptyStringException{
+		// <task> is initialized with no required resources
+		assertTrue(task.getRequiredResources().isEmpty());
+		// <task> is initialized with no dependencies or depending tasks
+		assertTrue(task.getDependencies().isEmpty());
+		assertTrue(task.getDependentTasks().isEmpty());
+		// <task> is linked to the user John, and is given the name "Descr"
+		assertTrue(task.getUser() == user);
+		assertTrue(task.getDescription() == "Descr");
+		// <task> should satisfy the business rules
+		assertTrue(task.satisfiesBusinessRule1());
+		// TODO: other BR's here?
 		
+		//Try a different task, that fails business rule 1
+		startDate = new GregorianCalendar(2009,10,1,12,00);
+		endDate = new GregorianCalendar(2009,10,2,12,00);
+		//One day is available, but the duration is 25 hours. Business Rule exception should be thrown.
+		try {
+			Task task2 = new Task("MOP", user, startDate, endDate, 1500);
+			fail();
+			} catch (BusinessRule1Exception e) {/*Success*/}		
+			
 	}
-	
-	/**
-	 * Dependent tasks should be instantiated as an empty list 
-	 */
-	@Test
-	public void getTaskList()
-	{
-		assertEquals(new ArrayList<Task>(), task.getDependencies());
-	}
+
 	
 	/**
 	 * Testing status with scenario:
 	 * Status variable = unfinished
 	 * Resource = available
-	 * No dependant tasks
+	 * No dependent tasks
 	 * Expected outcome: Available
 	 * @throws DependencyException 
 	 */
@@ -160,7 +169,7 @@ public class TaskTest {
 	 * Testing status with scenario:
 	 * Status variable: Unfinished
 	 * Resource: Available
-	 * Dependencies: 1 Succesful
+	 * Dependencies: 1 Successful
 	 * Expected outcome: Available
 	 */
 	@Test
@@ -191,5 +200,33 @@ public class TaskTest {
 		
 		assertTrue(p.getTasks().contains(task));
 	}
+	
+	/**
+	 * Tests on dependencies. Tests a proper dependency
+	 */
+	@Test
+	public void dependencies1() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException{
+		// Try a proper dependency
+		Task task2 = new Task("some name", user, startDate, endDate, 50);
+		task.addDependency(task2);
+		// Assure that it is properly initialized
+		// For more details, see TaskDependencyManager and corresponding test class
+		assertTrue(task.dependsOn(task2));
+		assertTrue(task2.getDependentTasks().contains(task2));
+		//Remove it again
+		task.removeDependency(task2);
+		assertFalse(task.dependsOn(task2));
+		assertFalse(task2.getDependentTasks().contains(task2));
+	}
+	
+	/**
+	 * Another test on dependencies. Tests a dependency that fails to satisfy business rule 1.
+	 */
+	@Test
+	public void dependencies2(){
+		//TODO
+	}
+	
+
 	
 }
