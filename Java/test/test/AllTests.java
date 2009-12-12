@@ -16,12 +16,14 @@ import controller.FocusFactoryTest;
 import controller.ProjectControllerTest;
 import controller.ResourceControllerTest;
 import controller.TaskControllerTest;
+import controller.XMLParserTest;
+import exception.ExceptionsTest;
 
 @RunWith(value=Suite.class)
 @SuiteClasses(value={UserTest.class,TaskTest.class,ResourceTest.class,
 		ProjectControllerTest.class,ResourceControllerTest.class,TaskControllerTest.class,
 		TaskDependencyTest.class,TaskDependencyTest.class,TypeRepoTest.class,GenericRepoTest.class,
-		DispatchControllerTest.class,FocusFactoryTest.class})
+		DispatchControllerTest.class,FocusFactoryTest.class,XMLParserTest.class,ExceptionsTest.class})
 public class AllTests {
 
 }

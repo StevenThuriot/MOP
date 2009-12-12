@@ -77,6 +77,8 @@ public class ResourceTest {
 		assertTrue(res1.equals(res1));
 	}
 	
+
+	
 	/**
 	 * Try to remove a resource that is required by a task
 	 * Expected to throw a ResourceBusyException
@@ -128,6 +130,16 @@ public class ResourceTest {
 	}
 	
 	
-	
+   /**
+     * Add and remove a task that uses this resource
+     */
+    @Test
+    public void testUsingTask()
+    {
+        resource.addTaskUsing(task1);
+        assertTrue(resource.getTasksUsing().contains(task1));
+        resource.removeTaskUsing(task1);
+        assertFalse(resource.getTasksUsing().contains(task1));
+    }
 
 }
