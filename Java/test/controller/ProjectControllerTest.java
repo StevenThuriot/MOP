@@ -1,6 +1,10 @@
 package controller;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import model.Project;
+import model.Task;
 import model.User;
 import model.repositories.RepositoryManager;
 
@@ -10,6 +14,8 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import controller.ProjectController;
+import exception.BusinessRule1Exception;
+import exception.DependencyCycleException;
 import exception.EmptyStringException;
 
 
@@ -50,6 +56,15 @@ public class ProjectControllerTest {
 	}
 	
 	/**
+	 * Test for nullpointerexception on instantiating the controller with null as manager
+	 */
+	@Test(expected=NullPointerException.class)
+	public void createNullController()
+	{
+	    controller = new ProjectController(null);
+	}
+	
+	/**
 	 * Create a project with a normal name.
 	 * @throws EmptyStringException
 	 */
@@ -81,5 +96,22 @@ public class ProjectControllerTest {
 	public void removeNullProject() throws NullPointerException
 	{
 		controller.removeProject(null);
+	}
+	
+	/**
+	 * Tests the bindtask method
+	 * @throws DependencyCycleException 
+	 * @throws BusinessRule1Exception 
+	 * @throws EmptyStringException 
+	 */
+	@Test
+	public void testBind() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException
+	{
+	    Project p = controller.createProject("Project A",user);
+	    TaskController taskController = new TaskController();
+	    GregorianCalendar end = new GregorianCalendar();
+	    end.add(Calendar.MONTH, 1);
+	    controller.bind(p,taskController.createTask("Descr", new GregorianCalendar(), end, 120, new User("Bart")));
+	    assertTrue(!p.getTasks().isEmpty());
 	}
 }

@@ -34,6 +34,15 @@ public class ResourceControllerTest {
 		resource = new Resource("Room 101", ResourceType.Room);
 		user = new User("John");
 	}
+	
+	/**
+     * Test for nullpointerexception on instantiating the controller with null as manager
+     */
+    @Test(expected=NullPointerException.class)
+    public void createNullController()
+    {
+        controller = new ResourceController(null);
+    }
 
 	@After
 	public void tearDown() throws Exception {
@@ -80,7 +89,7 @@ public class ResourceControllerTest {
 	
 	/**
 	 * Does a resource get removed properly?
-	 * Created through the controller, checks existence in the RepositoryManager
+	 * Created and removed through the controller, checks existence in the RepositoryManager
 	 * @throws EmptyStringException
 	 * @throws ResourceBusyException
 	 */
@@ -88,7 +97,32 @@ public class ResourceControllerTest {
 	public void removeResource() throws EmptyStringException, ResourceBusyException
 	{
 		resource = controller.createResource("Room 101", ResourceType.Room);
-		manager.remove(resource);
-		assertFalse(manager.getProjects().contains(resource));
+		controller.removeResource(resource);
+		assertFalse(manager.getResources().contains(resource));
+	}
+	
+	/**
+	 * Test the existence of a created resource throught the controller
+	 * @throws EmptyStringException
+	 */
+	@Test
+	public void testGetResources() throws EmptyStringException
+	{
+	    resource = controller.createResource("Room 101", ResourceType.Room);
+	    assertTrue(controller.getResources().contains(resource));
+	}
+	
+	/**
+	 * Create a resource, create a reservation on that resource
+	 * Get a general list of reservations, see of the reservation contains the one we created
+	 * @throws NotAvailableException 
+	 * @throws EmptyStringException 
+	 */
+	@Test
+	public void testReservations() throws NotAvailableException, EmptyStringException
+	{
+	    resource = controller.createResource("Room 101", ResourceType.Room);
+	    Reservation reservation = controller.createReservation(new GregorianCalendar(), 101, resource, new User("Bart"));
+	    assertTrue(controller.getReservations().contains(reservation));
 	}
 }
