@@ -110,7 +110,6 @@ public class Menu {
 		}
 		GregorianCalendar grC = new GregorianCalendar();
 		grC.setTime(date);
-		System.out.println(grC);
 		return grC;
 	}
 	

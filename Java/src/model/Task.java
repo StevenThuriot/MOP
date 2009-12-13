@@ -330,8 +330,6 @@ public class Task implements Describable{
 		
 		boolean before = false;
 		try {
-			System.out.println(earliestEndTime());
-			System.out.println(this.getDueDate());
 			before = earliestEndTime().compareTo(this.getDueDate()) <= 0;
 		} catch (TaskFailedException e) {
 			return false;
