@@ -166,24 +166,24 @@ public class Task implements Describable{
 	 * @throws 	DependencyCycleException
 	 * 			Adding the dependency would create a dependency cycle.
 	 * 			| !this.dependencyHasNoCycle()
+	 * @throws IllegalStateCall 
 	 */
-	public void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException{
-		
-		if(!this.dependencySatisfiesBusinessRule1(dependency))
-			throw new BusinessRule1Exception(
-			"This dependency would not satisfy business rule 1");
-		
-		if(!this.dependencyHasNoCycle(dependency))
-			throw new DependencyCycleException(
-			"This dependency would create a dependency cycle");
-		
-		getTaskDependencyManager().addDependency(dependency);
+	public void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCall{
+		this.taskState.addDependency(dependency);
+	}
+	
+	/**
+	 * Adds a resource to the resources required for this task.
+	 * @throws IllegalStateCall 
+	 */
+	public void addRequiredResource(Resource resource) throws IllegalStateCall{
+		this.taskState.addRequiredResource(resource);
 	}
 	
 	/**
 	 * Adds a resource to the resources required for this task.
 	 */
-	public void addRequiredResource(Resource resource){
+	protected void doAddRequiredResource(Resource resource){
 		requiredResources.add(resource);
 		resource.addTaskUsing(this);
 	}
@@ -446,6 +446,7 @@ public class Task implements Describable{
 	/**
 	 * Removes a task. This method is non-recursive: dependent tasks will not be deleted. Instead,
 	 * dependencies will be broken.
+	 * @throws IllegalStateCall 
 	 * @post	All dependencies with all other tasks will be broken
 	 * 			| for each Task t: !(t.getDependencies().contains(this))
 	 * 			|					&& ! (t.getDependentTasks().contains(this))
@@ -456,7 +457,7 @@ public class Task implements Describable{
 	 * In short, the remaining object is completely decoupled from any other model objects,
 	 * and should not be used anymore.
 	 */
-	public void remove(){
+	public void remove() throws IllegalStateCall{
 		//removes this task from all required resources
 		ArrayList<Resource> resources = new ArrayList<Resource>(this.getRequiredResources());
 		for(Resource r: resources){
@@ -487,16 +488,18 @@ public class Task implements Describable{
 	 * @param 	dependency
 	 * 			The dependency to be removed.
 	 * @throws DependencyException 
+	 * @throws IllegalStateCall 
 	 * @post 	The task is no longer dependent on <dependency>
 	 * 			|! (new.getDependentTasks()).contains(dependent)
 	 */
-	public void removeDependency(Task dependency) throws DependencyException{
-		getTaskDependencyManager().removeDependency(dependency);
+	public void removeDependency(Task dependency) throws DependencyException, IllegalStateCall{
+		this.taskState.removeDependency(dependency);
 	}
 	
 	/**
 	 * This method removes the task. It works recursively: any other tasks that may
 	 * be dependent on this task will be removed as well.
+	 * @throws IllegalStateCall 
 	 * @post	All dependencies with all other tasks will be broken
 	 * 			| for each Task t: !(t.getDependencies().contains(this))
 	 * 			|					&& ! (t.getDepepenentTasks().contains(this))
@@ -507,7 +510,7 @@ public class Task implements Describable{
 	 * In short, the remaining object is completely decoupled from any other model objects,
 	 * and should not be used anymore.
 	 */
-	public void removeRecursively(){
+	public void removeRecursively() throws IllegalStateCall{
 		//removes all other dependent tasks recursively
 		ArrayList<Task> dependents = new ArrayList<Task>(this.getDependentTasks());
 		for(Task t: dependents){
@@ -532,8 +535,16 @@ public class Task implements Describable{
 	
 	/**
 	 * Removes a resource from the resources required for this task.
+	 * @throws IllegalStateCall 
 	 */
-	public void removeRequiredResource(Resource resource){
+	public void removeRequiredResource(Resource resource) throws IllegalStateCall{
+		this.taskState.removeRequiredResource(resource);
+	}
+	
+	/**
+	 * Removes a resource from the resources required for this task.
+	 */
+	protected void doRemoveRequiredResource(Resource resource){
 		requiredResources.remove(resource);
 		resource.removeTaskUsing(this);
 	}

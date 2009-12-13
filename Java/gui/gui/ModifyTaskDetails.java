@@ -129,6 +129,9 @@ public class ModifyTaskDetails extends UseCase {
 							choice2 = menu.menu("Select Action", "Retry", "Abort");
 							exit = choice2 == 1;
 							continue;
+						} catch (IllegalStateCall e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
 					}else{
 						System.out.println("No more task to add");
@@ -149,6 +152,9 @@ public class ModifyTaskDetails extends UseCase {
 							choice2 = menu.menu("Select Action", "Retry", "Abort");
 							exit = choice2 == 1;
 							continue;
+						} catch (IllegalStateCall e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}	
 					}else{
 						System.out.println("No dependencies to remove");
@@ -161,7 +167,12 @@ public class ModifyTaskDetails extends UseCase {
 							descr.add(r.getDescription());
 						}
 						choice2 = menu.menu("Select resource", descr);
-						dController.getTaskController().addRequiredResource(task, res.get(choice2));
+						try {
+							dController.getTaskController().addRequiredResource(task, res.get(choice2));
+						} catch (IllegalStateCall e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						req.add(res.remove(choice2));
 					}else{
 						System.out.println("No resources to add");

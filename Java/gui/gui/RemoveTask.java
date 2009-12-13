@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import model.Task;
 import model.User;
 import controller.DispatchController;
+import exception.IllegalStateCall;
 
 public class RemoveTask extends UseCase {
 
@@ -40,7 +41,12 @@ public class RemoveTask extends UseCase {
 			return;
 		if(!dController.getTaskController().hasDependentTasks( tasks.get(choice) ) || (dController.getTaskController().hasDependentTasks( tasks.get(choice) )
 				&& menu.dialogYesNo("Task has dependant tasks, if you remove you remove them all. Continue?")) ){
-			dController.getTaskController().removeTask( tasks.get(choice) );			
+			try {
+				dController.getTaskController().removeTask( tasks.get(choice) );
+			} catch (IllegalStateCall e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
 		}
 	}
 

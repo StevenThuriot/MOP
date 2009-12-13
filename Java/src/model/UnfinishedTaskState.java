@@ -11,6 +11,38 @@ public class UnfinishedTaskState extends TaskState {
 	}
 	
 	/**
+	 * Adds a dependency to the current task.
+	 * @param 	dependency
+	 * 			The dependency to be added.
+	 * @post	The task is now dependent on <dependency>
+	 * 			| (new.getDependentTasks()).contains(dependent)
+	 * @throws 	BusinessRule1Exception
+	 * 			Adding the dependency would violate business rule 1.
+	 * 			| !this.depencySatisfiesBusinessRule1(dependent)
+	 * @throws 	DependencyCycleException
+	 * 			Adding the dependency would create a dependency cycle.
+	 * 			| !this.dependencyHasNoCycle()
+	 */
+	protected void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException{
+		if(!this.getContext().dependencySatisfiesBusinessRule1(dependency))
+			throw new BusinessRule1Exception(
+			"This dependency would not satisfy business rule 1");
+		
+		if(!this.getContext().dependencyHasNoCycle(dependency))
+			throw new DependencyCycleException(
+			"This dependency would create a dependency cycle");
+		
+		this.getContext().getTaskDependencyManager().addDependency(dependency);
+	}	
+	
+	/**
+	 * Adds a resource to the resources required for this task.
+	 */
+	protected void addRequiredResource(Resource resource){
+		this.getContext().doAddRequiredResource(resource);
+	}
+		
+	/**
 	 * Returns whether a task can be executed right now.
 	 * This is true when all its dependencies are (successfully) finished and
 	 * all of its required resources are available.
@@ -32,7 +64,7 @@ public class UnfinishedTaskState extends TaskState {
 		}
 		
 		return resourceReady && depReady;
-	}	
+	}
 	
 	/**
 	 * Returns a boolean indicating whether the current task can be finished.
@@ -48,19 +80,6 @@ public class UnfinishedTaskState extends TaskState {
 		}
 		return canBeF;
 	}
-		
-	/**
-	 * Sets <newDescription> to be the new description of this task.
-	 * @param	newDescription
-	 * 			The new description
-	 * @throws EmptyStringException 
-	 * @post	| new.getDescription()== newDescription
-	 */
-	@Override
-	protected void setDescription(String newDescription)
-			throws EmptyStringException, NullPointerException {
-		this.getContext().doSetDescription(newDescription);
-	}
 	
 	/**
 	 * Returns whether a task is unfinished or not.
@@ -70,6 +89,26 @@ public class UnfinishedTaskState extends TaskState {
 	protected Boolean isUnfinished()
 	{
 		return true;
+	}
+	
+	/**
+	 * Removes a dependency from this task.
+	 * @param 	dependency
+	 * 			The dependency to be removed.
+	 * @throws DependencyException 
+	 * @throws DependencyException 
+	 * @post 	The task is no longer dependent on <dependency>
+	 * 			|! (new.getDependentTasks()).contains(dependent)
+	 */
+	public void removeDependency(Task dependency) throws DependencyException {
+		this.getContext().getTaskDependencyManager().removeDependency(dependency);
+	}
+	
+	/**
+	 * Removes a resource from the resources required for this task.
+	 */
+	public void removeRequiredResource(Resource resource){
+		this.getContext().doRemoveRequiredResource(resource);
 	}
 	
 	/**
@@ -103,6 +142,7 @@ public class UnfinishedTaskState extends TaskState {
 		return true;
 	}
 	
+	
 	/**
 	 * Returns whether the current task satisfies the business rule 3.
 	 * @return Boolean
@@ -128,6 +168,20 @@ public class UnfinishedTaskState extends TaskState {
 		
 		return answer;
 	}
+	
+	/**
+	 * Sets <newDescription> to be the new description of this task.
+	 * @param	newDescription
+	 * 			The new description
+	 * @throws EmptyStringException 
+	 * @post	| new.getDescription()== newDescription
+	 */
+	@Override
+	protected void setDescription(String newDescription)
+			throws EmptyStringException, NullPointerException {
+		this.getContext().doSetDescription(newDescription);
+	}
+
 	
 	/**
 	 * Set the current state to failed

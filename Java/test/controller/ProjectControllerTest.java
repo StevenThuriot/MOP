@@ -80,9 +80,10 @@ public class ProjectControllerTest {
 	 * Remove a project
 	 * Warning: Test relies on correct execution of ProjectController.createProject
 	 * @throws EmptyStringException
+	 * @throws IllegalStateCall 
 	 */
 	@Test
-	public void removeProject() throws EmptyStringException
+	public void removeProject() throws EmptyStringException, IllegalStateCall
 	{
 		Project p = controller.createProject("Project B",user);
 		controller.removeProject(p);
@@ -92,9 +93,10 @@ public class ProjectControllerTest {
 	/**
 	 * Remove a null project
 	 * @throws NullPointerException
+	 * @throws IllegalStateCall 
 	 */
 	@Test(expected=NullPointerException.class)
-	public void removeNullProject() throws NullPointerException
+	public void removeNullProject() throws NullPointerException, IllegalStateCall
 	{
 		controller.removeProject(null);
 	}

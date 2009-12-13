@@ -6,6 +6,7 @@ import java.util.List;
 import model.Project;
 import model.User;
 import controller.DispatchController;
+import exception.IllegalStateCall;
 
 public class RemoveProject extends UseCase {
 	public RemoveProject(){}
@@ -36,7 +37,12 @@ public class RemoveProject extends UseCase {
 		int choice = menu.menu("Select Task to remove", pDescr);
 		if(choice == pDescr.size()-1)
 			return;
-		dController.getProjectController().removeProject(projects.get(choice));
+		try {
+			dController.getProjectController().removeProject(projects.get(choice));
+		} catch (IllegalStateCall e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

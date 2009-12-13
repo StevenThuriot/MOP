@@ -2,6 +2,7 @@ package model.repositories;
 
 import java.util.List;
 
+import exception.IllegalStateCall;
 import exception.ResourceBusyException;
 
 import model.Project;
@@ -62,8 +63,9 @@ public class RepositoryManager {
      * Overridable method remove. Will remove a Project to the Project repository if it exists
      * @param p
      * @return
+     * @throws IllegalStateCall 
      */
-    public boolean remove(Project p)
+    public boolean remove(Project p) throws IllegalStateCall
     {
         p.remove();
         return projectRepository.remove(p);
