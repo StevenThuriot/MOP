@@ -21,6 +21,7 @@ import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.NotAvailableException;
+import exception.TaskFailedException;
 
 import static org.junit.Assert.*;
 
@@ -104,6 +105,7 @@ public class TaskTest {
 		startDate = new GregorianCalendar(2009,10,1,12,00);
 		endDate = new GregorianCalendar(2009,10,2,12,00);
 		//One day is available, but the duration is 25 hours. Business Rule exception should be thrown.
+		//Task "MOP" can never be completed in time :>
 		try {
 			Task task2 = new Task("MOP", user, startDate, endDate, 1500);
 			fail();
@@ -212,7 +214,7 @@ public class TaskTest {
 		// Assure that it is properly initialized
 		// For more details, see TaskDependencyManager and corresponding test class
 		assertTrue(task.dependsOn(task2));
-		assertTrue(task2.getDependentTasks().contains(task2));
+		assertTrue(task2.getDependentTasks().contains(task));
 		//Remove it again
 		task.removeDependency(task2);
 		assertFalse(task.dependsOn(task2));
@@ -221,12 +223,102 @@ public class TaskTest {
 	
 	/**
 	 * Another test on dependencies. Tests a dependency that fails to satisfy business rule 1.
+	 * @throws DependencyCycleException 
+	 * @throws BusinessRule1Exception 
+	 * @throws EmptyStringException 
 	 */
 	@Test
-	public void dependencies2(){
-		//TODO
+	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception{
+		startDate = new GregorianCalendar(2009,10,4,12,00);
+		endDate = new GregorianCalendar(2009,10,8,12,00);
+		Task task2 = new Task("some name", user, startDate, endDate, 1380);
+		// <task2> starts on the 4th and takes 23 hours. <task> takes another 2 hours
+		// This dependency will not satisfy business rule 1
+		try {
+			task.addDependency(task2);
+			fail();
+		} catch (BusinessRule1Exception e) {/*Success*/}		
 	}
 	
+	/**
+	 * Tests the behavior of Task.earliestEndTime()
+	 * @throws TaskFailedException 
+	 * @throws BusinessRule1Exception 
+	 * @throws EmptyStringException 
+	 * @throws DependencyCycleException 
+	 */
+	@Test
+	public void earliestEnd() throws TaskFailedException, EmptyStringException, BusinessRule1Exception, DependencyCycleException{
+		//<task> takes two hours to complete, earliest end time is 2 hours after the start date
+		assertEquals(new GregorianCalendar(2009,10,1,14,00), task.earliestEndTime());
+		
+		startDate = new GregorianCalendar(2009,10,2,12,00);
+		endDate = new GregorianCalendar(2009,10,8,12,00);
+		Task task2 = new Task("some name", user, startDate, endDate, 1440);
+		task.addDependency(task2);
+		//<task2> takes 24 hours to complete, <task> takes another 2.
+		// Earliest end time should be 26 hours after the startDate of <task2>
+		assertEquals(new GregorianCalendar(2009, 10, 3, 14,00), task.earliestEndTime());		
+	}
+	
+	/**
+	 * Tests the behavior of the non-recursive remove method.
+	 * @throws BusinessRule1Exception 
+	 * @throws EmptyStringException 
+	 * @throws DependencyCycleException 
+	 */
+	@Test
+	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException{
+		//Sets up a required resource, and a dependency in both directions
+		task.addRequiredResource(resource);
+		Task task2 = new Task("some dependency",user,startDate,endDate,120);
+		Task task3 = new Task("some dependentTask",user,startDate,endDate,120);
+		task.addDependency(task2);
+		task3.addDependency(task);
+		// remove the task
+		task.remove();
+		//Assures all links are broken
+		assertFalse(task3.getDependencies().contains(task));
+		assertFalse(task2.getDependentTasks().contains(task));
+		assertFalse(user.getTasks().contains(task));
+		assertFalse(resource.getTasksUsing().contains(task));
+	}
+	
+	/**
+	 * Tests the behavior of the recursive remove method.
+	 * @throws EmptyStringException 
+	 * @throws BusinessRule1Exception 
+	 * @throws DependencyCycleException 
+	 */
+	@Test
+	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException{
+		//Sets up 2 additional resources
+		Resource resource2 = new Resource("some resource",ResourceType.Tool);
+		Resource resource3 = new Resource("some other resource",ResourceType.Tool);
+		//Sets up 3 additional tasks
+		Task task2 = new Task("some dependency",user,startDate,endDate,120);
+		task2.addRequiredResource(resource2);
+		Task task3 = new Task("some dependentTask",user,startDate,endDate,120);
+		task3.addRequiredResource(resource3);
+		Task task4 = new Task("some other task",user, startDate, endDate,120);
+		task3.addDependency(task4);
+		//Sets up a hierarchy of 3 levels
+		task3.addDependency(task2);
+		task2.addDependency(task);
+		//Removes <task> recursively
+		task.removeRecursively();
+		//Checks that the user has no link to any of the first 3 tasks anymore
+		assertFalse(user.getTasks().contains(task));
+		assertFalse(user.getTasks().contains(task2));
+		assertFalse(user.getTasks().contains(task3));
+		//Check that <task4> is not deleted
+		assertTrue(user.getTasks().contains(task4));
+		//Check that the resource are no longer required, and that task4 has no reference to task3 anymore
+		assertFalse(resource.getTasksUsing().contains(task));
+		assertFalse(resource2.getTasksUsing().contains(task2));
+		assertFalse(resource3.getTasksUsing().contains(task3));
+		assertFalse(task4.getDependentTasks().contains(task3));
+	}
 
 	
 }

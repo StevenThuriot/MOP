@@ -136,9 +136,9 @@ public class ResourceTest {
     @Test
     public void testUsingTask()
     {
-        resource.addTaskUsing(task1);
+    	task1.addRequiredResource(resource);
         assertTrue(resource.getTasksUsing().contains(task1));
-        resource.removeTaskUsing(task1);
+        task1.removeRequiredResource(resource);
         assertFalse(resource.getTasksUsing().contains(task1));
     }
 

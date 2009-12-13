@@ -167,15 +167,18 @@ public class Task implements Describable{
 	 */
 	public void removeRecursively(){
 		//removes all other dependent tasks recursively
-		for(Task t: this.getDependentTasks()){
+		ArrayList<Task> dependents = new ArrayList<Task>(this.getDependentTasks());
+		for(Task t: dependents){
 			t.removeRecursively();
 		}
 		//removes this task from all required resources
-		for(Resource r: this.getRequiredResources()){
+		ArrayList<Resource> resources = new ArrayList<Resource>(this.getRequiredResources());
+		for(Resource r: resources){
 			r.removeTaskUsing(this);
 		}
 		//break dependencies with all tasks that this task depends on
-		for(Task t: this.getDependencies()){
+		ArrayList<Task> dependencies = new ArrayList<Task>(this.getDependencies());
+		for(Task t: dependencies){
 			try {
 				this.removeDependency(t);
 				//Exception should not occur -- dependency is always there
@@ -190,7 +193,7 @@ public class Task implements Describable{
 	 * dependencies will be broken.
 	 * @post	All dependencies with all other tasks will be broken
 	 * 			| for each Task t: !(t.getDependencies().contains(this))
-	 * 			|					&& ! (t.getDepepenentTasks().contains(this))
+	 * 			|					&& ! (t.getDependentTasks().contains(this))
 	 * @post	No resources will still depend on this task
 	 * 			| for each Resource r: !r.getTasksUsing().contains(this)
 	 * @post	No user will be connected with this task any longer.
@@ -200,17 +203,20 @@ public class Task implements Describable{
 	 */
 	public void remove(){
 		//removes this task from all required resources
-		for(Resource r: this.getRequiredResources()){
+		ArrayList<Resource> resources = new ArrayList<Resource>(this.getRequiredResources());
+		for(Resource r: resources){
 			r.removeTaskUsing(this);
 		}
 		//break all dependencies in both directions
-		for(Task t: this.getDependencies()){
+		ArrayList<Task> dependencies = new ArrayList<Task>(this.getDependencies());
+		ArrayList<Task> dependents = new ArrayList<Task>(this.getDependentTasks());
+		for(Task t: dependencies){
 			try {
 				this.removeDependency(t);
 				//Exception should not occur -- dependency is always present
 			} catch (DependencyException e) {}
 		}
-		for(Task t: this.getDependentTasks()){
+		for(Task t: dependents){
 			try {
 				t.removeDependency(this);
 				//Exception should not occur - dependency is always present
