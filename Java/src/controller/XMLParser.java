@@ -28,6 +28,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import exception.BusinessRule1Exception;
+import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
@@ -123,8 +124,9 @@ public class XMLParser {
 	 * @throws DependencyException 
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
-	public User Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall
+	public User Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall, BusinessRule3Exception
 	{
 		Node userNode = this.getNodeByName(this.getRootNode(), "mop:user");
 		Node userName = this.getNodeByName(userNode, "mop:name");

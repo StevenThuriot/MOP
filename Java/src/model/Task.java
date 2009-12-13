@@ -81,6 +81,7 @@ public class Task implements Describable{
 	 * @throws BusinessRule1Exception 
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 * @post	The user responsible for this Task is  <user>.
 	 * 			| getUser() == user
 	 * @post	The start date of this Task is <startDate>
@@ -94,7 +95,7 @@ public class Task implements Describable{
 	 * @post	The task has dependencies nor dependent tasks
 	 * 			TODO: formal definition
 	 */
-	public Task(String description, User user, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCall{
+	public Task(String description, User user, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCall, BusinessRule3Exception{
 		this.taskState = new UnfinishedTaskState(this);
 		
 		this.setDescription(description);
@@ -135,9 +136,10 @@ public class Task implements Describable{
 	 * @throws EmptyStringException 
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
 	public Task(String description, User user,GregorianCalendar startDate, GregorianCalendar dueDate, int duration,
-			ArrayList<Task> dependencies, ArrayList<Resource> reqResources) throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCall{
+			ArrayList<Task> dependencies, ArrayList<Resource> reqResources) throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCall, BusinessRule3Exception{
 		
 		this(description, user, startDate, dueDate, duration);
 		
@@ -261,21 +263,6 @@ public class Task implements Describable{
 			throw new EmptyStringException("A task should have a non-empty description");
 		
 		this.description = newDescription;
-	}
-	
-	/**
-	 * Set <newDueDate> to be the new due date for this Task.
-	 * 
-	 * @param 	newDueDate
-	 * 			The new due date for this Task.
-	 * @post	<newDueDate> is the new due date for this Task.
-	 * 			new.getDueDate() == newDueDate
-	 */
-	protected void doSetDueDate(GregorianCalendar newDueDate) throws NullPointerException {
-		if (newDueDate == null)
-			throw new NullPointerException("Null was passed");
-		
-		this.dueDate = (GregorianCalendar) newDueDate.clone();
 	}
 	
 	/**
@@ -596,14 +583,23 @@ public class Task implements Describable{
 	 * 
 	 * @param 	newDueDate
 	 * 			The new due date for this Task.
+	 * @throws BusinessRule3Exception 
 	 * @post	<newDueDate> is the new due date for this Task.
 	 * 			new.getDueDate() == newDueDate
 	 */
-	public void setDueDate(GregorianCalendar newDueDate) throws NullPointerException {
+	public void setDueDate(GregorianCalendar newDueDate) throws NullPointerException, BusinessRule3Exception {
 		if (newDueDate == null)
 			throw new NullPointerException("Null was passed");
 		
-		this.taskState.setDueDate(newDueDate);
+		GregorianCalendar tmp = this.dueDate;
+		
+		this.dueDate = newDueDate;
+
+		if ( !taskState.satisfiesBusinessRule3() )
+		{
+			this.dueDate = tmp;
+			throw new BusinessRule3Exception();
+		}
 	}
 	
 	/**
@@ -685,9 +681,11 @@ public class Task implements Describable{
 	 * @param newDue
 	 * @param newDuration
 	 * @throws BusinessRule1Exception
+	 * @throws BusinessRule3Exception 
+	 * @throws NullPointerException 
 	 */
 	public void updateTaskTiming(GregorianCalendar newStart, GregorianCalendar newDue, 
-			int newDuration) throws BusinessRule1Exception{
+			int newDuration) throws BusinessRule1Exception, NullPointerException, BusinessRule3Exception{
 		// copy current startDate to <oldStart>
 		GregorianCalendar oldStart = new GregorianCalendar();
 		oldStart.set(Calendar.YEAR, this.getStartDate().get(Calendar.YEAR));

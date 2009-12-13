@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.w3c.dom.DOMException;
 
 import exception.BusinessRule1Exception;
+import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
@@ -49,9 +50,10 @@ public class XMLParserTest {
      * @throws DependencyException
      * @throws IllegalStateCall 
      * @throws NullPointerException 
+     * @throws BusinessRule3Exception 
      */
     @Test
-    public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall
+    public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall, BusinessRule3Exception
     {
         User result = parser.Parse();
         manager.add(result);
@@ -72,9 +74,10 @@ public class XMLParserTest {
      * @throws DependencyException
      * @throws IllegalStateCall 
      * @throws NullPointerException 
+     * @throws BusinessRule3Exception 
      */
     @Test
-    public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall
+    public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall, BusinessRule3Exception
     {
         User result = parser.Parse();
         Resource devRoom = manager.getResources().get(0); //Should be the 'Development room' resource
