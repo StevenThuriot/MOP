@@ -95,7 +95,7 @@ public class Task implements Describable{
 	 * 			TODO: formal definition
 	 */
 	public Task(String description, User user, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCall{
-		taskState = new UnfinishedTaskState(this);
+		this.taskState = new UnfinishedTaskState(this);
 		
 		this.setDescription(description);
 		this.setUser(user);
@@ -192,7 +192,7 @@ public class Task implements Describable{
 	 * all of its required resources are available.
 	 */
 	public Boolean canBeExecuted(){
-		return taskState.canBeExecuted();
+		return this.taskState.canBeExecuted();
 	}
 	
 	/**
@@ -200,7 +200,7 @@ public class Task implements Describable{
 	 * A task can not be finished when it is failed or any of its dependencies is failed.
 	 */
 	public boolean canBeFinished(){
-		return taskState.canBeFinished();
+		return this.taskState.canBeFinished();
 	}
 	
 	/**
@@ -210,14 +210,6 @@ public class Task implements Describable{
 	 */
 	public boolean canHaveAsDependency(Task task){
 		return dependencyHasNoCycle(task) && dependencySatisfiesBusinessRule1(task);
-	}
-	
-	public void clone(Task newTask) throws EmptyStringException, BusinessRule1Exception {
-		// TODO Auto-generated method stub
-		// Define clone to clone the data from the new task into the old one.
-		// e.g. oldTask.clone(newTask)
-		
-		// if invalid data, user can choose to correct
 	}
 	
 	/**
@@ -412,7 +404,7 @@ public class Task implements Describable{
 	 */
 	protected Boolean isPerformed()
 	{
-		return taskState.isPerformed();
+		return this.taskState.isPerformed();
 	}
 	
 	/**
@@ -435,7 +427,25 @@ public class Task implements Describable{
 	 */
 	public Boolean isSuccesful()
 	{
-		return taskState.isSuccesful();
+		return this.taskState.isSuccesful();
+	}
+	
+	/**
+	 * Returns whether a task is unfinished or not.
+	 * @return
+	 */
+	public Boolean isUnfinished()
+	{
+		return this.taskState.isUnfinished();
+	}
+	
+	/**
+	 * Returns whether a task is failed or not.
+	 * @return
+	 */
+	public Boolean isFailed()
+	{
+		return this.taskState.isFailed();
 	}
 	
 	/**
@@ -552,6 +562,15 @@ public class Task implements Describable{
 	}
 	
 	/**
+	 * Returns whether the current task satisfies the business rule 2.
+	 * @return Boolean
+	 */
+	protected Boolean satisfiesBusinessRule2()
+	{
+		return this.taskState.satisfiesBusinessRule2();
+	}
+	
+	/**
 	 * Sets <newDescription> to be the new description of this task.
 	 * @param	newDescription
 	 * 			The new description
@@ -560,7 +579,7 @@ public class Task implements Describable{
 	 * @post	| new.getDescription()== newDescription
 	 */
 	public void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCall{
-		taskState.setDescription(newDescription);
+		this.taskState.setDescription(newDescription);
 	}
 	
 	/**
@@ -575,7 +594,7 @@ public class Task implements Describable{
 		if (newDueDate == null)
 			throw new NullPointerException("Null was passed");
 		
-		taskState.setDueDate(newDueDate);
+		this.taskState.setDueDate(newDueDate);
 	}
 	
 	/**
@@ -595,7 +614,7 @@ public class Task implements Describable{
 	 * @throws IllegalStateChangeException
 	 */
 	public void setFailed() throws IllegalStateChangeException {
-		taskState.setFailed();
+		this.taskState.setFailed();
 	}	
 	
 	/**
@@ -618,7 +637,7 @@ public class Task implements Describable{
 	 * @throws IllegalStateChangeException
 	 */
 	public void setSuccessful() throws IllegalStateChangeException {
-		taskState.setSuccessful();
+		this.taskState.setSuccessful();
 	}
 	
 	/**
@@ -626,7 +645,7 @@ public class Task implements Describable{
 	 * @throws IllegalStateChangeException
 	 */
 	public void setUnfinished() throws IllegalStateChangeException {
-		taskState.setUnfinished();
+		this.taskState.setUnfinished();
 	}
 
 	/**
