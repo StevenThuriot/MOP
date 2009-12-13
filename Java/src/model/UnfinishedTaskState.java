@@ -102,4 +102,30 @@ public class UnfinishedTaskState extends TaskState {
 		
 		return true;
 	}
+	
+	/**
+	 * Returns whether the current task satisfies the business rule 3.
+	 * @return Boolean
+	 */
+	protected Boolean satisfiesBusinessRule3()
+	{
+		GregorianCalendar currentTime = new GregorianCalendar();
+		GregorianCalendar startTime = this.getContext().getStartDate();
+		GregorianCalendar dueTime = this.getContext().getDueDate();
+		boolean answer = false;
+		
+		//Before start time and Unvailable
+		if ( currentTime.before(startTime) && !this.canBeExecuted() ) {
+			//Rule succeeds, continue to next check
+			answer = true;
+		}
+		
+		//After or at the duetime
+		if (answer && !currentTime.before(dueTime) ) {
+			//Rule fails
+			answer = false;
+		}
+		
+		return answer;
+	}
 }
