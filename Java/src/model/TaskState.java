@@ -15,24 +15,14 @@ public abstract class TaskState {
 	}
 
 	/**
-	 * Get the context (The task which this status belongs to)
-	 * @return
+	 * Returns whether a task can be executed right now.
+	 * This is true when all its dependencies are (successfully) finished and
+	 * all of its required resources are available.
 	 */
-	protected Task getContext() {
-		return context;
+	protected Boolean canBeExecuted() 
+	{
+		return false;
 	}	
-	
-	/**
-	 * Sets <newDescription> to be the new description of this task.
-	 * @param	newDescription
-	 * 			The new description
-	 * @throws EmptyStringException 
-	 * @throws IllegalStateCall 
-	 * @post	| new.getDescription()== newDescription
-	 */
-	protected void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCall {
-		throw new IllegalStateCall();
-	}
 	
 	/**
 	 * Returns a boolean indicating whether the current task can be finished.
@@ -44,11 +34,18 @@ public abstract class TaskState {
 	}
 	
 	/**
-	 * Returns whether a task can be executed right now.
-	 * This is true when all its dependencies are (successfully) finished and
-	 * all of its required resources are available.
+	 * Get the context (The task which this status belongs to)
+	 * @return
 	 */
-	protected Boolean canBeExecuted() 
+	protected Task getContext() {
+		return context;
+	}
+	
+	/**
+	 * Returns whether a task is performed or not.
+	 * @return
+	 */
+	protected Boolean isPerformed()
 	{
 		return false;
 	}
@@ -63,12 +60,15 @@ public abstract class TaskState {
 	}
 
 	/**
-	 * Returns whether a task is performed or not.
-	 * @return
+	 * Sets <newDescription> to be the new description of this task.
+	 * @param	newDescription
+	 * 			The new description
+	 * @throws EmptyStringException 
+	 * @throws IllegalStateCall 
+	 * @post	| new.getDescription()== newDescription
 	 */
-	protected Boolean isPerformed()
-	{
-		return false;
+	protected void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCall {
+		throw new IllegalStateCall();
 	}
 	
 	/**
@@ -91,6 +91,16 @@ public abstract class TaskState {
 	//protected void updateTaskStatusRecursively(Status newStatus);	
 	
 	/**
+	 * Set the current state to failed
+	 * @throws IllegalStateChangeException
+	 */
+	protected void setFailed() throws IllegalStateChangeException
+	{
+		//TODO: Implement method
+		throw new IllegalStateChangeException();
+	}
+	
+	/**
 	 * Set the current state to successful
 	 * @throws IllegalStateChangeException
 	 */
@@ -105,16 +115,6 @@ public abstract class TaskState {
 	 * @throws IllegalStateChangeException
 	 */
 	protected void setUnfinished() throws IllegalStateChangeException 
-	{
-		//TODO: Implement method
-		throw new IllegalStateChangeException();
-	}
-	
-	/**
-	 * Set the current state to failed
-	 * @throws IllegalStateChangeException
-	 */
-	protected void setFailed() throws IllegalStateChangeException
 	{
 		//TODO: Implement method
 		throw new IllegalStateChangeException();

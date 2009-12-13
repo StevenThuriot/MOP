@@ -11,9 +11,10 @@ import exception.BusinessRule1Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
+import exception.IllegalStateCall;
+import exception.IllegalStateChangeException;
 
 import model.Resource;
-import model.Status;
 import model.Task;
 import model.User;
 
@@ -35,11 +36,13 @@ public class TaskController {
 	 * @throws EmptyStringException
 	 * @throws BusinessRule1Exception
 	 * @throws DependencyCycleException
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	public Task createTask(String description, GregorianCalendar startDate, 
 			GregorianCalendar dueDate, int duration, 
 			ArrayList<Task> dependencies, ArrayList<Resource> resources, User user) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException
+	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall
 	{
 		Task t = new Task(description, user, startDate, dueDate, duration, dependencies, resources);
 
@@ -48,7 +51,7 @@ public class TaskController {
 	
 	public Task createTask(String description, GregorianCalendar startDate, 
 			GregorianCalendar dueDate, int duration, User user) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException
+	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall
 	{
 		Task t = new Task(description, user, startDate, dueDate, duration);
 		
@@ -71,24 +74,6 @@ public class TaskController {
 	 */
 	public List<Task> getTasks(User user) {
 		return user.getTasks();
-	}
-
-	/**
-	 * Update a tasks status
-	 * @param t
-	 * @param status
-	 * @throws DependencyException
-	 */
-	public void updateTaskStatus(Task t, Status status) throws DependencyException {
-		t.updateTaskStatus(status);
-	}
-
-	/**
-	 * Update the status of the dependant tasks.
-	 * @param task
-	 */
-	public void updateDependantTasks(Task task, Status status){
-		task.updateTaskStatusRecursively(status);	
 	}
 
 	/**
@@ -169,8 +154,9 @@ public class TaskController {
 	 * @param description
 	 * @throws NullPointerException
 	 * @throws EmptyStringException
+	 * @throws IllegalStateCall 
 	 */
-	public void setTaskDescription(Task task, String description) throws NullPointerException, EmptyStringException{
+	public void setTaskDescription(Task task, String description) throws NullPointerException, EmptyStringException, IllegalStateCall{
 		task.setDescription(description);
 	}
 	
@@ -204,5 +190,35 @@ public class TaskController {
 	{
 		return FocusFactory.createFocus(type, user, var1, var2).getTasks();
 		
+	}
+	
+	/**
+	 * Change the current state to Succesful
+	 * @param t the task to change
+	 * @throws IllegalStateChangeException
+	 */
+	public void setSuccessful(Task t) throws IllegalStateChangeException
+	{
+		t.setSuccessful();
+	}
+	
+	/**
+	 * Change the current state to Unfinished
+	 * @param t the task to change
+	 * @throws IllegalStateChangeException
+	 */
+	public void setUnfinished(Task t) throws IllegalStateChangeException
+	{
+		t.setUnfinished();
+	}
+	
+	/**
+	 * Change the current state to Failed
+	 * @param t the task to change
+	 * @throws IllegalStateChangeException
+	 */
+	public void setFailed(Task t) throws IllegalStateChangeException
+	{
+		t.setFailed();
 	}
 }

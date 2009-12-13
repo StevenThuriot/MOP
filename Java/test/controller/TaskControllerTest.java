@@ -18,6 +18,7 @@ import exception.BusinessRule1Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
+import exception.IllegalStateCall;
 
 
 public class TaskControllerTest {
@@ -42,9 +43,11 @@ public class TaskControllerTest {
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	@Test
-	public void createTask() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException
+	public void createTask() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
@@ -58,9 +61,11 @@ public class TaskControllerTest {
 	 * @throws BusinessRule1Exception
 	 * @throws DependencyCycleException
 	 * @throws DependencyException
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	@Test
-	public void removeTask() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException
+	public void removeTask() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);

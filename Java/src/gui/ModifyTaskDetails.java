@@ -11,6 +11,7 @@ import exception.BusinessRule1Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
+import exception.IllegalStateCall;
 
 public class ModifyTaskDetails extends UseCase {
 	public ModifyTaskDetails(){}
@@ -178,6 +179,9 @@ public class ModifyTaskDetails extends UseCase {
 						choice2 = menu.menu("Select Action", "Retry", "Abort");
 						exit = choice2==1;
 						continue;
+					} catch (IllegalStateCall e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					break;
 				case 4:

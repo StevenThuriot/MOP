@@ -31,6 +31,16 @@ public class ProjectController {
     }
     
 	/**
+	 * Bind task and project
+	 * @param project
+	 * @param task
+	 */
+	public void bind(Project project, Task task)
+	{
+		project.bindTask(task);
+	}
+
+	/**
 	 * Create a new Project
 	 * @param description
 	 * @param user
@@ -44,15 +54,6 @@ public class ProjectController {
 	}
 
 	/**
-	 * Remove a Project
-	 * @param p
-	 */
-	public void removeProject(Project p) {
-		p.remove();
-		manager.remove(p);
-	}
-
-	/**
 	 * Get all the projects from a user
 	 * @param user
 	 * @return
@@ -62,12 +63,11 @@ public class ProjectController {
 	}
 	
 	/**
-	 * Bind task and project
-	 * @param project
-	 * @param task
+	 * Remove a Project
+	 * @param p
 	 */
-	public void bind(Project project, Task task)
-	{
-		project.bindTask(task);
+	public void removeProject(Project p) {
+		p.remove();
+		manager.remove(p);
 	}
 }

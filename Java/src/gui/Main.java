@@ -11,6 +11,7 @@ import exception.BusinessRule1Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
+import exception.IllegalStateCall;
 
 import model.User;
 import model.repositories.RepositoryManager;
@@ -47,6 +48,12 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (DependencyException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (NullPointerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalStateCall e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
