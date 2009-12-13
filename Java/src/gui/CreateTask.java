@@ -62,6 +62,7 @@ public class CreateTask extends UseCase {
 			rDescrS.add(r.getDescription());
 		}
 		rDescrS.add("No More");
+		choice = 0;
 		while (hasRes && choice>-1) {
 			choice = menu.menu("Select dependancy", rDescrS);
 			if (!(choice == rDescrS.size() - 1)) {
