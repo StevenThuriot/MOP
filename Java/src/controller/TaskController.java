@@ -75,17 +75,6 @@ public class TaskController {
 	public List<Task> getTasks(User user) {
 		return user.getTasks();
 	}
-
-	/**
-	 * Update a task fully
-	 * @param newTask
-	 * @param oldTask
-	 * @throws EmptyStringException
-	 * @throws BusinessRule1Exception
-	 */
-	public void updateTask(Task newTask, Task oldTask) throws EmptyStringException, BusinessRule1Exception {
-		oldTask.clone(newTask);
-	}
 	
 	/**
 	 * Get the dependent task of task t.

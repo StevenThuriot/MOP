@@ -1,6 +1,7 @@
 package model;
 
 import java.util.GregorianCalendar;
+
 import exception.*;
 
 public abstract class TaskState {
@@ -55,6 +56,24 @@ public abstract class TaskState {
 	 * @return
 	 */
 	protected Boolean isSuccesful()
+	{
+		return false;
+	}
+
+	/**
+	 * Returns whether a task is failed or not.
+	 * @return
+	 */
+	protected Boolean isFailed()
+	{
+		return false;
+	}
+
+	/**
+	 * Returns whether a task is unfinished or not.
+	 * @return
+	 */
+	protected Boolean isUnfinished()
 	{
 		return false;
 	}
@@ -118,6 +137,21 @@ public abstract class TaskState {
 	{
 		//TODO: Implement method
 		throw new IllegalStateChangeException();
+	}
+	
+	/**
+	 * Returns whether the current task satisfies the business rule 2.
+	 * @return Boolean
+	 */
+	protected abstract Boolean satisfiesBusinessRule2();
+	
+	/**
+	 * Returns whether the current task satisfies the business rule 3.
+	 * @return Boolean
+	 */
+	protected Boolean satisfiesBusinessRule3()
+	{
+		return false;
 	}
 	
 }

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import exception.*;
 
@@ -59,5 +60,46 @@ public class UnfinishedTaskState extends TaskState {
 	protected void setDescription(String newDescription)
 			throws EmptyStringException, NullPointerException {
 		this.getContext().doSetDescription(newDescription);
+	}
+	
+	/**
+	 * Returns whether a task is unfinished or not.
+	 * @return
+	 */
+	@Override
+	protected Boolean isUnfinished()
+	{
+		return true;
+	}
+	
+	/**
+	 * Returns whether the current task satisfies the business rule 2.
+	 * @return Boolean
+	 */
+	protected Boolean satisfiesBusinessRule2()
+	{
+		List<Task> list = this.getContext().getTaskDependencyManager().getDependencies();
+		boolean failed = false;
+		boolean unfinished = false;
+		
+		for (Task task : list) {
+			if (task.isFailed()) {
+				failed = true;
+			}
+			
+			if (task.isUnfinished()) {
+				unfinished = true;
+			}
+		}
+		
+		if (failed) {
+			return false;
+		}
+		
+		if (unfinished && this.canBeExecuted()) {
+			return false;
+		}
+		
+		return true;
 	}
 }
