@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Scanner;
 //TODO Handle invallid input
 /**
@@ -75,10 +76,46 @@ public class Menu {
 	 */
 	public <D extends Describable> D menuGen(String title, List<D> options){
 		this.printListGen(title, options);
-		if(s.hasNextInt()){
-			return options.get(s.nextInt());
+		int choice=0;
+		while (true) {
+			while (!s.hasNextInt()) {
+				System.out.println("Incorrect input, try again");
+				s.next();
+			}
+			choice = s.nextInt();
+			if(choice < 0 || choice >= options.size()){
+				System.out.println("Incorrect input, try again");
+				continue;
+			}else
+				break;
 		}
-		throw new InputMismatchException(s.next());
+		return options.get(choice);
+	}
+	
+	/**
+	 * @param title
+	 * @param options
+	 * @return
+	 */
+	public <D extends Describable> ArrayList<D> menuGenMulti(String title, List<D> options){
+		ArrayList<D> l = new ArrayList<D>();
+		this.printListGen(title, options,"No more");
+		int choice = 0;
+		while (true) {
+			while (!s.hasNextInt()) {
+				System.out.println("Incorrect input, try again");
+				s.next();
+			}
+			choice = s.nextInt();
+			if(choice < 0){
+				System.out.println("Incorrect input, try again");
+				continue;
+			}
+			if(choice >= options.size())
+				break;
+			l.add(options.get(choice));
+		}
+		return l;
 	}
 	
 	/**
@@ -88,10 +125,20 @@ public class Menu {
 	 */
 	public int menu(String title, String... options){
 		this.printList(title, options);
-		if(s.hasNextInt()){
-			return s.nextInt();
+		int choice = 0;
+		while (true) {
+			while (!s.hasNextInt()) {
+				System.out.println("Incorrect input, try again");
+				s.next();
+			}
+			choice = s.nextInt();
+			if(choice < 0 || choice >= options.length){
+				System.out.println("Incorrect input, try again");
+				continue;
+			}else
+				break;
 		}
-		throw new InputMismatchException(s.next());
+		return choice;
 	}
 	
 	/**
@@ -136,10 +183,24 @@ public class Menu {
 	 * @param title
 	 * @param list
 	 */
-	public <D extends Describable> void printListGen(String title, List<D> list){
+	/*public <D extends Describable> void printListGen(String title, List<D> list){
 		out.println(title);
 		for(int i = 0; i < list.size();i++){
 			out.println(f.format(i)+": "+list.get(i).getDescription());
+		}
+	}*/
+	
+	/**
+	 * @param title
+	 * @param list
+	 */
+	public <D extends Describable> void printListGen(String title, List<D> list, String... extra){
+		out.println(title);
+		for(int i = 0; i < list.size();i++){
+			out.println(f.format(i)+": "+list.get(i).getDescription());
+		}
+		for(int i = 0; i < extra.length;i++){
+			out.println(f.format(i+list.size())+": "+extra[i+list.size()]);
 		}
 	}
 	
