@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.BusinessRule1Exception;
+import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
@@ -58,9 +59,10 @@ public class TaskTest {
 	 * @throws BusinessRule1Exception 
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
 	@Before
-	public void setUp() throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCall
+	public void setUp() throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCall, BusinessRule3Exception
 	{
 		user = new User("John");
 		startDate = new GregorianCalendar(2009,10,1,12,00);
@@ -88,9 +90,10 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
 	@Test
-	public void initialization() throws EmptyStringException, NullPointerException, IllegalStateCall{
+	public void initialization() throws EmptyStringException, NullPointerException, IllegalStateCall, BusinessRule3Exception{
 		// <task> is initialized with no required resources
 		assertTrue(task.getRequiredResources().isEmpty());
 		// <task> is initialized with no dependencies or depending tasks
@@ -215,9 +218,10 @@ public class TaskTest {
 	 * Tests on dependencies. Tests a proper dependency
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
 	@Test
-	public void dependencies1() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall{
+	public void dependencies1() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall, BusinessRule3Exception{
 		// Try a proper dependency
 		Task task2 = new Task("some name", user, startDate, endDate, 50);
 		task.addDependency(task2);
@@ -238,9 +242,10 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
 	@Test
-	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCall{
+	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCall, BusinessRule3Exception{
 		startDate = new GregorianCalendar(2009,10,4,12,00);
 		endDate = new GregorianCalendar(2009,10,8,12,00);
 		Task task2 = new Task("some name", user, startDate, endDate, 1380);
@@ -260,9 +265,10 @@ public class TaskTest {
 	 * @throws DependencyCycleException 
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
 	@Test
-	public void earliestEnd() throws TaskFailedException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall{
+	public void earliestEnd() throws TaskFailedException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall, BusinessRule3Exception{
 		//<task> takes two hours to complete, earliest end time is 2 hours after the start date
 		assertEquals(new GregorianCalendar(2009,10,1,14,00), task.earliestEndTime());
 		
@@ -282,9 +288,10 @@ public class TaskTest {
 	 * @throws DependencyCycleException 
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
 	@Test
-	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall{
+	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall, BusinessRule3Exception{
 		//Sets up a required resource, and a dependency in both directions
 		task.addRequiredResource(resource);
 		Task task2 = new Task("some dependency",user,startDate,endDate,120);
@@ -307,9 +314,10 @@ public class TaskTest {
 	 * @throws DependencyCycleException 
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
 	@Test
-	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall{
+	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall, BusinessRule3Exception{
 		//Sets up 2 additional resources
 		Resource resource2 = new Resource("some resource",ResourceType.Tool);
 		Resource resource3 = new Resource("some other resource",ResourceType.Tool);

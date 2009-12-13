@@ -8,6 +8,7 @@ import model.User;
 import controller.DispatchController;
 import java.util.GregorianCalendar;
 import exception.BusinessRule1Exception;
+import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.EmptyStringException;
 import exception.IllegalStateCall;
@@ -92,6 +93,9 @@ public class CreateTask extends UseCase {
 			} catch (IllegalStateCall e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			} catch (BusinessRule3Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}else{
 			try {
@@ -106,6 +110,9 @@ public class CreateTask extends UseCase {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IllegalStateCall e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (BusinessRule3Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

@@ -8,6 +8,7 @@ import model.Task;
 import model.User;
 import controller.DispatchController;
 import exception.BusinessRule1Exception;
+import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
@@ -195,6 +196,12 @@ public class ModifyTaskDetails extends UseCase {
 						choice2 = menu.menu("Select Action", "Retry", "Abort");
 						exit = choice2==1;
 						continue;
+					} catch (NullPointerException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (BusinessRule3Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
 					break;
 				default:

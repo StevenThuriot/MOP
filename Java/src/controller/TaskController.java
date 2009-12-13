@@ -8,6 +8,7 @@ import java.util.*;
 import controller.FocusFactory.FocusType;
 
 import exception.BusinessRule1Exception;
+import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
@@ -38,11 +39,12 @@ public class TaskController {
 	 * @throws DependencyCycleException
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
 	public Task createTask(String description, GregorianCalendar startDate, 
 			GregorianCalendar dueDate, int duration, 
 			ArrayList<Task> dependencies, ArrayList<Resource> resources, User user) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall
+	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall, BusinessRule3Exception
 	{
 		Task t = new Task(description, user, startDate, dueDate, duration, dependencies, resources);
 
@@ -51,7 +53,7 @@ public class TaskController {
 	
 	public Task createTask(String description, GregorianCalendar startDate, 
 			GregorianCalendar dueDate, int duration, User user) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall
+	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall, BusinessRule3Exception
 	{
 		Task t = new Task(description, user, startDate, dueDate, duration);
 		
@@ -156,8 +158,10 @@ public class TaskController {
 	 * @param dueDate
 	 * @param duration
 	 * @throws BusinessRule1Exception
+	 * @throws BusinessRule3Exception 
+	 * @throws NullPointerException 
 	 */
-	public void setTaskSchedule(Task task, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws BusinessRule1Exception{
+	public void setTaskSchedule(Task task, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws BusinessRule1Exception, NullPointerException, BusinessRule3Exception{
 		task.updateTaskTiming(startDate, dueDate, duration);
 	}
 	

@@ -15,6 +15,7 @@ import static org.junit.Assert.*;
 
 import controller.TaskController;
 import exception.BusinessRule1Exception;
+import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
@@ -45,9 +46,10 @@ public class TaskControllerTest {
 	 * @throws EmptyStringException 
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
 	@Test
-	public void createTask() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall
+	public void createTask() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall, BusinessRule3Exception
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
@@ -63,9 +65,10 @@ public class TaskControllerTest {
 	 * @throws DependencyException
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
 	@Test
-	public void removeTask() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall
+	public void removeTask() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall, BusinessRule3Exception
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);

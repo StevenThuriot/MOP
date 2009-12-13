@@ -14,6 +14,7 @@ import static org.junit.Assert.*;
 
 import controller.ProjectController;
 import exception.BusinessRule1Exception;
+import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.EmptyStringException;
 import exception.IllegalStateCall;
@@ -105,9 +106,10 @@ public class ProjectControllerTest {
 	 * @throws EmptyStringException 
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 */
 	@Test
-	public void testBind() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall
+	public void testBind() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall, BusinessRule3Exception
 	{
 	    Project p = controller.createProject("Project A",user);
 	    TaskController taskController = new TaskController();

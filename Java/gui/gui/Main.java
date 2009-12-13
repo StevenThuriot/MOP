@@ -8,6 +8,7 @@ import org.w3c.dom.DOMException;
 import controller.DispatchController;
 import controller.XMLParser;
 import exception.BusinessRule1Exception;
+import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
@@ -54,6 +55,9 @@ public class Main {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalStateCall e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (BusinessRule3Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
