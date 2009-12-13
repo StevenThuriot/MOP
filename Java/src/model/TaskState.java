@@ -104,10 +104,7 @@ public abstract class TaskState {
 			throw new NullPointerException("Null was passed");
 		
 		this.getContext().doSetDueDate( newDueDate );
-	}		
-	
-	//Will the observer do this, and how?
-	//protected void updateTaskStatusRecursively(Status newStatus);	
+	}
 	
 	/**
 	 * Set the current state to failed
