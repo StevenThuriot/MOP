@@ -4,7 +4,7 @@ package exception;
 public class BusinessRule1Exception extends Exception {
 	public BusinessRule1Exception()
 	{
-		super("Businessrule 1 violation.");
+		super("Business rule 1 violation.");
 	}	
 	
 	public BusinessRule1Exception(String message)
