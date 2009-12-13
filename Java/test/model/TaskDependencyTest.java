@@ -12,6 +12,7 @@ import org.junit.Test;
 import exception.BusinessRule1Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
+import exception.IllegalStateCall;
 
 public class TaskDependencyTest {
 
@@ -99,7 +100,7 @@ public class TaskDependencyTest {
 	}
 	
 	@Test
-	public void recursiveDependencies1() throws BusinessRule1Exception, DependencyCycleException{
+	public void recursiveDependencies1() throws BusinessRule1Exception, DependencyCycleException, IllegalStateCall{
 		tdm.addDependency(taskHelp);
 		taskHelp.addDependency(taskHelp2);
 		// tdm (or taskMain) should be recursively dependent on both taskHelp and taskHelp2
@@ -108,7 +109,7 @@ public class TaskDependencyTest {
 	}
 	
 	@Test
-	public void recursiveDependencies2() throws BusinessRule1Exception {
+	public void recursiveDependencies2() throws BusinessRule1Exception, IllegalStateCall {
 		tdm.addDependency(taskHelp);
 		// A DependencyCycleException should be thrown here:
 		// taskMain depends on taskHelp which depends on taskMain again

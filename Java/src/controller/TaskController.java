@@ -63,9 +63,10 @@ public class TaskController {
 	/**
 	 * Let a task remove itself
 	 * @param t
+	 * @throws IllegalStateCall 
 	 * @throws DependencyException
 	 */
-	public void removeTask(Task t){
+	public void removeTask(Task t) throws IllegalStateCall{
 		t.remove();
 	}
 	
@@ -114,8 +115,9 @@ public class TaskController {
 	 * @param dependency
 	 * @throws BusinessRule1Exception
 	 * @throws DependencyCycleException
+	 * @throws IllegalStateCall 
 	 */
-	public void addDependency(Task task, Task dependency) throws BusinessRule1Exception, DependencyCycleException
+	public void addDependency(Task task, Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCall
 	{
 		task.addDependency(dependency);
 	}
@@ -125,8 +127,9 @@ public class TaskController {
 	 * @param task
 	 * @param dependency
 	 * @throws DependencyException
+	 * @throws IllegalStateCall 
 	 */
-	public void removeDependency(Task task, Task dependency) throws DependencyException{
+	public void removeDependency(Task task, Task dependency) throws DependencyException, IllegalStateCall{
 		task.removeDependency(dependency);
 	}
 	
@@ -134,8 +137,9 @@ public class TaskController {
 	 * Add required resource to task
 	 * @param task
 	 * @param resource
+	 * @throws IllegalStateCall 
 	 */
-	public void addRequiredResource(Task task, Resource resource){
+	public void addRequiredResource(Task task, Resource resource) throws IllegalStateCall{
 		task.addRequiredResource(resource);
 	}
 	

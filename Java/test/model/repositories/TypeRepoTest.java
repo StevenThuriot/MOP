@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.EmptyStringException;
+import exception.IllegalStateCall;
 import exception.ResourceBusyException;
 import static org.junit.Assert.*;
 public class TypeRepoTest {
@@ -34,7 +35,7 @@ public class TypeRepoTest {
     }
     
     @Test
-    public void testAddRemoveProject()
+    public void testAddRemoveProject() throws IllegalStateCall
     {
         manager.add(proj);
         assertFalse(manager.getProjects().isEmpty());

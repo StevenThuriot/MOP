@@ -14,6 +14,32 @@ public abstract class TaskState {
 	}
 
 	/**
+	 * Adds a dependency to the current task.
+	 * @param 	dependency
+	 * 			The dependency to be added.
+	 * @post	The task is now dependent on <dependency>
+	 * 			| (new.getDependentTasks()).contains(dependent)
+	 * @throws 	BusinessRule1Exception
+	 * 			Adding the dependency would violate business rule 1.
+	 * 			| !this.depencySatisfiesBusinessRule1(dependent)
+	 * @throws 	DependencyCycleException
+	 * 			Adding the dependency would create a dependency cycle.
+	 * 			| !this.dependencyHasNoCycle()
+	 * @throws IllegalStateCall If the call is not allowed in the current state
+	 */
+	protected void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCall{
+		throw new IllegalStateCall();
+	}	
+	
+	/**
+	 * Adds a resource to the resources required for this task.
+	 * @throws IllegalStateCall 
+	 */
+	protected void addRequiredResource(Resource resource) throws IllegalStateCall{
+		throw new IllegalStateCall();
+	}
+	
+	/**
 	 * Returns whether a task can be executed right now.
 	 * This is true when all its dependencies are (successfully) finished and
 	 * all of its required resources are available.
@@ -21,7 +47,7 @@ public abstract class TaskState {
 	protected Boolean canBeExecuted() 
 	{
 		return false;
-	}	
+	}
 	
 	/**
 	 * Returns a boolean indicating whether the current task can be finished.
@@ -31,7 +57,7 @@ public abstract class TaskState {
 	{
 		return false;
 	}
-	
+
 	/**
 	 * Get the context (The task which this status belongs to)
 	 * @return
@@ -39,7 +65,16 @@ public abstract class TaskState {
 	protected Task getContext() {
 		return context;
 	}
-	
+
+	/**
+	 * Returns whether a task is failed or not.
+	 * @return
+	 */
+	protected Boolean isFailed()
+	{
+		return false;
+	}
+
 	/**
 	 * Returns whether a task is performed or not.
 	 * @return
@@ -57,16 +92,7 @@ public abstract class TaskState {
 	{
 		return false;
 	}
-
-	/**
-	 * Returns whether a task is failed or not.
-	 * @return
-	 */
-	protected Boolean isFailed()
-	{
-		return false;
-	}
-
+	
 	/**
 	 * Returns whether a task is unfinished or not.
 	 * @return
@@ -75,7 +101,41 @@ public abstract class TaskState {
 	{
 		return false;
 	}
-
+	
+	/**
+	 * Removes a dependency from this task.
+	 * @param 	dependency
+	 * 			The dependency to be removed.
+	 * @throws DependencyException 
+	 * @throws IllegalStateCall 
+	 * @throws DependencyException 
+	 * @post 	The task is no longer dependent on <dependency>
+	 * 			|! (new.getDependentTasks()).contains(dependent)
+	 */
+	public void removeDependency(Task dependency) throws IllegalStateCall, DependencyException{
+		throw new IllegalStateCall();
+	}
+	
+	/**
+	 * Removes a resource from the resources required for this task.
+	 * @throws IllegalStateCall 
+	 */
+	public void removeRequiredResource(Resource resource) throws IllegalStateCall{
+		throw new IllegalStateCall();
+	}
+	
+	/**
+	 * Returns whether the current task satisfies the business rule 2.
+	 * @return Boolean
+	 */
+	protected abstract Boolean satisfiesBusinessRule2();
+	
+	/**
+	 * Returns whether the current task satisfies the business rule 3.
+	 * @return Boolean
+	 */
+	protected abstract Boolean satisfiesBusinessRule3();
+	
 	/**
 	 * Sets <newDescription> to be the new description of this task.
 	 * @param	newDescription
@@ -105,17 +165,5 @@ public abstract class TaskState {
 	{
 		throw new IllegalStateChangeException();
 	}
-	
-	/**
-	 * Returns whether the current task satisfies the business rule 2.
-	 * @return Boolean
-	 */
-	protected abstract Boolean satisfiesBusinessRule2();
-	
-	/**
-	 * Returns whether the current task satisfies the business rule 3.
-	 * @return Boolean
-	 */
-	protected abstract Boolean satisfiesBusinessRule3();
 	
 }
