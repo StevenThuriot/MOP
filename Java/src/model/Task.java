@@ -571,6 +571,15 @@ public class Task implements Describable{
 	}
 	
 	/**
+	 * Returns whether the current task satisfies the business rule 3.
+	 * @return Boolean
+	 */
+	protected Boolean satisfiesBusinessRule3()
+	{
+		return this.taskState.satisfiesBusinessRule3();
+	}
+	
+	/**
 	 * Sets <newDescription> to be the new description of this task.
 	 * @param	newDescription
 	 * 			The new description

@@ -149,9 +149,6 @@ public abstract class TaskState {
 	 * Returns whether the current task satisfies the business rule 3.
 	 * @return Boolean
 	 */
-	protected Boolean satisfiesBusinessRule3()
-	{
-		return false;
-	}
+	protected abstract Boolean satisfiesBusinessRule3();
 	
 }

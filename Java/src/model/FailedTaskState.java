@@ -35,4 +35,14 @@ public class FailedTaskState extends TaskState {
 		return true;
 	}
 	
+	/**
+	 * Returns whether the current task satisfies the business rule 3.
+	 * @return Boolean
+	 */
+	protected Boolean satisfiesBusinessRule3()
+	{
+		//Rule is always satisfied when failed
+		return true;
+	}
+	
 }
