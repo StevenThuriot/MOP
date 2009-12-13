@@ -1,12 +1,14 @@
 package model;
+
+import java.util.GregorianCalendar;
+
 import exception.*;
 
-public class AvailableTaskState extends TaskState {
-
-	protected AvailableTaskState(Task context) {
+public class UnfinishedTaskState extends TaskState {
+	protected UnfinishedTaskState(Task context) {
 		super(context);
 	}
-
+	
 	/**
 	 * Sets <newDescription> to be the new description of this task.
 	 * @param	newDescription
@@ -42,6 +44,20 @@ public class AvailableTaskState extends TaskState {
 	 */
 	@Override
 	protected Boolean canBeExecuted(){
-		return true;
+		
+		boolean resourceReady = true;
+		boolean depReady = true;
+		
+		GregorianCalendar now = new GregorianCalendar();
+		
+		for(Resource r: this.getContext().getRequiredResources()){
+			resourceReady = resourceReady && (r.availableAt(now, this.getContext().getDuration()));
+		}
+		
+		for(Task t: this.getContext().getDependencies()){
+			depReady = depReady && t.isSuccesful();
+		}
+		
+		return resourceReady && depReady;
 	}
 }
