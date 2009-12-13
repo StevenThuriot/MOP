@@ -1,21 +1,5 @@
 package controller;
 
-import javax.naming.NameNotFoundException;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.ParserConfigurationException;
-import org.w3c.dom.DOMException;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import controller.DispatchController;
-import exception.BusinessRule1Exception;
-import exception.DependencyCycleException;
-import exception.DependencyException;
-import exception.EmptyStringException;
-
 import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
@@ -26,7 +10,28 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Locale;
 
-import model.*;
+import javax.naming.NameNotFoundException;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import model.Project;
+import model.Resource;
+import model.ResourceType;
+import model.Task;
+import model.User;
+
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
+
+import exception.BusinessRule1Exception;
+import exception.DependencyCycleException;
+import exception.DependencyException;
+import exception.EmptyStringException;
+import exception.IllegalStateCall;
 
 /**
  * Usage: Make new XMLParser object and pass along the file location. 
@@ -73,15 +78,6 @@ public class XMLParser {
 	}
 	
 	/**
-	 * Gets the documents root node
-	 * @return
-	 */
-	private Node getRootNode()
-	{
-		return document.getChildNodes().item(0);
-	}
-
-	/**
 	 * Finds a node by name as the child of a given node.
 	 * Only searches in the first level of children.
 	 * @param node
@@ -105,6 +101,15 @@ public class XMLParser {
 		throw new NameNotFoundException();
 	}
 
+	/**
+	 * Gets the documents root node
+	 * @return
+	 */
+	private Node getRootNode()
+	{
+		return document.getChildNodes().item(0);
+	}
+
 	
 	/**
 	 * Creates the all elements in the XML file and gives back a user.
@@ -116,8 +121,10 @@ public class XMLParser {
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule1Exception 
 	 * @throws DependencyException 
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
-	public User Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException
+	public User Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall
 	{
 		Node userNode = this.getNodeByName(this.getRootNode(), "mop:user");
 		Node userName = this.getNodeByName(userNode, "mop:name");
@@ -183,12 +190,13 @@ public class XMLParser {
 			    
 			    int duration = Integer.parseInt(this.getNodeByName(childNode, "mop:duration").getTextContent());
 			    
-			    Status status = Status.valueOf(this.getNodeByName(childNode, "mop:status").getTextContent());
+			    //Status status = Status.valueOf(this.getNodeByName(childNode, "mop:status").getTextContent());
 			    
 			    String projectID = this.getNodeByName(childNode, "mop:refProject").getTextContent();
 				
 			    Task task = controller.getTaskController().createTask(description, startDate, dueDate, duration, user);
-			    controller.getTaskController().updateTaskStatus(task, status);
+			    
+			    //controller.getTaskController().updateTaskStatus(task, status);
 			    
 			    if (projectID.length() > 0 && projectID != null)
 			    {

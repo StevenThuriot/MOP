@@ -16,6 +16,7 @@ import controller.ProjectController;
 import exception.BusinessRule1Exception;
 import exception.DependencyCycleException;
 import exception.EmptyStringException;
+import exception.IllegalStateCall;
 
 
 public class ProjectControllerTest {
@@ -102,9 +103,11 @@ public class ProjectControllerTest {
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	@Test
-	public void testBind() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException
+	public void testBind() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall
 	{
 	    Project p = controller.createProject("Project A",user);
 	    TaskController taskController = new TaskController();

@@ -10,6 +10,7 @@ import java.util.GregorianCalendar;
 import exception.BusinessRule1Exception;
 import exception.DependencyCycleException;
 import exception.EmptyStringException;
+import exception.IllegalStateCall;
 
 public class CreateTask extends UseCase {
 	public CreateTask(){		
@@ -85,6 +86,12 @@ public class CreateTask extends UseCase {
 				System.out.println("Task not completable");
 			} catch (DependencyCycleException e) {
 				System.out.println("Cyclic Dependency");
+			} catch (NullPointerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalStateCall e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}else{
 			try {
@@ -95,6 +102,12 @@ public class CreateTask extends UseCase {
 				System.out.println("Task not completable");
 			} catch (DependencyCycleException e) {
 				System.out.println("Cyclic Dependency");
+			} catch (NullPointerException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IllegalStateCall e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 		}
 	}

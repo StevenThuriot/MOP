@@ -6,7 +6,6 @@ import java.util.GregorianCalendar;
 import model.Project;
 import model.Resource;
 import model.ResourceType;
-import model.Status;
 import model.Task;
 import model.User;
 
@@ -18,6 +17,7 @@ import exception.BusinessRule1Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
+import exception.IllegalStateCall;
 import exception.NotAvailableException;
 import exception.TaskFailedException;
 
@@ -56,9 +56,11 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule1Exception 
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	@Before
-	public void setUp() throws BusinessRule1Exception, DependencyCycleException, EmptyStringException
+	public void setUp() throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCall
 	{
 		user = new User("John");
 		startDate = new GregorianCalendar(2009,10,1,12,00);
@@ -84,9 +86,11 @@ public class TaskTest {
 	/**
 	 * Tests the initialization behavior of Task.
 	 * @throws EmptyStringException 
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	@Test
-	public void initialization() throws EmptyStringException{
+	public void initialization() throws EmptyStringException, NullPointerException, IllegalStateCall{
 		// <task> is initialized with no required resources
 		assertTrue(task.getRequiredResources().isEmpty());
 		// <task> is initialized with no dependencies or depending tasks
@@ -112,7 +116,6 @@ public class TaskTest {
 			
 	}
 
-	
 	/**
 	 * Testing status with scenario:
 	 * Status variable = unfinished
@@ -124,11 +127,13 @@ public class TaskTest {
 	@Test
 	public void checkStatusOne() throws DependencyException
 	{
+		fail();
+		/*
 		try {
 			task.updateTaskStatus(Status.Unfinished);
 		} finally {
 			assertEquals(Status.Available, task.getStatus());
-		}		
+		}*/
 	}
 	
 	/**
@@ -143,14 +148,16 @@ public class TaskTest {
 	@Test
 	public void checkStatusTwo() throws NotAvailableException, DependencyException
 	{
+		fail();/*
 		task.addRequiredResource(resource);
 		
 		task.updateTaskStatus(Status.Unfinished);
 		GregorianCalendar futuretime = new GregorianCalendar();
 		futuretime.add(Calendar.DAY_OF_MONTH, 1);
 		resource.createReservation(new GregorianCalendar(),120,user);
-		assertEquals(Status.Unavailable, task.getStatus());
+		assertEquals(Status.Unavailable, task.getStatus());*/
 	}
+	
 	
 	/**
 	 * Testing status with scenario:
@@ -181,9 +188,11 @@ public class TaskTest {
 	/**
 	 * Test to see if description is set properly
 	 * @throws EmptyStringException
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	@Test
-	public void updateTaskDescription() throws EmptyStringException
+	public void updateTaskDescription() throws EmptyStringException, NullPointerException, IllegalStateCall
 	{
 		task.setDescription("ABC123");
 		assertEquals("ABC123", task.getDescription());
@@ -204,9 +213,11 @@ public class TaskTest {
 	
 	/**
 	 * Tests on dependencies. Tests a proper dependency
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	@Test
-	public void dependencies1() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException{
+	public void dependencies1() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall{
 		// Try a proper dependency
 		Task task2 = new Task("some name", user, startDate, endDate, 50);
 		task.addDependency(task2);
@@ -225,9 +236,11 @@ public class TaskTest {
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	@Test
-	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception{
+	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCall{
 		startDate = new GregorianCalendar(2009,10,4,12,00);
 		endDate = new GregorianCalendar(2009,10,8,12,00);
 		Task task2 = new Task("some name", user, startDate, endDate, 1380);
@@ -245,9 +258,11 @@ public class TaskTest {
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
 	 * @throws DependencyCycleException 
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	@Test
-	public void earliestEnd() throws TaskFailedException, EmptyStringException, BusinessRule1Exception, DependencyCycleException{
+	public void earliestEnd() throws TaskFailedException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall{
 		//<task> takes two hours to complete, earliest end time is 2 hours after the start date
 		assertEquals(new GregorianCalendar(2009,10,1,14,00), task.earliestEndTime());
 		
@@ -265,9 +280,11 @@ public class TaskTest {
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
 	 * @throws DependencyCycleException 
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	@Test
-	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException{
+	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall{
 		//Sets up a required resource, and a dependency in both directions
 		task.addRequiredResource(resource);
 		Task task2 = new Task("some dependency",user,startDate,endDate,120);
@@ -288,9 +305,11 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws BusinessRule1Exception 
 	 * @throws DependencyCycleException 
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	@Test
-	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException{
+	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall{
 		//Sets up 2 additional resources
 		Resource resource2 = new Resource("some resource",ResourceType.Tool);
 		Resource resource3 = new Resource("some other resource",ResourceType.Tool);

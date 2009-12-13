@@ -3,7 +3,6 @@ package gui;
 import java.util.ArrayList;
 
 import model.Resource;
-import model.Status;
 import model.Task;
 import model.User;
 
@@ -74,7 +73,7 @@ public class UpdateTaskStatus extends UseCase {
 		menu.println("Due date: "+menu.format(task.getDueDate()) );
 		menu.println("Duration: "+task.getDuration()+" Minutes");
 		choice = menu.menu("Select Status", "Succesful", "Failed", "Unfinished");
-		Status newStatus = null;
+		/*Status newStatus = null;
 		switch (choice) {
 			case 0:
 				newStatus = Status.Successful;
@@ -85,13 +84,15 @@ public class UpdateTaskStatus extends UseCase {
 			case 2:
 				newStatus = Status.Unfinished;
 				break;
-		}
+		} 
 		try {
 			dController.getTaskController().updateTaskStatus(task, newStatus);
 		} catch (DependencyException e) {
 			if(menu.dialogYesNo("Task has other depedent tasks, updating will change their stus aswell. Continue?"))
+			{
 				dController.getTaskController().updateDependantTasks(task, newStatus);
-		}
+			}
+		}*/
 	}
 
 }

@@ -57,13 +57,8 @@ public class Task implements Describable{
 
 
 	/**
-	 * A Status enumerated object keeping track of the status of a Task.
-	 * @invar	$status is either successful, unfinished or failed. 
-	 * 			Whether a task is available is determined at runtime.
-	 * 			|($status == Status.successul || $status == Status.failed
-	 * 			 	|| $status == Status.unfinished)
+	 * A Status object keeping track of the status of a Task.
 	 */
-	private Status status;
 	private TaskState taskState;
 	
 	/**
@@ -84,6 +79,8 @@ public class Task implements Describable{
 	 * 			The amount of time required to finish a Task, expressed in minutes.
 	 * @throws EmptyStringException 
 	 * @throws BusinessRule1Exception 
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 * @post	The user responsible for this Task is  <user>.
 	 * 			| getUser() == user
 	 * @post	The start date of this Task is <startDate>
@@ -97,8 +94,9 @@ public class Task implements Describable{
 	 * @post	The task has dependencies nor dependent tasks
 	 * 			TODO: formal definition
 	 */
-	public Task(String description, User user, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws EmptyStringException, BusinessRule1Exception{
-		//TODO: hier status constructor aanroepen
+	public Task(String description, User user, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCall{
+		taskState = new UnfinishedTaskState(this);
+		
 		this.setDescription(description);
 		this.setUser(user);
 		this.setStartDate(startDate);
@@ -135,9 +133,11 @@ public class Task implements Describable{
 	 * 			Throws an exception when the construction of this task would lead
 	 * 			to a cycle in the dependencies.
 	 * @throws EmptyStringException 
+	 * @throws IllegalStateCall 
+	 * @throws NullPointerException 
 	 */
 	public Task(String description, User user,GregorianCalendar startDate, GregorianCalendar dueDate, int duration,
-			ArrayList<Task> dependencies, ArrayList<Resource> reqResources) throws BusinessRule1Exception, DependencyCycleException, EmptyStringException{
+			ArrayList<Task> dependencies, ArrayList<Resource> reqResources) throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCall{
 		
 		this(description, user, startDate, dueDate, duration);
 		
@@ -153,39 +153,289 @@ public class Task implements Describable{
 	}
 	
 	/**
-	 * This method removes the task. It works recursively: any other tasks that may
-	 * be dependent on this task will be removed as well.
-	 * @post	All dependencies with all other tasks will be broken
-	 * 			| for each Task t: !(t.getDependencies().contains(this))
-	 * 			|					&& ! (t.getDepepenentTasks().contains(this))
-	 * @post	No resources will still depend on this task
-	 * 			| for each Resource r: !r.getTasksUsing().contains(this)
-	 * @post	No user will be connected with this task any longer.
-	 * 			| for each User u: !(u.getTasks().contains(this))
-	 * In short, the remaining object is completely decoupled from any other model objects,
-	 * and should not be used anymore.
+	 * Adds a dependency to the current task.
+	 * @param 	dependency
+	 * 			The dependency to be added.
+	 * @post	The task is now dependent on <dependency>
+	 * 			| (new.getDependentTasks()).contains(dependent)
+	 * @throws 	BusinessRule1Exception
+	 * 			Adding the dependency would violate business rule 1.
+	 * 			| !this.depencySatisfiesBusinessRule1(dependent)
+	 * @throws 	DependencyCycleException
+	 * 			Adding the dependency would create a dependency cycle.
+	 * 			| !this.dependencyHasNoCycle()
 	 */
-	public void removeRecursively(){
-		//removes all other dependent tasks recursively
-		ArrayList<Task> dependents = new ArrayList<Task>(this.getDependentTasks());
-		for(Task t: dependents){
-			t.removeRecursively();
+	public void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException{
+		
+		if(!this.dependencySatisfiesBusinessRule1(dependency))
+			throw new BusinessRule1Exception(
+			"This dependency would not satisfy business rule 1");
+		
+		if(!this.dependencyHasNoCycle(dependency))
+			throw new DependencyCycleException(
+			"This dependency would create a dependency cycle");
+		
+		getTaskDependencyManager().addDependency(dependency);
+	}
+	
+	/**
+	 * Adds a resource to the resources required for this task.
+	 */
+	public void addRequiredResource(Resource resource){
+		requiredResources.add(resource);
+		resource.addTaskUsing(this);
+	}
+	
+	/**
+	 * Returns whether a task can be executed right now.
+	 * This is true when all its dependencies are (successfully) finished and
+	 * all of its required resources are available.
+	 */
+	public Boolean canBeExecuted(){
+		return taskState.canBeExecuted();
+	}
+	
+	/**
+	 * Returns a boolean indicating whether the current task can be finished.
+	 * A task can not be finished when it is failed or any of its dependencies is failed.
+	 */
+	public boolean canBeFinished(){
+		return taskState.canBeFinished();
+	}
+	
+	/**
+	 * This method returns a boolean indicating whether the current task can be 
+	 * dependent on a task <task>.
+	 * This is false if this dependency would lead to a cycle in the dependencies.
+	 */
+	public boolean canHaveAsDependency(Task task){
+		return dependencyHasNoCycle(task) && dependencySatisfiesBusinessRule1(task);
+	}
+	
+	public void clone(Task newTask) throws EmptyStringException, BusinessRule1Exception {
+		// TODO Auto-generated method stub
+		// Define clone to clone the data from the new task into the old one.
+		// e.g. oldTask.clone(newTask)
+		
+		// if invalid data, user can choose to correct
+	}
+	
+	/**
+	 * This method returns a boolean indicating whether a dependency of the current task
+	 * will lead to a cycle in the dependencies.
+	 * @param 	task
+	 * 			The task to be checked.
+	 */
+	public boolean dependencyHasNoCycle(Task task){
+		return !task.isRecursivelyDependentOn(this) && task!=this;
+	}
+	
+	/**
+	 * Indicates whether a dependency on a task <task> would satisfy business rule 1.
+	 * This is true whenever the earliest end time of <task> plus the duration of the
+	 * current task is before the due date.
+	 * @param task	The task to check.
+	 */
+	public boolean dependencySatisfiesBusinessRule1(Task task){
+		GregorianCalendar earliestEnd = null;
+		try {
+			earliestEnd = task.earliestEndTime();
+		} catch (TaskFailedException e) {
+			return false;
 		}
-		//removes this task from all required resources
-		ArrayList<Resource> resources = new ArrayList<Resource>(this.getRequiredResources());
-		for(Resource r: resources){
-			r.removeTaskUsing(this);
+		earliestEnd.add(Calendar.MINUTE, getDuration());
+		return earliestEnd.compareTo(this.getDueDate()) <= 0;
+	}
+	
+	/**
+	 * Indicates whether the current Task is dependent on a given Task <task>.
+	 */
+	public boolean dependsOn(Task task){
+		return getTaskDependencyManager().dependsOn(task);
+	}
+	
+	/**
+	 * Sets <newDescription> to be the new description of this task.
+	 * @param	newDescription
+	 * 			The new description
+	 * @throws EmptyStringException 
+	 * @post	| new.getDescription()== newDescription
+	 */
+	protected void doSetDescription(String newDescription) throws EmptyStringException, NullPointerException{
+		if (newDescription == null)
+			throw new NullPointerException("Null was passed");
+		
+		if(newDescription.equals(""))
+			throw new EmptyStringException("A task should have a non-empty description");
+		
+		this.description = newDescription;
+	}
+	
+	/**
+	 * Set <newDueDate> to be the new due date for this Task.
+	 * 
+	 * @param 	newDueDate
+	 * 			The new due date for this Task.
+	 * @post	<newDueDate> is the new due date for this Task.
+	 * 			new.getDueDate() == newDueDate
+	 */
+	protected void doSetDueDate(GregorianCalendar newDueDate) throws NullPointerException {
+		if (newDueDate == null)
+			throw new NullPointerException("Null was passed");
+		
+		this.dueDate = (GregorianCalendar) newDueDate.clone();
+	}
+	
+	/**
+	 * Updates the status of this task. This method does not work recursively, 
+	 * and it throws an error if there are other tasks depending on this one and
+	 * the status is changed from successful to unfinished or failed.
+	 * @param 	newStatus
+	 * @throws 	DependencyException
+	 * TODO: finish documentation
+	 */
+	protected void doUpdateTaskStatus(TaskState newState) throws DependencyException{
+		this.taskState = newState;
+	}
+	
+	/**
+	 * Returns the earliest possible end time for a task.
+	 * @return	The earliest time at which this task can be finished.
+	 * @throws 	TaskFailedException 
+	 * 			Throws an exception when the task can not be finished.
+	 * 			A task can not be finished when it is failed or any of its dependencies
+	 * 			is failed.
+	 * 			| !this.canBeFinished()
+	 */
+	public GregorianCalendar earliestEndTime() throws TaskFailedException{
+		
+		if(!this.canBeFinished())
+			throw new TaskFailedException("Task can not be executed");
+		
+		GregorianCalendar earliest = this.getStartDate();
+		
+		for(Task t: getDependencies()){
+			GregorianCalendar earliestNew = t.earliestEndTime();
+			if(earliest.before(earliestNew))
+				earliest = earliestNew;
 		}
-		//break dependencies with all tasks that this task depends on
-		ArrayList<Task> dependencies = new ArrayList<Task>(this.getDependencies());
-		for(Task t: dependencies){
-			try {
-				this.removeDependency(t);
-				//Exception should not occur -- dependency is always there
-			} catch (DependencyException e) {}
-		}
-		// removes this task from the list that its user keeps
-		this.getUser().removeTask(this);
+		
+		// copy earliest end time and add duration
+		GregorianCalendar earliestEnd = new GregorianCalendar();
+		earliestEnd = (GregorianCalendar) earliest.clone();
+//		earliestEnd.set(Calendar.YEAR, earliest.get(Calendar.YEAR));
+//		earliestEnd.set(Calendar.MONTH, earliest.get(Calendar.MONTH));
+//		earliestEnd.set(Calendar.DAY_OF_MONTH, earliest.get(Calendar.DAY_OF_MONTH));
+//		earliestEnd.set(Calendar.HOUR_OF_DAY, earliest.get(Calendar.HOUR_OF_DAY));
+//		earliestEnd.set(Calendar.MINUTE, earliest.get(Calendar.MINUTE));
+		earliestEnd.add(Calendar.MINUTE, duration);
+		
+		//int minutefield = GregorianCalendar.MINUTE;
+		//earliestEnd.add(minutefield, duration);
+		
+		return earliestEnd;
+	}
+	
+	
+	/**
+	 * Returns an ArrayList containing the tasks on which the current task depends.
+	 */
+	public List<Task> getDependencies(){
+		return getTaskDependencyManager().getDependencies();
+	}
+	
+	/**
+	 * Returns an ArrayList containing all the tasks that depend on this task.
+	 */
+	public List<Task> getDependentTasks(){
+		return getTaskDependencyManager().getDependentTasks();
+	}
+	
+	/**
+	 * Returns the description
+	 * @return
+	 */
+	public String getDescription() {
+		return description;
+	}
+	
+	/**
+	 * Returns the due date for this Task,
+	 * 	as an instance of the GregorianCalendar Class.
+	 */
+	public GregorianCalendar getDueDate(){
+		return dueDate;
+	}
+	
+	/**
+	 * Returns the duration of this Task,
+	 * as an integer expressing the amount of minutes required.
+	 */
+	public int getDuration(){
+		return duration;
+	}
+	
+	/**
+	 * Returns an ArrayList containing all the tasks that depend on this task.
+	 * @return
+	 */
+	public List<Resource> getRequiredResources(){
+		return Collections.unmodifiableList(requiredResources);
+	}
+	
+	/**
+	 * Returns the start date for this Task, 
+	 * 	as an instance of the GregorianCalendar Class.
+	 */
+	public GregorianCalendar getStartDate(){
+		return startDate;
+	}
+	
+	/**
+	 * Returns the TaskDependencyManager for this Task.
+	 * @return
+	 */
+	public TaskDependencyManager getTaskDependencyManager(){
+		return tdm;
+	}
+	
+	/**
+	 * Returns the user responsible for this Task.
+	 */
+	public User getUser(){
+		return user;
+	}
+	
+	/**
+	 * Returns whether a task is performed or not.
+	 * @return
+	 */
+	protected Boolean isPerformed()
+	{
+		return taskState.isPerformed();
+	}
+	
+	/**
+	 * This method returns a boolean indicating whether the current task is recursively 
+	 * dependent on a task <task>.
+	 * A task <task1> is recursively dependent on another task <task2> if it is depending 
+	 * on <task2>, or if it is depending on a task that is recursively dependent on <task2>.
+	 * 
+	 * @param task
+	 * @return
+	 */
+	public boolean isRecursivelyDependentOn(Task task){
+		
+		return getTaskDependencyManager().isRecursivelyDependentOn(task);
+	}	
+	
+	/**
+	 * Returns whether a task is succesful or not.
+	 * @return
+	 */
+	public Boolean isSuccesful()
+	{
+		return taskState.isSuccesful();
 	}
 	
 	/**
@@ -227,40 +477,6 @@ public class Task implements Describable{
 		this.getUser().removeTask(this);
 	}
 	
-	public void clone(Task newTask) throws EmptyStringException, BusinessRule1Exception {
-		// TODO Auto-generated method stub
-		// Define clone to clone the data from the new task into the old one.
-		// e.g. oldTask.clone(newTask)
-		
-		// if invalid data, user can choose to correct
-	}
-	
-	/**
-	 * Adds a dependency to the current task.
-	 * @param 	dependency
-	 * 			The dependency to be added.
-	 * @post	The task is now dependent on <dependency>
-	 * 			| (new.getDependentTasks()).contains(dependent)
-	 * @throws 	BusinessRule1Exception
-	 * 			Adding the dependency would violate business rule 1.
-	 * 			| !this.depencySatisfiesBusinessRule1(dependent)
-	 * @throws 	DependencyCycleException
-	 * 			Adding the dependency would create a dependency cycle.
-	 * 			| !this.dependencyHasNoCycle()
-	 */
-	public void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException{
-		
-		if(!this.dependencySatisfiesBusinessRule1(dependency))
-			throw new BusinessRule1Exception(
-			"This dependency would not satisfy business rule 1");
-		
-		if(!this.dependencyHasNoCycle(dependency))
-			throw new DependencyCycleException(
-			"This dependency would create a dependency cycle");
-		
-		getTaskDependencyManager().addDependency(dependency);
-	}
-	
 	/**
 	 * Removes a dependency from this task.
 	 * @param 	dependency
@@ -274,11 +490,39 @@ public class Task implements Describable{
 	}
 	
 	/**
-	 * Adds a resource to the resources required for this task.
+	 * This method removes the task. It works recursively: any other tasks that may
+	 * be dependent on this task will be removed as well.
+	 * @post	All dependencies with all other tasks will be broken
+	 * 			| for each Task t: !(t.getDependencies().contains(this))
+	 * 			|					&& ! (t.getDepepenentTasks().contains(this))
+	 * @post	No resources will still depend on this task
+	 * 			| for each Resource r: !r.getTasksUsing().contains(this)
+	 * @post	No user will be connected with this task any longer.
+	 * 			| for each User u: !(u.getTasks().contains(this))
+	 * In short, the remaining object is completely decoupled from any other model objects,
+	 * and should not be used anymore.
 	 */
-	public void addRequiredResource(Resource resource){
-		requiredResources.add(resource);
-		resource.addTaskUsing(this);
+	public void removeRecursively(){
+		//removes all other dependent tasks recursively
+		ArrayList<Task> dependents = new ArrayList<Task>(this.getDependentTasks());
+		for(Task t: dependents){
+			t.removeRecursively();
+		}
+		//removes this task from all required resources
+		ArrayList<Resource> resources = new ArrayList<Resource>(this.getRequiredResources());
+		for(Resource r: resources){
+			r.removeTaskUsing(this);
+		}
+		//break dependencies with all tasks that this task depends on
+		ArrayList<Task> dependencies = new ArrayList<Task>(this.getDependencies());
+		for(Task t: dependencies){
+			try {
+				this.removeDependency(t);
+				//Exception should not occur -- dependency is always there
+			} catch (DependencyException e) {}
+		}
+		// removes this task from the list that its user keeps
+		this.getUser().removeTask(this);
 	}
 	
 	/**
@@ -287,42 +531,6 @@ public class Task implements Describable{
 	public void removeRequiredResource(Resource resource){
 		requiredResources.remove(resource);
 		resource.removeTaskUsing(this);
-	}
-	
-	/**
-	 * This method returns a boolean indicating whether the current task can be 
-	 * dependent on a task <task>.
-	 * This is false if this dependency would lead to a cycle in the dependencies.
-	 */
-	public boolean canHaveAsDependency(Task task){
-		return dependencyHasNoCycle(task) && dependencySatisfiesBusinessRule1(task);
-	}
-	
-	/**
-	 * This method returns a boolean indicating whether a dependency of the current task
-	 * will lead to a cycle in the dependencies.
-	 * @param 	task
-	 * 			The task to be checked.
-	 */
-	public boolean dependencyHasNoCycle(Task task){
-		return !task.isRecursivelyDependentOn(this) && task!=this;
-	}
-	
-	/**
-	 * Indicates whether a dependency on a task <task> would satisfy business rule 1.
-	 * This is true whenever the earliest end time of <task> plus the duration of the
-	 * current task is before the due date.
-	 * @param task	The task to check.
-	 */
-	public boolean dependencySatisfiesBusinessRule1(Task task){
-		GregorianCalendar earliestEnd = null;
-		try {
-			earliestEnd = task.earliestEndTime();
-		} catch (TaskFailedException e) {
-			return false;
-		}
-		earliestEnd.add(Calendar.MINUTE, getDuration());
-		return earliestEnd.compareTo(this.getDueDate()) <= 0;
 	}
 	
 	/**
@@ -344,129 +552,105 @@ public class Task implements Describable{
 	}
 	
 	/**
-	 * Returns the earliest possible end time for a task.
-	 * @return	The earliest time at which this task can be finished.
-	 * @throws 	TaskFailedException 
-	 * 			Throws an exception when the task can not be finished.
-	 * 			A task can not be finished when it is failed or any of its dependencies
-	 * 			is failed.
-	 * 			| !this.canBeFinished()
+	 * Sets <newDescription> to be the new description of this task.
+	 * @param	newDescription
+	 * 			The new description
+	 * @throws EmptyStringException 
+	 * @throws IllegalStateCall 
+	 * @post	| new.getDescription()== newDescription
 	 */
-	public GregorianCalendar earliestEndTime() throws TaskFailedException{
-		
-		if(!this.canBeFinished())
-			throw new TaskFailedException("Task can not be executed");
-		
-		GregorianCalendar earliest = this.getStartDate();
-		
-		for(Task t: getDependencies()){
-			GregorianCalendar earliestNew = t.earliestEndTime();
-			if(earliest.before(earliestNew))
-				earliest = earliestNew;
-		}
-		
-		// copy earliest end time and add duration
-		GregorianCalendar earliestEnd = new GregorianCalendar();
-		earliestEnd = (GregorianCalendar) earliest.clone();
-//		earliestEnd.set(Calendar.YEAR, earliest.get(Calendar.YEAR));
-//		earliestEnd.set(Calendar.MONTH, earliest.get(Calendar.MONTH));
-//		earliestEnd.set(Calendar.DAY_OF_MONTH, earliest.get(Calendar.DAY_OF_MONTH));
-//		earliestEnd.set(Calendar.HOUR_OF_DAY, earliest.get(Calendar.HOUR_OF_DAY));
-//		earliestEnd.set(Calendar.MINUTE, earliest.get(Calendar.MINUTE));
-		earliestEnd.add(Calendar.MINUTE, duration);
-		
-		//int minutefield = GregorianCalendar.MINUTE;
-		//earliestEnd.add(minutefield, duration);
-		
-		return earliestEnd;
+	public void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCall{
+		taskState.setDescription(newDescription);
 	}
 	
 	/**
-	 * Returns a boolean indicating whether the current task can be finished.
-	 * A task can not be finished when it is failed or any of its dependencies is failed.
-	 */
-	public boolean canBeFinished(){
-		
-		if(this.getStatus() == Status.Failed)
-			return false;
-		
-		boolean canBeF = true;
-		
-		for(Task t: getDependencies()){
-			canBeF = canBeF && t.canBeFinished();
-		}
-		return canBeF;
-	}
-	
-	
-	/**
-	 * This method returns a boolean indicating whether the current task is recursively 
-	 * dependent on a task <task>.
-	 * A task <task1> is recursively dependent on another task <task2> if it is depending 
-	 * on <task2>, or if it is depending on a task that is recursively dependent on <task2>.
+	 * Set <newDueDate> to be the new due date for this Task.
 	 * 
-	 * @param task
-	 * @return
+	 * @param 	newDueDate
+	 * 			The new due date for this Task.
+	 * @post	<newDueDate> is the new due date for this Task.
+	 * 			new.getDueDate() == newDueDate
 	 */
-	public boolean isRecursivelyDependentOn(Task task){
+	public void setDueDate(GregorianCalendar newDueDate) throws NullPointerException {
+		if (newDueDate == null)
+			throw new NullPointerException("Null was passed");
 		
-		return getTaskDependencyManager().isRecursivelyDependentOn(task);
+		taskState.setDueDate(newDueDate);
 	}
 	
 	/**
-	 * Indicates whether the current Task is dependent on a given Task <task>.
+	 * Set <newDuration> to be the new duration of this Task.
+	 * 
+	 * @param 	newDuration
+	 * 			The new duration for this Task.
+	 * @post	<newDuration> is the new duration for this Task.
+	 * 			new.getDuration() == newDuration
 	 */
-	public boolean dependsOn(Task task){
-		return getTaskDependencyManager().dependsOn(task);
+	public void setDuration(int newDuration){
+		this.duration = newDuration;
 	}
+
+	/**
+	 * Change the current state to Failed
+	 * @throws IllegalStateChangeException
+	 */
+	public void setFailed() throws IllegalStateChangeException {
+		taskState.setFailed();
+	}	
 	
 	/**
-	 * Updates the status of this task. This method does not work recursively, 
-	 * and it throws an error if there are other tasks depending on this one and
-	 * the status is changed from successful to unfinished or failed.
-	 * @param 	newStatus
-	 * @throws 	DependencyException
-	 * TODO: finish documentation
+	 * Set <newStartDate> to be the new start date for this Task.
+	 * 
+	 * @param 	newStartDate
+	 * 			The new start date for this Task.
+	 * @post	<newStartDate> is the new start date for this Task.
+	 * 			new.getStartDate() == newStartDate;
 	 */
-	public void updateTaskStatus(Status newStatus) throws DependencyException{
-		if(!getDependentTasks().isEmpty() && this.getStatus() == Status.Successful
-				&& (newStatus == Status.Unfinished || newStatus == Status.Failed) )
-			throw new DependencyException("Other tasks depend on this task. There" +
-			"status might have to be changed.");
+	public void setStartDate(GregorianCalendar newStartDate) throws NullPointerException {
+		if (newStartDate == null)
+			throw new NullPointerException("Null was passed");
 		
-		this.setStatus(newStatus);
+		this.startDate = (GregorianCalendar) newStartDate.clone();
 	}
 	
 	/**
-	 * Updates the status of this task. This method does not work recursively, 
-	 * and it throws an error if there are other tasks depending on this one and
-	 * the status is changed from successful to unfinished or failed.
-	 * @param 	newStatus
-	 * @throws 	DependencyException
-	 * TODO: finish documentation
+	 * Change the current state to Successful
+	 * @throws IllegalStateChangeException
 	 */
-	protected void doUpdateTaskStatus(TaskState newState) throws DependencyException{
-		this.taskState = newState;
+	public void setSuccessful() throws IllegalStateChangeException {
+		taskState.setSuccessful();
 	}
 	
 	/**
-	 * Updates the status of this task. This method works recursively,
-	 * If the status is changed from successful to unfinished or failed, 
-	 * the status of all the dependent tasks will be updated.
-	 * @param newStatus
+	 * Change the current state to Unfinished
+	 * @throws IllegalStateChangeException
 	 */
-	public void updateTaskStatusRecursively(Status newStatus){
+	public void setUnfinished() throws IllegalStateChangeException {
+		taskState.setUnfinished();
+	}
+
+	/**
+	 * Set <newUser> as the User to be responsible for this Task.
+	 * 
+	 * @param 	newUser
+	 * 			The new User to be responsible for this Task.
+	 */
+	public void setUser(User newUser) throws NullPointerException {
+		if (newUser == null)
+			throw new NullPointerException("Null was passed");
 		
-		if (this.getStatus() == Status.Successful && 
-				(newStatus == Status.Unfinished || newStatus == Status.Failed))
-		{
-			for (Task task: this.getDependentTasks()){
-				task.updateTaskStatusRecursively(newStatus);
-			}
-		}
-		this.setStatus(newStatus);
+		this.user = newUser;
 	}
-	
+
+	/**
+	 * Returns a string representation of this Task.
+	 * At the moment, this returns the description.
+	 */
+	@Override
+	public String toString(){
+		return getDescription();
+	}
+
 	/**
 	 * Updates the task's dates
 	 * @param newStart
@@ -509,248 +693,6 @@ public class Task implements Describable{
 			
 			throw new BusinessRule1Exception("");
 		}
-	}
-	
-	/**
-	 * Sets <newDescription> to be the new description of this task.
-	 * @param	newDescription
-	 * 			The new description
-	 * @throws EmptyStringException 
-	 * @post	| new.getDescription()== newDescription
-	 */
-	public void setDescription(String newDescription) throws EmptyStringException, NullPointerException{
-		if (newDescription == null)
-			throw new NullPointerException("Null was passed");
-		
-		if(newDescription.equals(""))
-			throw new EmptyStringException("A task should have a non-empty description");
-		
-		this.description = newDescription;
-	}
-	
-	/**
-	 * Sets <newDescription> to be the new description of this task.
-	 * @param	newDescription
-	 * 			The new description
-	 * @throws EmptyStringException 
-	 * @post	| new.getDescription()== newDescription
-	 */
-	protected void doSetDescription(String newDescription) throws EmptyStringException, NullPointerException{
-		if (newDescription == null)
-			throw new NullPointerException("Null was passed");
-		
-		if(newDescription.equals(""))
-			throw new EmptyStringException("A task should have a non-empty description");
-		
-		this.description = newDescription;
-	}
-	
-	/**
-	 * Set <newUser> as the User to be responsible for this Task.
-	 * 
-	 * @param 	newUser
-	 * 			The new User to be responsible for this Task.
-	 */
-	public void setUser(User newUser) throws NullPointerException {
-		if (newUser == null)
-			throw new NullPointerException("Null was passed");
-		
-		this.user = newUser;
-	}
-	
-	/**
-	 * Set <newStartDate> to be the new start date for this Task.
-	 * 
-	 * @param 	newStartDate
-	 * 			The new start date for this Task.
-	 * @post	<newStartDate> is the new start date for this Task.
-	 * 			new.getStartDate() == newStartDate;
-	 */
-	public void setStartDate(GregorianCalendar newStartDate) throws NullPointerException {
-		if (newStartDate == null)
-			throw new NullPointerException("Null was passed");
-		
-		this.startDate = (GregorianCalendar) newStartDate.clone();
-	}
-	
-	/**
-	 * Set <newDueDate> to be the new due date for this Task.
-	 * 
-	 * @param 	newDueDate
-	 * 			The new due date for this Task.
-	 * @post	<newDueDate> is the new due date for this Task.
-	 * 			new.getDueDate() == newDueDate
-	 */
-	public void setDueDate(GregorianCalendar newDueDate) throws NullPointerException {
-		if (newDueDate == null)
-			throw new NullPointerException("Null was passed");
-		
-		this.dueDate = (GregorianCalendar) newDueDate.clone();
-	}
-	
-	/**
-	 * Set <newDueDate> to be the new due date for this Task.
-	 * 
-	 * @param 	newDueDate
-	 * 			The new due date for this Task.
-	 * @post	<newDueDate> is the new due date for this Task.
-	 * 			new.getDueDate() == newDueDate
-	 */
-	protected void doSetDueDate(GregorianCalendar newDueDate) throws NullPointerException {
-		if (newDueDate == null)
-			throw new NullPointerException("Null was passed");
-		
-		this.dueDate = (GregorianCalendar) newDueDate.clone();
-	}
-	
-	/**
-	 * Set <newDuration> to be the new duration of this Task.
-	 * 
-	 * @param 	newDuration
-	 * 			The new duration for this Task.
-	 * @post	<newDuration> is the new duration for this Task.
-	 * 			new.getDuration() == newDuration
-	 */
-	public void setDuration(int newDuration){
-		this.duration = newDuration;
-	}
-	
-	/**
-	 * Sets <newStatus> to be the new status of this Task.
-	 * 
-	 * @param 	newStatus
-	 * 			The new status of this Task.
-	 * @
-	 */
-	private void setStatus(Status newStatus){
-		if(status == Status.Successful ||
-				status == Status.Failed ||
-				status == Status.Unfinished)
-			this.status = newStatus;
-	}
-	
-	
-	/**
-	 * Returns the user responsible for this Task.
-	 */
-	public User getUser(){
-		return user;
-	}
-	
-	/**
-	 * Returns an ArrayList containing the tasks on which the current task depends.
-	 */
-	public List<Task> getDependencies(){
-		return getTaskDependencyManager().getDependencies();
-	}
-	
-	/**
-	 * Returns an ArrayList containing all the tasks that depend on this task.
-	 */
-	public List<Task> getDependentTasks(){
-		return getTaskDependencyManager().getDependentTasks();
-	}
-	
-	/**
-	 * Returns an ArrayList containing all the tasks that depend on this task.
-	 * @return
-	 */
-	public List<Resource> getRequiredResources(){
-		return Collections.unmodifiableList(requiredResources);
-	}
-	
-	/**
-	 * Returns the start date for this Task, 
-	 * 	as an instance of the GregorianCalendar Class.
-	 */
-	public GregorianCalendar getStartDate(){
-		return startDate;
-	}
-	
-	/**
-	 * Returns the due date for this Task,
-	 * 	as an instance of the GregorianCalendar Class.
-	 */
-	public GregorianCalendar getDueDate(){
-		return dueDate;
-	}
-	
-	/**
-	 * Returns the duration of this Task,
-	 * as an integer expressing the amount of minutes required.
-	 */
-	public int getDuration(){
-		return duration;
-	}
-	
-	
-	/**
-	 * Returns the status of a task.
-	 */
-	public Status getStatus(){
-		if (status == Status.Successful || status == Status.Failed)
-			return status;
-		
-		if (this.canBeExecuted())
-			return Status.Available;
-		else
-			return Status.Unavailable;
-	}
-	
-	/**
-	 * Returns whether a task is succesful or not.
-	 * @return
-	 */
-	public Boolean isSuccesful()
-	{
-		return taskState.isSuccesful();
-	}
-	
-	/**
-	 * Returns whether a task can be executed right now.
-	 * This is true when all its dependencies are (successfully) finished and
-	 * all of its required resources are available.
-	 */
-	public Boolean canBeExecuted(){
-		
-		boolean resourceReady = true;
-		boolean depReady = true;
-		
-		GregorianCalendar now = new GregorianCalendar();
-		
-		for(Resource r: getRequiredResources()){
-			resourceReady = resourceReady && (r.availableAt(now, this.getDuration()));
-		}
-		
-		for(Task t: getDependencies()){
-			depReady = depReady && (t.getStatus() == Status.Successful);
-		}
-		
-		return resourceReady && depReady;
-	}
-	
-	/**
-	 * Returns the description
-	 * @return
-	 */
-	public String getDescription() {
-		return description;
-	}
-	
-	/**
-	 * Returns a string representation of this Task.
-	 * At the moment, this returns the description.
-	 */
-	public String toString(){
-		return getDescription();
-	}
-	
-	/**
-	 * Returns the TaskDependencyManager for this Task.
-	 * @return
-	 */
-	public TaskDependencyManager getTaskDependencyManager(){
-		return tdm;
 	}
 	
 }

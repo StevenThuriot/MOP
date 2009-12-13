@@ -2,17 +2,17 @@ package controller;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
 import java.util.GregorianCalendar;
+import java.util.List;
 
-import exception.EmptyStringException;
-import exception.NotAvailableException;
-import exception.ResourceBusyException;
 import model.Reservation;
 import model.Resource;
 import model.ResourceType;
 import model.User;
 import model.repositories.RepositoryManager;
+import exception.EmptyStringException;
+import exception.NotAvailableException;
+import exception.ResourceBusyException;
 
 /**
  * Controller to interact with resources
@@ -34,6 +34,20 @@ public class ResourceController {
     }
 
     /**
+	 * Create a new reservation
+	 * @param startTime
+	 * @param date
+	 * @param duration
+	 * @param resource
+	 * @param user
+	 * @return
+	 * @throws NotAvailableException
+	 */
+	public Reservation createReservation(GregorianCalendar startTime, int duration, Resource resource, User user) throws NotAvailableException {
+		return resource.createReservation(startTime,  duration, user);
+	}
+
+	/**
 	 * Create a new resource
 	 * @param description
 	 * @param type
@@ -44,15 +58,6 @@ public class ResourceController {
 	    Resource res = new Resource(description, type);
 	    manager.add(res);
 	    return res;
-	}
-
-	/**
-	 * Remove a resource
-	 * @param r
-	 * @throws ResourceBusyException
-	 */
-	public void removeResource(Resource r) throws ResourceBusyException {
-		manager.remove(r);
 	}
 	
 	/**
@@ -78,16 +83,11 @@ public class ResourceController {
 	}
 
 	/**
-	 * Create a new reservation
-	 * @param startTime
-	 * @param date
-	 * @param duration
-	 * @param resource
-	 * @param user
-	 * @return
-	 * @throws NotAvailableException
+	 * Remove a resource
+	 * @param r
+	 * @throws ResourceBusyException
 	 */
-	public Reservation createReservation(GregorianCalendar startTime, int duration, Resource resource, User user) throws NotAvailableException {
-		return resource.createReservation(startTime,  duration, user);
+	public void removeResource(Resource r) throws ResourceBusyException {
+		manager.remove(r);
 	}
 }
