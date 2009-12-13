@@ -1,10 +1,10 @@
-package controller;
+/*package controller;
 
 import gui.Describable;
 import java.util.ArrayList;
 
 public class Wrapper<T extends Describable> implements Describable{
-	
+	/*
 	T t;
 	
 	public Wrapper(T t){
@@ -25,5 +25,5 @@ public class Wrapper<T extends Describable> implements Describable{
 			a.add(new Wrapper<D>(d));
 		return a;
 	}
-
-}
+	 
+}*/

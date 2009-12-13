@@ -44,10 +44,10 @@ public class Menu {
 	 */
 	public String prompt(String message){
 		out.println(message);
-		if(s.hasNext()){
-			return s.next();
-		}
-		throw new RuntimeException();
+		//if(s.hasNext()){
+			return s.next().trim();
+		//}
+		//throw new RuntimeException();
 	}
 	
 	/**
@@ -66,6 +66,19 @@ public class Menu {
 	 */
 	public int menu(String title, List<String> options){
 		return menu(title, options.toArray(new String[0]));
+	}
+	
+	/**
+	 * @param title
+	 * @param options
+	 * @return
+	 */
+	public <D extends Describable> D menuGen(String title, List<D> options){
+		this.printListGen(title, options);
+		if(s.hasNextInt()){
+			return options.get(s.nextInt());
+		}
+		throw new InputMismatchException(s.next());
 	}
 	
 	/**
@@ -97,6 +110,7 @@ public class Menu {
 		}
 		GregorianCalendar grC = new GregorianCalendar();
 		grC.setTime(date);
+		System.out.println(grC);
 		return grC;
 	}
 	
@@ -117,6 +131,17 @@ public class Menu {
 	 */
 	public void printList(String title, List<String> list){
 		printList(title, list.toArray(new String[0]));
+	}
+	
+	/**
+	 * @param title
+	 * @param list
+	 */
+	public <D extends Describable> void printListGen(String title, List<D> list){
+		out.println(title);
+		for(int i = 0; i < list.size();i++){
+			out.println(f.format(i)+": "+list.get(i).getDescription());
+		}
 	}
 	
 	/**
