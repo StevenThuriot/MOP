@@ -33,48 +33,29 @@ public class UpdateTaskStatus extends UseCase {
 	}
 	
 	private void updateTaskStatus(){
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		tasks.addAll(dController.getTaskController().getTasks(user));
-		ArrayList<String> descr = new ArrayList<String>(tasks.size());
-		for (Task t : tasks) {
-			descr.add(t.getDescription());
-		}
-		int choice = menu.menu("Select Task", descr);
-		Task task = tasks.get(choice);
-		updateTaskStatus(task);
+		updateTaskStatus(menu.menuGen("Select Task", dController.getTaskController().getTasks(user)));
 	}
 
 	private void updateTaskStatus(Task task) {
 		int choice;
 		menu.println(task.getDescription());
-		ArrayList<String> descr = new ArrayList<String>();
-		descr.clear();
-		for (Task t : dController.getTaskController().getDependentTasks(task)) {
-			descr.add(t.getDescription());
-		}
-		if(descr.isEmpty())
-			descr.add("None");
-		menu.printList("Dependent Tasks", descr);
-		descr.clear();
-		for (Task t : dController.getTaskController().getDependencies(task)) {
-			descr.add(t.getDescription());
-		}
-		if(descr.isEmpty())
-			descr.add("None");
-		menu.printList("Dependencies", descr);
-		descr.clear();
-		for (Resource r : dController.getTaskController().getRequiredResources(task)) {
-			descr.add(r.getDescription());
-		}
-		if(descr.isEmpty())
-			descr.add("None");
-		menu.printList("Required Resources", descr);
+		if(!dController.getTaskController().hasDependentTasks(task))
+			menu.printListGen("Dependent Tasks", dController.getTaskController().getDependentTasks(task));
+		else
+			System.out.println("Dependent Tasks \n 0: None");
+		if(!dController.getTaskController().hasDependencies(task))
+			menu.printListGen("Dependencies", dController.getTaskController().getDependencies(task));
+		else
+			System.out.println("Dependcies \n 0: None");
+		if(!dController.getTaskController().hasRequiredResources(task))
+			menu.printListGen("Required Resources", dController.getTaskController().getRequiredResources(task));
+		else
+			System.out.println("Required Resources \n 0: None");
 		menu.println("Start date: "+menu.format(task.getStartDate()) );
 		menu.println("Due date: "+menu.format(task.getDueDate()) );
 		menu.println("Duration: "+task.getDuration()+" Minutes");
 		choice = menu.menu("Select Status", "Succesful", "Failed", "Unfinished");
-		/*Status newStatus = null;
-		switch (choice) {
+		/*switch (choice) {
 			case 0:
 				newStatus = Status.Successful;
 				break;
@@ -84,7 +65,8 @@ public class UpdateTaskStatus extends UseCase {
 			case 2:
 				newStatus = Status.Unfinished;
 				break;
-		} 
+		} */
+		/*
 		try {
 			dController.getTaskController().updateTaskStatus(task, newStatus);
 		} catch (DependencyException e) {

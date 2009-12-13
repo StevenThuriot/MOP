@@ -35,46 +35,14 @@ public class CreateTask extends UseCase {
 	
 	private void createTask(){
 		String descr = menu.prompt("Give Task Description");
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		tasks.addAll(dController.getTaskController().getTasks(user));
 		boolean hasDep = menu.dialogYesNo("I can has Dependency?");
 		ArrayList<Task> deps = new ArrayList<Task>();
-		ArrayList<String> tDescrS = new ArrayList<String>();
-		for (Task t : tasks) {
-			tDescrS.add(t.getDescription());
-		}
-		tDescrS.add("No More");
-		int choice = 0;
-		while (hasDep && choice>-1) {
-			choice = menu.menu("Select dependency", tDescrS);
-			if (!(choice == tDescrS.size() - 1)) {
-				deps.add(tasks.get(choice));
-				tasks.remove(choice);
-				tDescrS.remove(choice);
-			}else{
-				choice = -1;
-			}
-		}
+		if(hasDep)
+			deps = menu.menuGenMulti("Select dependency", dController.getTaskController().getTasks(user));
 		boolean hasRes = menu.dialogYesNo("I can has Resource?");
-		ArrayList<Resource> res = new ArrayList<Resource>();
 		ArrayList<Resource> reqRes = new ArrayList<Resource>();
-		res.addAll(dController.getResourceController().getResources());
-		ArrayList<String> rDescrS = new ArrayList<String>(tasks.size());
-		for (Resource r : res) {
-			rDescrS.add(r.getDescription());
-		}
-		rDescrS.add("No More");
-		choice = 0;
-		while (hasRes && choice>-1) {
-			choice = menu.menu("Select dependancy", rDescrS);
-			if (!(choice == rDescrS.size() - 1)) {
-				reqRes.add(res.get(choice));
-				res.remove(choice);
-				rDescrS.remove(choice);
-			}else{
-				choice = -1;
-			}
-		}
+		if(hasRes)
+			reqRes = menu.menuGenMulti("Select dependancy", dController.getResourceController().getResources());
 		GregorianCalendar startDate = menu.promptDate("Give start Date");
 		GregorianCalendar dueDate = menu.promptDate("Give due date");
 		int duration = Integer.parseInt(menu.prompt("Duration?"));
@@ -88,10 +56,10 @@ public class CreateTask extends UseCase {
 			} catch (DependencyCycleException e) {
 				System.out.println("Cyclic Dependency");
 			} catch (NullPointerException e) {
-				// TODO Auto-generated catch block
+				System.out.println("Something very bad has happend");
 				e.printStackTrace();
 			} catch (IllegalStateCall e) {
-				// TODO Auto-generated catch block
+				System.out.println("Nice try mate");
 				e.printStackTrace();
 			} catch (BusinessRule3Exception e) {
 				// TODO Auto-generated catch block
@@ -107,10 +75,10 @@ public class CreateTask extends UseCase {
 			} catch (DependencyCycleException e) {
 				System.out.println("Cyclic Dependency");
 			} catch (NullPointerException e) {
-				// TODO Auto-generated catch block
+				System.out.println("Something very bad has happend");
 				e.printStackTrace();
 			} catch (IllegalStateCall e) {
-				// TODO Auto-generated catch block
+				System.out.println("Nice try mate");
 				e.printStackTrace();
 			} catch (BusinessRule3Exception e) {
 				// TODO Auto-generated catch block

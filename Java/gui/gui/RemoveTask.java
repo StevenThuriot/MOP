@@ -29,24 +29,17 @@ public class RemoveTask extends UseCase {
 	}
 
 	private void removeTask() {
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		tasks.addAll(dController.getTaskController().getTasks(user));
-		ArrayList<String> tDescrS = new ArrayList<String>(tasks.size());
-		for (Task t : tasks) {
-			tDescrS.add(t.getDescription());
-		}
-		tDescrS.add("None");
-		int choice = menu.menu("Select Task to remove", tDescrS);
-		if(choice == tDescrS.size()-1)
+		Task choice = menu.menuGenOpt("Select Task to remove", dController.getTaskController().getTasks(user),"None");
+		if(choice == null)
 			return;
-		if(!dController.getTaskController().hasDependentTasks( tasks.get(choice) ) || (dController.getTaskController().hasDependentTasks( tasks.get(choice) )
+		if(!dController.getTaskController().hasDependentTasks( choice ) || (dController.getTaskController().hasDependentTasks( choice )
 				&& menu.dialogYesNo("Task has dependant tasks, if you remove you remove them all. Continue?")) ){
 			try {
-				dController.getTaskController().removeTask( tasks.get(choice) );
+				dController.getTaskController().removeTask( choice );
 			} catch (IllegalStateCall e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}			
+			}
 		}
 	}
 

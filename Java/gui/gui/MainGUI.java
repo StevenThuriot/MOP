@@ -50,23 +50,14 @@ public class MainGUI implements Runnable{
 	}
 	
 	public void run(){
-		ArrayList<String> uNames = new ArrayList<String>();
-		for(User u: manager.getUsers()){
-			uNames.add(u.getName());
-		}
-		currentUser = manager.getUsers().get(menu.menu("Select User", uNames));
-		ArrayList<String> useCDescr = new ArrayList<String>(useCases.size());
-		for(UseCase u : useCases){
-			useCDescr.add(u.getDescription());
-		}
-		useCDescr.add("Exit");
+		currentUser = menu.menuGen("Select User", manager.getUsers());
 		boolean run = true;
 		while (run) {
-			int choice = menu.menu("Select Action", useCDescr);
-			if (choice == useCDescr.size() - 1) {
+			UseCase choice = menu.menuGenOpt("Select Action", useCases,"Exit");
+			if (choice == null) {
 				run = false;
 			}else{
-			useCases.get(choice).startUseCase(menu, dController, this);
+			choice.startUseCase(menu, dController, this);
 			}
 		}		
 	}
