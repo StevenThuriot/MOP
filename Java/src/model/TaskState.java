@@ -94,7 +94,6 @@ public abstract class TaskState {
 	 */
 	protected void setFailed() throws IllegalStateChangeException
 	{
-		//TODO: Implement method
 		throw new IllegalStateChangeException();
 	}
 	
@@ -104,17 +103,6 @@ public abstract class TaskState {
 	 */
 	protected void setSuccessful() throws IllegalStateChangeException 
 	{
-		//TODO: Implement method
-		throw new IllegalStateChangeException();
-	}
-	
-	/**
-	 * Set the current state to unfinished
-	 * @throws IllegalStateChangeException
-	 */
-	protected void setUnfinished() throws IllegalStateChangeException 
-	{
-		//TODO: Implement method
 		throw new IllegalStateChangeException();
 	}
 	

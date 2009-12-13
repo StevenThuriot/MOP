@@ -128,4 +128,32 @@ public class UnfinishedTaskState extends TaskState {
 		
 		return answer;
 	}
+	
+	/**
+	 * Set the current state to failed
+	 */
+	protected void setFailed()
+	{
+		this.getContext().doSetState( new FailedTaskState(this.getContext()) );
+	}
+	
+	/**
+	 * Set the current state to successful
+	 * @throws IllegalStateChangeException
+	 */
+	protected void setSuccessful() throws IllegalStateChangeException 
+	{
+		boolean check = false;
+		if ( this.canBeExecuted() ) {
+			TaskState newState = new SuccessfulTaskState( this.getContext() );
+			if (newState.satisfiesBusinessRule2() && newState.satisfiesBusinessRule3()) {
+				this.getContext().doSetState(newState);
+				check = true;
+			}
+		}
+		
+		if (!check) {
+			throw new IllegalStateChangeException();
+		}
+	}
 }
