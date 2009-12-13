@@ -266,6 +266,14 @@ public class Task implements Describable{
 	}
 	
 	/**
+	 * Method used to change the state
+	 * @param newState
+	 */
+	protected void doSetState(TaskState newState) {
+		this.taskState = newState;
+	}
+	
+	/**
 	 * Updates the status of this task. This method does not work recursively, 
 	 * and it throws an error if there are other tasks depending on this one and
 	 * the status is changed from successful to unfinished or failed.
@@ -276,6 +284,7 @@ public class Task implements Describable{
 	protected void doUpdateTaskStatus(TaskState newState) throws DependencyException{
 		this.taskState = newState;
 	}
+	
 	
 	/**
 	 * Returns the earliest possible end time for a task.
@@ -314,7 +323,6 @@ public class Task implements Describable{
 		
 		return earliestEnd;
 	}
-	
 	
 	/**
 	 * Returns an ArrayList containing the tasks on which the current task depends.
@@ -386,6 +394,15 @@ public class Task implements Describable{
 	}
 	
 	/**
+	 * Returns whether a task is failed or not.
+	 * @return
+	 */
+	public Boolean isFailed()
+	{
+		return this.taskState.isFailed();
+	}	
+	
+	/**
 	 * Returns whether a task is performed or not.
 	 * @return
 	 */
@@ -406,7 +423,7 @@ public class Task implements Describable{
 	public boolean isRecursivelyDependentOn(Task task){
 		
 		return getTaskDependencyManager().isRecursivelyDependentOn(task);
-	}	
+	}
 	
 	/**
 	 * Returns whether a task is succesful or not.
@@ -424,15 +441,6 @@ public class Task implements Describable{
 	public Boolean isUnfinished()
 	{
 		return this.taskState.isUnfinished();
-	}
-	
-	/**
-	 * Returns whether a task is failed or not.
-	 * @return
-	 */
-	public Boolean isFailed()
-	{
-		return this.taskState.isFailed();
 	}
 	
 	/**
@@ -601,7 +609,7 @@ public class Task implements Describable{
 			throw new BusinessRule3Exception();
 		}
 	}
-	
+
 	/**
 	 * Set <newDuration> to be the new duration of this Task.
 	 * 
@@ -612,15 +620,15 @@ public class Task implements Describable{
 	 */
 	public void setDuration(int newDuration){
 		this.duration = newDuration;
-	}
-
+	}	
+	
 	/**
 	 * Change the current state to Failed
 	 * @throws IllegalStateChangeException
 	 */
 	public void setFailed() throws IllegalStateChangeException {
 		this.taskState.setFailed();
-	}	
+	}
 	
 	/**
 	 * Set <newStartDate> to be the new start date for this Task.
@@ -643,14 +651,6 @@ public class Task implements Describable{
 	 */
 	public void setSuccessful() throws IllegalStateChangeException {
 		this.taskState.setSuccessful();
-	}
-	
-	/**
-	 * Change the current state to Unfinished
-	 * @throws IllegalStateChangeException
-	 */
-	public void setUnfinished() throws IllegalStateChangeException {
-		this.taskState.setUnfinished();
 	}
 
 	/**

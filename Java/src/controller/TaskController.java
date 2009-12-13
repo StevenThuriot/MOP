@@ -196,16 +196,6 @@ public class TaskController {
 	}
 	
 	/**
-	 * Change the current state to Unfinished
-	 * @param t the task to change
-	 * @throws IllegalStateChangeException
-	 */
-	public void setUnfinished(Task t) throws IllegalStateChangeException
-	{
-		t.setUnfinished();
-	}
-	
-	/**
 	 * Change the current state to Failed
 	 * @param t the task to change
 	 * @throws IllegalStateChangeException
