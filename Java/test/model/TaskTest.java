@@ -1,8 +1,6 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 import model.Project;
@@ -107,6 +105,7 @@ public class TaskTest {
 		//One day is available, but the duration is 25 hours. Business Rule exception should be thrown.
 		//Task "MOP" can never be completed in time :>
 		try {
+			@SuppressWarnings("unused")
 			Task task2 = new Task("MOP", user, startDate, endDate, 1500);
 			fail();
 			} catch (BusinessRule1Exception e) {/*Success*/}		

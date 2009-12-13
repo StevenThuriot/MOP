@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import model.Project;
-import model.Task;
 import model.User;
 import model.repositories.RepositoryManager;
 

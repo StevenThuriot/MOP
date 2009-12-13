@@ -1,10 +1,5 @@
 package gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import model.Resource;
-import model.Task;
 import model.User;
 import controller.DispatchController;
 
