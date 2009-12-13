@@ -98,6 +98,26 @@ public class TaskController {
 			return true;
 	}
 	
+	public Boolean hasDependencies(Task task)
+	{
+		int size = task.getDependencies().size();
+		
+		if (size == 0)
+			return false;
+		else
+			return true;
+	}
+	
+	public Boolean hasRequiredResources(Task task)
+	{
+		int size = task.getRequiredResources().size();
+		
+		if (size == 0)
+			return false;
+		else
+			return true;
+	}
+	
 	/**
 	 * Get the tasks this task is dependent on.
 	 * @param task
@@ -170,7 +190,7 @@ public class TaskController {
 	}
 	
 	/**
-	 * Get the resources this task requiers
+	 * Get the resources this task requires
 	 * @param task
 	 * @return
 	 */
