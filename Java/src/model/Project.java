@@ -128,7 +128,7 @@ public class Project implements Describable{
 		if (newDescription == null)
 			throw new NullPointerException("Null was passed");
 		
-		if(newDescription == "")
+		if(newDescription.equals(""))
 			throw new EmptyStringException(
 					"A project must have a non-empty description");
 		description = newDescription;

@@ -98,7 +98,7 @@ public class TaskTest {
 		assertTrue(task.getDependentTasks().isEmpty());
 		// <task> is linked to the user John, and is given the name "Descr"
 		assertTrue(task.getUser() == user);
-		assertTrue(task.getDescription() == "Descr");
+		assertTrue(task.getDescription().equals("Descr"));
 		// <task> should satisfy the business rules
 		assertTrue(task.satisfiesBusinessRule1());
 		// TODO: other BR's here?

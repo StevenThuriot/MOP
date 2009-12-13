@@ -107,7 +107,7 @@ public class UserTest {
 		
 		// Valid name - name should be changed
 		user.setName("Mario");
-		assertTrue(user.getName() == "Mario");
+		assertTrue(user.getName().equals("Mario"));
 	}
 	
 }
