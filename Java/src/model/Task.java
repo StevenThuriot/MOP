@@ -235,6 +235,31 @@ public class Task implements Describable{
 	}
 	
 	/**
+	 * Adds a dependency to the current task.
+	 * @param 	dependency
+	 * 			The dependency to be added.
+	 * @post	The task is now dependent on <dependency>
+	 * 			| (new.getDependentTasks()).contains(dependent)
+	 * @throws 	BusinessRule1Exception
+	 * 			Adding the dependency would violate business rule 1.
+	 * 			| !this.depencySatisfiesBusinessRule1(dependent)
+	 * @throws 	DependencyCycleException
+	 * 			Adding the dependency would create a dependency cycle.
+	 * 			| !this.dependencyHasNoCycle()
+	 */
+	protected void doAddDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException{
+		if(!this.dependencySatisfiesBusinessRule1(dependency))
+			throw new BusinessRule1Exception(
+			"This dependency would not satisfy business rule 1");
+		
+		if(!this.dependencyHasNoCycle(dependency))
+			throw new DependencyCycleException(
+			"This dependency would create a dependency cycle");
+		
+		this.getTaskDependencyManager().addDependency(dependency);
+	}
+	
+	/**
 	 * Adds a resource to the resources required for this task.
 	 */
 	protected void doAddRequiredResource(Resource resource){
@@ -267,6 +292,7 @@ public class Task implements Describable{
 		this.description = newDescription;
 	}
 	
+	
 	/**
 	 * Method used to change the state
 	 * @param newState
@@ -274,7 +300,6 @@ public class Task implements Describable{
 	protected void doSetState(TaskState newState) {
 		this.taskState = newState;
 	}
-	
 	
 	/**
 	 * Updates the status of this task. This method does not work recursively, 
@@ -387,7 +412,7 @@ public class Task implements Describable{
 	 */
 	public GregorianCalendar getStartDate(){
 		return startDate;
-	}
+	}	
 	
 	/**
 	 * Returns the TaskDependencyManager for this Task.
@@ -395,7 +420,7 @@ public class Task implements Describable{
 	 */
 	public TaskDependencyManager getTaskDependencyManager(){
 		return tdm;
-	}	
+	}
 	
 	/**
 	 * Returns the user responsible for this Task.
@@ -578,7 +603,7 @@ public class Task implements Describable{
 	{
 		return this.taskState.satisfiesBusinessRule3();
 	}
-	
+
 	/**
 	 * Sets <newDescription> to be the new description of this task.
 	 * @param	newDescription
@@ -589,8 +614,8 @@ public class Task implements Describable{
 	 */
 	public void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCall{
 		this.taskState.setDescription(newDescription);
-	}
-
+	}	
+	
 	/**
 	 * Set <newDueDate> to be the new due date for this Task.
 	 * 
@@ -613,7 +638,7 @@ public class Task implements Describable{
 			this.dueDate = tmp;
 			throw new BusinessRule3Exception();
 		}
-	}	
+	}
 	
 	/**
 	 * Set <newDuration> to be the new duration of this Task.
@@ -634,7 +659,7 @@ public class Task implements Describable{
 	public void setFailed() throws IllegalStateChangeException {
 		this.taskState.setFailed();
 	}
-	
+
 	/**
 	 * Set <newStartDate> to be the new start date for this Task.
 	 * 
@@ -670,7 +695,7 @@ public class Task implements Describable{
 		
 		this.user = newUser;
 	}
-
+	
 	/**
 	 * Returns a string representation of this Task.
 	 * At the moment, this returns the description.
@@ -679,6 +704,7 @@ public class Task implements Describable{
 	public String toString(){
 		return getDescription();
 	}
+	
 	
 	/**
 	 * Updates the task's dates
