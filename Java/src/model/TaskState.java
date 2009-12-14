@@ -75,15 +75,6 @@ public abstract class TaskState {
 	{
 		return false;
 	}
-	
-	/**
-	 * Returns a boolean indicating whether the current task can be finished.
-	 * A task can not be finished when it is failed or any of its dependencies is failed.
-	 */
-	protected boolean canBeFinished()
-	{
-		return false;
-	}
 
 	/**
 	 * Get the context (The task which this status belongs to)
@@ -98,15 +89,6 @@ public abstract class TaskState {
 	 * @return
 	 */
 	protected Boolean isFailed()
-	{
-		return false;
-	}
-
-	/**
-	 * Returns whether a task is performed or not.
-	 * @return
-	 */
-	protected Boolean isPerformed()
 	{
 		return false;
 	}

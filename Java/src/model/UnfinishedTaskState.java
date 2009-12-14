@@ -33,7 +33,7 @@ public class UnfinishedTaskState extends TaskState {
 			"This dependency would create a dependency cycle");
 		
 		this.getContext().getTaskDependencyManager().addDependency(dependency);
-	}	
+	}
 	
 	/**
 	 * Adds a resource to the resources required for this task.
@@ -70,21 +70,6 @@ public class UnfinishedTaskState extends TaskState {
 		}
 		
 		
-	}
-	
-	/**
-	 * Returns a boolean indicating whether the current task can be finished.
-	 * A task can not be finished when it is failed or any of its dependencies is failed.
-	 */
-	@Override
-	protected boolean canBeFinished()
-	{
-		boolean canBeF = true;
-		
-		for(Task t: this.getContext().getDependencies()){
-			canBeF = canBeF && t.canBeFinished();
-		}
-		return canBeF;
 	}
 	
 	/**

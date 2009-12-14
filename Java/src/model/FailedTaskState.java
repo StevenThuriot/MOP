@@ -7,16 +7,6 @@ public class FailedTaskState extends TaskState {
 	}
 	
 	/**
-	 * Returns whether a task is performed or not.
-	 * @return
-	 */
-	@Override
-	protected Boolean isPerformed()
-	{
-		return true;
-	}
-	
-	/**
 	 * Returns whether a task is failed or not.
 	 * @return
 	 */

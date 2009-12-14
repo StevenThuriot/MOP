@@ -1,7 +1,5 @@
 package gui;
 
-import java.util.ArrayList;
-
 import model.Task;
 import model.User;
 import controller.DispatchController;

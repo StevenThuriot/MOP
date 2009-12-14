@@ -1,8 +1,5 @@
 package gui;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import model.Project;
 import model.Task;
 import model.User;

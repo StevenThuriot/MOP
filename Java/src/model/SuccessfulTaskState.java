@@ -28,25 +28,6 @@ public class SuccessfulTaskState extends TaskState {
 	}
 	
 	/**
-	 * Returns a boolean indicating whether the current task can be finished.
-	 * A task can not be finished when it is failed or any of its dependencies is failed.
-	 */
-	@Override
-	protected boolean canBeFinished() {
-		return true;
-	}
-	
-	/**
-	 * Returns whether a task is performed or not.
-	 * @return
-	 */
-	@Override
-	protected Boolean isPerformed()
-	{
-		return true;
-	}
-	
-	/**
 	 * Returns whether a task is succesful or not.
 	 * @return
 	 */
