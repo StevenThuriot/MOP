@@ -205,7 +205,7 @@ public class TaskTest {
 	@Test
 	public void assignTaskProject() throws EmptyStringException
 	{
-		Project p = new Project(user, "Proj");
+		Project p = new Project("Proj");
 		p.bindTask(task);
 		
 		assertTrue(p.getTasks().contains(task));

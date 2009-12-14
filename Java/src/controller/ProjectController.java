@@ -48,8 +48,8 @@ public class ProjectController {
 	 * @return
 	 * @throws EmptyStringException
 	 */
-	public Project createProject(String description, User user) throws EmptyStringException {
-		Project project = new Project(user, description);
+	public Project createProject(String description) throws EmptyStringException {
+		Project project = new Project(description);
 		manager.add(project);
 		return project;
 	}
@@ -59,7 +59,7 @@ public class ProjectController {
 	 * @param user
 	 * @return
 	 */
-	public List<Project> getProjects(User user) {
+	public List<Project> getProjects() {
 		return manager.getProjects();
 	}
 	

@@ -173,7 +173,7 @@ public class XMLParser {
 				String id = childNode.getAttributes().item(0).getTextContent();
 				String description = this.getNodeByName(childNode, "mop:description").getTextContent();
 				
-				projectMap.put(id, controller.getProjectController().createProject(description, user));				
+				projectMap.put(id, controller.getProjectController().createProject(description));				
 		    }
 		}	
 		

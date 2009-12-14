@@ -25,7 +25,7 @@ public class CreateProject extends UseCase {
 	
 	private void createProject(){
 		try {
-			dController.getProjectController().createProject(menu.prompt("Give Project Description"), user);
+			dController.getProjectController().createProject(menu.prompt("Give Project Description"));
 		} catch (EmptyStringException e) {
 			System.out.println("Project Description Empty");
 		}
