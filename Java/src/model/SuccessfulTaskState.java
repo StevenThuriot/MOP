@@ -93,22 +93,13 @@ public class SuccessfulTaskState extends TaskState {
 	{
 		GregorianCalendar currentTime = new GregorianCalendar();
 		GregorianCalendar startTime = this.getContext().getStartDate();
-		GregorianCalendar dueTime = this.getContext().getDueDate();
-		boolean answer = false;
 		
 		//Not before start time
 		if ( !currentTime.before(startTime) ) {
-			//Rule succeeds, continue to next check
-			answer = true;
+			return true;
 		}
 		
-		//Not after or at the duetime
-		if ( !( answer && !currentTime.before(dueTime) )) {
-			//Rule fails
-			answer = false;
-		}
-		
-		return answer;
+		return false;
 	}
 
 	@Override
