@@ -55,15 +55,21 @@ public class UnfinishedTaskState extends TaskState {
 		
 		GregorianCalendar now = new GregorianCalendar();
 		
-		for(Resource r: this.getContext().getRequiredResources()){
-			resourceReady = resourceReady && (r.availableAt(now, this.getContext().getDuration()));
+		if (now.before(this.getContext().getStartDate())) {
+			for(Resource r: this.getContext().getRequiredResources()){
+				resourceReady = resourceReady && (r.availableAt(now, this.getContext().getDuration()));
+			}
+			
+			for(Task t: this.getContext().getDependencies()){
+				depReady = depReady && t.isSuccesful();
+			}
+			
+			return resourceReady && depReady;	
+		} else {
+			return false;
 		}
 		
-		for(Task t: this.getContext().getDependencies()){
-			depReady = depReady && t.isSuccesful();
-		}
 		
-		return resourceReady && depReady;
 	}
 	
 	/**
@@ -152,17 +158,10 @@ public class UnfinishedTaskState extends TaskState {
 		GregorianCalendar currentTime = new GregorianCalendar();
 		GregorianCalendar startTime = this.getContext().getStartDate();
 		GregorianCalendar dueTime = this.getContext().getDueDate();
-		boolean answer = false;
 		
-		//Before start time and Unvailable
-		if ( currentTime.before(startTime) && !this.canBeExecuted() ) {
-			//Rule succeeds, continue to next check
-			answer = true;
-		}
+		boolean answer = !(currentTime.before(startTime) && this.canBeExecuted());
 		
-		//After or at the duetime
-		if (answer && !currentTime.before(dueTime) ) {
-			//Rule fails
+		if ( !currentTime.before(dueTime) ) {
 			answer = false;
 		}
 		

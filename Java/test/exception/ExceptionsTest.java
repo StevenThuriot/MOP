@@ -10,7 +10,7 @@ public class ExceptionsTest {
     public void testExceptions()
     {
         //BusinessRule1Exception
-        assertEquals("Businessrule 1 violation.", (new BusinessRule1Exception()).getMessage());
+        assertEquals("Business rule 1 violation.", (new BusinessRule1Exception()).getMessage());
         assertEquals("MSG", (new BusinessRule1Exception("MSG")).getMessage());
         //DependencyCycleException
         assertEquals("MSG", (new DependencyCycleException("MSG")).getMessage());
