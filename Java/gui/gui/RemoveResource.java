@@ -28,17 +28,10 @@ public class RemoveResource extends UseCase {
 	}
 	
 	private void removeResource(){
-		ArrayList<Resource> res = new ArrayList<Resource>();
-		res.addAll(dController.getResourceController().getResources());
-		ArrayList<String> rDescrS = new ArrayList<String>();
-		for (Resource r : res) {
-			rDescrS.add(r.getDescription());
-		}
-		rDescrS.add("None");
-		int choice = menu.menu("Select resource to remove", rDescrS);
-		if (choice != rDescrS.size()-1) {
+		Resource choice = menu.menuGenOpt("Select resource to remove", dController.getResourceController().getResources(),"None");
+		if (choice != null) {
 			try {
-				dController.getResourceController().removeResource(res.get(choice));
+				dController.getResourceController().removeResource(choice);
 			} catch (ResourceBusyException e) {
 				System.out.println("Resource is required by a task, Aborting...Done");
 			}
