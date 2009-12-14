@@ -1,10 +1,14 @@
 package model;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
+
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 import org.junit.Test;
 
+import exception.BusinessRule1Exception;
+import exception.BusinessRule3Exception;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 
@@ -31,6 +35,32 @@ public class ProjectTest {
     public void createNullProject() throws EmptyStringException, NullPointerException
     {
         new Project(null);
+    }
+    
+    /**
+     * Create a project as it should
+     * @throws EmptyStringException 
+     * @throws NullPointerException 
+     */
+    @Test
+    public void createNormalProject() throws NullPointerException, EmptyStringException
+    {
+        Project hi = new Project("Hi");
+        assertEquals("Hi", hi.getDescription());
+    }
+    
+    @Test
+    public void testTask() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+    {
+        Project proj = new Project("ABC");
+        User user = new User("John");
+        GregorianCalendar endDate = new GregorianCalendar();
+        endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
+        Task task = new Task("Descr",user,new GregorianCalendar(),endDate,120);
+        proj.bindTask(task);
+        assertTrue(proj.getTasks().contains(task));
+        proj.remove();
+        assertFalse(user.getTasks().contains(task));
     }
     
 }

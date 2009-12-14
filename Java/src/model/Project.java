@@ -75,14 +75,6 @@ public class Project implements Describable{
 	}
 	
 	/**
-	 * Returns a String representation of this Project. At the moment,
-	 * returns the description.
-	 */
-	public String toString(){
-		return getDescription();
-	}
-	
-	/**
 	 * Returns an ArrayList of the tasks that are in this project.
 	 */
 	public List<Task> getTasks(){
