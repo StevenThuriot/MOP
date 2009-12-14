@@ -33,6 +33,7 @@ import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCall;
+import exception.IllegalStateChangeException;
 
 /**
  * Usage: Make new XMLParser object and pass along the file location. 
@@ -192,13 +193,17 @@ public class XMLParser {
 			    
 			    int duration = Integer.parseInt(this.getNodeByName(childNode, "mop:duration").getTextContent());
 			    
-			    //Status status = Status.valueOf(this.getNodeByName(childNode, "mop:status").getTextContent());
+			    String state = this.getNodeByName(childNode, "mop:status").getTextContent();
 			    
 			    String projectID = this.getNodeByName(childNode, "mop:refProject").getTextContent();
 				
 			    Task task = controller.getTaskController().createTask(description, startDate, dueDate, duration, user);
 			    
-			    //controller.getTaskController().updateTaskStatus(task, status);
+			    try {
+					controller.getTaskController().parseStateString(task, state);
+				} catch (IllegalStateChangeException e) {
+					//This will never happen.
+				}
 			    
 			    if (projectID.length() > 0 && projectID != null)
 			    {
