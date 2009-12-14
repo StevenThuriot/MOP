@@ -29,21 +29,8 @@ public class AssignTaskToProject extends UseCase {
 	}
 	
 	private void assignTaskToProject(){
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		tasks.addAll(dController.getTaskController().getTasks(user));
-		ArrayList<String> tDescrS = new ArrayList<String>(tasks.size());
-		for (Task t : tasks) {
-			tDescrS.add(t.getDescription());
-		}
-		int choice = menu.menu("Select task", tDescrS);
-		Task task = tasks.get(choice);
-		List<Project> projects = dController.getProjectController().getProjects(user);
-		ArrayList<String> pDescr = new ArrayList<String>();
-		for(Project p :  projects){
-			pDescr.add(p.getDescription());
-		}
-		choice = menu.menu("Selct Project", pDescr);
-		Project project = projects.get(choice);
+		Task task = menu.menuGen("Select task", dController.getTaskController().getTasks(user));
+		Project project = menu.menuGen("Selct Project", dController.getProjectController().getProjects(user));
 		dController.getProjectController().bind(project, task);
 	}
 

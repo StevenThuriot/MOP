@@ -28,17 +28,11 @@ public class RemoveProject extends UseCase {
 	}
 
 	private void removeProject() {
-		List<Project> projects = dController.getProjectController().getProjects(user);
-		ArrayList<String> pDescr = new ArrayList<String>();
-		for(Project p :  projects){
-			pDescr.add(p.getDescription());
-		}
-		pDescr.add("None");
-		int choice = menu.menu("Select Task to remove", pDescr);
-		if(choice == pDescr.size()-1)
+		Project choice = menu.menuGenOpt("Select Task to remove", dController.getProjectController().getProjects(user), "None");
+		if(choice == null)
 			return;
 		try {
-			dController.getProjectController().removeProject(projects.get(choice));
+			dController.getProjectController().removeProject(choice);
 		} catch (IllegalStateCall e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

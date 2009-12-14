@@ -50,35 +50,35 @@ public class CreateTask extends UseCase {
 			try {
 				dController.getTaskController().createTask(descr, startDate, dueDate, duration, deps, reqRes, user);
 			} catch (EmptyStringException e) {
-				System.out.println("Empty description");
+				menu.println("Empty description");
 			} catch (BusinessRule1Exception e) {
-				System.out.println("Task not completable");
+				menu.println("Task not completable");
 			} catch (DependencyCycleException e) {
-				System.out.println("Cyclic Dependency");
+				menu.println("Cyclic Dependency");
 			} catch (NullPointerException e) {
-				System.out.println("Something very bad has happend");
+				menu.println("Something very bad has happend");
 				e.printStackTrace();
 			} catch (IllegalStateCall e) {
-				System.out.println("Nice try mate");
-				e.printStackTrace();
+				menu.println("Nice try mate");
+				//e.printStackTrace();
 			} catch (BusinessRule3Exception e) {
 				// TODO Auto-generated catch block
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}else{
 			try {
 				dController.getTaskController().createTask(descr, startDate, dueDate, duration, user);
 			} catch (EmptyStringException e) {
-				System.out.println("Empty description");
+				menu.println("Empty description");
 			} catch (BusinessRule1Exception e) {
-				System.out.println("Task not completable");
+				menu.println("Task not completable");
 			} catch (DependencyCycleException e) {
-				System.out.println("Cyclic Dependency");
+				menu.println("Cyclic Dependency");
 			} catch (NullPointerException e) {
-				System.out.println("Something very bad has happend");
+				menu.println("Something very bad has happend");
 				e.printStackTrace();
 			} catch (IllegalStateCall e) {
-				System.out.println("Nice try mate");
+				menu.println("Nice try mate");
 				e.printStackTrace();
 			} catch (BusinessRule3Exception e) {
 				// TODO Auto-generated catch block
