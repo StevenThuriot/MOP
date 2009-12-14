@@ -193,4 +193,6 @@ public abstract class TaskState {
 		throw new IllegalStateChangeException();
 	}
 	
+	public abstract String toString();
+	
 }

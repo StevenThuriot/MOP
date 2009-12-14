@@ -110,4 +110,9 @@ public class SuccessfulTaskState extends TaskState {
 		
 		return answer;
 	}
+
+	@Override
+	public String toString() {
+		return "Successful";
+	}
 }

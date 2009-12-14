@@ -210,4 +210,9 @@ public class UnfinishedTaskState extends TaskState {
 			throw new IllegalStateChangeException();
 		}
 	}
+
+	@Override
+	public String toString() {
+		return "Unfinished";
+	}
 }
