@@ -24,15 +24,7 @@ public class UnfinishedTaskState extends TaskState {
 	 * 			| !this.dependencyHasNoCycle()
 	 */
 	protected void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException{
-		if(!this.getContext().dependencySatisfiesBusinessRule1(dependency))
-			throw new BusinessRule1Exception(
-			"This dependency would not satisfy business rule 1");
-		
-		if(!this.getContext().dependencyHasNoCycle(dependency))
-			throw new DependencyCycleException(
-			"This dependency would create a dependency cycle");
-		
-		this.getContext().getTaskDependencyManager().addDependency(dependency);
+		this.getContext().doAddDependency(dependency);
 	}
 	
 	/**
