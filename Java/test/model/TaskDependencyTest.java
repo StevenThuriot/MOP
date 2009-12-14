@@ -3,6 +3,7 @@ package model;
 import static org.junit.Assert.*;
 
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import org.junit.After;
@@ -42,8 +43,10 @@ public class TaskDependencyTest {
 	public void setUp() throws Exception {
 		//sets up a new Task
 		User user = new User("John");
-		GregorianCalendar startDate = new GregorianCalendar(2009,10,1,12,00);
-		GregorianCalendar endDate = new GregorianCalendar(2009,10,5,12,00);
+		GregorianCalendar startDate = new GregorianCalendar();
+		GregorianCalendar endDate = new GregorianCalendar();
+		endDate.add(Calendar.DAY_OF_YEAR, 4);
+		// 4 days to finish the task from now on
 		int duration = 1;
 		taskMain = new Task("Main Task",user,startDate,endDate,duration);
 		//sets up a second Task

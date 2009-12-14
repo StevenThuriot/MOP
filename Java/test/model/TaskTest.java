@@ -41,10 +41,6 @@ public class TaskTest {
 	 */
 	private GregorianCalendar endDate;
 	
-	/**
-	 * Correct Duration according to endDate - startDate & Business Rule 1
-	 */
-	private GregorianCalendar correctDuration;
 	
 	/**
 	 * Resource to be added to the Task
@@ -65,8 +61,9 @@ public class TaskTest {
 	public void setUp() throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCall, BusinessRule3Exception
 	{
 		user = new User("John");
-		startDate = new GregorianCalendar(2009,10,1,12,00);
-		endDate = new GregorianCalendar(2009,10,5,12,00);
+		startDate = new GregorianCalendar();//Now
+		endDate = new GregorianCalendar();
+		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 		resource = new Resource("Projector", ResourceType.Tool);
 		task = new Task("Descr",user,startDate,endDate,120);
 			
@@ -82,7 +79,6 @@ public class TaskTest {
 		task = null;
 		startDate = null;
 		endDate = null;
-		correctDuration = null;
 	}
 	
 	/**
@@ -107,10 +103,11 @@ public class TaskTest {
 		// TODO: other BR's here?
 		
 		//Try a different task, that fails business rule 1
-		startDate = new GregorianCalendar(2009,10,1,12,00);
-		endDate = new GregorianCalendar(2009,10,2,12,00);
+		startDate = new GregorianCalendar();
+		endDate = new GregorianCalendar();
+		endDate.add(Calendar.DAY_OF_YEAR,1);
 		//One day is available, but the duration is 25 hours. Business Rule exception should be thrown.
-		//Task "MOP" can never be completed in time :>
+		//Task "MOP" can never be completed in time :-(
 		try {
 			@SuppressWarnings("unused")
 			Task task2 = new Task("MOP", user, startDate, endDate, 1500);
@@ -246,10 +243,12 @@ public class TaskTest {
 	 */
 	@Test
 	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCall, BusinessRule3Exception{
-		startDate = new GregorianCalendar(2009,10,4,12,00);
-		endDate = new GregorianCalendar(2009,10,8,12,00);
+		startDate = new GregorianCalendar();
+		startDate.add(Calendar.DAY_OF_YEAR, 3);
+		endDate = new GregorianCalendar();
+		endDate.add(Calendar.DAY_OF_YEAR, 5);
 		Task task2 = new Task("some name", user, startDate, endDate, 1380);
-		// <task2> starts on the 4th and takes 23 hours. <task> takes another 2 hours
+		// <task2> starts after 3 days and takes 23 hours. <task> takes another 2 hours
 		// This dependency will not satisfy business rule 1
 		try {
 			task.addDependency(task2);
@@ -270,14 +269,20 @@ public class TaskTest {
 	@Test
 	public void earliestEnd() throws TaskFailedException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall, BusinessRule3Exception{
 		//<task> takes two hours to complete, earliest end time is 2 hours after the start date
-		assertEquals(new GregorianCalendar(2009,10,1,14,00), task.earliestEndTime());
+		GregorianCalendar earliestEnd = new GregorianCalendar();
+		earliestEnd.add(Calendar.HOUR, 2);
+		assertEquals(earliestEnd, task.earliestEndTime());
 		
-		startDate = new GregorianCalendar(2009,10,2,12,00);
-		endDate = new GregorianCalendar(2009,10,8,12,00);
+		startDate = new GregorianCalendar();
+		startDate.add(Calendar.DAY_OF_YEAR, 1);
+		endDate = new GregorianCalendar();
+		endDate.add(Calendar.DAY_OF_YEAR, 5);
 		Task task2 = new Task("some name", user, startDate, endDate, 1440);
 		task.addDependency(task2);
 		//<task2> takes 24 hours to complete, <task> takes another 2.
 		// Earliest end time should be 26 hours after the startDate of <task2>
+		earliestEnd = startDate;
+		earliestEnd.add(Calendar.HOUR, 26);
 		assertEquals(new GregorianCalendar(2009, 10, 3, 14,00), task.earliestEndTime());		
 	}
 	

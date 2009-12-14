@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.*;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -32,10 +33,10 @@ public class ResourceTest {
 		resource = new Resource("Description",ResourceType.Room);
 		user = new User("John");
 		
-		GregorianCalendar startDate = new GregorianCalendar(2009,10,1,12,00);
-		GregorianCalendar endDate = new GregorianCalendar(2009,10,5,12,00);
-		GregorianCalendar correctDuration = new GregorianCalendar();
-		correctDuration.setTime(new Date((endDate.getTime().getTime() - startDate.getTime().getTime() - (1000 * 3600)))); //End - Begin - 1 hour
+		GregorianCalendar startDate = new GregorianCalendar();
+		GregorianCalendar endDate = new GregorianCalendar();
+		endDate.add(Calendar.DAY_OF_YEAR, 4);
+		// 4 days to finish task
 		task1 = new Task("Descr",user, startDate,endDate,1440);
 		
 	}
@@ -45,7 +46,8 @@ public class ResourceTest {
 		user = null;
 		resource = null;
 		task1 = null;
-		//TODO: Verswijder alle resources uit ResourceManager
+		//TODO: Verwijder alle resources uit ResourceManager
+		//Kwinten: volgens mij is dit hier niet belangrijk nu. Mag deze comment weg?
 	}
 	
 	/**
@@ -119,13 +121,13 @@ public class ResourceTest {
 	@Test
 	public void reservations() throws NotAvailableException{
 		
-		GregorianCalendar startDate = new GregorianCalendar(2009,10,1,12,00);
+		GregorianCalendar startDate = new GregorianCalendar();
 		resource.createReservation(startDate, 100, user);
 		
-		GregorianCalendar startDate2 = new GregorianCalendar(2009,10,1,10,00);
+		startDate.add(Calendar.MINUTE, 50);
 		// Overlap - exception should be thrown
 		try {
-			resource.createReservation(startDate2, 120, user);
+			resource.createReservation(startDate, 120, user);
 			fail();
 		} catch (NotAvailableException e) {}
 		
