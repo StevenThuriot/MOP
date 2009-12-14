@@ -34,6 +34,7 @@ import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCall;
 import exception.IllegalStateChangeException;
+import exception.NotAvailableException;
 
 /**
  * Usage: Make new XMLParser object and pass along the file location. 
@@ -126,8 +127,9 @@ public class XMLParser {
 	 * @throws IllegalStateCall 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws NotAvailableException 
 	 */
-	public User Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall, BusinessRule3Exception
+	public User Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall, BusinessRule3Exception, NotAvailableException
 	{
 		Node userNode = this.getNodeByName(this.getRootNode(), "mop:user");
 		Node userName = this.getNodeByName(userNode, "mop:name");
@@ -137,9 +139,12 @@ public class XMLParser {
 		
 		Node projects = this.getNodeByName(this.getRootNode(), "mop:projects");
 		NodeList projectList = projects.getChildNodes();
-		
+
 		Node tasks = this.getNodeByName(userNode, "mop:tasks");
 		NodeList taskList = tasks.getChildNodes();
+		
+		Node reservations = this.getNodeByName(userNode, "mop:reservations");
+		NodeList reservationList = reservations.getChildNodes();
 		
 		User user = new User(userName.getTextContent());
 		
@@ -178,7 +183,7 @@ public class XMLParser {
 		    {
 				String id = childNode.getAttributes().item(0).getTextContent();
 				String description = this.getNodeByName(childNode, "mop:description").getTextContent();
-				String startString = this.getNodeByName(childNode, "mop:startDate").getTextContent()/*.replace('T', ' ')*/;
+				String startString = this.getNodeByName(childNode, "mop:startDate").getTextContent();
 			    			    
 			    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
 			    Date start = sdf.parse(startString);
@@ -186,7 +191,7 @@ public class XMLParser {
 			    GregorianCalendar startDate = new GregorianCalendar();
 			    startDate.setTime(start);
 			    
-			    String dueString = this.getNodeByName(childNode, "mop:endDate").getTextContent()/*.replace('T', ' ')*/;    
+			    String dueString = this.getNodeByName(childNode, "mop:endDate").getTextContent();  
 			    Date due = sdf.parse(dueString);
 			    GregorianCalendar dueDate = new GregorianCalendar();
 			    dueDate.setTime(due);
@@ -202,7 +207,7 @@ public class XMLParser {
 			    try {
 					controller.getTaskController().parseStateString(task, state);
 				} catch (IllegalStateChangeException e) {
-					//This will never happen.
+					//This will never ever ever happen!! I promise.
 				}
 			    
 			    if (projectID.length() > 0 && projectID != null)
@@ -267,6 +272,29 @@ public class XMLParser {
 					for (Task t : dependencyList)
 						task.addDependency(t);
 				}
+		    }
+		}
+		
+		//Make reservations
+		for (int i = 0; i < reservationList.getLength(); i++) {
+			Node childNode = reservationList.item(i);
+			
+			if (childNode.getNodeName() != "#text")
+		    {
+				String startString = this.getNodeByName(childNode, "mop:time").getTextContent();
+			    
+			    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+			    Date start = sdf.parse(startString);
+			    
+			    GregorianCalendar startTime = new GregorianCalendar();
+			    startTime.setTime(start);
+				
+				Integer duration = Integer.parseInt( this.getNodeByName(childNode, "mop:duration").getTextContent() );
+				String refResource = this.getNodeByName(childNode, "mop:refResource").getTextContent();
+				
+				Resource resource = resourceMap.get(refResource);
+				
+				controller.getResourceController().createReservation(startTime, duration, resource, user);	
 		    }
 		}
 		

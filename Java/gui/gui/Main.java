@@ -1,6 +1,7 @@
 package gui;
 
 import java.text.ParseException;
+
 import javax.naming.NameNotFoundException;
 
 import org.w3c.dom.DOMException;
@@ -13,6 +14,7 @@ import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCall;
+import exception.NotAvailableException;
 
 import model.User;
 import model.repositories.RepositoryManager;
@@ -28,40 +30,33 @@ public class Main {
 		XMLParser parser = new XMLParser("students_public.xml", controller);
 		
 		User user = null;
+		
 		try {
 			user = parser.Parse();
 		} catch (NameNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Main.writeError("File not found.");
 		} catch (DOMException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (EmptyStringException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (BusinessRule1Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DependencyCycleException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (DependencyException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Main.writeError("");
 		} catch (NullPointerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Main.writeError("The value 'null' was passed to a method.");
+		} catch (EmptyStringException e) {
+			Main.writeError("An empty string was passed to a method that does not allow this.");
+		} catch (ParseException e) {
+			Main.writeError("");
+		} catch (BusinessRule1Exception e) {
+			Main.writeError("Business rule 1 violation.");
+		} catch (DependencyCycleException e) {
+			Main.writeError("A cycle between dependancies has been found.");
+		} catch (DependencyException e) {
+			Main.writeError("A problem with the dependancies has occured.");
 		} catch (IllegalStateCall e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Main.writeError("It is impossible to change to the defined state.");
 		} catch (BusinessRule3Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Main.writeError("Business rule 3 violation.");
+		} catch (NotAvailableException e) {
+			Main.writeError("Two or more reservations overlap.");
 		}
-
+	
 		manager.add(user);
 		
 		MainGUI mainGUI = new MainGUI(System.in,System.out,manager);
@@ -69,6 +64,20 @@ public class Main {
 		Thread t = new Thread(mainGUI);
 		
 		t.start();
+	}
+	
+	/**
+	 * Writes a useful error message when the XML parser has a problem.
+	 * @param message
+	 */
+	public static void writeError(String message)
+	{
+		System.out.println("An error has occured parsing the XML file.");
+		System.out.println(message);
+		
+		if (!message.equals("")) {
+			System.out.println();
+		}
 	}
 
 }

@@ -19,6 +19,7 @@ import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCall;
+import exception.NotAvailableException;
 import static org.junit.Assert.*;
 public class XMLParserTest {
     private XMLParser parser;
@@ -51,9 +52,10 @@ public class XMLParserTest {
      * @throws IllegalStateCall 
      * @throws NullPointerException 
      * @throws BusinessRule3Exception 
+     * @throws NotAvailableException 
      */
     @Test
-    public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall, BusinessRule3Exception
+    public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall, BusinessRule3Exception, NotAvailableException
     {
         User result = parser.Parse();
         manager.add(result);
@@ -75,9 +77,10 @@ public class XMLParserTest {
      * @throws IllegalStateCall 
      * @throws NullPointerException 
      * @throws BusinessRule3Exception 
+     * @throws NotAvailableException 
      */
     @Test
-    public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall, BusinessRule3Exception
+    public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall, BusinessRule3Exception, NotAvailableException
     {
         User result = parser.Parse();
         Resource devRoom = manager.getResources().get(0); //Should be the 'Development room' resource
