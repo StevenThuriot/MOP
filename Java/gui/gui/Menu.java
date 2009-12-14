@@ -10,7 +10,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
-//TODO Handle invallid input
 /**
  * @author koen
  *
