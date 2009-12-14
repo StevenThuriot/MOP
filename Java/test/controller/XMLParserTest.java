@@ -1,5 +1,6 @@
 package controller;
 import java.text.ParseException;
+import java.util.GregorianCalendar;
 
 import javax.naming.NameNotFoundException;
 
@@ -64,7 +65,7 @@ public class XMLParserTest {
         assertEquals(2,manager.getProjects().size());
         assertEquals(4,manager.getResources().size());
         assertEquals(4,result.getTasks().size());
-        //assertEquals(3, dcontroller.getResourceController().getReservations().size());
+        assertEquals(3, dcontroller.getResourceController().getReservations().size());
     }
     
     /**
@@ -87,8 +88,8 @@ public class XMLParserTest {
     {
         User result = parser.Parse();
         Resource devRoom = manager.getResources().get(0); //Should be the 'Development room' resource
-//        assertFalse(devRoom.availableAt(new GregorianCalendar(2009, 10, 21, 8, 0), 10)); //Should comply with the reservation at 2009-10-21T08:00:00 for 3060 minutes
-//        
+        assertFalse(devRoom.availableAt(new GregorianCalendar(2009, 10, 21, 8, 0), 10)); //Should comply with the reservation at 2009-10-21T08:00:00 for 3060 minutes
+        
         Task taskMakeDesign = result.getTasks().get(2); //Should be the task 'Make UML Design'
         assertTrue(taskMakeDesign.getRequiredResources().contains(devRoom)); //This task requires the dev room
     }
