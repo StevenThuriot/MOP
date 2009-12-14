@@ -130,8 +130,7 @@ public class ModifyTaskDetails extends UseCase {
 							exit = choice2 == 1;
 							continue;
 						} catch (IllegalStateCallException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							menu.println("The modification is cancelled, an illegal state was reached");
 						}
 					}else{
 						System.out.println("No more task to add");
@@ -153,8 +152,7 @@ public class ModifyTaskDetails extends UseCase {
 							exit = choice2 == 1;
 							continue;
 						} catch (IllegalStateCallException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						    menu.println("The modification is cancelled, an illegal state was reached");
 						}	
 					}else{
 						System.out.println("No dependencies to remove");
@@ -170,8 +168,7 @@ public class ModifyTaskDetails extends UseCase {
 						try {
 							dController.getTaskController().addRequiredResource(task, res.get(choice2));
 						} catch (IllegalStateCallException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+						    menu.println("The modification is cancelled, an illegal state was reached");
 						}
 						req.add(res.remove(choice2));
 					}else{
@@ -192,8 +189,7 @@ public class ModifyTaskDetails extends UseCase {
 						exit = choice2==1;
 						continue;
 					} catch (IllegalStateCallException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+					    menu.println("The modification is cancelled, an illegal state was reached");
 					}
 					break;
 				case 4:
@@ -208,11 +204,9 @@ public class ModifyTaskDetails extends UseCase {
 						exit = choice2==1;
 						continue;
 					} catch (NullPointerException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						menu.println("Something went wrong. Null was passed."); //This should theoretically never happen
 					} catch (BusinessRule3Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						menu.println("New schedule would violate Business Rule 3. This is probably: starttime after the current time, or the deadline before the current time.");
 					}
 					break;
 				default:

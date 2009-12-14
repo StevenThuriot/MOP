@@ -35,8 +35,7 @@ public class RemoveTask extends UseCase {
 			try {
 				dController.getTaskController().removeTask( choice );
 			} catch (IllegalStateCallException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				menu.println("This task reached an illegal state and will not be removed");
 			}
 		}
 	}

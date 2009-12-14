@@ -31,8 +31,7 @@ public class RemoveProject extends UseCase {
 		try {
 			dController.getProjectController().removeProject(choice);
 		} catch (IllegalStateCallException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			menu.println("This project can not be removed. This would bring tasks depending on this project in an inconsistent state");
 		}
 	}
 
