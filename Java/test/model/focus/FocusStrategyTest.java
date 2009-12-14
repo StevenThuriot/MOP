@@ -15,7 +15,6 @@ import controller.TaskController;
 
 import static org.junit.Assert.*;
 
-
 public class FocusStrategyTest {
     
     private User user;
