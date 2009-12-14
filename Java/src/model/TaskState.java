@@ -12,6 +12,33 @@ public abstract class TaskState {
 	protected TaskState(Task context) {
 		this.context = context;
 	}
+	
+	/**
+	 * String parser used to help set the state through the GUI or parse the XML file
+	 * If the parser doesn't recognise the given state, it will remain in its default state,
+	 * which is Unfinished.
+	 * @param state
+	 * @throws IllegalStateChangeException
+	 */
+	protected final void parseString(String state) throws IllegalStateChangeException
+	{
+		/*
+		 * no if statement for unfinished:
+		 * It is the default state anyway and 
+		 * impossible to change to from successful and 
+		 * failed in our implementation
+		 */
+			
+		if (state.equals("Successful")) 
+		{
+			this.getContext().setSuccessful();
+		}
+		
+		if (state.equals("Failed")) 
+		{
+			this.getContext().setFailed();
+		}
+	}
 
 	/**
 	 * Adds a dependency to the current task.
