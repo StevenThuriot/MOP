@@ -228,4 +228,9 @@ public class TaskController {
 	{
 		t.setFailed();
 	}
+	
+	public void parseStateString(Task t, String state) throws IllegalStateChangeException
+	{
+		t.parseStateString(state);
+	}
 }

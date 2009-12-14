@@ -471,6 +471,18 @@ public class Task implements Describable{
 	}
 	
 	/**
+	 * String parser used to help set the state through the GUI or parse the XML file
+	 * If the parser doesn't recognise the given state, it will remain in its default state,
+	 * which is Unfinished.
+	 * @param state
+	 * @throws IllegalStateChangeException
+	 */
+	public void parseStateString(String state) throws IllegalStateChangeException
+	{
+		this.taskState.parseString(state);
+	}
+	
+	/**
 	 * Removes a task. This method is non-recursive: dependent tasks will not be deleted. Instead,
 	 * dependencies will be broken.
 	 * @throws IllegalStateCall 
@@ -594,7 +606,7 @@ public class Task implements Describable{
 	{
 		return this.taskState.satisfiesBusinessRule2();
 	}
-	
+
 	/**
 	 * Returns whether the current task satisfies the business rule 3.
 	 * @return Boolean
@@ -602,8 +614,8 @@ public class Task implements Describable{
 	protected Boolean satisfiesBusinessRule3()
 	{
 		return this.taskState.satisfiesBusinessRule3();
-	}
-
+	}	
+	
 	/**
 	 * Sets <newDescription> to be the new description of this task.
 	 * @param	newDescription
@@ -614,7 +626,7 @@ public class Task implements Describable{
 	 */
 	public void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCall{
 		this.taskState.setDescription(newDescription);
-	}	
+	}
 	
 	/**
 	 * Set <newDueDate> to be the new due date for this Task.
@@ -651,7 +663,7 @@ public class Task implements Describable{
 	public void setDuration(int newDuration){
 		this.duration = newDuration;
 	}
-	
+
 	/**
 	 * Change the current state to Failed
 	 * @throws IllegalStateChangeException
@@ -682,7 +694,7 @@ public class Task implements Describable{
 	public void setSuccessful() throws IllegalStateChangeException {
 		this.taskState.setSuccessful();
 	}
-
+	
 	/**
 	 * Set <newUser> as the User to be responsible for this Task.
 	 * 
@@ -696,6 +708,7 @@ public class Task implements Describable{
 		this.user = newUser;
 	}
 	
+	
 	/**
 	 * Returns a string representation of this Task.
 	 * At the moment, this returns the description.
@@ -704,7 +717,6 @@ public class Task implements Describable{
 	public String toString(){
 		return getDescription();
 	}
-	
 	
 	/**
 	 * Updates the task's dates
