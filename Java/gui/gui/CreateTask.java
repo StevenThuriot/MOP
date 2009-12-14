@@ -11,7 +11,7 @@ import exception.BusinessRule1Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.EmptyStringException;
-import exception.IllegalStateCall;
+import exception.IllegalStateCallException;
 
 public class CreateTask extends UseCase {
 	public CreateTask(){		
@@ -58,7 +58,7 @@ public class CreateTask extends UseCase {
 			} catch (NullPointerException e) {
 				menu.println("Something very bad has happend");
 				e.printStackTrace();
-			} catch (IllegalStateCall e) {
+			} catch (IllegalStateCallException e) {
 				menu.println("Nice try mate");
 				//e.printStackTrace();
 			} catch (BusinessRule3Exception e) {
@@ -77,7 +77,7 @@ public class CreateTask extends UseCase {
 			} catch (NullPointerException e) {
 				menu.println("Something very bad has happend");
 				e.printStackTrace();
-			} catch (IllegalStateCall e) {
+			} catch (IllegalStateCallException e) {
 				menu.println("Nice try mate");
 				e.printStackTrace();
 			} catch (BusinessRule3Exception e) {

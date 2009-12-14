@@ -16,7 +16,7 @@ import org.junit.Test;
 
 import exception.BusinessRule1Exception;
 import exception.EmptyStringException;
-import exception.IllegalStateCall;
+import exception.IllegalStateCallException;
 import exception.NotAvailableException;
 import exception.ResourceBusyException;
 
@@ -87,10 +87,10 @@ public class ResourceTest {
 	 * @throws ResourceBusyException
 	 * @throws EmptyStringException 
 	 * @throws BusinessRule1Exception 
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
 	@Test(expected=ResourceBusyException.class)
-	public void removeBusyResource() throws ResourceBusyException, EmptyStringException, BusinessRule1Exception, IllegalStateCall
+	public void removeBusyResource() throws ResourceBusyException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException
 	{
 
 		task1.addRequiredResource(resource);
@@ -135,10 +135,10 @@ public class ResourceTest {
 	
    /**
      * Add and remove a task that uses this resource
- * @throws IllegalStateCall 
+ * @throws IllegalStateCallException 
      */
     @Test
-    public void testUsingTask() throws IllegalStateCall
+    public void testUsingTask() throws IllegalStateCallException
     {
     	task1.addRequiredResource(resource);
         assertTrue(resource.getTasksUsing().contains(task1));

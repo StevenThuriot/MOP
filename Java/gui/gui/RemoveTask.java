@@ -3,7 +3,7 @@ package gui;
 import model.Task;
 import model.User;
 import controller.DispatchController;
-import exception.IllegalStateCall;
+import exception.IllegalStateCallException;
 
 public class RemoveTask extends UseCase {
 
@@ -34,7 +34,7 @@ public class RemoveTask extends UseCase {
 				&& menu.dialogYesNo("Task has dependant tasks, if you remove you remove them all. Continue?")) ){
 			try {
 				dController.getTaskController().removeTask( choice );
-			} catch (IllegalStateCall e) {
+			} catch (IllegalStateCallException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}

@@ -32,9 +32,10 @@ import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
-import exception.IllegalStateCall;
+import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.NotAvailableException;
+import exception.UnknownStateException;
 
 /**
  * Usage: Make new XMLParser object and pass along the file location. 
@@ -124,12 +125,13 @@ public class XMLParser {
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule1Exception 
 	 * @throws DependencyException 
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws NotAvailableException 
+	 * @throws UnknownStateException 
 	 */
-	public User Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCall, BusinessRule3Exception, NotAvailableException
+	public User Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException
 	{
 		Node userNode = this.getNodeByName(this.getRootNode(), "mop:user");
 		Node userName = this.getNodeByName(userNode, "mop:name");

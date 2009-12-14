@@ -79,7 +79,7 @@ public class Task implements Describable{
 	 * 			The amount of time required to finish a Task, expressed in minutes.
 	 * @throws EmptyStringException 
 	 * @throws BusinessRule1Exception 
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @post	The user responsible for this Task is  <user>.
@@ -95,7 +95,7 @@ public class Task implements Describable{
 	 * @post	The task has dependencies nor dependent tasks
 	 * 			TODO: formal definition
 	 */
-	public Task(String description, User user, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCall, BusinessRule3Exception{
+	public Task(String description, User user, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		requiredResources = new ArrayList<Resource>();
 		tdm = new TaskDependencyManager(this);
 		
@@ -136,12 +136,12 @@ public class Task implements Describable{
 	 * 			Throws an exception when the construction of this task would lead
 	 * 			to a cycle in the dependencies.
 	 * @throws EmptyStringException 
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 */
 	public Task(String description, User user,GregorianCalendar startDate, GregorianCalendar dueDate, int duration,
-			ArrayList<Task> dependencies, ArrayList<Resource> reqResources) throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCall, BusinessRule3Exception{
+			ArrayList<Task> dependencies, ArrayList<Resource> reqResources) throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		
 		this(description, user, startDate, dueDate, duration);
 		
@@ -168,17 +168,17 @@ public class Task implements Describable{
 	 * @throws 	DependencyCycleException
 	 * 			Adding the dependency would create a dependency cycle.
 	 * 			| !this.dependencyHasNoCycle()
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
-	public void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCall{
+	public void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException{
 		this.taskState.addDependency(dependency);
 	}
 	
 	/**
 	 * Adds a resource to the resources required for this task.
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
-	public void addRequiredResource(Resource resource) throws IllegalStateCall{
+	public void addRequiredResource(Resource resource) throws IllegalStateCallException{
 		this.taskState.addRequiredResource(resource);
 	}
 	
@@ -476,8 +476,9 @@ public class Task implements Describable{
 	 * which is Unfinished.
 	 * @param state
 	 * @throws IllegalStateChangeException
+	 * @throws UnknownStateException 
 	 */
-	public void parseStateString(String state) throws IllegalStateChangeException
+	public void parseStateString(String state) throws IllegalStateChangeException, UnknownStateException
 	{
 		this.taskState.parseString(state);
 	}
@@ -485,7 +486,7 @@ public class Task implements Describable{
 	/**
 	 * Removes a task. This method is non-recursive: dependent tasks will not be deleted. Instead,
 	 * dependencies will be broken.
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 * @post	All dependencies with all other tasks will be broken
 	 * 			| for each Task t: !(t.getDependencies().contains(this))
 	 * 			|					&& ! (t.getDependentTasks().contains(this))
@@ -496,7 +497,7 @@ public class Task implements Describable{
 	 * In short, the remaining object is completely decoupled from any other model objects,
 	 * and should not be used anymore.
 	 */
-	public void remove() throws IllegalStateCall{
+	public void remove() throws IllegalStateCallException{
 		//removes this task from all required resources
 		ArrayList<Resource> resources = new ArrayList<Resource>(this.getRequiredResources());
 		for(Resource r: resources){
@@ -527,18 +528,18 @@ public class Task implements Describable{
 	 * @param 	dependency
 	 * 			The dependency to be removed.
 	 * @throws DependencyException 
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 * @post 	The task is no longer dependent on <dependency>
 	 * 			|! (new.getDependentTasks()).contains(dependent)
 	 */
-	public void removeDependency(Task dependency) throws DependencyException, IllegalStateCall{
+	public void removeDependency(Task dependency) throws DependencyException, IllegalStateCallException{
 		this.taskState.removeDependency(dependency);
 	}
 	
 	/**
 	 * This method removes the task. It works recursively: any other tasks that may
 	 * be dependent on this task will be removed as well.
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 * @post	All dependencies with all other tasks will be broken
 	 * 			| for each Task t: !(t.getDependencies().contains(this))
 	 * 			|					&& ! (t.getDepepenentTasks().contains(this))
@@ -549,7 +550,7 @@ public class Task implements Describable{
 	 * In short, the remaining object is completely decoupled from any other model objects,
 	 * and should not be used anymore.
 	 */
-	public void removeRecursively() throws IllegalStateCall{
+	public void removeRecursively() throws IllegalStateCallException{
 		//removes all other dependent tasks recursively
 		ArrayList<Task> dependents = new ArrayList<Task>(this.getDependentTasks());
 		for(Task t: dependents){
@@ -574,9 +575,9 @@ public class Task implements Describable{
 	
 	/**
 	 * Removes a resource from the resources required for this task.
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
-	public void removeRequiredResource(Resource resource) throws IllegalStateCall{
+	public void removeRequiredResource(Resource resource) throws IllegalStateCallException{
 		this.taskState.removeRequiredResource(resource);
 	}
 	
@@ -621,10 +622,10 @@ public class Task implements Describable{
 	 * @param	newDescription
 	 * 			The new description
 	 * @throws EmptyStringException 
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 * @post	| new.getDescription()== newDescription
 	 */
-	public void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCall{
+	public void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCallException{
 		this.taskState.setDescription(newDescription);
 	}
 	

@@ -12,7 +12,7 @@ import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
-import exception.IllegalStateCall;
+import exception.IllegalStateCallException;
 
 public class ModifyTaskDetails extends UseCase {
 	public ModifyTaskDetails(){}
@@ -129,7 +129,7 @@ public class ModifyTaskDetails extends UseCase {
 							choice2 = menu.menu("Select Action", "Retry", "Abort");
 							exit = choice2 == 1;
 							continue;
-						} catch (IllegalStateCall e) {
+						} catch (IllegalStateCallException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
@@ -152,7 +152,7 @@ public class ModifyTaskDetails extends UseCase {
 							choice2 = menu.menu("Select Action", "Retry", "Abort");
 							exit = choice2 == 1;
 							continue;
-						} catch (IllegalStateCall e) {
+						} catch (IllegalStateCallException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}	
@@ -169,7 +169,7 @@ public class ModifyTaskDetails extends UseCase {
 						choice2 = menu.menu("Select resource", descr);
 						try {
 							dController.getTaskController().addRequiredResource(task, res.get(choice2));
-						} catch (IllegalStateCall e) {
+						} catch (IllegalStateCallException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
@@ -191,7 +191,7 @@ public class ModifyTaskDetails extends UseCase {
 						choice2 = menu.menu("Select Action", "Retry", "Abort");
 						exit = choice2==1;
 						continue;
-					} catch (IllegalStateCall e) {
+					} catch (IllegalStateCallException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}

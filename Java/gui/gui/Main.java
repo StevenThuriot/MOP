@@ -13,8 +13,9 @@ import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
-import exception.IllegalStateCall;
+import exception.IllegalStateCallException;
 import exception.NotAvailableException;
+import exception.UnknownStateException;
 
 import model.User;
 import model.repositories.RepositoryManager;
@@ -49,12 +50,15 @@ public class Main {
 			Main.writeError("A cycle between dependancies has been found.");
 		} catch (DependencyException e) {
 			Main.writeError("A problem with the dependancies has occured.");
-		} catch (IllegalStateCall e) {
+		} catch (IllegalStateCallException e) {
 			Main.writeError("It is impossible to change to the defined state.");
 		} catch (BusinessRule3Exception e) {
 			Main.writeError("Business rule 3 violation.");
 		} catch (NotAvailableException e) {
 			Main.writeError("Two or more reservations overlap.");
+		} catch (UnknownStateException e) {
+			Main.writeError("An unknown state has been found.");
+			e.printStackTrace();
 		}
 	
 		manager.add(user);

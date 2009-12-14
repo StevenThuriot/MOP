@@ -19,8 +19,9 @@ public abstract class TaskState {
 	 * which is Unfinished.
 	 * @param state
 	 * @throws IllegalStateChangeException
+	 * @throws UnknownStateException 
 	 */
-	protected final void parseString(String state) throws IllegalStateChangeException
+	protected final void parseString(String state) throws IllegalStateChangeException, UnknownStateException
 	{
 		/*
 		 * no if statement for unfinished:
@@ -28,15 +29,23 @@ public abstract class TaskState {
 		 * impossible to change to from successful and 
 		 * failed in our implementation
 		 */
-			
+
+		boolean parsed = false;
+		
 		if (state.equals("Successful")) 
 		{
 			this.getContext().setSuccessful();
+			parsed = true;
 		}
 		
 		if (state.equals("Failed")) 
 		{
 			this.getContext().setFailed();
+			parsed = true;
+		}
+		
+		if (!parsed) {
+			throw new UnknownStateException();
 		}
 	}
 
@@ -52,18 +61,18 @@ public abstract class TaskState {
 	 * @throws 	DependencyCycleException
 	 * 			Adding the dependency would create a dependency cycle.
 	 * 			| !this.dependencyHasNoCycle()
-	 * @throws IllegalStateCall If the call is not allowed in the current state
+	 * @throws IllegalStateCallException If the call is not allowed in the current state
 	 */
-	protected void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCall{
-		throw new IllegalStateCall();
+	protected void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException{
+		throw new IllegalStateCallException();
 	}	
 	
 	/**
 	 * Adds a resource to the resources required for this task.
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
-	protected void addRequiredResource(Resource resource) throws IllegalStateCall{
-		throw new IllegalStateCall();
+	protected void addRequiredResource(Resource resource) throws IllegalStateCallException{
+		throw new IllegalStateCallException();
 	}
 	
 	/**
@@ -116,21 +125,21 @@ public abstract class TaskState {
 	 * @param 	dependency
 	 * 			The dependency to be removed.
 	 * @throws DependencyException 
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 * @throws DependencyException 
 	 * @post 	The task is no longer dependent on <dependency>
 	 * 			|! (new.getDependentTasks()).contains(dependent)
 	 */
-	public void removeDependency(Task dependency) throws IllegalStateCall, DependencyException{
-		throw new IllegalStateCall();
+	public void removeDependency(Task dependency) throws IllegalStateCallException, DependencyException{
+		throw new IllegalStateCallException();
 	}
 	
 	/**
 	 * Removes a resource from the resources required for this task.
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
-	public void removeRequiredResource(Resource resource) throws IllegalStateCall{
-		throw new IllegalStateCall();
+	public void removeRequiredResource(Resource resource) throws IllegalStateCallException{
+		throw new IllegalStateCallException();
 	}
 	
 	/**
@@ -150,11 +159,11 @@ public abstract class TaskState {
 	 * @param	newDescription
 	 * 			The new description
 	 * @throws EmptyStringException 
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 * @post	| new.getDescription()== newDescription
 	 */
-	protected void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCall {
-		throw new IllegalStateCall();
+	protected void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCallException {
+		throw new IllegalStateCallException();
 	}
 	
 	/**

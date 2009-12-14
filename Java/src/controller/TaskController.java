@@ -12,8 +12,9 @@ import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
-import exception.IllegalStateCall;
+import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
+import exception.UnknownStateException;
 
 import model.Resource;
 import model.Task;
@@ -37,14 +38,14 @@ public class TaskController {
 	 * @throws EmptyStringException
 	 * @throws BusinessRule1Exception
 	 * @throws DependencyCycleException
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 */
 	public Task createTask(String description, GregorianCalendar startDate, 
 			GregorianCalendar dueDate, int duration, 
 			ArrayList<Task> dependencies, ArrayList<Resource> resources, User user) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall, BusinessRule3Exception
+	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
 	{
 		Task t = new Task(description, user, startDate, dueDate, duration, dependencies, resources);
 
@@ -53,7 +54,7 @@ public class TaskController {
 	
 	public Task createTask(String description, GregorianCalendar startDate, 
 			GregorianCalendar dueDate, int duration, User user) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall, BusinessRule3Exception
+	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
 	{
 		Task t = new Task(description, user, startDate, dueDate, duration);
 		
@@ -63,10 +64,10 @@ public class TaskController {
 	/**
 	 * Let a task remove itself
 	 * @param t
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 * @throws DependencyException
 	 */
-	public void removeTask(Task t) throws IllegalStateCall{
+	public void removeTask(Task t) throws IllegalStateCallException{
 		t.remove();
 	}
 	
@@ -135,9 +136,9 @@ public class TaskController {
 	 * @param dependency
 	 * @throws BusinessRule1Exception
 	 * @throws DependencyCycleException
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
-	public void addDependency(Task task, Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCall
+	public void addDependency(Task task, Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException
 	{
 		task.addDependency(dependency);
 	}
@@ -147,9 +148,9 @@ public class TaskController {
 	 * @param task
 	 * @param dependency
 	 * @throws DependencyException
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
-	public void removeDependency(Task task, Task dependency) throws DependencyException, IllegalStateCall{
+	public void removeDependency(Task task, Task dependency) throws DependencyException, IllegalStateCallException{
 		task.removeDependency(dependency);
 	}
 	
@@ -157,9 +158,9 @@ public class TaskController {
 	 * Add required resource to task
 	 * @param task
 	 * @param resource
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
-	public void addRequiredResource(Task task, Resource resource) throws IllegalStateCall{
+	public void addRequiredResource(Task task, Resource resource) throws IllegalStateCallException{
 		task.addRequiredResource(resource);
 	}
 	
@@ -169,9 +170,9 @@ public class TaskController {
 	 * @param description
 	 * @throws NullPointerException
 	 * @throws EmptyStringException
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
-	public void setTaskDescription(Task task, String description) throws NullPointerException, EmptyStringException, IllegalStateCall{
+	public void setTaskDescription(Task task, String description) throws NullPointerException, EmptyStringException, IllegalStateCallException{
 		task.setDescription(description);
 	}
 	
@@ -229,7 +230,7 @@ public class TaskController {
 		t.setFailed();
 	}
 	
-	public void parseStateString(Task t, String state) throws IllegalStateChangeException
+	public void parseStateString(Task t, String state) throws IllegalStateChangeException, UnknownStateException
 	{
 		t.parseStateString(state);
 	}

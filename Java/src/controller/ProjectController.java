@@ -5,7 +5,7 @@ package controller;
 
 import java.util.List;
 import exception.EmptyStringException;
-import exception.IllegalStateCall;
+import exception.IllegalStateCallException;
 import model.Project;
 import model.Task;
 import model.User;
@@ -66,9 +66,9 @@ public class ProjectController {
 	/**
 	 * Remove a Project
 	 * @param p
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
-	public void removeProject(Project p) throws IllegalStateCall {
+	public void removeProject(Project p) throws IllegalStateCallException {
 		p.remove();
 		manager.remove(p);
 	}
