@@ -27,7 +27,7 @@ public class AssignTaskToProject extends UseCase {
 	
 	private void assignTaskToProject(){
 		Task task = menu.menuGen("Select task", dController.getTaskController().getTasks(user));
-		Project project = menu.menuGen("Selct Project", dController.getProjectController().getProjects(user));
+		Project project = menu.menuGen("Selct Project", dController.getProjectController().getProjects());
 		dController.getProjectController().bind(project, task);
 	}
 

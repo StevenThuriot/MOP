@@ -21,7 +21,7 @@ public class TypeRepoTest {
     public void setUp() throws NullPointerException, EmptyStringException
     {
         u = new User("Bart");
-        proj = new Project(u, "Projecta");
+        proj = new Project("Projecta");
         res = new Resource("PC", ResourceType.Tool);
         manager = new RepositoryManager();
     }
@@ -63,7 +63,7 @@ public class TypeRepoTest {
     public void testModifiableProject() throws NullPointerException, EmptyStringException
     {
         manager.add(proj);
-        manager.getProjects().add(new Project(u, "Lalala"));
+        manager.getProjects().add(new Project("Lalala"));
     }
     
     @Test(expected=UnsupportedOperationException.class)

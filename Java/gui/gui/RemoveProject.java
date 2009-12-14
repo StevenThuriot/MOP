@@ -25,7 +25,7 @@ public class RemoveProject extends UseCase {
 	}
 
 	private void removeProject() {
-		Project choice = menu.menuGenOpt("Select Task to remove", dController.getProjectController().getProjects(user), "None");
+		Project choice = menu.menuGenOpt("Select Task to remove", dController.getProjectController().getProjects(), "None");
 		if(choice == null)
 			return;
 		try {

@@ -24,14 +24,6 @@ public class User implements Describable{
 	 */
 	private ArrayList<Task> userTasks;
 	
-	/**
-	 * An ArrayList keeping track of all the projects of this user.
-	 * @invar 	Every task in <userProjects> must have this user as its responsible.
-	 * 			|for every project in userProjects:
-	 * 			|	project.getUser() == this
-	 */
-	private ArrayList<Project> userProjects;
-	
 
 	/**
 	 * Creates a new user, with no projects or tasks.
@@ -42,7 +34,6 @@ public class User implements Describable{
 	{
 		this.name = name;
 		userTasks = new ArrayList<Task>();
-		userProjects = new ArrayList<Project>();
 	}
 	
 	/**
@@ -82,23 +73,6 @@ public class User implements Describable{
 		this.name = name;
 	}
 
-	/**
-	 * Removes a project from the list of projects from this user. 
-	 * This method is invoked whenever Project.remove() is called and
-	 * should not be used directly.
-	 */
-	protected void removeProject(Project p) {
-		userProjects.remove(p);
-	}
-	
-	/**
-	 * Adds a project to the list of projects from this user.
-	 * This method is invoked whenever a project is created and should not be used
-	 * directly.
-	 */
-	protected void addProject(Project p){
-		userProjects.add(p);
-	}
 
 	/**
 	 * Removes a task from the list of tasks from this user.
@@ -124,13 +98,6 @@ public class User implements Describable{
 	 */
 	public List<Task> getTasks(){
 		return  Collections.unmodifiableList(userTasks);
-	}
-	
-	/**
-	 * Returns all the projects that this user is responsible for.
-	 */
-	public List<Project> getProjects(){
-		return unmodifiableList(userProjects);
 	}
 	
 	

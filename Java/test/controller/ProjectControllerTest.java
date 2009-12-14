@@ -26,17 +26,12 @@ public class ProjectControllerTest {
 	 * The controller we will be testing
 	 */
 	public ProjectController controller;
-	/**
-	 * User of the system. This is normally passed through the DispatchController
-	 */
-	public User user;
 	
 	@Before
 	public void setUp()
 	{
 	    RepositoryManager manager = new RepositoryManager();
 		controller = new ProjectController(manager);
-		user = new User("John");
 	}
 	
 	@After
@@ -53,7 +48,7 @@ public class ProjectControllerTest {
 	@Test(expected=EmptyStringException.class)
 	public void createFaultyProject() throws EmptyStringException
 	{
-		controller.createProject("", user);
+		controller.createProject("");
 	}
 	
 	/**
@@ -72,8 +67,8 @@ public class ProjectControllerTest {
 	@Test
 	public void createProject() throws EmptyStringException
 	{
-		Project p = controller.createProject("Project A",user);
-		assertEquals(p,controller.getProjects(user).get(0));
+		Project p = controller.createProject("Project A");
+		assertEquals(p,controller.getProjects().get(0));
 	}
 	
 	/**
@@ -85,9 +80,9 @@ public class ProjectControllerTest {
 	@Test
 	public void removeProject() throws EmptyStringException, IllegalStateCallException
 	{
-		Project p = controller.createProject("Project B",user);
+		Project p = controller.createProject("Project B");
 		controller.removeProject(p);
-		assertFalse(controller.getProjects(user).contains(p));
+		assertFalse(controller.getProjects().contains(p));
 	}
 	
 	/**
@@ -113,7 +108,7 @@ public class ProjectControllerTest {
 	@Test
 	public void testBind() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
 	{
-	    Project p = controller.createProject("Project A",user);
+	    Project p = controller.createProject("Project A");
 	    TaskController taskController = new TaskController();
 	    GregorianCalendar end = new GregorianCalendar();
 	    end.add(Calendar.MONTH, 1);

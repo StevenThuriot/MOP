@@ -41,11 +41,9 @@ public class Project implements Describable{
 	 * 			The description given is empty
 	 * 			| newDescription == ""
 	 */
-	public Project(User newUser, String newDescription) throws EmptyStringException, NullPointerException{
+	public Project(String newDescription) throws EmptyStringException, NullPointerException{
 		projectTasks = new ArrayList<Task>();
 		setDescription(newDescription);
-		setUser(newUser);
-		this.user.addProject(this);
 	}
 	
 	/**
@@ -63,14 +61,12 @@ public class Project implements Describable{
 				task.remove();
 			}
 		}
-		this.user.removeProject(this);
 	}
 	
 	/**
 	 * Binds a task to this project.
 	 * @param 	task
 	 * 			The task to bind to this project.
-	 * TODO: Moet een taak weten of en bij welk project hij hoort?
 	 */
 	public void bindTask(Task task){
 		projectTasks.add(task);
@@ -83,18 +79,7 @@ public class Project implements Describable{
 		return user;
 	}
 	
-	/**
-	 * Sets <newUser> to be the user responsible for this project.
-	 * @throws NullPointerException 
-	 * @post	| new.getUser() == newUser
-	 */
-	public void setUser(User newUser) throws NullPointerException {
-		if (newUser == null)
-			throw new NullPointerException("Null was passed");
-			
-		user = newUser;
-	}
-	
+
 	/**
 	 * Returns the description of the project.
 	 */
