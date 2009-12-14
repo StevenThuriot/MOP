@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.EmptyStringException;
-import exception.IllegalStateCall;
+import exception.IllegalStateCallException;
 import static org.junit.Assert.*;
 
 public class UserTest {
@@ -82,10 +82,10 @@ public class UserTest {
 	/**
 	 * Are projects removed? And is the removed project the same as the created one?
 	 * @throws EmptyStringException
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
 	@Test
-	public void removeProject() throws EmptyStringException, IllegalStateCall
+	public void removeProject() throws EmptyStringException, IllegalStateCallException
 	{
 		Project p = new Project(user,"Descr");
 		

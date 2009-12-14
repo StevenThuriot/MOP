@@ -7,7 +7,7 @@ import gui.Describable;
 
 
 import exception.EmptyStringException;
-import exception.IllegalStateCall;
+import exception.IllegalStateCallException;
 
 public class Project implements Describable{
 
@@ -52,9 +52,9 @@ public class Project implements Describable{
 	 * Removes this project and all of its tasks.
 	 * Warning: tasks are deleted recursively - if other tasks depend on a deleted
 	 * task, they will be deleted as well.
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
-	public void remove() throws IllegalStateCall{
+	public void remove() throws IllegalStateCallException{
 		List<Task> taskList = this.getTasks();
 		
 		if (taskList.size() > 0)

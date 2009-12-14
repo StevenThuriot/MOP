@@ -20,8 +20,8 @@ public class ExceptionsTest {
         assertEquals("An empty string was passed", (new EmptyStringException()).getMessage());
         assertEquals("MSG", (new EmptyStringException("MSG")).getMessage());
         //IllegalStateCall
-        assertEquals("Not allowed to call this method in the task's current state.", (new IllegalStateCall()).getMessage());
-        assertEquals("MSG", (new IllegalStateCall("MSG")).getMessage());
+        assertEquals("Not allowed to call this method in the task's current state.", (new IllegalStateCallException()).getMessage());
+        assertEquals("MSG", (new IllegalStateCallException("MSG")).getMessage());
         //IllegalStateChangeException
         assertEquals("Not allowed to change to this state from current state.", (new IllegalStateChangeException()).getMessage());
         assertEquals("MSG", (new IllegalStateChangeException("MSG")).getMessage());

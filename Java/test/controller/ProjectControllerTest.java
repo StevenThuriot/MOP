@@ -17,7 +17,7 @@ import exception.BusinessRule1Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.EmptyStringException;
-import exception.IllegalStateCall;
+import exception.IllegalStateCallException;
 
 
 public class ProjectControllerTest {
@@ -80,10 +80,10 @@ public class ProjectControllerTest {
 	 * Remove a project
 	 * Warning: Test relies on correct execution of ProjectController.createProject
 	 * @throws EmptyStringException
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
 	@Test
-	public void removeProject() throws EmptyStringException, IllegalStateCall
+	public void removeProject() throws EmptyStringException, IllegalStateCallException
 	{
 		Project p = controller.createProject("Project B",user);
 		controller.removeProject(p);
@@ -93,10 +93,10 @@ public class ProjectControllerTest {
 	/**
 	 * Remove a null project
 	 * @throws NullPointerException
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 */
 	@Test(expected=NullPointerException.class)
-	public void removeNullProject() throws NullPointerException, IllegalStateCall
+	public void removeNullProject() throws NullPointerException, IllegalStateCallException
 	{
 		controller.removeProject(null);
 	}
@@ -106,12 +106,12 @@ public class ProjectControllerTest {
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
-	 * @throws IllegalStateCall 
+	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 */
 	@Test
-	public void testBind() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCall, BusinessRule3Exception
+	public void testBind() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
 	{
 	    Project p = controller.createProject("Project A",user);
 	    TaskController taskController = new TaskController();

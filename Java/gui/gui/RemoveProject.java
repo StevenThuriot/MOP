@@ -3,7 +3,7 @@ package gui;
 import model.Project;
 import model.User;
 import controller.DispatchController;
-import exception.IllegalStateCall;
+import exception.IllegalStateCallException;
 
 public class RemoveProject extends UseCase {
 	public RemoveProject(){}
@@ -30,7 +30,7 @@ public class RemoveProject extends UseCase {
 			return;
 		try {
 			dController.getProjectController().removeProject(choice);
-		} catch (IllegalStateCall e) {
+		} catch (IllegalStateCallException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
