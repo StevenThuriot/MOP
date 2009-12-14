@@ -31,14 +31,7 @@ public class MakeResourceReservation extends UseCase {
 	}
 	
 	private void makeResourceReservation(){
-		ArrayList<Resource> res = new ArrayList<Resource>();
-		res.addAll(dController.getResourceController().getResources());
-		ArrayList<String> rDescrS = new ArrayList<String>();
-		for (Resource r : res) {
-			rDescrS.add(r.getDescription());
-		}
-		int choice = menu.menu("Select resource to reserve", rDescrS);
-		Resource resource = res.get(choice);
+		Resource resource = menu.menuGen("Select resource to reserve", dController.getResourceController().getResources());
 		List<Reservation> reservations = dController.getResourceController().getReservations();
 		ArrayList<String> rsvDescr = new ArrayList<String>();
 		for(Reservation rsv : reservations){
