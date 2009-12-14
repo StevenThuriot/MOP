@@ -56,6 +56,8 @@ public class UnfinishedTaskState extends TaskState {
 		GregorianCalendar now = new GregorianCalendar();
 		
 		if (now.before(this.getContext().getStartDate())) {
+			return false;
+		} else {
 			for(Resource r: this.getContext().getRequiredResources()){
 				resourceReady = resourceReady && (r.availableAt(now, this.getContext().getDuration()));
 			}
@@ -65,8 +67,6 @@ public class UnfinishedTaskState extends TaskState {
 			}
 			
 			return resourceReady && depReady;	
-		} else {
-			return false;
 		}
 		
 		

@@ -96,16 +96,18 @@ public class Task implements Describable{
 	 * 			TODO: formal definition
 	 */
 	public Task(String description, User user, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCall, BusinessRule3Exception{
+		requiredResources = new ArrayList<Resource>();
+		tdm = new TaskDependencyManager(this);
+		
 		this.taskState = new UnfinishedTaskState(this);
 		
 		this.setDescription(description);
 		this.setUser(user);
 		this.setStartDate(startDate);
-		this.setDueDate(dueDate);
 		this.setDuration(duration);
-		tdm = new TaskDependencyManager(this);
+		this.setDueDate(dueDate);		
 		
-		requiredResources = new ArrayList<Resource>();
+		
 		if(!satisfiesBusinessRule1())
 			throw new BusinessRule1Exception("Business Rule 1 is not satisfied.");
 		

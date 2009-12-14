@@ -244,7 +244,7 @@ public class TaskTest {
 	@Test
 	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCall, BusinessRule3Exception{
 		startDate = new GregorianCalendar();
-		startDate.add(Calendar.DAY_OF_YEAR, 3);
+		startDate.add(Calendar.DAY_OF_YEAR, 4);
 		endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 5);
 		Task task2 = new Task("some name", user, startDate, endDate, 1380);
