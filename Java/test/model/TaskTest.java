@@ -19,8 +19,10 @@ import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
+import exception.IllegalStateChangeException;
 import exception.NotAvailableException;
 import exception.TaskFailedException;
+import exception.UnknownStateException;
 
 import static org.junit.Assert.*;
 
@@ -114,77 +116,344 @@ public class TaskTest {
 			fail();
 			} catch (BusinessRule1Exception e) {/*Success*/}		
 			
+	}/**
+	 * Testing setting the state to failed
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 */
+	@Test
+	public void checkStateZero() throws IllegalStateChangeException
+	{
+		assertEquals("Unfinished", task.getCurrentStateName());
 	}
 
 	/**
-	 * Testing status with scenario:
-	 * Status variable = unfinished
-	 * Resource = available
-	 * No dependent tasks
-	 * Expected outcome: Available
+	 * Testing setting the state to Successful
 	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
 	 */
 	@Test
-	public void checkStatusOne() throws DependencyException
+	public void checkStateOne() throws IllegalStateChangeException
 	{
-		fail();
-		/*
-		try {
-			task.updateTaskStatus(Status.Unfinished);
-		} finally {
-			assertEquals(Status.Available, task.getStatus());
-		}*/
+		task.setSuccessful();
+		assertEquals("Successful", task.getCurrentStateName());
 	}
 	
 	/**
-	 * Testing status with scenario:
-	 * Status variable = unfinished
-	 * No dependent tasks
-	 * Resource = unavailable
-	 * Expected outcome: Unavailable
+	 * Testing setting the state to failed
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 */
+	@Test
+	public void checkStateTwo() throws IllegalStateChangeException
+	{
+		task.setFailed();
+		assertEquals("Failed", task.getCurrentStateName());
+	}
+
+	
+	/**
+	 * Testing setting the state to successful when failed
+	 * @throws IllegalStateChangeException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 */
+	@Test(expected=IllegalStateChangeException.class)
+	public void checkStateThree() throws IllegalStateChangeException
+	{
+		task.setFailed();
+		task.setSuccessful();
+	}
+
+	
+	/**
+	 * Testing setting the state to failed when successful
+	 * @throws IllegalStateChangeException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 */
+	@Test(expected=IllegalStateChangeException.class)
+	public void checkStateFour() throws IllegalStateChangeException
+	{
+		task.setSuccessful();
+		task.setFailed();
+	}
+
+	
+	/**
+	 * Testing if the task is unfinished
+	 * @throws IllegalStateChangeException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 */
+	@Test
+	public void checkStateFive() throws IllegalStateChangeException
+	{
+		assertEquals(true, task.isUnfinished());
+		assertEquals(false, task.isFailed());
+		assertEquals(false, task.isSuccesful());
+	}
+
+	
+	/**
+	 * Testing if the task is successful
+	 * @throws IllegalStateChangeException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 */
+	@Test
+	public void checkStateSix() throws IllegalStateChangeException
+	{
+		task.setSuccessful();
+		
+		assertEquals(false, task.isUnfinished());
+		assertEquals(false, task.isFailed());
+		assertEquals(true, task.isSuccesful());
+	}
+
+	
+	/**
+	 * Testing if the task is failed
+	 * @throws IllegalStateChangeException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 */
+	@Test
+	public void checkStateSeven() throws IllegalStateChangeException
+	{
+		task.setFailed();
+		
+		assertEquals(false, task.isUnfinished());
+		assertEquals(true, task.isFailed());
+		assertEquals(false, task.isSuccesful());
+	}
+
+	
+	/**
+	 * Testing if the task satisfies business rule 2
+	 * @throws IllegalStateChangeException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws BusinessRule3Exception 
+	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule1Exception 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws DependencyCycleException 
+	 */
+	@Test
+	public void checkStateEight() throws IllegalStateChangeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException
+	{
+		Task task2 = new Task("some name", user, startDate, endDate, 50);
+		task2.setSuccessful();
+		task.addDependency(task2);
+		
+		assertEquals(true, task.satisfiesBusinessRule2());
+	}
+	
+	/**
+	 * Testing setting the state to Successful using the parser
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws UnknownStateException 
+	 */
+	@Test
+	public void checkStateNine() throws IllegalStateChangeException, UnknownStateException
+	{
+		task.parseStateString("Successful");
+		assertEquals("Successful", task.getCurrentStateName());
+	}
+	
+	/**
+	 * Testing setting the state to failed using the parser
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws UnknownStateException 
+	 */
+	@Test
+	public void checkStateTen() throws IllegalStateChangeException, UnknownStateException
+	{
+		task.parseStateString("Failed");
+		assertEquals("Failed", task.getCurrentStateName());
+	}
+	
+	/**
+	 * Testing setting the state to failed using the parser
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws UnknownStateException 
+	 * @throws UnknownStateException 
+	 */
+	@Test(expected=UnknownStateException.class)
+	public void checkStateEleven() throws IllegalStateChangeException, UnknownStateException
+	{
+		task.parseStateString("Trogdor the Burninator");
+	}
+	
+	/**
+	 * Testing default canBeExecuted
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws UnknownStateException 
+	 */
+	@Test
+	public void checkStateTwelve() throws IllegalStateChangeException
+	{
+		task.setFailed();
+		assertEquals(false, task.canBeExecuted());
+	}
+	
+	/**
+	 * Testing default setDescription
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws IllegalStateCallException 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws UnknownStateException 
+	 */
+	@Test(expected=IllegalStateCallException.class)
+	public void checkStateThirteen() throws IllegalStateChangeException, NullPointerException, EmptyStringException, IllegalStateCallException
+	{
+		task.setFailed();
+		task.setDescription("Trogdor Rules!");
+	}
+	
+	/**
+	 * Testing canBeExecuted when succesful
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws IllegalStateCallException 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
+	 * @throws UnknownStateException 
+	 */
+	@Test
+	public void checkStateFourteen() throws IllegalStateChangeException, NullPointerException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception
+	{
+		task.setSuccessful();
+		assertEquals(true, task.canBeExecuted());
+	}
+	
+	/**
+	 * Testing canBeExecuted when succesful
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws IllegalStateCallException 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
 	 * @throws NotAvailableException 
-	 * @throws DependencyException 
+	 * @throws UnknownStateException 
 	 */
 	@Test
-	public void checkStatusTwo() throws NotAvailableException, DependencyException
+	public void checkStateFifteen() throws IllegalStateChangeException, NullPointerException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException
 	{
-		fail();/*
 		task.addRequiredResource(resource);
+		task.setSuccessful();
+		resource.createReservation(startDate, 100000, user);
 		
-		task.updateTaskStatus(Status.Unfinished);
-		GregorianCalendar futuretime = new GregorianCalendar();
-		futuretime.add(Calendar.DAY_OF_MONTH, 1);
-		resource.createReservation(new GregorianCalendar(),120,user);
-		assertEquals(Status.Unavailable, task.getStatus());*/
-	}
-	
-	
-	/**
-	 * Testing status with scenario:
-	 * Status variable = unfinished
-	 * No dependent tasks
-	 * Resource = available
-	 * Current time <> schedule of the task
-	 * Expected outcome: Available
-	 */
-	@Test
-	public void checkStatusThree()
-	{
 		
+		assertEquals(false, task.canBeExecuted());
 	}
 	
 	/**
-	 * Testing status with scenario:
-	 * Status variable: Unfinished
-	 * Resource: Available
-	 * Dependencies: 1 Successful
-	 * Expected outcome: Available
+	 * Testing default implementation for add required resource
+	 * @throws IllegalStateChangeException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws IllegalStateCallException 
+	 * @throws IllegalStateCallException 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
+	 * @throws NotAvailableException 
+	 * @throws UnknownStateException 
 	 */
-	@Test
-	public void checkStatusFour()
+	@Test(expected=IllegalStateCallException.class)
+	public void checkStateSixteen() throws IllegalStateChangeException, IllegalStateCallException 
 	{
-		
+		task.setSuccessful();
+		task.addRequiredResource(resource);
 	}
+	
+	/**
+	 * Testing default implementation for add dependancy
+	 * @throws IllegalStateChangeException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws IllegalStateCallException 
+	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule3Exception 
+	 * @throws EmptyStringException 
+	 * @throws DependencyCycleException 
+	 * @throws BusinessRule1Exception 
+	 * @throws NullPointerException 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
+	 * @throws NotAvailableException 
+	 * @throws UnknownStateException 
+	 */
+	@Test(expected=IllegalStateCallException.class)
+	public void checkStateSeventeen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception 
+	{
+		task.setSuccessful();
+		task.addDependency(new Task("some name", user, startDate, endDate, 50));
+	}
+	
+	/**
+	 * Testing default implementation for add required resource
+	 * @throws IllegalStateChangeException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws IllegalStateCallException 
+	 * @throws IllegalStateCallException 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
+	 * @throws NotAvailableException 
+	 * @throws UnknownStateException 
+	 */
+	@Test(expected=IllegalStateCallException.class)
+	public void checkStateEightteen() throws IllegalStateChangeException, IllegalStateCallException 
+	{
+		task.addRequiredResource(resource);
+		task.setSuccessful();
+		task.removeRequiredResource(resource);
+	}
+	
+	/**
+	 * Testing default implementation for add dependancy
+	 * @throws IllegalStateChangeException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws IllegalStateCallException 
+	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule3Exception 
+	 * @throws EmptyStringException 
+	 * @throws DependencyCycleException 
+	 * @throws BusinessRule1Exception 
+	 * @throws NullPointerException 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
+	 * @throws DependencyException 
+	 * @throws NotAvailableException 
+	 * @throws UnknownStateException 
+	 */
+	@Test(expected=IllegalStateCallException.class)
+	public void checkStateNineteen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException 
+	{
+		Task task2 = new Task("some name", user, startDate, endDate, 50);
+
+		task.addDependency(task2);
+		task2.setSuccessful();
+		task.setSuccessful();
+		task.removeDependency(task2);
+	}
+	
 	/**
 	 * Test to see if description is set properly
 	 * @throws EmptyStringException
