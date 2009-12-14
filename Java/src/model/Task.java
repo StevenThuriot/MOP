@@ -190,14 +190,6 @@ public class Task implements Describable{
 	}
 	
 	/**
-	 * Returns a boolean indicating whether the current task can be finished.
-	 * A task can not be finished when it is failed or any of its dependencies is failed.
-	 */
-	public boolean canBeFinished(){
-		return this.taskState.canBeFinished();
-	}
-	
-	/**
 	 * This method returns a boolean indicating whether the current task can be 
 	 * dependent on a task <task>.
 	 * This is false if this dependency would lead to a cycle in the dependencies.
@@ -305,7 +297,7 @@ public class Task implements Describable{
 	 */
 	public GregorianCalendar earliestEndTime() throws TaskFailedException{
 		
-		if(!this.canBeFinished())
+		if(this.isFailed())
 			throw new TaskFailedException("Task can not be executed");
 		
 		GregorianCalendar earliest = this.getStartDate();
@@ -417,15 +409,6 @@ public class Task implements Describable{
 	public Boolean isFailed()
 	{
 		return this.taskState.isFailed();
-	}
-	
-	/**
-	 * Returns whether a task is performed or not.
-	 * @return
-	 */
-	protected Boolean isPerformed()
-	{
-		return this.taskState.isPerformed();
 	}
 	
 	/**

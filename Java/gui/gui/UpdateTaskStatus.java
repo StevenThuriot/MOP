@@ -1,13 +1,9 @@
 package gui;
 
-import java.util.ArrayList;
-
-import model.Resource;
 import model.Task;
 import model.User;
 
 import controller.DispatchController;
-import exception.DependencyException;
 
 public class UpdateTaskStatus extends UseCase {
 	@Override
