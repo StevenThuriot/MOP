@@ -4,6 +4,7 @@ import model.ResourceTest;
 import model.TaskDependencyTest;
 import model.TaskTest;
 import model.UserTest;
+import model.focus.FocusStrategyTest;
 import model.repositories.GenericRepoTest;
 import model.repositories.TypeRepoTest;
 
@@ -23,7 +24,7 @@ import exception.ExceptionsTest;
 @SuiteClasses(value={UserTest.class,TaskTest.class,ResourceTest.class,
 		ProjectControllerTest.class,ResourceControllerTest.class,TaskControllerTest.class,
 		TaskDependencyTest.class,TaskDependencyTest.class,TypeRepoTest.class,GenericRepoTest.class,
-		DispatchControllerTest.class,FocusFactoryTest.class,XMLParserTest.class,ExceptionsTest.class})
+		DispatchControllerTest.class,FocusFactoryTest.class,FocusStrategyTest.class,XMLParserTest.class,ExceptionsTest.class})
 public class AllTests {
 
 }
