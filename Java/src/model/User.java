@@ -26,7 +26,7 @@ public class User implements Describable{
 	
 
 	/**
-	 * Creates a new user, with no projects or tasks.
+	 * Creates a new user, with no tasks.
 	 * @param 	name
 	 * 			The name of this user.
 	 */

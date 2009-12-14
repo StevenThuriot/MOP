@@ -19,12 +19,7 @@ public class Project implements Describable{
 	 */
 	private String description;
 	
-	/**
-	 * The user responsible for this project.
-	 *	@TODO: consistency with user
-	 */
-	private User user;
-	
+
 	/**
 	 * An ArrayList containing all the task that belong to this project.
 	 */
@@ -32,11 +27,9 @@ public class Project implements Describable{
 	
 	
 	/**
-	 * Creates a new project belonging to a certain user and with a given description.
+	 * Creates a new project with a given description.
 	 * @param 	newDescription
 	 * 			The description of the project.
-	 * @param	newUser
-	 * 			The user responsible for this project.
 	 * @throws 	EmptyStringException
 	 * 			The description given is empty
 	 * 			| newDescription == ""
@@ -72,12 +65,6 @@ public class Project implements Describable{
 		projectTasks.add(task);
 	}
 	
-	/**
-	 * Returns the user responsible for this project.
-	 */
-	public User getUser(){
-		return user;
-	}
 	
 
 	/**
