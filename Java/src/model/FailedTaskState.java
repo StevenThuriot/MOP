@@ -44,5 +44,11 @@ public class FailedTaskState extends TaskState {
 		//Rule is always satisfied when failed
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Failed";
+	}
+	
 	
 }

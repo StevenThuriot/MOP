@@ -181,14 +181,6 @@ public class Task implements Describable{
 	}
 	
 	/**
-	 * Adds a resource to the resources required for this task.
-	 */
-	protected void doAddRequiredResource(Resource resource){
-		requiredResources.add(resource);
-		resource.addTaskUsing(this);
-	}
-	
-	/**
 	 * Returns whether a task can be executed right now.
 	 * This is true when all its dependencies are (successfully) finished and
 	 * all of its required resources are available.
@@ -249,6 +241,22 @@ public class Task implements Describable{
 	}
 	
 	/**
+	 * Adds a resource to the resources required for this task.
+	 */
+	protected void doAddRequiredResource(Resource resource){
+		requiredResources.add(resource);
+		resource.addTaskUsing(this);
+	}
+	
+	/**
+	 * Removes a resource from the resources required for this task.
+	 */
+	protected void doRemoveRequiredResource(Resource resource){
+		requiredResources.remove(resource);
+		resource.removeTaskUsing(this);
+	}
+	
+	/**
 	 * Sets <newDescription> to be the new description of this task.
 	 * @param	newDescription
 	 * 			The new description
@@ -273,6 +281,7 @@ public class Task implements Describable{
 		this.taskState = newState;
 	}
 	
+	
 	/**
 	 * Updates the status of this task. This method does not work recursively, 
 	 * and it throws an error if there are other tasks depending on this one and
@@ -284,7 +293,6 @@ public class Task implements Describable{
 	protected void doUpdateTaskStatus(TaskState newState) throws DependencyException{
 		this.taskState = newState;
 	}
-	
 	
 	/**
 	 * Returns the earliest possible end time for a task.
@@ -322,6 +330,15 @@ public class Task implements Describable{
 		//earliestEnd.add(minutefield, duration);
 		
 		return earliestEnd;
+	}
+	
+	/**
+	 * Returns a string representation of the current state.
+	 * @return
+	 */
+	public String getCurrentStateName()
+	{
+		return this.taskState.toString();
 	}
 	
 	/**
@@ -384,7 +401,7 @@ public class Task implements Describable{
 	 */
 	public TaskDependencyManager getTaskDependencyManager(){
 		return tdm;
-	}
+	}	
 	
 	/**
 	 * Returns the user responsible for this Task.
@@ -400,7 +417,7 @@ public class Task implements Describable{
 	public Boolean isFailed()
 	{
 		return this.taskState.isFailed();
-	}	
+	}
 	
 	/**
 	 * Returns whether a task is performed or not.
@@ -542,14 +559,6 @@ public class Task implements Describable{
 	}
 	
 	/**
-	 * Removes a resource from the resources required for this task.
-	 */
-	protected void doRemoveRequiredResource(Resource resource){
-		requiredResources.remove(resource);
-		resource.removeTaskUsing(this);
-	}
-	
-	/**
 	 * Returns whether the current task satisfies the business rule 1.
 	 * This is the case if its earliest possible end time is before the due date.
 	 * When a task can not be finished, the business rule is said not to be satisfied.
@@ -596,7 +605,7 @@ public class Task implements Describable{
 	public void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCall{
 		this.taskState.setDescription(newDescription);
 	}
-	
+
 	/**
 	 * Set <newDueDate> to be the new due date for this Task.
 	 * 
@@ -619,8 +628,8 @@ public class Task implements Describable{
 			this.dueDate = tmp;
 			throw new BusinessRule3Exception();
 		}
-	}
-
+	}	
+	
 	/**
 	 * Set <newDuration> to be the new duration of this Task.
 	 * 
@@ -631,7 +640,7 @@ public class Task implements Describable{
 	 */
 	public void setDuration(int newDuration){
 		this.duration = newDuration;
-	}	
+	}
 	
 	/**
 	 * Change the current state to Failed
@@ -655,7 +664,7 @@ public class Task implements Describable{
 		
 		this.startDate = (GregorianCalendar) newStartDate.clone();
 	}
-	
+
 	/**
 	 * Change the current state to Successful
 	 * @throws IllegalStateChangeException
@@ -685,7 +694,7 @@ public class Task implements Describable{
 	public String toString(){
 		return getDescription();
 	}
-
+	
 	/**
 	 * Updates the task's dates
 	 * @param newStart
@@ -731,5 +740,4 @@ public class Task implements Describable{
 			throw new BusinessRule1Exception("");
 		}
 	}
-	
 }
