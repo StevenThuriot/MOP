@@ -79,8 +79,7 @@ public class CreateTask extends UseCase {
 				menu.println("Nice try mate");
 				e.printStackTrace();
 			} catch (BusinessRule3Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				menu.println("This schedule would violate Business Rule 3. This is probably: starttime after the current time, or the deadline before the current time.");
 			}
 		}
 	}
