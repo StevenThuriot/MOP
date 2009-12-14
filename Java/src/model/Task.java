@@ -731,21 +731,21 @@ public class Task implements Describable{
 	public void updateTaskTiming(GregorianCalendar newStart, GregorianCalendar newDue, 
 			int newDuration) throws BusinessRule1Exception, NullPointerException, BusinessRule3Exception{
 		// copy current startDate to <oldStart>
-		GregorianCalendar oldStart = new GregorianCalendar();
-		oldStart.set(Calendar.YEAR, this.getStartDate().get(Calendar.YEAR));
-		oldStart.set(Calendar.MONTH, this.getStartDate().get(Calendar.MONTH));
-		oldStart.set(Calendar.DAY_OF_MONTH, this.getStartDate().get(Calendar.DAY_OF_MONTH));
-		oldStart.set(Calendar.HOUR_OF_DAY, this.getStartDate().get(Calendar.HOUR_OF_DAY));
-		oldStart.set(Calendar.MINUTE, this.getStartDate().get(Calendar.MINUTE));
+		GregorianCalendar oldStart = (GregorianCalendar) this.getStartDate().clone();
+//		oldStart.set(Calendar.YEAR, this.getStartDate().get(Calendar.YEAR));
+//		oldStart.set(Calendar.MONTH, this.getStartDate().get(Calendar.MONTH));
+//		oldStart.set(Calendar.DAY_OF_MONTH, this.getStartDate().get(Calendar.DAY_OF_MONTH));
+//		oldStart.set(Calendar.HOUR_OF_DAY, this.getStartDate().get(Calendar.HOUR_OF_DAY));
+//		oldStart.set(Calendar.MINUTE, this.getStartDate().get(Calendar.MINUTE));
 		oldStart.add(Calendar.MINUTE, duration);
 		
 		// copy current dueDate to <oldDue>
-		GregorianCalendar oldDue = new GregorianCalendar();
-		oldDue.set(Calendar.YEAR, this.getDueDate().get(Calendar.YEAR));
-		oldDue.set(Calendar.MONTH, this.getDueDate().get(Calendar.MONTH));
-		oldDue.set(Calendar.DAY_OF_MONTH, this.getDueDate().get(Calendar.DAY_OF_MONTH));
-		oldDue.set(Calendar.HOUR_OF_DAY, this.getDueDate().get(Calendar.HOUR_OF_DAY));
-		oldDue.set(Calendar.MINUTE, this.getDueDate().get(Calendar.MINUTE));
+		GregorianCalendar oldDue = (GregorianCalendar) this.getDueDate().clone();
+//		oldDue.set(Calendar.YEAR, this.getDueDate().get(Calendar.YEAR));
+//		oldDue.set(Calendar.MONTH, this.getDueDate().get(Calendar.MONTH));
+//		oldDue.set(Calendar.DAY_OF_MONTH, this.getDueDate().get(Calendar.DAY_OF_MONTH));
+//		oldDue.set(Calendar.HOUR_OF_DAY, this.getDueDate().get(Calendar.HOUR_OF_DAY));
+//		oldDue.set(Calendar.MINUTE, this.getDueDate().get(Calendar.MINUTE));
 		oldDue.add(Calendar.MINUTE, duration);
 		
 		//copy current duration to <oldDuration>
