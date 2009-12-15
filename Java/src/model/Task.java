@@ -504,7 +504,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 	/**
 	 * Removes a task. This method is non-recursive: dependent tasks will not be deleted. Instead,
 	 * dependencies will be broken.
-	 * @throws IllegalStateCallException 
 	 * @post	All dependencies with all other tasks will be broken
 	 * 			| for each Task t: !(t.getDependencies().contains(this))
 	 * 			|					&& ! (t.getDependentTasks().contains(this))
@@ -515,7 +514,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * In short, the remaining object is completely decoupled from any other model objects,
 	 * and should not be used anymore.
 	 */
-	public void remove() throws IllegalStateCallException{
+	public void remove(){
 		//removes this task from all required resources
 		ArrayList<Resource> resources = new ArrayList<Resource>(this.getRequiredResources());
 		for(Resource r: resources){
@@ -526,13 +525,13 @@ public class Task implements Describable, Subject, Observer<Task>{
 		ArrayList<Task> dependents = new ArrayList<Task>(this.getDependentTasks());
 		for(Task t: dependencies){
 			try {
-				this.removeDependency(t);
+				this.getTaskDependencyManager().removeDependency(t);
 				//Exception should not occur -- dependency is always present
 			} catch (DependencyException e) {}
 		}
 		for(Task t: dependents){
 			try {
-				t.removeDependency(this);
+				t.getTaskDependencyManager().removeDependency(this);
 				//Exception should not occur - dependency is always present
 			} catch (DependencyException e) {}
 			

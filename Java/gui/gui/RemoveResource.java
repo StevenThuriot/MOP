@@ -1,6 +1,7 @@
 package gui;
 
 import model.Resource;
+import model.Task;
 import model.User;
 import controller.DispatchController;
 import exception.ResourceBusyException;
@@ -31,9 +32,13 @@ public class RemoveResource extends UseCase {
 			try {
 				dController.getResourceController().removeResource(choice);
 			} catch (ResourceBusyException e) {
-				System.out.println("Resource is required by a task, Aborting...Done");
+				String descr = dController.getResourceController().getTasksUsing(choice).get(0).getDescription();
+				for(int i = 1; i < dController.getResourceController().getTasksUsing(choice).size();i++){
+					descr=descr.concat(", ").concat(dController.getResourceController().getTasksUsing(choice).get(i).getDescription());
+				}
+				menu.println("Resource is used by "+descr+", Aborting...Done");
 			}
-		}		
+		}
 	}
 
 }

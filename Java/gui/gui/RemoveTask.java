@@ -32,11 +32,7 @@ public class RemoveTask extends UseCase {
 			return;
 		if(!dController.getTaskController().hasDependentTasks( choice ) || (dController.getTaskController().hasDependentTasks( choice )
 				&& menu.dialogYesNo("Task has dependant tasks, if you remove you remove them all. Continue?")) ){
-			try {
-				dController.getTaskController().removeTask( choice );
-			} catch (IllegalStateCallException e) {
-				menu.println("This task reached an illegal state and will not be removed");
-			}
+			dController.getTaskController().removeTask( choice );
 		}
 	}
 

@@ -51,22 +51,22 @@ public class UpdateTaskStatus extends UseCase {
 		menu.println("Due date: "+menu.format(task.getDueDate()) );
 		menu.println("Duration: "+task.getDuration()+" Minutes");
 		choice = menu.menu("Select Status", "Succesful", "Failed", "Unfinished");
-		/*switch (choice) {
+		switch (choice) {
 			case 0:
-				newStatus = Status.Successful;
+				
 				break;
 			case 1:
-				newStatus = Status.Failed;
+				
 				break;
 			case 2:
-				newStatus = Status.Unfinished;
+				
 				break;
-		} */
+		} 
 		/*
 		try {
 			dController.getTaskController().updateTaskStatus(task, newStatus);
 		} catch (DependencyException e) {
-			if(menu.dialogYesNo("Task has other depedent tasks, updating will change their stus aswell. Continue?"))
+			if(menu.dialogYesNo("Task has other dependent tasks, updating will change their status as well. Continue?"))
 			{
 				dController.getTaskController().updateDependantTasks(task, newStatus);
 			}
