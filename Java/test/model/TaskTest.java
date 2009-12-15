@@ -459,15 +459,9 @@ public class TaskTest {
 	
 	/**
 	 * Testing setDescription
-	 * @throws IllegalStateCallException 
-	 * @throws EmptyStringException 
-	 * @throws NullPointerException 
-	 * @throws DependencyException 
-	 * @throws IllegalStateChangeException 
-	 * @throws IllegalStateCallException 
-	 * @throws EmptyStringException 
-	 * @throws NullPointerException 
-	 * @throws UnknownStateException 
+	 * @throws NullPointerException
+	 * @throws EmptyStringException
+	 * @throws IllegalStateCallException
 	 */
 	@Test(expected=NullPointerException.class)
 	public void checkStateTwenty() throws NullPointerException, EmptyStringException, IllegalStateCallException 
@@ -477,21 +471,43 @@ public class TaskTest {
 	
 	
 	/**
-	 * Testing setDescription
-	 * @throws IllegalStateCallException 
-	 * @throws EmptyStringException 
-	 * @throws NullPointerException 
-	 * @throws DependencyException 
-	 * @throws IllegalStateChangeException 
-	 * @throws IllegalStateCallException 
-	 * @throws EmptyStringException 
-	 * @throws NullPointerException 
-	 * @throws UnknownStateException 
+	 * Testing setdescription
+	 * @throws NullPointerException
+	 * @throws EmptyStringException
+	 * @throws IllegalStateCallException
 	 */
 	@Test(expected=EmptyStringException.class)
 	public void checkStateTwentyOne() throws NullPointerException, EmptyStringException, IllegalStateCallException 
 	{
 		task.setDescription("");
+	}
+	
+	/**
+	 * Failed always satisfies rule 2
+	 * @throws NullPointerException
+	 * @throws EmptyStringException
+	 * @throws IllegalStateCallException
+	 * @throws IllegalStateChangeException
+	 */
+	@Test
+	public void checkStateTwentyTwo() throws NullPointerException, EmptyStringException, IllegalStateCallException, IllegalStateChangeException 
+	{
+		task.setFailed();
+		assertEquals(true, task.satisfiesBusinessRule2());
+	}
+	
+	/**
+	 * Failed always satisfies rule 3
+	 * @throws NullPointerException
+	 * @throws EmptyStringException
+	 * @throws IllegalStateCallException
+	 * @throws IllegalStateChangeException
+	 */
+	@Test
+	public void checkStateTwentyThree() throws NullPointerException, EmptyStringException, IllegalStateCallException, IllegalStateChangeException 
+	{
+		task.setFailed();
+		assertEquals(true, task.satisfiesBusinessRule3());
 	}
 	
 	/**
@@ -708,5 +724,121 @@ public class TaskTest {
 	public void testToString()
 	{
 		assertEquals("Descr", task.toString());
+	}
+
+	/**
+	 * Testing DurationComparator
+	 * @throws BusinessRule3Exception 
+	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule1Exception 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 */
+	@Test
+	public void testDurationComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	{
+		Task t1 = new Task("d", user, startDate, endDate, 1, manager.getClock());
+		Task t2 = new Task("d", user, startDate, endDate, 2, manager.getClock());
+		
+		TaskDurationComparator c = new TaskDurationComparator();
+		assertEquals(-1, c.compare(t1, t2));
+	}
+
+	/**
+	 * Testing DurationComparator
+	 * @throws BusinessRule3Exception 
+	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule1Exception 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 */
+	@Test
+	public void testDurationComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	{
+		Task t1 = new Task("d", user, startDate, endDate, 2, manager.getClock());
+		Task t2 = new Task("d", user, startDate, endDate, 1, manager.getClock());
+		
+		TaskDurationComparator c = new TaskDurationComparator();
+		assertEquals(1, c.compare(t1, t2));
+	}
+
+	/**
+	 * Testing DurationComparator
+	 * @throws BusinessRule3Exception 
+	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule1Exception 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 */
+	@Test
+	public void testDurationComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	{
+		Task t1 = new Task("d", user, startDate, endDate, 1, manager.getClock());
+		Task t2 = new Task("d", user, startDate, endDate, 1, manager.getClock());
+		
+		TaskDurationComparator c = new TaskDurationComparator();
+		assertEquals(0, c.compare(t1, t2));
+	}
+
+	/**
+	 * Testing DeadlineComparator
+	 * @throws BusinessRule3Exception 
+	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule1Exception 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 */
+	@Test
+	public void testDeadlineComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	{
+		GregorianCalendar end2 = (GregorianCalendar) endDate.clone();
+		
+		Task t1 = new Task("d", user, startDate, endDate, 1, manager.getClock());
+		Task t2 = new Task("d", user, startDate, end2, 1, manager.getClock());
+		
+		TaskDeadlineComparator c = new TaskDeadlineComparator();
+		assertEquals(0, c.compare(t1, t2));
+	}
+
+	/**
+	 * Testing DeadlineComparator
+	 * @throws BusinessRule3Exception 
+	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule1Exception 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 */
+	@Test
+	public void testDeadlineComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	{
+		GregorianCalendar end2 = (GregorianCalendar) endDate.clone();
+		end2.add(Calendar.DAY_OF_WEEK, 1);
+		
+		Task t1 = new Task("d", user, startDate, endDate, 1, manager.getClock());
+		Task t2 = new Task("d", user, startDate, end2, 1, manager.getClock());
+		
+		TaskDeadlineComparator c = new TaskDeadlineComparator();
+		assertEquals(-1, c.compare(t1, t2));
+	}
+
+	/**
+	 * Testing DeadlineComparator
+	 * @throws BusinessRule3Exception 
+	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule1Exception 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 */
+	@Test
+	public void testDeadlineComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	{
+		GregorianCalendar end2 = (GregorianCalendar) endDate.clone();
+		end2.add(Calendar.DAY_OF_WEEK, -1);
+		
+		Task t1 = new Task("d", user, startDate, endDate, 1, manager.getClock());
+		Task t2 = new Task("d", user, startDate, end2, 1, manager.getClock());
+		
+		TaskDeadlineComparator c = new TaskDeadlineComparator();
+		assertEquals(1, c.compare(t1, t2));
 	}
 }

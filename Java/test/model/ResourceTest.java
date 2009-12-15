@@ -133,6 +133,80 @@ public class ResourceTest {
 		
 	}
 	
+	/**
+	 * Tests the behavior of reservations
+	 * @throws NotAvailableException 
+	 * @throws NotAvailableException 
+	 * @throws EmptyStringException 
+	 */
+	@Test(expected=NullPointerException.class)
+	public void reservations2() throws NotAvailableException, EmptyStringException{
+		Resource r = new Resource("d", ResourceType.Room);
+		r.createReservation(new GregorianCalendar(), 100, null);
+	}
+	
+	/**
+	 * Tests the behavior of reservations
+	 * @throws NotAvailableException 
+	 * @throws NotAvailableException 
+	 * @throws EmptyStringException 
+	 */
+	@Test(expected=NullPointerException.class)
+	public void reservations3() throws NotAvailableException, EmptyStringException{
+		Resource r = new Resource("d", ResourceType.Room);
+		r.createReservation(null, 100, user);
+	}
+	
+	/**
+	 * Tests the behavior of reservations
+	 * @throws NotAvailableException 
+	 * @throws NotAvailableException 
+	 * @throws EmptyStringException 
+	 */
+	@Test
+	public void reservations4() throws NotAvailableException, EmptyStringException{
+		Resource r = new Resource("d", ResourceType.Room);
+		Reservation s = r.createReservation(new GregorianCalendar(), 100, user);
+		assertEquals(100, s.getDuration());
+	}
+	
+	/**
+	 * Tests the behavior of reservations
+	 * @throws NotAvailableException 
+	 * @throws NotAvailableException 
+	 * @throws EmptyStringException 
+	 */
+	@Test
+	public void reservations5() throws NotAvailableException, EmptyStringException{
+		Resource r = new Resource("d", ResourceType.Room);
+		Reservation s = r.createReservation(new GregorianCalendar(), 100, user);
+		assertEquals(r, s.getReservedResource());
+	}
+	
+	/**
+	 * Tests the behavior of reservations
+	 * @throws NotAvailableException 
+	 * @throws NotAvailableException 
+	 * @throws EmptyStringException 
+	 */
+	@Test(expected=NullPointerException.class)
+	public void reservations6() throws NotAvailableException, EmptyStringException{
+		Reservation s = new Reservation(user, new GregorianCalendar(), 100, null);
+	}
+	
+	/**
+	 * Tests the behavior of reservations
+	 * @throws NotAvailableException 
+	 * @throws NotAvailableException 
+	 * @throws EmptyStringException 
+	 */
+	@Test
+	public void reservations7() throws NotAvailableException, EmptyStringException{
+		Resource r = new Resource("d", ResourceType.Room);
+		Reservation s = r.createReservation(new GregorianCalendar(), 100, user);
+		assertEquals(user, s.getUser());
+	}
+	
 	
    /**
      * Add and remove a task that uses this resource
