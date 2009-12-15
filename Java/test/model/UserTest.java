@@ -1,6 +1,5 @@
 package model;
 
-import model.Project;
 import model.User;
 
 import org.junit.After;
@@ -8,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.EmptyStringException;
-import exception.IllegalStateCallException;
 import static org.junit.Assert.*;
 
 public class UserTest {

@@ -1,14 +1,9 @@
 package gui;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import model.Resource;
 import model.Task;
 import model.User;
-import model.focus.DeadlineFocus;
-import model.focus.DurationFocus;
-import model.focus.FocusStrategy;
 import controller.DispatchController;
 import controller.FocusFactory;
 import controller.FocusFactory.FocusType;
