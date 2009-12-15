@@ -10,7 +10,7 @@ import java.util.GregorianCalendar;
 import exception.*;
 
 
-public class Task implements Describable{
+public class Task implements Describable, Subject, Observer<Task>{
 	
 
 	/**
@@ -299,6 +299,7 @@ public class Task implements Describable{
 	 */
 	protected void doSetState(TaskState newState) {
 		this.taskState = newState;
+		this.publish();
 	}
 	
 	/**
@@ -338,15 +339,7 @@ public class Task implements Describable{
 		// copy earliest end time and add duration
 		GregorianCalendar earliestEnd = new GregorianCalendar();
 		earliestEnd = (GregorianCalendar) earliest.clone();
-//		earliestEnd.set(Calendar.YEAR, earliest.get(Calendar.YEAR));
-//		earliestEnd.set(Calendar.MONTH, earliest.get(Calendar.MONTH));
-//		earliestEnd.set(Calendar.DAY_OF_MONTH, earliest.get(Calendar.DAY_OF_MONTH));
-//		earliestEnd.set(Calendar.HOUR_OF_DAY, earliest.get(Calendar.HOUR_OF_DAY));
-//		earliestEnd.set(Calendar.MINUTE, earliest.get(Calendar.MINUTE));
 		earliestEnd.add(Calendar.MINUTE, duration);
-		
-		//int minutefield = GregorianCalendar.MINUTE;
-		//earliestEnd.add(minutefield, duration);
 		
 		return earliestEnd;
 	}
@@ -453,7 +446,7 @@ public class Task implements Describable{
 	}
 	
 	/**
-	 * Returns whether a task is succesful or not.
+	 * Returns whether a task is successful or not.
 	 * @return
 	 */
 	public Boolean isSuccesful()
@@ -472,7 +465,7 @@ public class Task implements Describable{
 	
 	/**
 	 * String parser used to help set the state through the GUI or parse the XML file
-	 * If the parser doesn't recognise the given state, it will remain in its default state,
+	 * If the parser doesn't recognize the given state, it will remain in its default state,
 	 * which is Unfinished.
 	 * @param state
 	 * @throws IllegalStateChangeException
@@ -732,20 +725,10 @@ public class Task implements Describable{
 			int newDuration) throws BusinessRule1Exception, NullPointerException, BusinessRule3Exception{
 		// copy current startDate to <oldStart>
 		GregorianCalendar oldStart = (GregorianCalendar) this.getStartDate().clone();
-//		oldStart.set(Calendar.YEAR, this.getStartDate().get(Calendar.YEAR));
-//		oldStart.set(Calendar.MONTH, this.getStartDate().get(Calendar.MONTH));
-//		oldStart.set(Calendar.DAY_OF_MONTH, this.getStartDate().get(Calendar.DAY_OF_MONTH));
-//		oldStart.set(Calendar.HOUR_OF_DAY, this.getStartDate().get(Calendar.HOUR_OF_DAY));
-//		oldStart.set(Calendar.MINUTE, this.getStartDate().get(Calendar.MINUTE));
 		oldStart.add(Calendar.MINUTE, duration);
 		
 		// copy current dueDate to <oldDue>
 		GregorianCalendar oldDue = (GregorianCalendar) this.getDueDate().clone();
-//		oldDue.set(Calendar.YEAR, this.getDueDate().get(Calendar.YEAR));
-//		oldDue.set(Calendar.MONTH, this.getDueDate().get(Calendar.MONTH));
-//		oldDue.set(Calendar.DAY_OF_MONTH, this.getDueDate().get(Calendar.DAY_OF_MONTH));
-//		oldDue.set(Calendar.HOUR_OF_DAY, this.getDueDate().get(Calendar.HOUR_OF_DAY));
-//		oldDue.set(Calendar.MINUTE, this.getDueDate().get(Calendar.MINUTE));
 		oldDue.add(Calendar.MINUTE, duration);
 		
 		//copy current duration to <oldDuration>
@@ -763,5 +746,25 @@ public class Task implements Describable{
 			
 			throw new BusinessRule1Exception("");
 		}
+	}
+
+	@Override
+	public void publish() {
+		for(Task t: getDependentTasks()){
+			t.update(this);
+		}
+	}
+
+	@Override
+	public void update(Task subject){
+		if(!getDependencies().contains(subject))
+			throw new RuntimeException("Observer was notified by a subject it was not subscribed to");
+		if(subject.isFailed())
+			try {
+				this.setFailed();
+			} catch (IllegalStateChangeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 }

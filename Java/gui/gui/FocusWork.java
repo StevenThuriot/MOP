@@ -34,8 +34,7 @@ public class FocusWork extends UseCase {
 	}
 	
 	private void focusWork() {
-		focus:
-        while (true) {
+		focus: while (true) {
 			//Which kind of Focus would we like to see?
 			// 1. Deadline-based
 			// 2. Duration-based
@@ -53,7 +52,6 @@ public class FocusWork extends UseCase {
 					focus = FocusFactory.createFocus(FocusType.Default, user, 0, 0);
 			}
 			loop: while (true) {
-
 				List<Task> tasks = focus.getTasks();
 				Task task = menu.menuGen("Select Task", tasks);
 				menu.println(task.getDescription());
