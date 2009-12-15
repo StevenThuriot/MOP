@@ -1,5 +1,6 @@
 package model.repositories;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import exception.IllegalStateCallException;
@@ -8,6 +9,7 @@ import exception.ResourceBusyException;
 import model.Clock;
 import model.Project;
 import model.Resource;
+import model.Task;
 import model.User;
 
 public class RepositoryManager {
@@ -117,5 +119,21 @@ public class RepositoryManager {
     public List<User> getUsers()
     {
         return userRepository.getAll();
+    }
+    
+    /**
+     * Returns a list of the tasks in the system.
+     * @return
+     */
+    public List<Task> getTasks(){
+    	ArrayList<Task> tasks = new ArrayList<Task>();
+    	ArrayList<User> users = new ArrayList<User>(this.getUsers());
+    	// Iterate over all users to get all tasks
+    	for(User u: users){
+    		for(Task t: u.getTasks()){
+    			tasks.add(t);
+    		}
+    	}
+    	return tasks;
     }
 }
