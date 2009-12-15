@@ -31,7 +31,7 @@ public class DispatchController {
             throw new NullPointerException();
 		this.projectController = new ProjectController(manager);
 		this.resourceController = new ResourceController(manager);
-		this.taskController = new TaskController();
+		this.taskController = new TaskController(manager);
 	}
 
 	/**

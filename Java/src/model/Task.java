@@ -68,6 +68,11 @@ public class Task implements Describable, Subject, Observer<Task>{
 	private TaskDependencyManager tdm;
 	
 	/**
+	 * A clock indicating the current time of the system
+	 */
+	private Clock clock;
+	
+	/**
 	 * 	Initializes a Task object with the given User, start date, due date and duration.
 	 * @param 	user
 	 * 			The User who is responsible for this task.
@@ -95,9 +100,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @post	The task has dependencies nor dependent tasks
 	 * 			TODO: formal definition
 	 */
-	public Task(String description, User user, GregorianCalendar startDate, GregorianCalendar dueDate, int duration) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+	public Task(String description, User user, GregorianCalendar startDate, GregorianCalendar dueDate, int duration, Clock clock) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		requiredResources = new ArrayList<Resource>();
 		tdm = new TaskDependencyManager(this);
+		this.clock = clock;
 		
 		this.taskState = new UnfinishedTaskState(this);
 		
@@ -141,9 +147,9 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws BusinessRule3Exception 
 	 */
 	public Task(String description, User user,GregorianCalendar startDate, GregorianCalendar dueDate, int duration,
-			ArrayList<Task> dependencies, ArrayList<Resource> reqResources) throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+			ArrayList<Task> dependencies, ArrayList<Resource> reqResources, Clock clock) throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		
-		this(description, user, startDate, dueDate, duration);
+		this(description, user, startDate, dueDate, duration, clock);
 		
 		for(Task t: dependencies){
 			if (t != null)
@@ -337,13 +343,18 @@ public class Task implements Describable, Subject, Observer<Task>{
 		}
 		
 		// copy earliest end time and add duration
-		GregorianCalendar earliestEnd = new GregorianCalendar();
+		GregorianCalendar earliestEnd = this.getClock().getTime();
 		earliestEnd = (GregorianCalendar) earliest.clone();
 		earliestEnd.add(Calendar.MINUTE, duration);
 		
 		return earliestEnd;
 	}
-	
+	/**
+	 * Returns the clock governing the time of the system.
+	 */
+	public Clock getClock(){
+		return clock;
+	}
 	/**
 	 * Returns a string representation of the current state.
 	 * @return
@@ -748,14 +759,14 @@ public class Task implements Describable, Subject, Observer<Task>{
 		}
 	}
 
-	@Override
+	//@Override
 	public void publish() {
 		for(Task t: getDependentTasks()){
 			t.update(this);
 		}
 	}
 
-	@Override
+	//@Override
 	public void update(Task subject){
 		if(!getDependencies().contains(subject))
 			throw new RuntimeException("Observer was notified by a subject it was not subscribed to");

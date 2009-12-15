@@ -45,7 +45,7 @@ public class UnfinishedTaskState extends TaskState {
 		boolean resourceReady = true;
 		boolean depReady = true;
 		
-		GregorianCalendar now = new GregorianCalendar();
+		GregorianCalendar now = this.getContext().getClock().getTime();
 		
 		if (now.before(this.getContext().getStartDate())) {
 			return false;
@@ -132,7 +132,7 @@ public class UnfinishedTaskState extends TaskState {
 	 */
 	protected Boolean satisfiesBusinessRule3()
 	{
-		GregorianCalendar currentTime = new GregorianCalendar();
+		GregorianCalendar currentTime = this.getContext().getClock().getTime();
 		GregorianCalendar startTime = this.getContext().getStartDate();
 		GregorianCalendar dueTime = this.getContext().getDueDate();
 		

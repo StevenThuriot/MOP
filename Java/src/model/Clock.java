@@ -2,7 +2,9 @@ package model;
 
 import java.util.GregorianCalendar;
 
-public class Clock {
+import model.repositories.RepositoryManager;
+
+public class Clock implements Subject {
 
 	/**
 	 * The time as indicated by this clock.
@@ -10,13 +12,19 @@ public class Clock {
 	private GregorianCalendar currentTime;
 	
 	/**
+	 * The RepositoryManager for the system.
+	 */
+	private RepositoryManager manager;
+	
+	/**
 	 * Initializes a new clock, indicating the time <time>
 	 * @param	time
 	 * 			The time to be written on the clock
 	 * @post	new.getTime().equals(time)
 	 */
-	public Clock(GregorianCalendar time){
+	public Clock(RepositoryManager manager, GregorianCalendar time){
 		this.currentTime = time;
+		this.manager = manager;
 	}
 	
 	/**
@@ -25,8 +33,9 @@ public class Clock {
 	 * 			system time.
 	 * 			However, this is not kept consistent.
 	 */
-	public Clock(){
+	public Clock(RepositoryManager manager){
 		this.currentTime = new GregorianCalendar();
+		this.manager = manager;
 	}
 	
 	/**
@@ -45,5 +54,13 @@ public class Clock {
 	 */
 	public void setTime(GregorianCalendar newTime){
 		this.currentTime = newTime;
+		publish();
+	}
+	
+	/**
+	 * Notifies all tasks that this Clock has changed.
+	 */
+	public void publish(){
+		
 	}
 }
