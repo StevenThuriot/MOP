@@ -1,5 +1,6 @@
 package test;
 
+import model.ClockTest;
 import model.ProjectTest;
 import model.ResourceTest;
 import model.TaskDependencyTest;
@@ -25,7 +26,8 @@ import exception.ExceptionsTest;
 @SuiteClasses(value={UserTest.class,TaskTest.class,ResourceTest.class,ProjectTest.class,
 		ProjectControllerTest.class,ResourceControllerTest.class,TaskControllerTest.class,
 		TaskDependencyTest.class,TaskDependencyTest.class,TypeRepoTest.class,GenericRepoTest.class,
-		DispatchControllerTest.class,FocusFactoryTest.class,FocusStrategyTest.class,XMLParserTest.class,ExceptionsTest.class})
+		DispatchControllerTest.class,FocusFactoryTest.class,FocusStrategyTest.class,XMLParserTest.class,
+		ExceptionsTest.class, ClockTest.class})
 public class AllTests {
 
 }
