@@ -21,6 +21,8 @@ import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
+import exception.IllegalStateChangeException;
+import exception.UnknownStateException;
 
 
 public class TaskControllerTest {
@@ -94,5 +96,78 @@ public class TaskControllerTest {
 	{
 		@SuppressWarnings("unused")
 		TaskController test = new TaskController(null);
+	}
+	
+	/**
+	 * Set task to failed
+	 * @throws EmptyStringException
+	 * @throws NullPointerException
+	 * @throws BusinessRule1Exception
+	 * @throws IllegalStateCallException
+	 * @throws BusinessRule3Exception
+	 * @throws IllegalStateChangeException
+	 */
+	@Test
+	public void testSetFailed() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException
+	{
+		user = new User("John");
+		GregorianCalendar startDate = new GregorianCalendar();//Now
+		GregorianCalendar endDate = new GregorianCalendar();
+		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
+		
+		manager = new RepositoryManager();
+		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		
+		controller.setFailed(task);
+		assertEquals(true, task.isFailed());
+	}
+	
+	/**
+	 * Set task to successful
+	 * @throws EmptyStringException
+	 * @throws NullPointerException
+	 * @throws BusinessRule1Exception
+	 * @throws IllegalStateCallException
+	 * @throws BusinessRule3Exception
+	 * @throws IllegalStateChangeException
+	 */
+	@Test
+	public void testSetSuccessful() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException
+	{
+		user = new User("John");
+		GregorianCalendar startDate = new GregorianCalendar();//Now
+		GregorianCalendar endDate = new GregorianCalendar();
+		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
+
+		manager = new RepositoryManager();
+		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		
+		controller.setSuccessful(task);
+		assertEquals(true, task.isSuccesful());
+	}
+	
+	/**
+	 * Set task to successful
+	 * @throws EmptyStringException
+	 * @throws NullPointerException
+	 * @throws BusinessRule1Exception
+	 * @throws IllegalStateCallException
+	 * @throws BusinessRule3Exception
+	 * @throws IllegalStateChangeException
+	 * @throws UnknownStateException 
+	 */
+	@Test
+	public void testSetSuccessful2() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, UnknownStateException
+	{
+		user = new User("John");
+		GregorianCalendar startDate = new GregorianCalendar();//Now
+		GregorianCalendar endDate = new GregorianCalendar();
+		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
+
+		manager = new RepositoryManager();
+		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		
+		controller.parseStateString(task, "Successful");
+		assertEquals(true, task.isSuccesful());
 	}
 }

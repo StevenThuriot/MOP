@@ -191,7 +191,7 @@ public class ResourceTest {
 	 */
 	@Test(expected=NullPointerException.class)
 	public void reservations6() throws NotAvailableException, EmptyStringException{
-		Reservation s = new Reservation(user, new GregorianCalendar(), 100, null);
+		new Reservation(user, new GregorianCalendar(), 100, null);
 	}
 	
 	/**

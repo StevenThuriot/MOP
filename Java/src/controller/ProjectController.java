@@ -8,7 +8,6 @@ import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import model.Project;
 import model.Task;
-import model.User;
 import model.repositories.RepositoryManager;
 
 /**
