@@ -6,10 +6,15 @@ import java.util.List;
 import exception.*;
 
 public class UnfinishedTaskState extends TaskState {
+
+	
 	protected UnfinishedTaskState(Task context) {
 		super(context);
+		
+		this.addState("Successful");
+		this.addState("Failed");
 	}
-	
+
 	/**
 	 * Adds a dependency to the current task.
 	 * @param 	dependency
