@@ -29,12 +29,9 @@ public class Menu {
 		in = i;
 		out = o;
 		s = new Scanner(in);
-		//System.out.println(s.delimiter().pattern());
-		//s.useDelimiter(Pattern.compile("\n+",Pattern.UNIX_LINES));
 		s.useDelimiter(System.getProperty("line.separator"));
 		df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
 		f = NumberFormat.getIntegerInstance();
-		//f.setMinimumIntegerDigits(2);
 	}
 	
 	/**
@@ -43,10 +40,7 @@ public class Menu {
 	 */
 	public String prompt(String message){
 		out.println(message);
-		//if(s.hasNext()){
 			return s.next().trim();
-		//}
-		//throw new RuntimeException();
 	}
 	
 	/**

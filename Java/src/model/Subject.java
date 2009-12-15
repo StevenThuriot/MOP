@@ -1,5 +1,9 @@
 package model;
 
+/**
+ * @author koen
+ *
+ */
 public interface Subject {
 	
 	/**

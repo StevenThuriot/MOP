@@ -1,9 +1,11 @@
 package model;
 
+
 /**
  * @author koen
  *
- * @param <S extends Subject> Type of Subject the Observer is watching. 
+ * @param <S> Type of Subject the Observer is watching. 
+ * @param <T> State object 
  */
 public interface Observer<S extends Subject> {
 	
