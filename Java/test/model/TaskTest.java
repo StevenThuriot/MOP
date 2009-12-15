@@ -552,7 +552,7 @@ public class TaskTest {
 		// Earliest end time should be 26 hours after the startDate of <task2>
 		earliestEnd = startDate;
 		earliestEnd.add(Calendar.HOUR, 26);
-		assertEquals(new GregorianCalendar(2009, 10, 3, 14,00), task.earliestEndTime());		
+		assertEquals(earliestEnd, task.earliestEndTime());		
 	}
 	
 	/**
