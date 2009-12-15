@@ -1,6 +1,7 @@
 package model;
 
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import model.repositories.RepositoryManager;
 
@@ -57,10 +58,17 @@ public class Clock implements Subject {
 		publish();
 	}
 	
+	public RepositoryManager getManager(){
+		return manager;
+	}
+	
 	/**
 	 * Notifies all tasks that this Clock has changed.
 	 */
 	public void publish(){
-		
+		List<Task> allTasks = this.getManager().getTasks();
+		for(Task t: allTasks){
+			t.update(this);
+		}
 	}
 }

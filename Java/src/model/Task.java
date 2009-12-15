@@ -9,7 +9,17 @@ import gui.Describable;
 import java.util.GregorianCalendar;
 import exception.*;
 
-
+/**
+ * The Task class represents a task in the task manager. A Task object has a description,
+ * and a timing, and a reference to a TaskDependencyManager.
+ * A Task can be in different states.
+ * 
+ * @invar	A Task will satisfy all business rules.
+ * 			|this.satisfiesBusinessRule1()
+ * 			| && this.satisfiesBusinessRule2()
+ * 			| && this.satisfiesBusinessRule3()
+ *
+ */
 public class Task implements Describable, Subject, Observer<Task>{
 	
 
@@ -777,5 +787,21 @@ public class Task implements Describable, Subject, Observer<Task>{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+	}
+	
+	/**
+	 * Updates the Task when the Clock is changed.
+	 * @param c
+	 */
+	public void update(Clock c){
+		if(!c.equals(this.getClock()))
+			throw new RuntimeException("This task was notified by a wrong clock");
+		
+		if(!this.satisfiesBusinessRule3()){
+			try {
+				this.setFailed();
+			} catch (IllegalStateChangeException e) {}
+		}
+
 	}
 }
