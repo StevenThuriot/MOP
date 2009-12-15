@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -508,6 +509,49 @@ public class TaskTest {
 	{
 		task.setFailed();
 		assertEquals(true, task.satisfiesBusinessRule3());
+	}
+
+	
+	/**
+	 * Checking for state possibilities
+	 */
+	@Test
+	public void checkStateTwentyFour() 
+	{
+		ArrayList<String> list = new ArrayList<String>();
+
+		list.add("Successful");
+		list.add("Failed");
+		
+		assertEquals(list, task.getPossibleStateChanges());
+	}
+	
+	/**
+	 * Checking for state possibilities while failed
+	 * @throws IllegalStateChangeException 
+	 */
+	@Test
+	public void checkStateTwentyFive() throws IllegalStateChangeException 
+	{
+		ArrayList<String> list = new ArrayList<String>();
+		
+		task.setFailed();
+		
+		assertEquals(list, task.getPossibleStateChanges());
+	}
+	
+	/**
+	 * Checking for state possibilities while successful
+	 * @throws IllegalStateChangeException 
+	 */
+	@Test
+	public void checkStateTwentySix() throws IllegalStateChangeException 
+	{
+		ArrayList<String> list = new ArrayList<String>();
+		
+		task.setSuccessful();
+		
+		assertEquals(list, task.getPossibleStateChanges());
 	}
 	
 	/**
