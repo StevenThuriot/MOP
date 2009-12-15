@@ -18,7 +18,7 @@ public class SuccessfulTaskState extends TaskState {
 	protected Boolean canBeExecuted(){
 		boolean resourceReady = true;
 		
-		GregorianCalendar now = new GregorianCalendar();
+		GregorianCalendar now = this.getContext().getClock().getTime();
 		
 		for(Resource r: this.getContext().getRequiredResources()){
 			resourceReady = resourceReady && (r.availableAt(now, this.getContext().getDuration()));
@@ -72,7 +72,7 @@ public class SuccessfulTaskState extends TaskState {
 	 */
 	protected Boolean satisfiesBusinessRule3()
 	{
-		GregorianCalendar currentTime = new GregorianCalendar();
+		GregorianCalendar currentTime = this.getContext().getClock().getTime();
 		GregorianCalendar startTime = this.getContext().getStartDate();
 		
 		//Not before start time

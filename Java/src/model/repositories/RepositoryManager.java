@@ -5,6 +5,7 @@ import java.util.List;
 import exception.IllegalStateCallException;
 import exception.ResourceBusyException;
 
+import model.Clock;
 import model.Project;
 import model.Resource;
 import model.User;
@@ -22,6 +23,10 @@ public class RepositoryManager {
      * Resource repository implementation
      */
     private Repository<Resource> resourceRepository;
+    /**
+     * A clock that keeps the time in the system
+     */
+    private Clock clock;
     
     /**
      * Default constructor of RepositoryManager
@@ -31,6 +36,7 @@ public class RepositoryManager {
         projectRepository = new Repository<Project>();
         userRepository = new Repository<User>();
         resourceRepository = new Repository<Resource>();
+        clock = new Clock(this);
     }
     /**
      * Overridable method add. Will add a project to the project repository
@@ -80,6 +86,13 @@ public class RepositoryManager {
     {
         r.remove();
         return resourceRepository.remove(r);
+    }
+    /**
+     * Returns the clock of the system.
+     * @return
+     */
+    public Clock getClock(){
+    	return clock;
     }
     /**
      * Returns an unmodifiable list of the resources available    
