@@ -113,8 +113,9 @@ public class Resource implements Describable{
 	 * 			The resource is in use by some task and can not be removed.
 	 */
 	public void remove() throws ResourceBusyException{
-		if(this.requiredByTask())
-			throw new ResourceBusyException("Resource is still being used.");
+		if(this.requiredByTask()){
+			throw new ResourceBusyException("Resource is required by a task");
+		}
 	}
 	
 	/**

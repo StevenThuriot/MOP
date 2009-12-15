@@ -79,10 +79,9 @@ public class TaskController {
 	/**
 	 * Let a task remove itself
 	 * @param t
-	 * @throws IllegalStateCallException 
 	 * @throws DependencyException
 	 */
-	public void removeTask(Task t) throws IllegalStateCallException{
+	public void removeTask(Task t){
 		t.remove();
 	}
 	

@@ -38,42 +38,25 @@ public class ModifyTaskDetails extends UseCase {
 	}
 	
 	private void modifyTaskDetails(){
-		ArrayList<Task> tasks = new ArrayList<Task>();
-		tasks.addAll(dController.getTaskController().getTasks(user));
-		ArrayList<String> descr = new ArrayList<String>(tasks.size());
-		for (Task t : tasks) {
-			descr.add(t.getDescription());
-		}
-		int choice = menu.menu("Select Task", descr);
-		Task task = tasks.get(choice);
-		modifyTaskDetails(task);
+		modifyTaskDetails(menu.menuGen("Select Task", dController.getTaskController().getTasks(user)));
 	}
 	
 	private void modifyTaskDetails(Task task){
 		int choice;
 		menu.println(task.getDescription());
 		ArrayList<String> descr = new ArrayList<String>();
-		descr.clear();
-		for (Task t : dController.getTaskController().getDependentTasks(task)) {
-			descr.add(t.getDescription());
-		}
-		if(descr.isEmpty())
-			descr.add("None");
-		menu.printList("Dependent Tasks", descr);
-		descr.clear();
-		for (Task t : dController.getTaskController().getDependencies(task)) {
-			descr.add(t.getDescription());
-		}
-		if(descr.isEmpty())
-			descr.add("None");
-		menu.printList("Dependencies", descr);
-		descr.clear();
-		for (Resource r : dController.getTaskController().getRequiredResources(task)) {
-			descr.add(r.getDescription());
-		}
-		if(descr.isEmpty())
-			descr.add("None");
-		menu.printList("Required Resources", descr);
+		if(!dController.getTaskController().hasDependentTasks(task))
+			menu.printListGen("Dependent Tasks", dController.getTaskController().getDependentTasks(task));
+		else
+			menu.println("Dependent Tasks \n0: None");
+		if(!dController.getTaskController().hasDependencies(task))
+			menu.printListGen("Dependencies", dController.getTaskController().getDependencies(task));
+		else
+			menu.println("Dependcies \n0: None");
+		if(!dController.getTaskController().hasRequiredResources(task))
+			menu.printListGen("Required Resources", dController.getTaskController().getRequiredResources(task));
+		else
+			menu.println("Required Resources \n 0: None");
 		menu.println("Start date: "+menu.format(task.getStartDate()) );
 		menu.println("Due date: "+menu.format(task.getDueDate()) );
 		menu.println("Duration: "+task.getDuration()+" Minutes");

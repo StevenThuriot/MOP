@@ -8,6 +8,7 @@ import java.util.List;
 import model.Reservation;
 import model.Resource;
 import model.ResourceType;
+import model.Task;
 import model.User;
 import model.repositories.RepositoryManager;
 import exception.EmptyStringException;
@@ -89,5 +90,13 @@ public class ResourceController {
 	 */
 	public void removeResource(Resource r) throws ResourceBusyException {
 		manager.remove(r);
+	}
+	
+	/**
+	 * Get a list of all tasks using this resource
+	 * @return
+	 */
+	public List<Task> getTasksUsing(Resource r){
+		return r.getTasksUsing();
 	}
 }
