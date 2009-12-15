@@ -6,6 +6,8 @@ import static org.junit.Assert.*;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import model.repositories.RepositoryManager;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,17 +25,18 @@ public class TaskDependencyTest {
 	 * The TaskDependencyManager to be tested.
 	 */
 	private TaskDependencyManager tdm;
-	
+	/**
+	 * RepositoryManager to be used.
+	 */
+	private RepositoryManager manager;
 	/**
 	 * The Task that the TaskDependencyManager is appointed to.
 	 */
 	private Task taskMain;
-	
 	/**
 	 * A task to be used in the tests.
 	 */
 	private Task taskHelp;
-	
 	/**
 	 * Another task to be used in the tests
 	 */
@@ -41,6 +44,7 @@ public class TaskDependencyTest {
 	
 	@Before
 	public void setUp() throws Exception {
+		manager = new RepositoryManager();
 		//sets up a new Task
 		User user = new User("John");
 		GregorianCalendar startDate = new GregorianCalendar();
@@ -48,11 +52,11 @@ public class TaskDependencyTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		// 4 days to finish the task from now on
 		int duration = 1;
-		taskMain = new Task("Main Task",user,startDate,endDate,duration);
+		taskMain = new Task("Main Task",user,startDate,endDate,duration, manager.getClock());
 		//sets up a second Task
-		taskHelp = new Task("Help Task", user, startDate, endDate, duration);
+		taskHelp = new Task("Help Task", user, startDate, endDate, duration, manager.getClock());
 		//sets up yet another Task
-		taskHelp2 = new Task("Help Task2", user, startDate, endDate, duration);
+		taskHelp2 = new Task("Help Task2", user, startDate, endDate, duration, manager.getClock());
 		//sets up the TDM
 		tdm = taskMain.getTaskDependencyManager();
 	}

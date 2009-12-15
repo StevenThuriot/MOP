@@ -8,6 +8,7 @@ import model.Resource;
 import model.ResourceType;
 import model.Task;
 import model.User;
+import model.repositories.RepositoryManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,7 +33,6 @@ public class TaskTest {
 	 * Task to be tested
 	 */
 	private Task task;
-	
 	/**
 	 * StartDate to be used in the Task objects
 	 */
@@ -42,8 +42,10 @@ public class TaskTest {
 	 * EndDate to be used in the Task objects
 	 */
 	private GregorianCalendar endDate;
-	
-	
+	/**
+	 * RepositoryManager to be used
+	 */
+	private RepositoryManager manager;
 	/**
 	 * Resource to be added to the Task
 	 */
@@ -67,8 +69,8 @@ public class TaskTest {
 		endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 		resource = new Resource("Projector", ResourceType.Tool);
-		task = new Task("Descr",user,startDate,endDate,120);
-			
+		manager = new RepositoryManager();
+		task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
 	}
 	
 	/**
@@ -112,7 +114,7 @@ public class TaskTest {
 		//Task "MOP" can never be completed in time :-(
 		try {
 			@SuppressWarnings("unused")
-			Task task2 = new Task("MOP", user, startDate, endDate, 1500);
+			Task task2 = new Task("MOP", user, startDate, endDate, 1500, manager.getClock());
 			fail();
 			} catch (BusinessRule1Exception e) {/*Success*/}		
 			
@@ -244,7 +246,7 @@ public class TaskTest {
 	@Test
 	public void checkStateEight() throws IllegalStateChangeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException
 	{
-		Task task2 = new Task("some name", user, startDate, endDate, 50);
+		Task task2 = new Task("some name", user, startDate, endDate, 50, manager.getClock());
 		task2.setSuccessful();
 		task.addDependency(task2);
 		
@@ -400,7 +402,7 @@ public class TaskTest {
 	public void checkStateSeventeen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception 
 	{
 		task.setSuccessful();
-		task.addDependency(new Task("some name", user, startDate, endDate, 50));
+		task.addDependency(new Task("some name", user, startDate, endDate, 50, manager.getClock()));
 	}
 	
 	/**
@@ -446,7 +448,7 @@ public class TaskTest {
 	@Test(expected=IllegalStateCallException.class)
 	public void checkStateNineteen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException 
 	{
-		Task task2 = new Task("some name", user, startDate, endDate, 50);
+		Task task2 = new Task("some name", user, startDate, endDate, 50, manager.getClock());
 
 		task.addDependency(task2);
 		task2.setSuccessful();
@@ -489,7 +491,7 @@ public class TaskTest {
 	@Test
 	public void dependencies1() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		// Try a proper dependency
-		Task task2 = new Task("some name", user, startDate, endDate, 50);
+		Task task2 = new Task("some name", user, startDate, endDate, 50, manager.getClock());
 		task.addDependency(task2);
 		// Assure that it is properly initialized
 		// For more details, see TaskDependencyManager and corresponding test class
@@ -516,7 +518,7 @@ public class TaskTest {
 		startDate.add(Calendar.DAY_OF_YEAR, 4);
 		endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 5);
-		Task task2 = new Task("some name", user, startDate, endDate, 1380);
+		Task task2 = new Task("some name", user, startDate, endDate, 1380, manager.getClock());
 		// <task2> starts after 3 days and takes 23 hours. <task> takes another 2 hours
 		// This dependency will not satisfy business rule 1
 		try {
@@ -546,7 +548,7 @@ public class TaskTest {
 		startDate.add(Calendar.DAY_OF_YEAR, 1);
 		endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 5);
-		Task task2 = new Task("some name", user, startDate, endDate, 1440);
+		Task task2 = new Task("some name", user, startDate, endDate, 1440, manager.getClock());
 		task.addDependency(task2);
 		//<task2> takes 24 hours to complete, <task> takes another 2.
 		// Earliest end time should be 26 hours after the startDate of <task2>
@@ -568,8 +570,8 @@ public class TaskTest {
 	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		//Sets up a required resource, and a dependency in both directions
 		task.addRequiredResource(resource);
-		Task task2 = new Task("some dependency",user,startDate,endDate,120);
-		Task task3 = new Task("some dependentTask",user,startDate,endDate,120);
+		Task task2 = new Task("some dependency",user,startDate,endDate,120,manager.getClock());
+		Task task3 = new Task("some dependentTask",user,startDate,endDate,120,manager.getClock());
 		task.addDependency(task2);
 		task3.addDependency(task);
 		// remove the task
@@ -596,11 +598,11 @@ public class TaskTest {
 		Resource resource2 = new Resource("some resource",ResourceType.Tool);
 		Resource resource3 = new Resource("some other resource",ResourceType.Tool);
 		//Sets up 3 additional tasks
-		Task task2 = new Task("some dependency",user,startDate,endDate,120);
+		Task task2 = new Task("some dependency",user,startDate,endDate,120,manager.getClock());
 		task2.addRequiredResource(resource2);
-		Task task3 = new Task("some dependentTask",user,startDate,endDate,120);
+		Task task3 = new Task("some dependentTask",user,startDate,endDate,120,manager.getClock());
 		task3.addRequiredResource(resource3);
-		Task task4 = new Task("some other task",user, startDate, endDate,120);
+		Task task4 = new Task("some other task",user, startDate, endDate,120,manager.getClock());
 		task3.addDependency(task4);
 		//Sets up a hierarchy of 3 levels
 		task3.addDependency(task2);

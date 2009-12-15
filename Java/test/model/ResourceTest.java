@@ -9,6 +9,7 @@ import model.Resource;
 import model.ResourceType;
 import model.Task;
 import model.User;
+import model.repositories.RepositoryManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -24,6 +25,7 @@ public class ResourceTest {
 
 	private Resource resource;
 	private User user;
+	private RepositoryManager manager;
 	
 	Task task1;
 	
@@ -35,8 +37,9 @@ public class ResourceTest {
 		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
+		manager = new RepositoryManager();
 		// 4 days to finish task
-		task1 = new Task("Descr",user, startDate,endDate,1440);
+		task1 = new Task("Descr",user, startDate,endDate,1440, manager.getClock());
 		
 	}
 
@@ -45,8 +48,6 @@ public class ResourceTest {
 		user = null;
 		resource = null;
 		task1 = null;
-		//TODO: Verwijder alle resources uit ResourceManager
-		//Kwinten: volgens mij is dit hier niet belangrijk nu. Mag deze comment weg?
 	}
 	
 	/**

@@ -27,10 +27,12 @@ public class ProjectControllerTest {
 	 */
 	public ProjectController controller;
 	
+	private RepositoryManager manager;
+	
 	@Before
 	public void setUp()
 	{
-	    RepositoryManager manager = new RepositoryManager();
+	    manager = new RepositoryManager();
 		controller = new ProjectController(manager);
 	}
 	
@@ -109,7 +111,7 @@ public class ProjectControllerTest {
 	public void testBind() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
 	{
 	    Project p = controller.createProject("Project A");
-	    TaskController taskController = new TaskController();
+	    TaskController taskController = new TaskController(manager);
 	    GregorianCalendar end = new GregorianCalendar();
 	    end.add(Calendar.MONTH, 1);
 	    controller.bind(p,taskController.createTask("Descr", new GregorianCalendar(), end, 120, new User("Bart")));
