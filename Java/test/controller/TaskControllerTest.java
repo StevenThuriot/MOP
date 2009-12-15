@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import model.Resource;
 import model.Task;
 import model.User;
+import model.repositories.RepositoryManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -26,10 +27,12 @@ public class TaskControllerTest {
 
 	private TaskController controller;
 	private User user;
+	private RepositoryManager manager;
 	@Before
 	public void setUp()
 	{
-		controller = new TaskController();
+		manager = new RepositoryManager();
+		controller = new TaskController(manager);
 		user = new User("John");
 	}
 	

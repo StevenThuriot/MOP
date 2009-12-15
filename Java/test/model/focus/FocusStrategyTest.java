@@ -6,6 +6,7 @@ import java.util.List;
 
 import model.Task;
 import model.User;
+import model.repositories.RepositoryManager;
 
 import org.junit.After;
 import org.junit.Before;
@@ -18,7 +19,7 @@ import static org.junit.Assert.*;
 public class FocusStrategyTest {
     
     private User user;
-    private TaskController controller = new TaskController();
+    private TaskController controller = new TaskController(new RepositoryManager());
     /**
      * Setting all variables to be used in tests
      * @throws Exception
