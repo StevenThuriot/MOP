@@ -38,11 +38,11 @@ public class UpdateTaskStatus extends UseCase {
 		if(!dController.getTaskController().hasDependentTasks(task))
 			menu.printListGen("Dependent Tasks", dController.getTaskController().getDependentTasks(task));
 		else
-			menu.println("Dependent Tasks \n 0: None");
+			menu.println("Dependent Tasks \n0: None");
 		if(!dController.getTaskController().hasDependencies(task))
 			menu.printListGen("Dependencies", dController.getTaskController().getDependencies(task));
 		else
-			menu.println("Dependcies \n 0: None");
+			menu.println("Dependcies \n0: None");
 		if(!dController.getTaskController().hasRequiredResources(task))
 			menu.printListGen("Required Resources", dController.getTaskController().getRequiredResources(task));
 		else
