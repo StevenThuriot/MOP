@@ -83,6 +83,48 @@ public class Task implements Describable, Subject, Observer<Task>{
 	private Clock clock;
 	
 	/**
+	 * Initializes a task with the given user, start date, due date, duration,
+	 * dependencies and required resources.
+	 * @param 	user
+	 * 			The user to be responsible for this task.
+	 * @param 	startDate
+	 * 			The start date for this task.
+	 * @param 	dueDate
+	 * 			The due date for this task.
+	 * @param 	duration
+	 * 			The duration required for this task.
+	 * @param 	dependencies
+	 * 			The tasks on which task depends.
+	 * @param 	reqResources
+	 * 			The resources that this task requires.
+	 * @throws 	BusinessRule1Exception
+	 * 			Throws an exception when the construction of this task would
+	 * 			violate business rule 1.
+	 * @throws DependencyCycleException
+	 * 			Throws an exception when the construction of this task would lead
+	 * 			to a cycle in the dependencies.
+	 * @throws EmptyStringException 
+	 * @throws IllegalStateCallException 
+	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
+	 */
+	public Task(String description, User user,GregorianCalendar startDate, GregorianCalendar dueDate, int duration,
+			ArrayList<Task> dependencies, ArrayList<Resource> reqResources, Clock clock) throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+		
+		this(description, user, startDate, dueDate, duration, clock);
+		
+		for(Task t: dependencies){
+			if (t != null)
+				this.addDependency(t);
+		}
+		
+		for(Resource r: reqResources){
+			if (r != null)
+				this.addRequiredResource(r);
+		}
+	}
+	
+	/**
 	 * 	Initializes a Task object with the given User, start date, due date and duration.
 	 * @param 	user
 	 * 			The User who is responsible for this task.
@@ -128,48 +170,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 			throw new BusinessRule1Exception("Business Rule 1 is not satisfied.");
 		
 		user.addTask(this);
-	}
-	
-	/**
-	 * Initializes a task with the given user, start date, due date, duration,
-	 * dependencies and required resources.
-	 * @param 	user
-	 * 			The user to be responsible for this task.
-	 * @param 	startDate
-	 * 			The start date for this task.
-	 * @param 	dueDate
-	 * 			The due date for this task.
-	 * @param 	duration
-	 * 			The duration required for this task.
-	 * @param 	dependencies
-	 * 			The tasks on which task depends.
-	 * @param 	reqResources
-	 * 			The resources that this task requires.
-	 * @throws 	BusinessRule1Exception
-	 * 			Throws an exception when the construction of this task would
-	 * 			violate business rule 1.
-	 * @throws DependencyCycleException
-	 * 			Throws an exception when the construction of this task would lead
-	 * 			to a cycle in the dependencies.
-	 * @throws EmptyStringException 
-	 * @throws IllegalStateCallException 
-	 * @throws NullPointerException 
-	 * @throws BusinessRule3Exception 
-	 */
-	public Task(String description, User user,GregorianCalendar startDate, GregorianCalendar dueDate, int duration,
-			ArrayList<Task> dependencies, ArrayList<Resource> reqResources, Clock clock) throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
-		
-		this(description, user, startDate, dueDate, duration, clock);
-		
-		for(Task t: dependencies){
-			if (t != null)
-				this.addDependency(t);
-		}
-		
-		for(Resource r: reqResources){
-			if (r != null)
-				this.addRequiredResource(r);
-		}
 	}
 	
 	/**
@@ -308,7 +308,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 		this.description = newDescription;
 	}
 	
-	
 	/**
 	 * Method used to change the state
 	 * @param newState
@@ -317,6 +316,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		this.taskState = newState;
 		this.publish();
 	}
+	
 	
 	/**
 	 * Returns the earliest possible end time for a task.
@@ -347,6 +347,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		
 		return earliestEnd;
 	}
+	
 	/**
 	 * Returns the clock governing the time of the system.
 	 */
@@ -361,7 +362,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 	{
 		return this.taskState.toString();
 	}
-	
 	/**
 	 * Returns an ArrayList containing the tasks on which the current task depends.
 	 */
@@ -398,6 +398,15 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 */
 	public int getDuration(){
 		return duration;
+	}
+	
+	/**
+	 * Returns all the possible statechanges from the current state
+	 * @return list of strings
+	 */
+	public ArrayList<String> getPossibleStateChanges()
+	{
+		return this.taskState.getPossibleStateChanges();
 	}
 	
 	/**
@@ -483,6 +492,13 @@ public class Task implements Describable, Subject, Observer<Task>{
 	public void parseStateString(String state) throws IllegalStateChangeException, UnknownStateException
 	{
 		this.taskState.parseString(state);
+	}
+	
+	//@Override
+	public void publish() {
+		for(Task t: getDependentTasks()){
+			t.update(this);
+		}
 	}
 	
 	/**
@@ -600,7 +616,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		}
 		return before;
 	}
-	
+
 	/**
 	 * Returns whether the current task satisfies the business rule 2.
 	 * @return Boolean
@@ -608,8 +624,8 @@ public class Task implements Describable, Subject, Observer<Task>{
 	protected Boolean satisfiesBusinessRule2()
 	{
 		return this.taskState.satisfiesBusinessRule2();
-	}
-
+	}	
+	
 	/**
 	 * Returns whether the current task satisfies the business rule 3.
 	 * @return Boolean
@@ -617,7 +633,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	protected Boolean satisfiesBusinessRule3()
 	{
 		return this.taskState.satisfiesBusinessRule3();
-	}	
+	}
 	
 	/**
 	 * Sets <newDescription> to be the new description of this task.
@@ -654,7 +670,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 			throw new BusinessRule3Exception();
 		}
 	}
-	
+
 	/**
 	 * Set <newDuration> to be the new duration of this Task.
 	 * 
@@ -689,7 +705,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		
 		this.startDate = (GregorianCalendar) newStartDate.clone();
 	}
-
+	
 	/**
 	 * Change the current state to Successful
 	 * @throws IllegalStateChangeException
@@ -697,6 +713,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	public void setSuccessful() throws IllegalStateChangeException {
 		this.taskState.setSuccessful();
 	}
+	
 	
 	/**
 	 * Set <newUser> as the User to be responsible for this Task.
@@ -711,7 +728,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 		this.user = newUser;
 	}
 	
-	
 	/**
 	 * Returns a string representation of this Task.
 	 * At the moment, this returns the description.
@@ -719,6 +735,35 @@ public class Task implements Describable, Subject, Observer<Task>{
 	@Override
 	public String toString(){
 		return getDescription();
+	}
+
+	/**
+	 * Updates the Task when the Clock is changed.
+	 * @param c
+	 */
+	public void update(Clock c){
+		if(!c.equals(this.getClock()))
+			throw new RuntimeException("This task was notified by a wrong clock");
+		
+		if(!this.satisfiesBusinessRule3()){
+			try {
+				this.setFailed();
+			} catch (IllegalStateChangeException e) {}
+		}
+
+	}
+
+	//@Override
+	public void update(Task subject){
+		if(!getDependencies().contains(subject))
+			throw new RuntimeException("Observer was notified by a subject it was not subscribed to");
+		if(subject.isFailed())
+			try {
+				this.setFailed();
+			} catch (IllegalStateChangeException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
 	/**
@@ -755,41 +800,5 @@ public class Task implements Describable, Subject, Observer<Task>{
 			
 			throw new BusinessRule1Exception("");
 		}
-	}
-
-	//@Override
-	public void publish() {
-		for(Task t: getDependentTasks()){
-			t.update(this);
-		}
-	}
-
-	//@Override
-	public void update(Task subject){
-		if(!getDependencies().contains(subject))
-			throw new RuntimeException("Observer was notified by a subject it was not subscribed to");
-		if(subject.isFailed())
-			try {
-				this.setFailed();
-			} catch (IllegalStateChangeException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-	}
-	
-	/**
-	 * Updates the Task when the Clock is changed.
-	 * @param c
-	 */
-	public void update(Clock c){
-		if(!c.equals(this.getClock()))
-			throw new RuntimeException("This task was notified by a wrong clock");
-		
-		if(!this.satisfiesBusinessRule3()){
-			try {
-				this.setFailed();
-			} catch (IllegalStateChangeException e) {}
-		}
-
 	}
 }
