@@ -69,4 +69,14 @@ public class ClockTest {
 		assertTrue(task.getClock().getTime().equals(startDate));
 		assertTrue(task.isFailed());
 	}
+	
+	/**
+	 * Testing the second constructor
+	 */
+	@Test
+	public void init2()
+	{
+		Clock clock = new Clock(manager, startDate);
+		assertTrue(clock.getTime().equals(startDate));
+	}
 }

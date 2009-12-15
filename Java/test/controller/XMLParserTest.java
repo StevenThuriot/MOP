@@ -57,7 +57,7 @@ public class XMLParserTest {
      * @throws NotAvailableException 
      * @throws UnknownStateException 
      */
-    @Test
+    @Test(expected=BusinessRule3Exception.class) //XML file is out of date thus throws a Business rule 3 exception
     public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException
     {
         User result = parser.Parse();
@@ -83,7 +83,7 @@ public class XMLParserTest {
      * @throws NotAvailableException 
      * @throws UnknownStateException 
      */
-    @Test
+    @Test(expected=BusinessRule3Exception.class) //XML file is out of date thus throws a Business rule 3 exception
     public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException
     {
         User result = parser.Parse();

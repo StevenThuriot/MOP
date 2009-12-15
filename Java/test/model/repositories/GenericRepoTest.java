@@ -39,6 +39,18 @@ public class GenericRepoTest {
         assertFalse(repo.add("Hi"));
     }
     
+    @Test(expected=NullPointerException.class)
+    public void testAddNull()
+    {
+        repo.add(null);
+    }
+    
+    @Test(expected=NullPointerException.class)
+    public void testRemoveNull()
+    {
+        repo.remove(null);
+    }
+    
     @After
     public void tearDown()
     {

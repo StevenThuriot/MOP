@@ -456,6 +456,44 @@ public class TaskTest {
 		task.removeDependency(task2);
 	}
 	
+	
+	/**
+	 * Testing setDescription
+	 * @throws IllegalStateCallException 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws IllegalStateCallException 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws UnknownStateException 
+	 */
+	@Test(expected=NullPointerException.class)
+	public void checkStateTwenty() throws NullPointerException, EmptyStringException, IllegalStateCallException 
+	{
+		task.setDescription(null);
+	}
+	
+	
+	/**
+	 * Testing setDescription
+	 * @throws IllegalStateCallException 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws IllegalStateCallException 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws UnknownStateException 
+	 */
+	@Test(expected=EmptyStringException.class)
+	public void checkStateTwentyOne() throws NullPointerException, EmptyStringException, IllegalStateCallException 
+	{
+		task.setDescription("");
+	}
+	
 	/**
 	 * Test to see if description is set properly
 	 * @throws EmptyStringException
@@ -512,7 +550,7 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 */
-	@Test
+	@Test(expected=BusinessRule1Exception.class)
 	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		startDate = new GregorianCalendar();
 		startDate.add(Calendar.DAY_OF_YEAR, 4);
@@ -521,10 +559,7 @@ public class TaskTest {
 		Task task2 = new Task("some name", user, startDate, endDate, 1380, manager.getClock());
 		// <task2> starts after 3 days and takes 23 hours. <task> takes another 2 hours
 		// This dependency will not satisfy business rule 1
-		try {
-			task.addDependency(task2);
-			fail();
-		} catch (BusinessRule1Exception e) {/*Success*/}		
+		task.addDependency(task2);		
 	}
 	
 	/**
@@ -621,6 +656,57 @@ public class TaskTest {
 		assertFalse(resource3.getTasksUsing().contains(task3));
 		assertFalse(task4.getDependentTasks().contains(task3));
 	}
-
 	
+	/**
+	 * Testing if EarliestEndTime throws the error if failed
+	 * @throws IllegalStateChangeException 
+	 * @throws TaskFailedException 
+	 */
+	@Test(expected=TaskFailedException.class)
+	public void testEarliestEndTime() throws IllegalStateChangeException, TaskFailedException
+	{
+		task.setFailed();
+		task.earliestEndTime();
+	}
+	
+	/**
+	 * Testing if setDueDate throws the error if failed
+	 * @throws NullPointerException
+	 * @throws BusinessRule3Exception 
+	 */
+	@Test(expected=NullPointerException.class)
+	public void testSetDueDate() throws NullPointerException, BusinessRule3Exception
+	{
+		task.setDueDate(null);
+	}
+	
+	/**
+	 * Testing if setStartDate throws the error if failed
+	 * @throws NullPointerException
+	 * @throws BusinessRule3Exception 
+	 */
+	@Test(expected=NullPointerException.class)
+	public void testSetStartDate() throws NullPointerException, BusinessRule3Exception
+	{
+		task.setStartDate(null);
+	}
+	
+	/**
+	 * Testing if setUser throws the error if failed
+	 * @throws NullPointerException
+	 */
+	@Test(expected=NullPointerException.class)
+	public void testSetUser() throws NullPointerException
+	{
+		task.setUser(null);
+	}
+
+	/**
+	 * Testing toString
+	 */
+	@Test
+	public void testToString()
+	{
+		assertEquals("Descr", task.toString());
+	}
 }
