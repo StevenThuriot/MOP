@@ -12,6 +12,12 @@ public class ExceptionsTest {
         //BusinessRule1Exception
         assertEquals("Business rule 1 violation.", (new BusinessRule1Exception()).getMessage());
         assertEquals("MSG", (new BusinessRule1Exception("MSG")).getMessage());
+        //BusinessRule1Exception
+        assertEquals("Business rule 2 violation.", (new BusinessRule2Exception()).getMessage());
+        assertEquals("MSG", (new BusinessRule2Exception("MSG")).getMessage());
+        //BusinessRule1Exception
+        assertEquals("Business rule 3 violation.", (new BusinessRule3Exception()).getMessage());
+        assertEquals("MSG", (new BusinessRule3Exception("MSG")).getMessage());
         //DependencyCycleException
         assertEquals("MSG", (new DependencyCycleException("MSG")).getMessage());
         //DependencyException
@@ -31,5 +37,9 @@ public class ExceptionsTest {
         assertEquals("MSG", (new ResourceBusyException("MSG")).getMessage());
         //TaskFailedException
         assertEquals("MSG", (new TaskFailedException("MSG")).getMessage());
+        //UnknownStateException
+        assertEquals("An unknown state has been passed to the parser.", (new UnknownStateException()).getMessage());
+        assertEquals("MSG", (new UnknownStateException("MSG")).getMessage());
+        
     }
 }

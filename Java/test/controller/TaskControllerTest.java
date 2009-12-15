@@ -79,4 +79,20 @@ public class TaskControllerTest {
 		controller.removeTask(taak);
 		assertFalse(controller.getTasks(user).contains(taak));
 	}
+	
+	/**
+	 * Test to see if the controller's constructor checks for null
+	 * @throws EmptyStringException
+	 * @throws BusinessRule1Exception
+	 * @throws DependencyCycleException
+	 * @throws NullPointerException
+	 * @throws IllegalStateCallException
+	 * @throws BusinessRule3Exception
+	 */
+	@Test(expected=NullPointerException.class)
+	public void createController() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
+	{
+		@SuppressWarnings("unused")
+		TaskController test = new TaskController(null);
+	}
 }

@@ -319,18 +319,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 	}
 	
 	/**
-	 * Updates the status of this task. This method does not work recursively, 
-	 * and it throws an error if there are other tasks depending on this one and
-	 * the status is changed from successful to unfinished or failed.
-	 * @param 	newStatus
-	 * @throws 	DependencyException
-	 * TODO: finish documentation
-	 */
-	protected void doUpdateTaskStatus(TaskState newState) throws DependencyException{
-		this.taskState = newState;
-	}
-	
-	/**
 	 * Returns the earliest possible end time for a task.
 	 * @return	The earliest time at which this task can be finished.
 	 * @throws 	TaskFailedException 

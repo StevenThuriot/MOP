@@ -246,6 +246,7 @@ public class Resource implements Describable{
 			res.reservations = (ArrayList<Reservation>) this.reservations.clone();
 			res.tasksUsing = (ArrayList<Task>) this.tasksUsing.clone();
 		} catch (EmptyStringException e) {
+			//Will never happen but pfft, Java...
 		}
 		return res;
 	}

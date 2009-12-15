@@ -146,5 +146,53 @@ public class ResourceTest {
         task1.removeRequiredResource(resource);
         assertFalse(resource.getTasksUsing().contains(task1));
     }
+    
+    /**
+     * Testing the toString method
+     */
+    @Test
+    public void testToString()
+    {
+    	assertEquals("Description", resource.toString());
+    }
+    
+    /**
+     * Testing the getType method
+     */
+    @Test
+    public void testGetType()
+    {
+    	assertEquals(ResourceType.Room, resource.getType());
+    }
+    
+    /**
+     * Testing the setType method
+     */
+    @Test(expected=NullPointerException.class)
+    public void testSetType()
+    {
+    	resource.setType(null);
+    }
+    
+    /**
+     * Testing the clone method
+     * @throws NotAvailableException 
+     * @throws IllegalStateCallException 
+     */
+    @Test
+    public void testClone() throws NotAvailableException, IllegalStateCallException
+    {
+    	GregorianCalendar startDate = new GregorianCalendar();
+		resource.createReservation(startDate, 100, user);
+		
+		task1.addRequiredResource(resource);
+        assertTrue(resource.getTasksUsing().contains(task1));
+        
+        Resource r = resource.clone();
+    	assertEquals("Description", r.getDescription());
+    	assertEquals(ResourceType.Room, r.getType());
+    	assertEquals(2, r.getReservations().size());
+    	assertEquals(1, r.getTasksUsing().size());
+    }
 
 }
