@@ -65,14 +65,15 @@ public class UpdateTaskStatus extends UseCase {
 				try {
 					dController.getTaskController().setSuccessful(task);
 				} catch (IllegalStateChangeException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					menu.println("Task can not be completed, god knows why, maybe no resource reservation.");
 				} catch (BusinessRule2Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					menu.println("Business Rule 2: A task can only be completed succesfully if all dependecies have been completed succesfully as wel.");
+					for(Task t: dController.getTaskController().getDependencies(task)){
+						if(!t.isSuccesful())
+							menu.println(task.getDescription()+" depends on "+t.getDescription()+" which is "+(t.canBeExecuted()?"Available.":"Unavailable."));
+					}
 				} catch (BusinessRule3Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					menu.println("A task can only be completed after the start date.");
 				}
 				break;
 			case 1:

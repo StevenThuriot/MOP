@@ -176,21 +176,18 @@ public class UnfinishedTaskState extends TaskState {
 	 * Set the current state to successful
 	 * @throws IllegalStateChangeException
 	 */
-	protected void setSuccessful() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception
-	{
-		boolean check = false;
-		if ( this.canBeExecuted() ) {
-			TaskState newState = new SuccessfulTaskState( this.getContext() );
-			if (newState.satisfiesBusinessRule2() && newState.satisfiesBusinessRule3()) {
+	protected void setSuccessful() throws IllegalStateChangeException
+		,BusinessRule2Exception, BusinessRule3Exception{
+		TaskState newState = new SuccessfulTaskState( this.getContext() );
+		if ( this.canBeExecuted() ) 
+			if (newState.satisfiesBusinessRule2() && newState.satisfiesBusinessRule3()) 
 				this.getContext().doSetState(newState);
-				check = true;
-			}else if(!newState.satisfiesBusinessRule2())
-				throw new BusinessRule2Exception(null);
-		}
-		
-		if (!check) {
+		else if(!newState.satisfiesBusinessRule2())
+			throw new BusinessRule2Exception("Task is dependent ona unfinished task.");
+		else if(!newState.satisfiesBusinessRule3())
+			throw new BusinessRule3Exception("Task can not yet be completed");
+		else 
 			throw new IllegalStateChangeException();
-		}
 	}
 
 	@Override

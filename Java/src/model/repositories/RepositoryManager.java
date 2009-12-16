@@ -1,6 +1,7 @@
 package model.repositories;
 
 import java.util.ArrayList;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import exception.IllegalStateCallException;
@@ -38,7 +39,7 @@ public class RepositoryManager {
         projectRepository = new Repository<Project>();
         userRepository = new Repository<User>();
         resourceRepository = new Repository<Resource>();
-        clock = new Clock(this);
+        clock = new Clock(this,new GregorianCalendar(1970, 1, 1));
     }
     /**
      * Overridable method add. Will add a project to the project repository
