@@ -661,7 +661,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		if (newDueDate == null)
 			throw new NullPointerException("Null was passed");
 		
-		GregorianCalendar tmp = this.dueDate;
+		GregorianCalendar tmp = (GregorianCalendar) this.dueDate.clone();
 		
 		this.dueDate = newDueDate;
 
