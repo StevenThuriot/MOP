@@ -178,6 +178,17 @@ public class TaskController {
 	public void addRequiredResource(Task task, Resource resource) throws IllegalStateCallException{
 		task.addRequiredResource(resource);
 	}
+
+	
+	/**
+	 * Remove required resource to task
+	 * @param task
+	 * @param resource
+	 * @throws IllegalStateCallException 
+	 */
+	public void removeRequiredResource(Task task, Resource resource) throws IllegalStateCallException{
+		task.removeRequiredResource(resource);
+	}
 	
 	/**
 	 * Set new task description
@@ -216,13 +227,14 @@ public class TaskController {
 	
 	/**
 	 * Shows all the tasks according to a certain FocusType strategy.
-	 * @param user
-	 * @return
+	  * @param type A type of FocusWork (enum)
+	  * @param user The user who's asking for his or her tasks
+	  * @param var1 When selecting DeadlineFocus, the max number, otherwise the min duration with a DurationFocus
+	  * @param var2 Maximum duration when selecting a DurationFocus. Ignored when a DeadlineFocus
 	 */
 	public List<Task> focusWork(User user,FocusType type,int var1,int var2)
 	{
-		return FocusFactory.createFocus(type, user, var1, var2).getTasks();
-		
+		return FocusFactory.createFocus(type, user, var1, var2).getTasks();		
 	}
 	
 	/**
