@@ -93,9 +93,10 @@ public class TaskTest {
 	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule1Exception 
 	 */
-	@Test
-	public void initialization() throws EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+	@Test(expected=BusinessRule1Exception.class)
+	public void initialization() throws EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, BusinessRule1Exception{
 		// <task> is initialized with no required resources
 		assertTrue(task.getRequiredResources().isEmpty());
 		// <task> is initialized with no dependencies or depending tasks
@@ -114,12 +115,8 @@ public class TaskTest {
 		endDate.add(Calendar.DAY_OF_YEAR,1);
 		//One day is available, but the duration is 25 hours. Business Rule exception should be thrown.
 		//Task "MOP" can never be completed in time :-(
-		try {
-			@SuppressWarnings("unused")
-			Task task2 = new Task("MOP", user, startDate, endDate, 1500, manager.getClock());
-			fail();
-			} catch (BusinessRule1Exception e) {/*Success*/}		
-			
+		@SuppressWarnings("unused")
+		Task task2 = new Task("MOP", user, startDate, endDate, 1500, manager.getClock());
 	}/**
 	 * Testing setting the state to failed
 	 * @throws DependencyException 
