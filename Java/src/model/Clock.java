@@ -3,6 +3,8 @@ package model;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import exception.TimeException;
+
 import model.repositories.RepositoryManager;
 
 public class Clock implements Subject {
@@ -50,10 +52,14 @@ public class Clock implements Subject {
 	 * Changes the current time on the clock.
 	 * @param 	newTime
 	 * 			The new time on the clock.
+	 * @throws TimeException 
 	 * @post	<newTime> is the new time on the clock
 	 * 			|new.getTime().equals(newTime)
 	 */
-	public void setTime(GregorianCalendar newTime){
+	public void setTime(GregorianCalendar newTime) throws TimeException{
+		if(newTime.before(this.getTime())){
+			throw new TimeException("The new time is before the old time.");
+		}
 		this.currentTime = newTime;
 		publish();
 	}

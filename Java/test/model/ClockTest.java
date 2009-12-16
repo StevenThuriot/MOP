@@ -11,6 +11,7 @@ import exception.BusinessRule1Exception;
 import exception.BusinessRule3Exception;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
+import exception.TimeException;
 
 import model.repositories.RepositoryManager;
 
@@ -24,7 +25,7 @@ public class ClockTest {
 	private User user;
 	
 	@Before
-	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception{
+	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, TimeException{
 		startDate = new GregorianCalendar(2010, 1,1, 12, 0);
 		dueDate = new GregorianCalendar(2010, 5,1, 12, 0);
 		manager = new RepositoryManager();
@@ -49,9 +50,10 @@ public class ClockTest {
 	/**
 	 * Tests whether the update function (Observer pattern) works properly.
 	 * Update, but no change required in task status.
+	 * @throws TimeException 
 	 */
 	@Test
-	public void update1(){
+	public void update1() throws TimeException{
 		startDate = new GregorianCalendar(2010, 1,2, 12, 0);
 		clock.setTime(startDate);
 		assertTrue(task.getClock().getTime().equals(startDate));
@@ -61,9 +63,10 @@ public class ClockTest {
 	/**
 	 * Tests whether the update function (Observer pattern) works properly.
 	 * Update, Task status should become failed.
+	 * @throws TimeException 
 	 */
 	@Test
-	public void update2(){
+	public void update2() throws TimeException{
 		startDate = new GregorianCalendar(2010, 6,2,12,0);
 		clock.setTime(startDate);
 		assertTrue(task.getClock().getTime().equals(startDate));

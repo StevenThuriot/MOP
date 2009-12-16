@@ -21,6 +21,10 @@ public class DispatchController {
 	 * The Task Controller
 	 */
 	private TaskController taskController;
+	/**
+	 * The time controller. It handles the clock in the system.
+	 */
+	private TimeController timeController;
 	
 	
 	/**
@@ -32,6 +36,7 @@ public class DispatchController {
 		this.projectController = new ProjectController(manager);
 		this.resourceController = new ResourceController(manager);
 		this.taskController = new TaskController(manager);
+		this.timeController = new TimeController(manager);
 	}
 
 	/**
@@ -56,5 +61,13 @@ public class DispatchController {
 	 */
 	public TaskController getTaskController() {
 		return taskController;
+	}
+	
+	/**
+	 * Returns the Time controller
+	 * @return
+	 */
+	public TimeController getTimeController(){
+		return timeController;
 	}
 }
