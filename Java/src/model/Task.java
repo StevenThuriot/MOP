@@ -584,7 +584,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		ArrayList<Task> dependencies = new ArrayList<Task>(this.getDependencies());
 		for(Task t: dependencies){
 			try {
-				this.removeDependency(t);
+				this.getTaskDependencyManager().removeDependency(t);
 				//Exception should not occur -- dependency is always there
 			} catch (DependencyException e) {}
 		}

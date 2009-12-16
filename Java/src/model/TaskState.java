@@ -140,8 +140,13 @@ public abstract class TaskState {
 			parsed = true;
 		}
 		
+		if (state.equals("Unfinished")) 
+		{
+			parsed = true;
+		}
+		
 		if (!parsed) {
-			throw new UnknownStateException();
+			throw new UnknownStateException(state);
 		}
 	}
 	
