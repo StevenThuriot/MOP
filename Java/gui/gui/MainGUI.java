@@ -69,6 +69,7 @@ public class MainGUI implements Runnable{
 		} catch (DependencyException e) {
 			Main.writeError("A problem with the dependancies has occured.");
 		} catch (IllegalStateCallException e) {
+			e.printStackTrace();
 			Main.writeError("It is impossible to change to the defined state.");
 		} catch (BusinessRule3Exception e) {
 			Main.writeError("Business rule 3 violation.");
