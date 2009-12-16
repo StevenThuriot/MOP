@@ -16,6 +16,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.BusinessRule1Exception;
+import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
@@ -134,9 +135,11 @@ public class TaskTest {
 	 * Testing setting the state to Successful
 	 * @throws DependencyException 
 	 * @throws IllegalStateChangeException 
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 */
 	@Test
-	public void checkStateOne() throws IllegalStateChangeException
+	public void checkStateOne() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		task.setSuccessful();
 		assertEquals("Successful", task.getCurrentStateName());
@@ -160,9 +163,11 @@ public class TaskTest {
 	 * @throws IllegalStateChangeException 
 	 * @throws DependencyException 
 	 * @throws IllegalStateChangeException 
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 */
 	@Test(expected=IllegalStateChangeException.class)
-	public void checkStateThree() throws IllegalStateChangeException
+	public void checkStateThree() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		task.setFailed();
 		task.setSuccessful();
@@ -174,9 +179,11 @@ public class TaskTest {
 	 * @throws IllegalStateChangeException 
 	 * @throws DependencyException 
 	 * @throws IllegalStateChangeException 
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 */
 	@Test(expected=IllegalStateChangeException.class)
-	public void checkStateFour() throws IllegalStateChangeException
+	public void checkStateFour() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		task.setSuccessful();
 		task.setFailed();
@@ -203,9 +210,11 @@ public class TaskTest {
 	 * @throws IllegalStateChangeException 
 	 * @throws DependencyException 
 	 * @throws IllegalStateChangeException 
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 */
 	@Test
-	public void checkStateSix() throws IllegalStateChangeException
+	public void checkStateSix() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		task.setSuccessful();
 		
@@ -243,9 +252,10 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
 	 * @throws DependencyCycleException 
+	 * @throws BusinessRule2Exception 
 	 */
 	@Test
-	public void checkStateEight() throws IllegalStateChangeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException
+	public void checkStateEight() throws IllegalStateChangeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, BusinessRule2Exception
 	{
 		Task task2 = new Task("some name", user, startDate, endDate, 50, manager.getClock());
 		task2.setSuccessful();
@@ -259,9 +269,11 @@ public class TaskTest {
 	 * @throws DependencyException 
 	 * @throws IllegalStateChangeException 
 	 * @throws UnknownStateException 
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 */
 	@Test
-	public void checkStateNine() throws IllegalStateChangeException, UnknownStateException
+	public void checkStateNine() throws IllegalStateChangeException, UnknownStateException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		task.parseStateString("Successful");
 		assertEquals("Successful", task.getCurrentStateName());
@@ -272,9 +284,11 @@ public class TaskTest {
 	 * @throws DependencyException 
 	 * @throws IllegalStateChangeException 
 	 * @throws UnknownStateException 
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 */
 	@Test
-	public void checkStateTen() throws IllegalStateChangeException, UnknownStateException
+	public void checkStateTen() throws IllegalStateChangeException, UnknownStateException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		task.parseStateString("Failed");
 		assertEquals("Failed", task.getCurrentStateName());
@@ -286,9 +300,11 @@ public class TaskTest {
 	 * @throws IllegalStateChangeException 
 	 * @throws UnknownStateException 
 	 * @throws UnknownStateException 
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 */
 	@Test(expected=UnknownStateException.class)
-	public void checkStateEleven() throws IllegalStateChangeException, UnknownStateException
+	public void checkStateEleven() throws IllegalStateChangeException, UnknownStateException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		task.parseStateString("Trogdor the Burninator");
 	}
@@ -330,10 +346,11 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 * @throws UnknownStateException 
 	 */
 	@Test
-	public void checkStateFourteen() throws IllegalStateChangeException, NullPointerException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception
+	public void checkStateFourteen() throws IllegalStateChangeException, NullPointerException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, BusinessRule2Exception
 	{
 		task.setSuccessful();
 		assertEquals(true, task.canBeExecuted());
@@ -348,10 +365,11 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws NotAvailableException 
+	 * @throws BusinessRule2Exception 
 	 * @throws UnknownStateException 
 	 */
 	@Test
-	public void checkStateFifteen() throws IllegalStateChangeException, NullPointerException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException
+	public void checkStateFifteen() throws IllegalStateChangeException, NullPointerException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, BusinessRule2Exception
 	{
 		task.addRequiredResource(resource);
 		task.setSuccessful();
@@ -368,6 +386,8 @@ public class TaskTest {
 	 * @throws IllegalStateChangeException 
 	 * @throws IllegalStateCallException 
 	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
@@ -375,7 +395,7 @@ public class TaskTest {
 	 * @throws UnknownStateException 
 	 */
 	@Test(expected=IllegalStateCallException.class)
-	public void checkStateSixteen() throws IllegalStateChangeException, IllegalStateCallException 
+	public void checkStateSixteen() throws IllegalStateChangeException, IllegalStateCallException, BusinessRule2Exception, BusinessRule3Exception 
 	{
 		task.setSuccessful();
 		task.addRequiredResource(resource);
@@ -396,11 +416,12 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
 	 */
 	@Test(expected=IllegalStateCallException.class)
-	public void checkStateSeventeen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception 
+	public void checkStateSeventeen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, BusinessRule2Exception 
 	{
 		task.setSuccessful();
 		task.addDependency(new Task("some name", user, startDate, endDate, 50, manager.getClock()));
@@ -413,6 +434,8 @@ public class TaskTest {
 	 * @throws IllegalStateChangeException 
 	 * @throws IllegalStateCallException 
 	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
@@ -420,7 +443,7 @@ public class TaskTest {
 	 * @throws UnknownStateException 
 	 */
 	@Test(expected=IllegalStateCallException.class)
-	public void checkStateEightteen() throws IllegalStateChangeException, IllegalStateCallException 
+	public void checkStateEightteen() throws IllegalStateChangeException, IllegalStateCallException, BusinessRule2Exception, BusinessRule3Exception 
 	{
 		task.addRequiredResource(resource);
 		task.setSuccessful();
@@ -443,11 +466,12 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws DependencyException 
+	 * @throws BusinessRule2Exception 
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
 	 */
 	@Test(expected=IllegalStateCallException.class)
-	public void checkStateNineteen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException 
+	public void checkStateNineteen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception 
 	{
 		Task task2 = new Task("some name", user, startDate, endDate, 50, manager.getClock());
 
@@ -543,9 +567,11 @@ public class TaskTest {
 	/**
 	 * Checking for state possibilities while successful
 	 * @throws IllegalStateChangeException 
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 */
 	@Test
-	public void checkStateTwentySix() throws IllegalStateChangeException 
+	public void checkStateTwentySix() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception 
 	{
 		ArrayList<String> list = new ArrayList<String>();
 		

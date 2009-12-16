@@ -114,8 +114,10 @@ public abstract class TaskState {
 	 * @param state
 	 * @throws IllegalStateChangeException
 	 * @throws UnknownStateException 
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 */
-	protected final void parseString(String state) throws IllegalStateChangeException, UnknownStateException
+	protected final void parseString(String state) throws IllegalStateChangeException, UnknownStateException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		/*
 		 * no if statement for unfinished:
@@ -202,7 +204,7 @@ public abstract class TaskState {
 	 * Set the current state to successful
 	 * @throws IllegalStateChangeException
 	 */
-	protected void setSuccessful() throws IllegalStateChangeException 
+	protected void setSuccessful() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		throw new IllegalStateChangeException();
 	}

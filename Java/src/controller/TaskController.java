@@ -8,6 +8,7 @@ import java.util.*;
 import controller.FocusFactory.FocusType;
 
 import exception.BusinessRule1Exception;
+import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
@@ -228,8 +229,10 @@ public class TaskController {
 	 * Change the current state to Succesful
 	 * @param t the task to change
 	 * @throws IllegalStateChangeException
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 */
-	public void setSuccessful(Task t) throws IllegalStateChangeException
+	public void setSuccessful(Task t) throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		t.setSuccessful();
 	}
@@ -244,7 +247,7 @@ public class TaskController {
 		t.setFailed();
 	}
 	
-	public void parseStateString(Task t, String state) throws IllegalStateChangeException, UnknownStateException
+	public void parseStateString(Task t, String state) throws IllegalStateChangeException, UnknownStateException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		t.parseStateString(state);
 	}
