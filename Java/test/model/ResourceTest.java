@@ -118,7 +118,7 @@ public class ResourceTest {
 	 * @throws NotAvailableException 
 	 * @throws NotAvailableException 
 	 */
-	@Test
+	@Test(expected=NotAvailableException.class)
 	public void reservations() throws NotAvailableException{
 		
 		GregorianCalendar startDate = new GregorianCalendar();
@@ -126,11 +126,7 @@ public class ResourceTest {
 		
 		startDate.add(Calendar.MINUTE, 50);
 		// Overlap - exception should be thrown
-		try {
-			resource.createReservation(startDate, 120, user);
-			fail();
-		} catch (NotAvailableException e) {}
-		
+		resource.createReservation(startDate, 120, user);		
 	}
 	
 	/**

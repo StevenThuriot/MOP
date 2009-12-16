@@ -86,14 +86,10 @@ public class TaskDependencyTest {
 		assertTrue(taskHelp.getTaskDependencyManager().neededFor(taskMain));
 	}
 	
-	@Test
+	@Test(expected=DependencyException.class)
 	public void removeDependency1() throws DependencyException{
 		//Must throw an error, tdm is not dependent on taskHelp
-		try{
-			tdm.removeDependency(taskHelp);
-			fail();
-		}
-		catch(DependencyException e){};		
+		tdm.removeDependency(taskHelp);
 	}
 	
 	@Test
@@ -115,15 +111,12 @@ public class TaskDependencyTest {
 		assertTrue(tdm.isRecursivelyDependentOn(taskHelp2));
 	}
 	
-	@Test
-	public void recursiveDependencies2() throws BusinessRule1Exception, IllegalStateCallException {
+	@Test(expected=DependencyCycleException.class)
+	public void recursiveDependencies2() throws BusinessRule1Exception, IllegalStateCallException, DependencyCycleException {
 		tdm.addDependency(taskHelp);
 		// A DependencyCycleException should be thrown here:
 		// taskMain depends on taskHelp which depends on taskMain again
-		try {
-			taskHelp.addDependency(taskMain);
-			fail();
-		} catch (DependencyCycleException e){}
+		taskHelp.addDependency(taskMain);
 	}
 	
 	
