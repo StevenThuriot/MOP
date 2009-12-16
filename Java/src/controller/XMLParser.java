@@ -28,6 +28,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import exception.BusinessRule1Exception;
+import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
@@ -209,6 +210,8 @@ public class XMLParser {
 			    try {
 					controller.getTaskController().parseStateString(task, state);
 				} catch (IllegalStateChangeException e) {
+					//This will never ever ever happen!! I promise.
+				} catch (BusinessRule2Exception e) {
 					//This will never ever ever happen!! I promise.
 				}
 			    

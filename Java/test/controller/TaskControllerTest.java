@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
 
 import controller.TaskController;
 import exception.BusinessRule1Exception;
+import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
@@ -130,9 +131,10 @@ public class TaskControllerTest {
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws IllegalStateChangeException
+	 * @throws BusinessRule2Exception 
 	 */
 	@Test
-	public void testSetSuccessful() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException
+	public void testSetSuccessful() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception
 	{
 		user = new User("John");
 		GregorianCalendar startDate = new GregorianCalendar();//Now
@@ -155,9 +157,10 @@ public class TaskControllerTest {
 	 * @throws BusinessRule3Exception
 	 * @throws IllegalStateChangeException
 	 * @throws UnknownStateException 
+	 * @throws BusinessRule2Exception 
 	 */
 	@Test
-	public void testSetSuccessful2() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, UnknownStateException
+	public void testSetSuccessful2() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, UnknownStateException, BusinessRule2Exception
 	{
 		user = new User("John");
 		GregorianCalendar startDate = new GregorianCalendar();//Now

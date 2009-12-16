@@ -4,6 +4,9 @@ import model.Task;
 import model.User;
 
 import controller.DispatchController;
+import exception.BusinessRule2Exception;
+import exception.BusinessRule3Exception;
+import exception.IllegalStateChangeException;
 
 public class UpdateTaskStatus extends UseCase {
 	@Override
@@ -50,27 +53,32 @@ public class UpdateTaskStatus extends UseCase {
 		menu.println("Start date: "+menu.format(task.getStartDate()) );
 		menu.println("Due date: "+menu.format(task.getDueDate()) );
 		menu.println("Duration: "+task.getDuration()+" Minutes");
-		choice = menu.menu("Select Status", "Succesful", "Failed", "Unfinished");
+		if(task.isFailed()||task.isSuccesful()){
+			menu.println("Task status is "+task.getCurrentStateName()+" and can not be changed.");
+			return;
+		}else{
+			menu.println("Current Task status is "+(task.canBeExecuted()?"Available.":"Unavailable."));
+		}
+		choice = menu.menu("Select New Status", "Succesful", "Failed");
 		switch (choice) {
 			case 0:
-				
+				try {
+					dController.getTaskController().setSuccessful(task);
+				} catch (IllegalStateChangeException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (BusinessRule2Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (BusinessRule3Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				break;
 			case 1:
 				
 				break;
-			case 2:
-				
-				break;
 		} 
-		/*
-		try {
-			dController.getTaskController().updateTaskStatus(task, newStatus);
-		} catch (DependencyException e) {
-			if(menu.dialogYesNo("Task has other dependent tasks, updating will change their status as well. Continue?"))
-			{
-				dController.getTaskController().updateDependantTasks(task, newStatus);
-			}
-		}*/
 	}
 
 }

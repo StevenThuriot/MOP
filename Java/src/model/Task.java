@@ -488,8 +488,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @param state
 	 * @throws IllegalStateChangeException
 	 * @throws UnknownStateException 
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 */
-	public void parseStateString(String state) throws IllegalStateChangeException, UnknownStateException
+	public void parseStateString(String state) throws IllegalStateChangeException, UnknownStateException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		this.taskState.parseString(state);
 	}
@@ -708,8 +710,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 	/**
 	 * Change the current state to Successful
 	 * @throws IllegalStateChangeException
+	 * @throws BusinessRule3Exception 
+	 * @throws BusinessRule2Exception 
 	 */
-	public void setSuccessful() throws IllegalStateChangeException {
+	public void setSuccessful() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception {
 		this.taskState.setSuccessful();
 	}
 	

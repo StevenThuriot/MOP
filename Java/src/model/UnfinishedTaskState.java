@@ -176,7 +176,7 @@ public class UnfinishedTaskState extends TaskState {
 	 * Set the current state to successful
 	 * @throws IllegalStateChangeException
 	 */
-	protected void setSuccessful() throws IllegalStateChangeException 
+	protected void setSuccessful() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		boolean check = false;
 		if ( this.canBeExecuted() ) {
@@ -184,7 +184,8 @@ public class UnfinishedTaskState extends TaskState {
 			if (newState.satisfiesBusinessRule2() && newState.satisfiesBusinessRule3()) {
 				this.getContext().doSetState(newState);
 				check = true;
-			}
+			}else if(!newState.satisfiesBusinessRule2())
+				throw new BusinessRule2Exception(null);
 		}
 		
 		if (!check) {
