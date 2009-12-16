@@ -74,6 +74,18 @@ public class ClockTest {
 	}
 	
 	/**
+	 * Testing that a TimeException is thrown when the time specified is before the current time.
+	 */
+	@Test
+	public void update3(){
+		startDate = new GregorianCalendar(2010, 1,1, 10, 0);
+		try {
+			clock.setTime(startDate);
+			fail();
+		} catch (TimeException e) {/*Success*/}
+	}
+	
+	/**
 	 * Testing the second constructor
 	 */
 	@Test

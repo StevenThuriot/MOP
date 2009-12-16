@@ -19,6 +19,7 @@ import controller.FocusFactoryTest;
 import controller.ProjectControllerTest;
 import controller.ResourceControllerTest;
 import controller.TaskControllerTest;
+import controller.TimeControllerTest;
 import controller.XMLParserTest;
 import exception.ExceptionsTest;
 
@@ -27,7 +28,7 @@ import exception.ExceptionsTest;
 		ProjectControllerTest.class,ResourceControllerTest.class,TaskControllerTest.class,
 		TaskDependencyTest.class,TaskDependencyTest.class,TypeRepoTest.class,GenericRepoTest.class,
 		DispatchControllerTest.class,FocusFactoryTest.class,FocusStrategyTest.class,XMLParserTest.class,
-		ExceptionsTest.class, ClockTest.class})
+		ExceptionsTest.class, ClockTest.class, TimeControllerTest.class})
 public class AllTests {
 
 }
