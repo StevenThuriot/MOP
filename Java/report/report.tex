@@ -227,7 +227,29 @@
 	
 	\section{Software Structures}
 		\subsection{Task states}
-		Hier komt iets over het gebruik van State pattern. Ook observer zou ik hier zetten
+			\subsubsection{State Pattern}
+				\emph{When receiving the new iteration, it instantly became clear that from now on states would play a big role in the design. Every state has its specific way of handling things. Without using a design pattern to solve this, the methods would become cluttered and unreadable really fast. They would also be very hard to maintain when states are removed or new states are created.}
+			
+				\emph{The perfect way to cope with all this is by using the state pattern. The state pattern offers all the functionality without having a lot of if structures inside the methods. This is done by creating an abstract class with all the methods from task that depend on the state of the task. By default, these methods get implemented in the abstract class so they throw an exception, saying the current call is not allowed in  the current state. This abstract class has one child for each possible state. The children will then overwrite the methods that they handle differently. As a result, the children will have a clear overview of all the methods that they allow, and have their own unique way to do so.}
+			
+				\emph{The task object has an instance of one of the children of the abstract state object. When one of these methods is called, the task object will simply redirect the call to the state object. Since the state object is a child, in other words a specific state, it will handle it in a correct manner for the current state.} 
+			
+				\emph{The state object also has a reference to the task object it belongs to. This is needed when the state needs to change. It is very important that the state pattern itself handles the state change. If this was not the case, separating all the states would become completely useless. This is because it is quite possible that a certain state would not allow to go to another state. In our case, for instance, it is not allowed to set a successful task back to unfinished.}
+			
+				\emph{We currently have four states, Available, Unavailable, Successful and Failed. Obviously, when a state is made, it will start out as either Available or Unavailable. Because the assignment was quite open about this, we had to think about what state changes we would allow throughout the system. We thought it would be best if Available and Unavailable were the only states that was allowed to change to another state. This would make it a lot easier for us to implement, because when a state would go from failed to available for instance, quite a lot of extra code is needed to figure out if the dependent tasks are failed because the the task you are changing was failed or for any other possible reason. In our current implementation, when, for instance, a task is failed and it needs to be changed, it is up to the user to create a brand new task. In the following diagram, you can see what state changes are allowed.}
+				\begin{figure}[H]
+					\begin{center}
+						\includegraphics[scale=0.7]{images/StateChanges.png}
+					\end{center}
+					\caption{Assign Task to Project Sequence Diagram}
+				\end{figure}
+			
+				\emph{As you can see are the state changes between Available and Unavailable the same. Because of this, we began to wonder what else was similar. After some thorough research, it became clear that the only difference between these two states was time related. Because of this, we decided to merge these two states into one big state, called "`Unfinished"'. This state would just calculate at runtime if it is available or not, and act accordingly. To eventually set the state, a method is added per state. There was also a parsing method created, to make it possible for the XML Parser to pass strings found in the XML file to the state. The state would then call one of the methods to change the state if it matches one of the existing states. If not, an exception is thrown. We decided to place this method into the state pattern itself, rather than the XML parser, because this way it is easier to maintain and harder to forget to adjust when a new state is made.}
+			
+				\emph{The original idea was to put Task, TaskState and all its children into a separate package inside the model package. Since all the methods used in TaskState are protected or private, rather than public, it would be impossible for any other class to call functions of the state. This however, was not possible. This is due to one of Java's limitations. Java has no "`real"' sub packages. They all count as different packages. Because of this, Java does not allow to call protected methods from a sub package. Sadly, this is exactly what some of Tasks methods needed to do. Because of this, we were forced to implement the state pattern inside the model package as well.}
+						
+			\subsubsection{Observer Pattern}
+				Ook observer zou ik hier zetten
 		\subsection{Task overview}
 		\emph{
 		As discussed, we want to show the list of tasks in different ways. We might want them sorted by deadline or by duration. However, there is no reason the functionality should be limited to just these two.\\
