@@ -6,10 +6,6 @@ import controller.DispatchController;
 
 import model.User;
 
-/**
- * @author koen
- *
- */
 public abstract class UseCase implements Describable{
 	
 	protected Menu menu;
