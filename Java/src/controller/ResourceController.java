@@ -67,11 +67,17 @@ public class ResourceController {
 	 */
 	public List<Reservation> getReservations() {        
         ArrayList<Reservation> reservations = new  ArrayList<Reservation>();
+        
         for(Resource resource : manager.getResources())
         {
             List<Reservation> reservation = resource.getReservations();
-            reservations.addAll(reservation);
+            for (Reservation reservation2 : reservation) {
+				if (!reservations.contains(reservation2)) {
+					reservations.add(reservation2);
+				}
+			}
         }
+        
         return  Collections.unmodifiableList(reservations);
 	}
 	
