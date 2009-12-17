@@ -76,7 +76,7 @@ public class XMLParserTest {
         assertEquals(2,manager.getProjects().size());
         assertEquals(4,manager.getResources().size());
         assertEquals(4,result.getTasks().size());
-        assertEquals(3, dcontroller.getResourceController().getReservations().size());
+        assertEquals(4, dcontroller.getResourceController().getReservations().size());
     }
     
     /**

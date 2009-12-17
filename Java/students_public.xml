@@ -112,6 +112,12 @@
 			</mop:reservation>
 
 			<mop:reservation>
+				<mop:time>2009-10-21T08:00:00</mop:time>
+				<mop:duration>3060</mop:duration>
+				<mop:refResource>roomShed</mop:refResource>
+			</mop:reservation>
+
+			<mop:reservation>
 				<mop:time>2009-10-01T08:00:00</mop:time>
 				<mop:duration>40320</mop:duration>
 				<mop:refResource>toolComputer</mop:refResource>
