@@ -196,7 +196,8 @@
 			
 			\emph{
 			In the diagram is shown how adding a dependency to a Task works now. The Task object delegates this action
-			to its TaskDependencyManager. The TaskDependencyManager then cooperates with the TaskDependencyManager of the second Task, to make sure the double binding is kept consistent.}
+			to its TaskDependencyManager. The TaskDependencyManager then cooperates with the TaskDependencyManager of the second Task, to make sure the double binding is kept consistent.			
+			Note: the diagram uses the operation 'doAddDependency()', not 'addDependency()'. This is because the operation 'addDependency()' is first delegated to the TaskState class. This is explained later in the report.}
 			
 			\subsection{Resource manipulation}
 			%Design uitleggen. Ook de GRASP patterns erbij zetten
