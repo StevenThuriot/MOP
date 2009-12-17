@@ -64,18 +64,17 @@
 			Updating a status of a task is integrated in modifying a task, but requires special attention as many different rules apply when adjusting the status of a Task.
 
 			Updating the status can directly reflect the status of dependent tasks. When a task was marked Successful, but is reverted to Failed or Unfinished the user will be asked to update the status of all dependent tasks or leave everything including this tasks status unchanged. This is because may have to revert back to Failed or Unfinished because they depended on the successful completion of this task.
-			\emph{
 			\subsection{Getting a task overview}		
+			\emph{
 			When asking for a overview of tasks, it is sometimes easy to sort and/or filter tasks in a different manner. That way you can get a better overview.\\
-			We provided a handy interface for this in the way of a loop. The user can choose how he wants his tasks sorted: by deadline of by duration. In case the user selects to sort the tasks by deadline, he is asked how many tasks are to be shown. Is duration selected, a minimum and maximum duration is asked. It's made particulary easy to alter and/or add sorting and filtering methods.\\}
+			We provided a handy interface for this in the way of a loop. The user can choose how he wants his tasks sorted: by deadline of by duration. In case the user selects to sort the tasks by deadline, he is asked how many tasks are to be shown. Is duration selected, a minimum and maximum duration is asked. It's made particulary easy to alter and/or add sorting and filtering methods.\\
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/ssd_focus_work.jpg}
 				\end{center}
 				\caption{System Sequence Diagram describing the overview of all tasks}
 			\end{figure}
-			
-			
+			}
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/ssd_update_task.jpg}
@@ -169,7 +168,7 @@
 			\begin{itemize}
 				\item{Keeping track of its name, start date, due date, duration and status}
 				\item{Keeping track of the resources required to execute the task}
-				\item{Keeping track of its dependencies. A dependency is implemented as a double binding, so the Tasks on both ends should be kept consistent}
+				\item{Keeping track of its dependencies, as well as the tasks that depend on this task}
 				\item{Checking for the business rule 1 and preventing the construction of loops in the dependency scheme}
 				\item{Updating the status of dependent tasks when necessary}
 			\end{itemize}
@@ -178,26 +177,6 @@
 			However, a Task is Information Expert about Task itself. Therefore, we felt that the Task class should be responsible for enforcing business rule 1, preventing the construction of dependency loops, and updating the status of dependent tasks when necessary (as described in the use case 'update task status').
 			
 			While designing, it was suggested that perhaps the Task class has two distinct responsibilities this way: one concerning its own details, and one concerning the way it interacts with other Tasks in the dependency graph. In the end, we chose to stick to one single Task class, as we felt that the cohesion of this class was sufficiently high.
-			
-		
-			\subsubsection{Task dependency manager}
-				\emph{
-			In the second iteration, we chose to have a second object manage the dependencies of tasks. A new class TaskDependencyManager was created. A Task object aggregates an instance of TaskDependencyManager at all times. All operations that concern only dependencies are delegated to this object.}
-			
-			\emph{
-			On one hand, this creates a strong coupling between the Task and the TaskDependencyManager classes. On the other hand, we felt that the Task class was getting too bloated, and that it was responsible for too many things. Delegating some operations to the TaskDependencyManager helps to improve the cohesion of the Task class.}
-			
-			\begin{figure}[h]
-			\begin{center}
-			\includegraphics[scale=0.5]{images/doAddDependency}
-			\end{center}
-			\caption{\emph{Sequence diagram to add a dependency to a Task}}
-			\end{figure}
-			
-			\emph{
-			In the diagram is shown how adding a dependency to a Task works now. The Task object delegates this action
-			to its TaskDependencyManager. The TaskDependencyManager then cooperates with the TaskDependencyManager of the second Task, to make sure the double binding is kept consistent.			
-			Note: the diagram uses the operation 'doAddDependency()', not 'addDependency()'. This is because the operation 'addDependency()' is first delegated to the TaskState class. This is explained later in the report.}
 			
 			\subsection{Resource manipulation}
 			%Design uitleggen. Ook de GRASP patterns erbij zetten
@@ -271,7 +250,39 @@
 		\subsection{Task states}
 		Hier komt iets over het gebruik van State pattern. Ook observer zou ik hier zetten
 		\subsection{Task overview}
-		Focus dinges
+		\emph{
+		As discussed, we want to show the list of tasks in different ways. We might want them sorted by deadline or by duration. However, there is no reason the functionality should be limited to just these two.\\
+		Also, there is no reason to clutter the controller with these algorithms. We tried to find a way to split up the following functionalities:
+		\begin{itemize}
+			\item{Getting a list of tasks}
+			\item{Sorting that list}
+			\item{Filtering}
+			\item{Returning the list}
+		\end{itemize}
+		We found our solution in the Strategy pattern: We start off by creating an instance of FocusWork. This instance is injected with an implementation of FocusStrategy and the current User.
+		The instance of FocusWork will be responsible for getting the list of tasks. Since the sorting and filtering can differ from strategy to strategy, they are handled by the injected instance of FocusStrategy. That way, neither controller nor FocusWork (context) are responsible, or even aware, of how these algorithms work.\\
+		There was however the issue of creating an instance of FocusWork. We found it bad design to let both GUI nor TaskController call the constructor of an implementation of FocusStrategy. This would mean higher coupling between those classes. It would also mean a larger footprint when adding new FocusStrategies, more classes had to be adjusted. We therefore opted for using the Factory Method pattern to create instances of FocusWork with an injected Strategy.\\
+		The class FocusFactory takes care of Strategy constructors and injecting. The GUI now simply calls a method in this class, a pre-fabricated FocusWork is returned.\\
+		All this combined makes sure that when we create a new implementation of FocusStrategy, the footprint is returned to a minimum: We have to adjust the GUI to make sure it asks the right questions, and the FocusFactory is adjusted so right constructor is called in the right way.\\
+		\begin{figure}[H]
+			\begin{center}
+				\includegraphics[scale=0.5]{images/FocusFactory.jpg}
+			\end{center}
+			\caption{Create a type of FocusWork with an injected Strategy according to a given Type}
+		\end{figure}
+		\begin{figure}[H]
+			\begin{center}
+				\includegraphics[scale=0.5]{images/FocusStrategy.jpg}
+			\end{center}
+			\caption{Get a list of tasks, manipulated by a certain Strategy. This strategy is interchangeable}
+		\end{figure}
+		\begin{figure}[H]
+			\begin{center}
+				\includegraphics[scale=0.5]{images/focus_class_diagram.jpg}
+			\end{center}
+			\caption{Specialised class diagram explaining the Strategy Pattern}
+		\end{figure}
+		}
 		\subsection{Linking Tasks by dependency}
 		Uitleggen hoe tasks gelinked worden zonder te veel binding = taskdependencymanager
 		\subsection{Time representation}
