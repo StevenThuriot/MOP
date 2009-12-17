@@ -1,9 +1,14 @@
 package controller;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Locale;
 
 import javax.naming.NameNotFoundException;
 
+import model.Reservation;
 import model.Resource;
 import model.Task;
 import model.User;
@@ -57,7 +62,7 @@ public class XMLParserTest {
      * @throws NotAvailableException 
      * @throws UnknownStateException 
      */
-    @Test(expected=BusinessRule3Exception.class) //XML file is out of date thus throws a Business rule 3 exception
+    @Test
     public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException
     {
         User result = parser.Parse();
@@ -83,12 +88,18 @@ public class XMLParserTest {
      * @throws NotAvailableException 
      * @throws UnknownStateException 
      */
-    @Test(expected=BusinessRule3Exception.class) //XML file is out of date thus throws a Business rule 3 exception
+    @Test
     public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException
     {
         User result = parser.Parse();
         Resource devRoom = manager.getResources().get(0); //Should be the 'Development room' resource
-        assertFalse(devRoom.availableAt(new GregorianCalendar(2009, 10, 21, 8, 0), 10)); //Should comply with the reservation at 2009-10-21T08:00:00 for 3060 minutes
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+        Date date = sdf.parse("2009-10-01T08:00:00");
+	    GregorianCalendar gregDate = new GregorianCalendar();
+	    gregDate.setTime(date);
+        
+        assertFalse(devRoom.availableAt(gregDate, 10)); //Should comply with the reservation at 2009-10-21T08:00:00 for 3060 minutes
         
         Task taskMakeDesign = result.getTasks().get(2); //Should be the task 'Make UML Design'
         assertTrue(taskMakeDesign.getRequiredResources().contains(devRoom)); //This task requires the dev room
