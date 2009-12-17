@@ -11,8 +11,8 @@ public class UnfinishedTaskState extends TaskState {
 	protected UnfinishedTaskState(Task context) {
 		super(context);
 		
-		this.addState("Successful");
-		this.addState("Failed");
+		this.addState(States.Successful);
+		this.addState(States.Failed);
 	}
 
 	/**
