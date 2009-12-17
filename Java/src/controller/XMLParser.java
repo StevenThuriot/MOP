@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.naming.NameNotFoundException;
 import javax.xml.parsers.DocumentBuilder;
@@ -151,6 +152,8 @@ public class XMLParser {
 		
 		User user = new User(userName.getTextContent());
 		
+		HashMap<Task, String> stateMap = new HashMap<Task, String>();
+		
 		//Get Resources
 		for (int i = 0; i < nodeList.getLength(); i++) {
 			Node childNode = nodeList.item(i);
@@ -207,14 +210,8 @@ public class XMLParser {
 				
 			    Task task = controller.getTaskController().createTask(description, startDate, dueDate, duration, user);
 			    
-			    try {
-					controller.getTaskController().parseStateString(task, state);
-				} catch (IllegalStateChangeException e) {
-					//This will never ever ever happen!! I promise.
-				} catch (BusinessRule2Exception e) {
-					//This will never ever ever happen!! I promise.
-				}
-			    
+			    stateMap.put(task, state);
+			    			    
 			    if (projectID.length() > 0 && projectID != null)
 			    {
 				    Project project = projectMap.get(projectID);
@@ -301,6 +298,17 @@ public class XMLParser {
 				
 				controller.getResourceController().createReservation(startTime, duration, resource, user);	
 		    }
+		}
+		
+		//Set states
+		for (Task task : stateMap.keySet()) {
+			try {
+				controller.getTaskController().parseStateString(task, stateMap.get(task));
+			} catch (IllegalStateChangeException e) {
+				//Sad face : <
+			} catch (BusinessRule2Exception e) {
+				//Crying face :' <
+			}
 		}
 		
 		return user;
