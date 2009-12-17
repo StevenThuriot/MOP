@@ -40,15 +40,15 @@ public class UpdateTaskStatus extends UseCase {
 	private void updateTaskStatus(Task task) {
 		int choice;
 		menu.println(task.getDescription());
-		if(!dController.getTaskController().hasDependentTasks(task))
+		if(dController.getTaskController().hasDependentTasks(task))
 			menu.printListGen("Dependent Tasks", dController.getTaskController().getDependentTasks(task));
 		else
 			menu.println("Dependent Tasks \n0: None");
-		if(!dController.getTaskController().hasDependencies(task))
+		if(dController.getTaskController().hasDependencies(task))
 			menu.printListGen("Dependencies", dController.getTaskController().getDependencies(task));
 		else
 			menu.println("Dependcies \n0: None");
-		if(!dController.getTaskController().hasRequiredResources(task))
+		if(dController.getTaskController().hasRequiredResources(task))
 			menu.printListGen("Required Resources", dController.getTaskController().getRequiredResources(task));
 		else
 			menu.println("Required Resources \n 0: None");
