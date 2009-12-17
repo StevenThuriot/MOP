@@ -89,6 +89,7 @@ public class MainGUI implements Runnable{
 		useCases.add(new MakeResourceReservation());
 		useCases.add(new FocusWork());
 		useCases.add(new ModifyTaskDetails());
+		useCases.add(new SetClock());
 	}
 	
 	/**
