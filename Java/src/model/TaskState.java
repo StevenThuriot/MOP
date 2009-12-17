@@ -7,15 +7,15 @@ import exception.*;
 public abstract class TaskState {
 	private Task context;
 	
-	private ArrayList<String> possibleStateChanges;
-	
+	private ArrayList<States> possibleStateChanges;
+	protected enum States {Unfinished, Successful, Failed};  	
 	/**
 	 * Constructor
 	 * @param context
 	 */
 	protected TaskState(Task context) {
 		this.context = context;
-		possibleStateChanges = new ArrayList<String>();
+		possibleStateChanges = new ArrayList<States>();
 	}
 	
 	/**
@@ -48,7 +48,7 @@ public abstract class TaskState {
 	 * Populate the possible state changes
 	 * @param state
 	 */
-	protected void addState(String state)
+	protected void addState(States state)
 	{
 		this.possibleStateChanges.add(state);
 	}
@@ -77,7 +77,11 @@ public abstract class TaskState {
 	 */
 	protected final ArrayList<String> getPossibleStateChanges()
 	{
-		return this.possibleStateChanges;
+		ArrayList<String> list = new ArrayList<String>();
+		for (States state : this.possibleStateChanges) {
+			list.add(state.toString());
+		}
+		return list;
 	}
 
 	/**
@@ -128,19 +132,19 @@ public abstract class TaskState {
 
 		boolean parsed = false;
 		
-		if (state.equals("Successful")) 
+		if (state.equals(States.Successful.toString())) 
 		{
 			this.getContext().setSuccessful();
 			parsed = true;
 		}
 		
-		if (state.equals("Failed")) 
+		if (state.equals(States.Failed.toString())) 
 		{
 			this.getContext().setFailed();
 			parsed = true;
 		}
 		
-		if (state.equals("Unfinished")) 
+		if (state.equals(States.Unfinished.toString())) 
 		{
 			parsed = true;
 		}
