@@ -14,8 +14,7 @@ import exception.*;
  * and a timing, and a reference to a TaskDependencyManager.
  * A Task can be in different states.
  * 
- * @invar	A Task will satisfy all business rules.
- * 			|this.satisfiesBusinessRule1()
+ * @invar	A Task must satisfy business rules 2 and 3 at all times.
  * 			| && this.satisfiesBusinessRule2()
  * 			| && this.satisfiesBusinessRule3()
  *

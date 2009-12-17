@@ -168,7 +168,7 @@
 			\begin{itemize}
 				\item{Keeping track of its name, start date, due date, duration and status}
 				\item{Keeping track of the resources required to execute the task}
-				\item{Keeping track of its dependencies, as well as the tasks that depend on this task}
+				\item{Keeping track of its dependencies. Dependencies are implemented as double bindings, so they should be kept consistent}
 				\item{Checking for the business rule 1 and preventing the construction of loops in the dependency scheme}
 				\item{Updating the status of dependent tasks when necessary}
 			\end{itemize}
@@ -177,6 +177,25 @@
 			However, a Task is Information Expert about Task itself. Therefore, we felt that the Task class should be responsible for enforcing business rule 1, preventing the construction of dependency loops, and updating the status of dependent tasks when necessary (as described in the use case 'update task status').
 			
 			While designing, it was suggested that perhaps the Task class has two distinct responsibilities this way: one concerning its own details, and one concerning the way it interacts with other Tasks in the dependency graph. In the end, we chose to stick to one single Task class, as we felt that the cohesion of this class was sufficiently high.
+			
+			\subsubsection{Task dependency manager}
+				\emph{
+			In the second iteration, we chose to have a second object manage the dependencies of tasks. A new class TaskDependencyManager was created. A Task object aggregates an instance of TaskDependencyManager at all times. All operations that concern only dependencies are delegated to this object.}
+			
+			\emph{
+			On one hand, this creates a strong coupling between the Task and the TaskDependencyManager classes. On the other hand, we felt that the Task class was getting too bloated, and that it was responsible for too many things. Delegating some operations to the TaskDependencyManager helps to improve the cohesion of the Task class.}
+			
+			\begin{figure}[h]
+			\begin{center}
+			\includegraphics[scale=0.5]{images/doAddDependency}
+			\end{center}
+			\caption{\emph{Sequence diagram to add a dependency to a Task}}
+			\end{figure}
+			
+			\emph{
+			In the diagram is shown how adding a dependency to a Task works now. The Task object delegates this action
+			to its TaskDependencyManager. The TaskDependencyManager then cooperates with the TaskDependencyManager of the second Task, to make sure the double binding is kept consistent.			
+			Note: the diagram uses the operation 'doAddDependency()', not 'addDependency()'. This is because the operation 'addDependency()' is first delegated to the TaskState class. This is explained later in the report.}
 			
 			\subsection{Resource manipulation}
 			%Design uitleggen. Ook de GRASP patterns erbij zetten
@@ -286,7 +305,27 @@
 		\subsection{Linking Tasks by dependency}
 		Uitleggen hoe tasks gelinked worden zonder te veel binding = taskdependencymanager
 		\subsection{Time representation}
-		Clock uitleggen, nut en werking
+		\emph{
+		Because Business Rule 3 relates so strongly to time, it seems natural to look for a way to represent time in our software system. As time progresses, the status of a Task may have to be changed to satisfy Business Rule 3. For example, if the deadline of a Task has passed and it wasn't finished yet, the Task was failed. This leaves us with two questions. How should we represent time in our system? How should we design the system so that Business Rule 3 can be uphold for all tasks at all time?}
+		
+		\emph{
+		To represent time, we created a class 'Clock'. This class represents a certain moment in time, and supports a few very basic operations, such as setTime() en getTime(). If necessary, this class can easily be expanded later to allow for more complex behavior.
+		An instance of Clock is created when the system is started. This object is stored in the RepositoryManager (see next section) and is passed on to every Task that is created. As such, the Tasks can use this object to get the current system time. This allows them to check for Business Rule 3.}
+		
+		\begin{figure}[h]
+		\begin{center}
+		\includegraphics[scale=0.6]{images/setTime}
+		\end{center}
+		\caption{\emph{Set time sequence diagram}}
+		\end{figure}
+		
+		\emph{
+		Of course, checking for Business Rule 3 is not enough. The system must make sure that Business Rule 3 is satisfied at all times. This means that Tasks must check Business Rule 3 whenever the time changes, and if necessary, change their status accordingly.
+		To accomplish this, we used the Observer pattern, as shown in diagram 'Set time sequence diagram'.
+		Whenever the operation 'setTime()' is called, the Clock object calls another operation 'publish()'. Next, the Clock object asks the RepositoryManager for a list of all Tasks (see next section), and calls 'update(this)' on all of them. The Task is now notified that the current system time has changed. It is now the responsibility of a Task object to reach a consistent state.}
+		
+		\emph{
+		We assumed that time can only go forward. Whenever 'setTime()' is called with a time before the current system time, an exception is thrown. This assumption seems very reasonable, and it greatly simplifies the behavior of the Clock and Task classes. A possible downside is that the system and its user interface may become less error friendly. If, by accident, the time is set in the distant future, it will be hard to revert this change.}
 		\subsection{Collecting data}
 		Repositories, waarom en hoe
 		
