@@ -8,6 +8,8 @@ import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.IllegalStateChangeException;
 
+import java.util.ArrayDeque;
+
 public class UpdateTaskStatus extends UseCase {
 	@Override
 	public String getDescription() {
@@ -77,7 +79,27 @@ public class UpdateTaskStatus extends UseCase {
 				}
 				break;
 			case 1:
-				
+				ArrayDeque<Task> a = new ArrayDeque<Task>();
+				ArrayDeque<Integer> l = new ArrayDeque<Integer>();
+				a.push(task);
+				l.push(0);
+				int level = 0;
+				Task t = null;
+				if(dController.getTaskController().hasDependentTasks(task)){
+					menu.println("This tasks has dependent tasks whose state may have to change as well");
+					while(!a.isEmpty()){
+						t = a.pop();
+						level = l.pop();
+						for(int j = 0; j < level;j++)
+							menu.print("\t");
+						menu.println(t.getDescription()+" "+(t.canBeExecuted()?"Available":"Uavailable")+" Fail!!!1111");
+						for(Task t2: dController.getTaskController().getDependentTasks(t))
+							if(!t2.isFailed()){
+								a.push(t2);
+								l.push(level+1);
+							}
+					}
+				}
 				break;
 		} 
 	}
