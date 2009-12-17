@@ -168,7 +168,7 @@
 			\begin{itemize}
 				\item{Keeping track of its name, start date, due date, duration and status}
 				\item{Keeping track of the resources required to execute the task}
-				\item{Keeping track of its dependencies. Dependencies are implemented as double bindings, so they should be kept consistent}
+				\item{Keeping track of its dependencies, as well as the tasks that depend on this task}
 				\item{Checking for the business rule 1 and preventing the construction of loops in the dependency scheme}
 				\item{Updating the status of dependent tasks when necessary}
 			\end{itemize}
@@ -178,30 +178,11 @@
 			
 			While designing, it was suggested that perhaps the Task class has two distinct responsibilities this way: one concerning its own details, and one concerning the way it interacts with other Tasks in the dependency graph. In the end, we chose to stick to one single Task class, as we felt that the cohesion of this class was sufficiently high.
 			
-			\subsubsection{Task dependency manager}
-				\emph{
-			In the second iteration, we chose to have a second object manage the dependencies of tasks. A new class TaskDependencyManager was created. A Task object aggregates an instance of TaskDependencyManager at all times. All operations that concern only dependencies are delegated to this object.}
-			
-			\emph{
-			On one hand, this creates a strong coupling between the Task and the TaskDependencyManager classes. On the other hand, we felt that the Task class was getting too bloated, and that it was responsible for too many things. Delegating some operations to the TaskDependencyManager helps to improve the cohesion of the Task class.}
-			
-			\begin{figure}[h]
-			\begin{center}
-			\includegraphics[scale=0.5]{images/doAddDependency}
-			\end{center}
-			\caption{\emph{Sequence diagram to add a dependency to a Task}}
-			\end{figure}
-			
-			\emph{
-			In the diagram is shown how adding a dependency to a Task works now. The Task object delegates this action
-			to its TaskDependencyManager. The TaskDependencyManager then cooperates with the TaskDependencyManager of the second Task, to make sure the double binding is kept consistent.			
-			Note: the diagram uses the operation 'doAddDependency()', not 'addDependency()'. This is because the operation 'addDependency()' is first delegated to the TaskState class. This is explained later in the report.}
-			
 			\subsection{Resource manipulation}
 			%Design uitleggen. Ook de GRASP patterns erbij zetten
 			Resources can be accessed via Tasks. This is because a Task can define which resources are required for that Task.
 			However when a Resource is just created, or when a Task to which a Resource was allocated gets removed, the Resource will not be referenced to by any Task. The object would not exists.
-			Therefore we decided that it was necessary to keep a reference of each Resource in a class with a static instance.
+			\emph{A resource is therefore stored in a RepositoryManager. This is explained in the section about 'Collecting Data'.}
 
 			A Resource itself is an Information Expert as well as a Creator for Reservations. We decided to put the responsibility of creating and storing Reservations in Resource because a Resource needs this information to check it's own availability, as displayed in the diagram 'Create Reservation'.
 			\begin{figure}[H]
@@ -210,31 +191,10 @@
 				\end{center}
 				\caption{Create Reservation Sequence Diagram}
 			\end{figure}
-
-			As shown in the diagram , all the Resources are retrieved from the Singleton ResourceManager. The resource is responsible for keeping track of its reservations and checking whether it is available. When available the Resource itself creates the Reservation.
-			
-			The ResourceManager keeps track of all the resources, and is responsible for the construction or destruction of Resource objects. When the ResourceManager tries to destroy a Resource, it is the Resource's responsibility to check if this operation is allowed. According to use case 'Remove Resource' this operation will fail if any task requires the resource. The Resource object will then hand an exception to the ResourceManager, which is responsible for communicating it to the GUI. A sequence diagram of this operation is shown in figure 'Remove Sequence Diagram'.
-			
-			\begin{figure}[H]
-			\begin{center}
-			\includegraphics[scale = 0.5]{images/RemoveResource.png}
-			\end{center}
-			\caption{Remove Resource Sequence Diagram}
-			\end{figure}
-			
-
-			The OO-structure is shown in the class diagram: Resource Class Diagram which contains all the necessary classes for the Resource subsystem.
-			
-			\begin{figure}[H]
-				\begin{center}
-					\includegraphics[scale=0.5]{images/resource_class_diagram.jpg}
-				\end{center}
-				\caption{Resource Class Diagram}
-			\end{figure}
 			
 			
 			\subsection{Project manipulation}
-			When we assumed the project could become a multi-user application. We thought of Projects as a link between multiple Users and Tasks. Therefore, a Project can contain multiple Tasks, and multiple Users can be assigned to it.
+			A project is an instance that could contain Tasks. It does not have any binding to other objects and can not be stored in an object. Therefore, a Project is stored the same way a Resource is. By using repositories. See the subsection 'Collecting Data'.
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/project_class_diagram.jpg}
@@ -305,29 +265,14 @@
 		\subsection{Linking Tasks by dependency}
 		Uitleggen hoe tasks gelinked worden zonder te veel binding = taskdependencymanager
 		\subsection{Time representation}
-		\emph{
-		Because Business Rule 3 relates so strongly to time, it seems natural to look for a way to represent time in our software system. As time progresses, the status of a Task may have to be changed to satisfy Business Rule 3. For example, if the deadline of a Task has passed and it wasn't finished yet, the Task was failed. This leaves us with two questions. How should we represent time in our system? How should we design the system so that Business Rule 3 can be uphold for all tasks at all time?}
-		
-		\emph{
-		To represent time, we created a class 'Clock'. This class represents a certain moment in time, and supports a few very basic operations, such as setTime() en getTime(). If necessary, this class can easily be expanded later to allow for more complex behavior.
-		An instance of Clock is created when the system is started. This object is stored in the RepositoryManager (see next section) and is passed on to every Task that is created. As such, the Tasks can use this object to get the current system time. This allows them to check for Business Rule 3.}
-		
-		\begin{figure}[h]
-		\begin{center}
-		\includegraphics[scale=0.6]{images/setTime}
-		\end{center}
-		\caption{\emph{Set time sequence diagram}}
-		\end{figure}
-		
-		\emph{
-		Of course, checking for Business Rule 3 is not enough. The system must make sure that Business Rule 3 is satisfied at all times. This means that Tasks must check Business Rule 3 whenever the time changes, and if necessary, change their status accordingly.
-		To accomplish this, we used the Observer pattern, as shown in diagram 'Set time sequence diagram'.
-		Whenever the operation 'setTime()' is called, the Clock object calls another operation 'publish()'. Next, the Clock object asks the RepositoryManager for a list of all Tasks (see next section), and calls 'update(this)' on all of them. The Task is now notified that the current system time has changed. It is now the responsibility of a Task object to reach a consistent state.}
-		
-		\emph{
-		We assumed that time can only go forward. Whenever 'setTime()' is called with a time before the current system time, an exception is thrown. This assumption seems very reasonable, and it greatly simplifies the behavior of the Clock and Task classes. A possible downside is that the system and its user interface may become less error friendly. If, by accident, the time is set in the distant future, it will be hard to revert this change.}
+		Clock uitleggen, nut en werking
 		\subsection{Collecting data}
-		Repositories, waarom en hoe
+		Certain types of objects (Resources, Projects) are not required to have a binding with other objects. They can be simply instantiated on their own.\\
+		In a domain based model, this was a problem. Objects would be instantiated without a place to put them, they would not be contained. In the first iteration, we solved this by using a Singleton manager for Resource. Projects would be bound to a User.\\
+		This seemed bad design, as Singleton was unreliable as an Information Expert. It was too general and would fail in most Unit tests. Storing the Project in the User also seemed bad design, as they originally had no connection to each other.\\
+		A solution was found in using Repositories. We created Generic Repositories for Project, Resource and User that were contained in a RepositoryManager. The RepositoryManager would act as an independent Information Expert and would manage objects in adding and removing them from their respective repositories.\\
+		By using overloaded add() and remove() operations, this RepositoryManager stayed easy to use and kept the underlying code abstract. We call this the Facade Pattern.\\
+		We use a technique borrowed from the Spring Framework called Dependency Injection to inject a reference to this RepositoryManager in every Controller. This way, they can all access the same information in an Object-Oriented Way.
 		
 	\section{Software Initialization}
 	When the program is started, the first thing that is taken care of is the instantiation of the dispatch controller.
