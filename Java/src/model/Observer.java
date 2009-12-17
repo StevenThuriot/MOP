@@ -2,8 +2,6 @@ package model;
 
 
 /**
- * @author koen
- *
  * @param <S> Type of Subject the Observer is watching. 
  * @param <T> State object 
  */

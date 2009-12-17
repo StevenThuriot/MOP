@@ -70,10 +70,10 @@ public class ResourceController {
         
         for(Resource resource : manager.getResources())
         {
-            List<Reservation> reservation = resource.getReservations();
-            for (Reservation reservation2 : reservation) {
-				if (!reservations.contains(reservation2)) {
-					reservations.add(reservation2);
+            List<Reservation> reservationList = resource.getReservations();
+            for (Reservation reservation : reservationList) {
+				if (!reservations.contains(reservation)) {
+					reservations.add(reservation);
 				}
 			}
         }

@@ -1,14 +1,12 @@
 package controller;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import javax.naming.NameNotFoundException;
 
-import model.Reservation;
 import model.Resource;
 import model.Task;
 import model.User;
@@ -26,6 +24,7 @@ import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.NotAvailableException;
+import exception.TimeException;
 import exception.UnknownStateException;
 import static org.junit.Assert.*;
 public class XMLParserTest {
@@ -33,11 +32,18 @@ public class XMLParserTest {
     private RepositoryManager manager;
     private DispatchController dcontroller;
     @Before
-    public void setUp()
+    public void setUp() throws TimeException, ParseException
     {
         manager = new RepositoryManager();
         dcontroller = new DispatchController(manager);
         parser = new XMLParser("students_public.xml", dcontroller);
+        
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+        Date date = sdf.parse("2009-10-20T20:00:00");
+	    GregorianCalendar gregDate = new GregorianCalendar();
+	    gregDate.setTime(date);
+	    
+        manager.getClock().setTime(gregDate);
     }
     @After
     public void tearDown()

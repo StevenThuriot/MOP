@@ -10,9 +10,6 @@ import exception.DependencyException;
 /**
  * A TaskDependencyManager object is an object that keeps track of the dependencies and 
  * dependent tasks of a certain Task object.
- * 
- * @author Kwinten Missiaen
- *
  */
 public class TaskDependencyManager {
 

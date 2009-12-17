@@ -24,10 +24,6 @@ import exception.UnknownStateException;
 import model.User;
 import model.repositories.RepositoryManager;
 
-/**
- * @author koen
- *
- */
 public class MainGUI implements Runnable{
 	private RepositoryManager manager;
 	private User currentUser;
@@ -53,31 +49,29 @@ public class MainGUI implements Runnable{
 		try {
 			user = parser.Parse();
 		} catch (NameNotFoundException e) {
-			Main.writeError("File not found.");
+			MainGUI.writeError("File not found.");
 		} catch (DOMException e) {
-			Main.writeError("");
+			MainGUI.writeError("DOM Exception while parsing the XML file.");
 		} catch (NullPointerException e) {
-			Main.writeError("The value 'null' was passed to a method.");
+			MainGUI.writeError("The value 'null' was passed to a method.");
 		} catch (EmptyStringException e) {
-			Main.writeError("An empty string was passed to a method that does not allow this.");
+			MainGUI.writeError("An empty string was passed to a method that does not allow this.");
 		} catch (ParseException e) {
-			Main.writeError("");
+			MainGUI.writeError("A parse exception occured.");
 		} catch (BusinessRule1Exception e) {
-			Main.writeError("Business rule 1 violation.");
+			MainGUI.writeError("Business rule 1 violation.");
 		} catch (DependencyCycleException e) {
-			Main.writeError("A cycle between dependancies has been found.");
+			MainGUI.writeError("A cycle between dependancies has been found.");
 		} catch (DependencyException e) {
-			Main.writeError("A problem with the dependancies has occured.");
+			MainGUI.writeError("A problem with the dependancies has occured.");
 		} catch (IllegalStateCallException e) {
-			e.printStackTrace();
-			Main.writeError("It is impossible to change to the defined state.");
+			MainGUI.writeError("It is impossible to change to the defined state.");
 		} catch (BusinessRule3Exception e) {
-			Main.writeError("Business rule 3 violation.");
+			MainGUI.writeError("Business rule 3 violation.");
 		} catch (NotAvailableException e) {
-			Main.writeError("Two or more reservations overlap.");
+			MainGUI.writeError("Two or more reservations overlap.");
 		} catch (UnknownStateException e) {
-			Main.writeError("An unknown state has been found.");
-			e.printStackTrace();
+			MainGUI.writeError("An unknown state has been found.");
 		}
 	
 		this.manager.add(user);
@@ -97,7 +91,10 @@ public class MainGUI implements Runnable{
 		useCases.add(new ModifyTaskDetails());
 	}
 	
-	
+	/**
+	 * Retrieves the current user
+	 * @return user
+	 */
 	public User getCurrentUser(){
 		return currentUser;
 	}
@@ -113,6 +110,20 @@ public class MainGUI implements Runnable{
 			choice.startUseCase(menu, dController, this);
 			}
 		}		
+	}
+	
+	/**
+	 * Writes a useful error message when the XML parser has a problem.
+	 * @param message The message to write.	 
+	 */
+	public static void writeError(String message)
+	{
+		System.out.println("An error has occured parsing the XML file.");
+		System.out.println(message);
+		
+		if (!message.equals("")) {
+			System.out.println();
+		}
 	}
 
 }

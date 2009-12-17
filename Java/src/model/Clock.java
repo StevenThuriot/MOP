@@ -31,17 +31,6 @@ public class Clock implements Subject {
 	}
 	
 	/**
-	 * Initializes a new clock, set to the local time.
-	 * @post	Immediately after initialization, the clock is set to the local 
-	 * 			system time.
-	 * 			However, this is not kept consistent.
-	 */
-	public Clock(RepositoryManager manager){
-		this.currentTime = new GregorianCalendar();
-		this.manager = manager;
-	}
-	
-	/**
 	 * Returns the time as indicated on the clock.
 	 */
 	public GregorianCalendar getTime(){

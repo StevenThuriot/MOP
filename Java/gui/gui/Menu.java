@@ -10,10 +10,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
-/**
- * @author koen
- *
- */
+
 public class Menu {
 	private InputStream in;
 	private PrintStream out;
@@ -165,7 +162,7 @@ public class Menu {
 	 * @return
 	 */
 	public GregorianCalendar promptDate(String message){
-		String dStr = this.prompt(message+" eg. "+df.format((new GregorianCalendar()).getTime()));
+		String dStr = this.prompt(message+" eg. "+ df.format((new GregorianCalendar()).getTime()));
 		Date date;
 		try {
 			date = df.parse(dStr);

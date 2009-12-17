@@ -1,7 +1,6 @@
 package gui;
 
 import model.Resource;
-import model.Task;
 import model.User;
 import controller.DispatchController;
 import exception.ResourceBusyException;

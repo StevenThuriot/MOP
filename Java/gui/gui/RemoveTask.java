@@ -3,7 +3,6 @@ package gui;
 import model.Task;
 import model.User;
 import controller.DispatchController;
-import exception.IllegalStateCallException;
 
 public class RemoveTask extends UseCase {
 
