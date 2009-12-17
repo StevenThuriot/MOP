@@ -100,6 +100,13 @@ public class UpdateTaskStatus extends UseCase {
 							}
 					}
 				}
+				if(menu.dialogYesNo("Change state of all mentioned tasks to failed?"))
+					try {
+						dController.getTaskController().setFailed(task);
+					} catch (IllegalStateChangeException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				break;
 		} 
 	}
