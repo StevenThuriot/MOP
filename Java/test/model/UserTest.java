@@ -42,9 +42,9 @@ public class UserTest {
 	public void nameTest()
 	{
 		assertEquals("John", user.getName());
+		assertEquals("John", user.getDescription());
+		assertEquals("John", user.toString());
 	}
-
-
 	
 	@Test
 	public void setName() throws EmptyStringException{

@@ -203,6 +203,31 @@ public class ResourceTest {
 		assertEquals(user, s.getUser());
 	}
 	
+	/**
+	 * Tests the behavior of reservations
+	 * @throws NotAvailableException 
+	 * @throws NotAvailableException 
+	 */
+	@Test(expected=NullPointerException.class)
+	public void reservations8() throws NotAvailableException{
+		@SuppressWarnings("unused")
+		Reservation r = new Reservation(user, null, 10, resource);
+	}
+
+	
+	/**
+	 * Tests the behavior of reservations
+	 * @throws NotAvailableException 
+	 * @throws NotAvailableException 
+	 */
+	@Test(expected=NullPointerException.class)
+	public void reservations9() throws NotAvailableException{
+
+		GregorianCalendar startDate = new GregorianCalendar();
+		@SuppressWarnings("unused")
+		Reservation r = new Reservation(user, startDate, 10, null);
+	}
+	
 	
    /**
      * Add and remove a task that uses this resource
