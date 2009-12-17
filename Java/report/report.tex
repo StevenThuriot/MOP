@@ -64,6 +64,19 @@
 			Updating a status of a task is integrated in modifying a task, but requires special attention as many different rules apply when adjusting the status of a Task.
 
 			Updating the status can directly reflect the status of dependent tasks. When a task was marked Successful, but is reverted to Failed or Unfinished the user will be asked to update the status of all dependent tasks or leave everything including this tasks status unchanged. This is because may have to revert back to Failed or Unfinished because they depended on the successful completion of this task.
+			{\color{red}
+			\subsection{Getting a task overview}		
+			When asking for a overview of tasks, it is sometimes easy to sort and/or filter tasks in a different manner. That way you can get a better overview.\\
+			We provided a handy interface for this in the way of a loop. The user can choose how he wants his tasks sorted: by deadline of by duration. In case the user selects to sort the tasks by deadline, he is asked how many tasks are to be shown. Is duration selected, a minimum and maximum duration is asked. It's made particulary easy to alter and/or add sorting and filtering methods.\\
+			\begin{figure}[H]
+				\begin{center}
+					\includegraphics[scale=0.5]{images/ssd_focus_work.jpg}
+				\end{center}
+				\caption{System Sequence Diagram describing the overview of all tasks}
+			\end{figure}
+			}
+			
+			
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/ssd_update_task.jpg}
@@ -234,8 +247,19 @@
 				\caption{Assign Task to Project Sequence Diagram}
 			\end{figure}
 			It is also the Project's responsibility to bind a Task to the Project. We feel that this direction should be maintained because a Project 'contains' or 'aggregates' a Task. This binding is done in the Project's constructor.	
-			
-			
+	
+	\section{Software Structures}
+		\subsection{Task states}
+		Hier komt iets over het gebruik van State pattern. Ook observer zou ik hier zetten
+		\subsection{Task overview}
+		Focus dinges
+		\subsection{Linking Tasks by dependency}
+		Uitleggen hoe tasks gelinked worden zonder te veel binding = taskdependencymanager
+		\subsection{Time representation}
+		Clock uitleggen, nut en werking
+		\subsection{Collecting data}
+		Repositories, waarom en hoe
+		
 	\section{Software Initialization}
 	When the program is started, the first thing that is taken care of is the instantiation of the dispatch controller.
 	
