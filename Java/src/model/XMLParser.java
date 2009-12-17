@@ -305,12 +305,14 @@ public class XMLParser {
 				String state = stateMap.get(getTasks.get(i));
 				
 				if (!state.equals("Unfinished")) {
-					getTasks.get(i).parseStateString(state);
+					controller.getTaskController().parseStateString(getTasks.get(i), state);
 				}
 			} catch (IllegalStateChangeException e) {
+				e.printStackTrace();
 				System.out.println("There was a problem setting the state of a task. There might be an error in the XML file.");
 				//Sad face : <
 			} catch (BusinessRule2Exception e) {
+				e.printStackTrace();
 				System.out.println("There was a problem setting the state of a task. There might be an error in the XML file.");
 				//Crying face :' <
 			}	
