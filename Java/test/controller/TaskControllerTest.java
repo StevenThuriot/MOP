@@ -137,8 +137,8 @@ public class TaskControllerTest {
 	@Test
 	public void testSetSuccessful() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception
 	{
-		GregorianCalendar startDate = new GregorianCalendar();//Now
-		GregorianCalendar endDate = new GregorianCalendar();
+		GregorianCalendar startDate = (GregorianCalendar) manager.getClock().getTime().clone();//Now
+		GregorianCalendar endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
@@ -162,8 +162,8 @@ public class TaskControllerTest {
 	@Test
 	public void testSetSuccessful2() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, UnknownStateException, BusinessRule2Exception
 	{
-		GregorianCalendar startDate = new GregorianCalendar();//Now
-		GregorianCalendar endDate = new GregorianCalendar();
+		GregorianCalendar startDate = (GregorianCalendar) manager.getClock().getTime().clone();//Now
+		GregorianCalendar endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();

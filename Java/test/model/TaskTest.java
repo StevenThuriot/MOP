@@ -56,6 +56,11 @@ public class TaskTest {
 
 	/**
 	 * Setting up the test.
+	 * @throws BusinessRule3Exception 
+	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule1Exception 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
 	 * @throws EmptyStringException 
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule1Exception 
@@ -64,15 +69,15 @@ public class TaskTest {
 	 * @throws BusinessRule3Exception 
 	 */
 	@Before
-	public void setUp() throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
+	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
 	{
+	    manager = new RepositoryManager();
 		user = new User("John");
-		startDate = new GregorianCalendar();//Now
-		endDate = new GregorianCalendar();
+		startDate = (GregorianCalendar) manager.getClock().getTime().clone();//Now
+		endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
-		resource = new Resource("Projector", ResourceType.Tool);
-		manager = new RepositoryManager();
-		task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+        resource = new Resource("Projector", ResourceType.Tool);
+        task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
 	}
 	
 	/**
@@ -658,13 +663,13 @@ public class TaskTest {
 	@Test
 	public void earliestEnd() throws TaskFailedException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		//<task> takes two hours to complete, earliest end time is 2 hours after the start date
-		GregorianCalendar earliestEnd = new GregorianCalendar();
+		GregorianCalendar earliestEnd = (GregorianCalendar) manager.getClock().getTime().clone();
 		earliestEnd.add(Calendar.HOUR, 2);
 		assertEquals(earliestEnd, task.earliestEndTime());
 		
-		startDate = new GregorianCalendar();
+		startDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		startDate.add(Calendar.DAY_OF_YEAR, 1);
-		endDate = new GregorianCalendar();
+		endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 5);
 		Task task2 = new Task("some name", user, startDate, endDate, 1440, manager.getClock());
 		task.addDependency(task2);
