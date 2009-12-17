@@ -194,6 +194,10 @@ public class UnfinishedTaskState extends TaskState {
 
 	@Override
 	public String toString() {
-		return "Unfinished";
+		if (this.canBeExecuted()) {
+			return "Available";
+		} else {
+			return "Unavailable";
+		}
 	}
 }
