@@ -182,8 +182,10 @@ public class UnfinishedTaskState extends TaskState {
 		if ( this.canBeExecuted() ) 
 			if (newState.satisfiesBusinessRule2() && newState.satisfiesBusinessRule3()) 
 				this.getContext().doSetState(newState);
+			else 
+				throw new IllegalStateChangeException();
 		else if(!newState.satisfiesBusinessRule2())
-			throw new BusinessRule2Exception("Task is dependent ona unfinished task.");
+			throw new BusinessRule2Exception("Task is dependent on an unfinished task.");
 		else if(!newState.satisfiesBusinessRule3())
 			throw new BusinessRule3Exception("Task can not yet be completed");
 		else 

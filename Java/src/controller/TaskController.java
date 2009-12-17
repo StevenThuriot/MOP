@@ -80,10 +80,18 @@ public class TaskController {
 	/**
 	 * Let a task remove itself
 	 * @param t
-	 * @throws DependencyException
 	 */
 	public void removeTask(Task t){
 		t.remove();
+	}
+	
+	/**
+	 * Let a task remove itself
+	 * @param t
+	 * @throws DependencyException
+	 */
+	public void removeTaskRecursively(Task t){
+		t.removeRecursively();
 	}
 	
 	/**

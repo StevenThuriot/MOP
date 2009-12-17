@@ -219,6 +219,13 @@ public class Menu {
 	}
 	
 	/**
+	 * @param message
+	 */
+	public void print(String message){
+		out.print(message);
+	}
+	
+	/**
 	 * @param gc
 	 * @return
 	 */
