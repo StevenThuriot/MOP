@@ -157,7 +157,7 @@
 
 			While not described in the project assignment, we assumed the system could become a multi-user system in the next iteration(s). We therefore based our design on this.
 
-			Every User object is responsible for keeping track of the Projects and Tasks that belong to him. The system can ask the User object to return a list of these Projects or Tasks.
+			Every User object is responsible for keeping track of the Tasks that belong to him. The system can ask the User object to return a list of these Tasks.
 
 			\subsection{Task manipulation}
 			%Design uitleggen. Ook de GRASP patterns erbij zetten
@@ -169,12 +169,12 @@
 				\item{Keeping track of its name, start date, due date, duration and status}
 				\item{Keeping track of the resources required to execute the task}
 				\item{Keeping track of its dependencies. Dependencies are implemented as double bindings, so they should be kept consistent}
-				\item{Checking for the business rule 1 and preventing the construction of loops in the dependency scheme}
+				\item{Checking for the business rule 1, 2 and 3 and preventing the construction of loops in the dependency scheme}
 				\item{Updating the status of dependent tasks when necessary}
 			\end{itemize}
 			A Task is not an Information Expert or Creator of Resources. As described in the next chapter, a Resource has its own management.
 			We do feel it is necessary for the Task to know about its Resources.\\
-			However, a Task is Information Expert about Task itself. Therefore, we felt that the Task class should be responsible for enforcing business rule 1, preventing the construction of dependency loops, and updating the status of dependent tasks when necessary (as described in the use case 'update task status').
+			However, a Task is Information Expert about Task itself. Therefore, we felt that the Task class should be responsible for enforcing the business rules, preventing the construction of dependency loops, and updating the status of dependent tasks when necessary (as described in the use case 'update task status').
 			
 			While designing, it was suggested that perhaps the Task class has two distinct responsibilities this way: one concerning its own details, and one concerning the way it interacts with other Tasks in the dependency graph. In the end, we chose to stick to one single Task class, as we felt that the cohesion of this class was sufficiently high.
 			
@@ -213,7 +213,7 @@
 			
 			
 			\subsection{Project manipulation}
-			A project is an instance that could contain Tasks. It does not have any binding to other objects and can not be stored in an object. Therefore, a Project is stored the same way a Resource is. By using repositories. See the subsection 'Collecting Data'.
+			\emph{A project is an instance that could contain Tasks. It does not have any binding to other objects and can not be stored in an object. Therefore, a Project is stored the same way a Resource is. By using repositories. See the subsection 'Collecting Data'.}
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/project_class_diagram.jpg}
@@ -228,21 +228,21 @@
 			\item Binding or removing Tasks from or to the project
 			\end{itemize}
 
-			When the application user creates a Project, he becomes a owner of that Project, this is how the User acts as a container of the Project Object. Tasks can be added to the Project however the User wishes to do this. However, it's not the User object that calls the Project constructor. It is our opinion that it is not the User's responsibility to create this object, rather then it's the Project's responsibility to aggregate the User.
+			\emph{Because an instance of type Project is not stored in any other domain class. We feel that none of these domain classes should therefore act as a Creator of the Project instances. We therefore opted to call the Project constructor in the controller, which then acts as a factory. This controller will also add the instance to the repositories.}
+			
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/create_project.jpg}
 				\end{center}
 				\caption{Create Project Sequence Diagram}
 			\end{figure}
-			Therefore, it's the Project's constructor that gets an argument User. This User object is then asked to add Project to it's list of Projects.
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/assign_task_to_project.jpg}
 				\end{center}
 				\caption{Assign Task to Project Sequence Diagram}
 			\end{figure}
-			It is also the Project's responsibility to bind a Task to the Project. We feel that this direction should be maintained because a Project 'contains' or 'aggregates' a Task. This binding is done in the Project's constructor.	
+			It is also the Project's responsibility to bind a Task to the Project. We feel that this direction should be maintained because a Project 'contains' or 'aggregates' a Task. This binding is done by calling a method in Project.
 	
 	\section{Software Structures}
 		\subsection{Task states}
@@ -338,7 +338,7 @@
 		We use a technique borrowed from the Spring Framework called Dependency Injection to inject a reference to this RepositoryManager in every Controller. This way, they can all access the same information in an Object-Oriented Way.
 		
 	\section{Software Initialization}
-	When the program is started, the first thing that is taken care of is the instantiation of the dispatch controller.
+	\emph{When the program initializes, the first thing that gets created is the RepositoryManager. This makes sure repositories are created for Project, Resource and User. This also makes sure a Clock is created and contained.}
 	
 	After that, an XML parser object is created to retrieve all the supplied information. The dispatch controller, together with the location of the XML file, are passed to the constructor of the parser. After this it can finally start parsing.
 	
@@ -360,7 +360,7 @@
 		We also tested most methods for both cases. This means that we test both failure and succession of a method. Testing only for success does not guarantee a correct Exception is thrown, or success in all cases.
 	\section{Project Management - Iteration 1}
 		\subsection{Planning}
-		The planning of our Team Assignment had the following planning:\\
+		Our Team Assignment had the following planning in iteration 1:\\
 		\begin{tabular}{p{200 pt}|c|c}
 		Activity & From & To\\
 		\hline
@@ -374,12 +374,22 @@
 		Code review by team and rewriting certain functionality's & 19/10/2009 & 26/10/2009\\ \hline
 		Start writing report \& finishing UML diagrams & 24/10/2009 & 27/10/2009\\ \hline
 		\end{tabular}
+		\emph{
+			Our Team Assignment had the following planning in iteration 2:\\
+			\begin{tabular}{p{200 pt}|c|c}
+			Activity & From & To\\
+			\hline
+			TODO: planning
+			\end{tabular}		
+		}
 		\subsection{Teamwork}
 		We focused on a close teamwork. We started the project with a team discussion on how everyone saw the project and interpreted the assignment. This gave the team a general perspective and good grasp on how we wanted to implement it.\\
 		We have 3 weekly physical meetings, where 1 would be with our team advisor. In these meetings, we discussed what everyone had done in the past days. Whenever somebody was unclear, or the group had doubts about which method or pattern would be the best to use, time was never an issue to come to a general solution that seemed best to everyone.\\
 		We also used several team collaboration tools provided by Google such as Google Code and Google Groups. This gave advantages such as a mailing list, subversion with the option to review code at each revision, issue lists and hosted files.\\
 		We tried to keep all the information as centralized as possible by using a separate Subversion repository for the Visual Paradigm file. This way every team member always had the most up to date diagrams available.\\
 		Development of the project was divided in 4 groups of functionality: Controllers, Models, View and Testing. Each member of the team was assigned one of these tasks. Steven Thuriot took on Controllers and the parsing of XML, Kwinten Missiaen Models, Koen Van den dries the View and Bart Vangeneugden Testing. The report was structured and drafted by Bart Vangeneugden however every team member wrote about the part of development he was responsible for.\\
+		\subsection{Timing}
+		\textbf{Iteration 1:}
 		We had a total of 18 hours meeting physically for the project. Besides that every group member worked at home. A short estimate follows:\\
 		 \begin{tabular}{l|l}
 		Member & Time(+/-)\\ \hline
@@ -387,6 +397,15 @@
 		Steven Thuriot & 25\\
 		Koen Van den dries & 23\\
 		Bart Vangeneugden & 25\\
+		\end{tabular}
+		\textbf{Iteration 2:}
+		We had a total of XX hours meeting physically for the iteration. Besides that, every group member worked at home: A short estimate follows:
+		\begin{tabular}{l|l}
+		Member & Time(+/-)\\ \hline
+		Kwinten Missiaen & 18\\
+		Steven Thuriot & 25\\
+		Koen Van den dries & 23\\
+		Bart Vangeneugden & 14\\
 		\end{tabular}
 	\section{Self-Evaluation - Iteration 1}
 	It is our opinion that we had a great team effort. However, we can improve. In this iteration we were too eager to get a first version of Class- and other diagrams ready. It would have been a better choice to make a good class-per-class analysis before drawing.\\
