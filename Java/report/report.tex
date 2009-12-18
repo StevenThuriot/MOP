@@ -268,6 +268,7 @@
 						\includegraphics[scale=0.7]{images/StateChanges.png}
 					\end{center}
 					\caption{State Changes Graph}
+
 				\end{figure}
 			
 				\emph{As you can see are the state changes between Available and Unavailable the same. Because of this, we began to wonder what else was similar. After some thorough research, it became clear that the only difference between these two states was time related. Because of this, we decided to merge these two states into one big state, called "`Unfinished"'. This state would just calculate at runtime if it is available or not, and act accordingly. To eventually set the state, a method is added per state. There was also a parsing method created, to make it possible for the XML Parser to pass strings found in the XML file to the state. The state would then call one of the methods to change the state if it matches one of the existing states. If not, an exception is thrown. We decided to place this method into the state pattern itself, rather than the XML parser, because this way it is easier to maintain and harder to forget to adjust when a new state is made.}
@@ -409,13 +410,13 @@
 		Bart Vangeneugden & 25\\
 		\end{tabular}
 		\textbf{Iteration 2:}
-		We had a total of XX hours meeting physically for the iteration. Besides that, every group member worked at home: A short estimate follows:
+		We had a total of 18 hours meeting physically for the iteration. Besides that, every group member worked at home: A short estimate follows:
 		\begin{tabular}{l|l}
 		Member & Time(+/-)\\ \hline
-		Kwinten Missiaen & 18\\
+		Kwinten Missiaen & 30\\
 		Steven Thuriot & 25\\
 		Koen Van den dries & 23\\
-		Bart Vangeneugden & 14\\
+		Bart Vangeneugden & 25\\
 		\end{tabular}
 		\subsection{Self-Evaluation}
 		It is our opinion that we had a great team effort. However, we can improve. In this iteration we were too eager to get a first version of Class- and other diagrams ready. It would have been a better choice to make a good class-per-class analysis before drawing.\\
@@ -445,8 +446,8 @@
 		Member & Time(+/-)\\ \hline
 		Kwinten Missiaen & 18\\
 		Steven Thuriot & 18\\
-		Koen Van den dries & --\\
-		Bart Vangeneugden & --\\
+		Koen Van den dries & 17\\
+		Bart Vangeneugden & 15\\
 		\end{tabular}
 		\subsection{Self-Evaluation}
 		Just like last time, we had no real problems regarding teamwork. We also applied the same strategy. Meeting often and working hard.
