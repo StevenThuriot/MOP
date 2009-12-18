@@ -53,7 +53,7 @@
 			\subsubsection{Modifying Tasks}
 			When modifying tasks, the system has to make sure the user follows all the rules described above. This is because the user has the option to change all of the schedule variables, dependencies and required resources.
 
-			This means that the Business Rule has to be tested, as well as the Empty Description rule. Checking is also done on the task dependencies. For instance, it should not be possible to create a task A, dependent on task B. And modify task B to be dependent on task A. This would create a dependency loop.\\
+			This means that the Business Rules have to be tested, as well as the Empty Description rule. Checking is also done on the task dependencies. For instance, it should not be possible to create a task A, dependent on task B. And modify task B to be dependent on task A. This would create a dependency loop.\\
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/ssd_modify_task.jpg}
@@ -116,8 +116,7 @@
 			\end{figure}
 		\subsection{Project Management}
 			\subsubsection{Create Project}
-			A project can be created. A project can contain many Tasks, but does not have to. Our assumption is that at least one User is allocated to a Project, but several Users can subscribe.
-			The system asks the user for a short description of that Project. If this description was not empty, the system creates the Project.
+			A project can be created. A project can contain many Tasks, but does not have to. The system asks the user for a short description of the Project. If this description was not empty, the system creates the Project.
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/SSD_Create_Project.png}
