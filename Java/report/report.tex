@@ -43,7 +43,7 @@
 				\end{figure}
 			\subsubsection{Removing Tasks}
 			When a task is to be removed. It first has to check how that will affect other entities in the system. Is a Task still required by other Tasks in a dependency?
-			If this is the case. The user will receive an error message and is asked how he wants to proceed: Cancel the operation or delete all the dependent tasks.
+			If this is the case, the user had 2 options: Remove all the tasks recursively, or only remove the selected task and remove binding (dependencies) to other tasks.
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/ssd_remove_task.jpg}
@@ -63,7 +63,8 @@
 			 \subsubsection{Updating a Task status}
 			Updating a status of a task is integrated in modifying a task, but requires special attention as many different rules apply when adjusting the status of a Task.
 
-			Updating the status can directly reflect the status of dependent tasks. When a task was marked Successful, but is reverted to Failed or Unfinished the user will be asked to update the status of all dependent tasks or leave everything including this tasks status unchanged. This is because may have to revert back to Failed or Unfinished because they depended on the successful completion of this task.
+			Updating the status can directly reflect the status of dependent tasks. When a task was marked Successful, but is reverted to Failed or Unfinished the user will be asked to update the status of all dependent tasks or leave everything including this tasks status unchanged. This is because may have to revert back to Failed or Unfinished because they depended on the successful completion of this task.\\
+			The application also makes sure Tasks are kept at a consistent state. For example, if a task is marked in a state, this is notified to other, dependant tasks so they can make the possibly necessary adjustments so they comply with all the businessrules. This happens recursively.
 			\subsection{Getting a task overview}		
 			\emph{
 			When asking for a overview of tasks, it is sometimes easy to sort and/or filter tasks in a different manner. That way you can get a better overview.\\
@@ -124,7 +125,7 @@
 				\caption{System Sequence Diagram describing the creating of a project}
 			\end{figure}
 			\subsubsection{Remove Project}
-			A project can be removed without too many details. If the user wants to remove a project, all of the tasks connected to that project are removed. The user simply selects a Projects and all of the underlying tasks/dependent tasks are removed with it.
+			A project can be removed without too many details. If the user wants to remove a project, all of the tasks connected to that project are removed recursively. The user simply selects a Projects and all of the underlying tasks/dependent tasks are removed with it.
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/SSD_Remove_Project.png}
