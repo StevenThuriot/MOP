@@ -3,7 +3,7 @@
 \begin{document}
 \auteur{Kwinten Missiaen, Steven Thuriot, Koen Van den dries, Bart Vangeneugden}
 \opleiding{Methodologieën voor Ontwerp van Programmatuur}
-\titel{Taskmanager: Iteratie 1}
+\titel{Taskmanager: Iteration 2}
 \academiejaar{2009 - 2010}
 \promotor{Tom Holvoet\\Mario Cruz Torres}
 
@@ -358,7 +358,7 @@
 		By multi-level we mean that we test both methods in Model classes (such as User, Task, Resource etc.) as well as testing the Controllers that call these methods (TaskController, ResourceController etc). 
 		This way we get a good view on where errors are: model, controller or view.\\
 		We also tested most methods for both cases. This means that we test both failure and succession of a method. Testing only for success does not guarantee a correct Exception is thrown, or success in all cases.
-	\section{Project Management}
+	\section{Project Management - Iteration 1}
 		\subsection{Planning}
 		The planning of our Team Assignment had the following planning:\\
 		\begin{tabular}{p{200 pt}|c|c}
@@ -388,7 +388,41 @@
 		Koen Van den dries & 23\\
 		Bart Vangeneugden & 25\\
 		\end{tabular}
-	\section{Self-Evaluation}
+	\section{Self-Evaluation - Iteration 1}
 	It is our opinion that we had a great team effort. However, we can improve. In this iteration we were too eager to get a first version of Class- and other diagrams ready. It would have been a better choice to make a good class-per-class analysis before drawing.\\
 	To conclude we had no real problems regarding teamwork. Also we learned a lot about project organization.
+\section{Project Management - Iteration 2}
+	\subsection{Planning}
+	The planning of our Team Assignment had the following planning:\\
+	
+		\begin{tabular}{p{300 pt}|c}
+		Activity & Date\\
+		\hline
+		First meeting to discuss the new iteration, discussion about the state pattern, observer pattern, the business rules and a new way to implement FocusWork. & 20/11/2009\\ \hline
+		Adjusting parts of the class diagram \& System Sequence Diagrams to use the state pattern. & 25/11/2009\\ \hline
+		Discussion about splitting task into two objects because it is currently bloated. Decided on using the strategy pattern for FocusWork. & 27/11/2009\\ \hline
+		Discussed two options of splitting task. Decided on making a new class that is an attribute of task. & 30/11/2009\\ \hline
+		Talked about the best way to implement some parts of the state pattern. Discussed making a generics wrapper so GUI has a describable but can't touch the actual objects. & 07/12/2009\\ \hline
+		Discussed some code issues and set up some deadlines for the code and the report. & 11/12/2009\\ \hline
+		Start writing report \& finish polishing up the UML diagrams & 16/12/2009\\ \hline
+		Finish the report and go over it one more time as a team. & 18/12/2009\\ \hline
+		\end{tabular}
+		
+		\subection{Teamwork}
+		
+		
+		We had a total of 16 hours meeting physically for the project. Besides that, every group member also worked at home. A short estimate follows:\\
+		 \begin{tabular}{l|l}
+		Member & Time(+/-)\\ \hline
+		Kwinten Missiaen & 18\\
+		Steven Thuriot & 18\\
+		Koen Van den dries & --\\
+		Bart Vangeneugden & --\\
+		\end{tabular}
+	\section{Self-Evaluation - Iteration 2}
+	Just like last time, we had no real problems regarding teamwork. We also applied the same strategy. Meeting often and working hard.
+	
+	We divided the actual code among us, so it would be manageable to work on. Kwinten took care of making the time controller, the clock and the task dependency manager. Steven handled implementing the state pattern. Koen worked on the observer pattern, the describable wrapper and the GUI. Bart also worked on the GUI, but he also implemented the strategy pattern and the repositories. Finally, we all worked hard on writing tests and adjusting the UML diagrams.
+	
+	Everything was discussed thoroughly and everyone put in his best effort to try and make this iteration a success as well.
 \end{document}
