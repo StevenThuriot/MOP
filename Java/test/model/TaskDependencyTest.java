@@ -16,6 +16,7 @@ import exception.BusinessRule1Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.IllegalStateCallException;
+import exception.IllegalStateChangeException;
 
 public class TaskDependencyTest {
 
@@ -119,7 +120,15 @@ public class TaskDependencyTest {
 		taskHelp.addDependency(taskMain);
 	}
 	
-	
+	@Test
+	public void statusUpdate() throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, IllegalStateChangeException{
+		tdm.addDependency(taskHelp);
+		taskHelp.addDependency(taskHelp2);
+		taskHelp2.setFailed();
+		assertTrue(taskMain.isFailed());
+		assertTrue(taskHelp.isFailed());
+		assertTrue(taskHelp2.isFailed());
+	}
 	
 	
 	
