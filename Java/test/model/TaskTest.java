@@ -130,7 +130,7 @@ public class TaskTest {
 	@Test
 	public void checkStateZero() throws IllegalStateChangeException
 	{
-		assertEquals("Unfinished", task.getCurrentStateName());
+		assertEquals("Available", task.getCurrentStateName());
 	}
 
 	/**
