@@ -265,10 +265,11 @@
 			
 				\emph{As you can see are the state changes between Available and Unavailable the same. Because of this, we began to wonder what else was similar. After some thorough research, it became clear that the only difference between these two states was time related. Because of this, we decided to merge these two states into one big state, called "`Unfinished"'. This state would just calculate at runtime if it is available or not, and act accordingly. To eventually set the state, a method is added per state. There was also a parsing method created, to make it possible for the XML Parser to pass strings found in the XML file to the state. The state would then call one of the methods to change the state if it matches one of the existing states. If not, an exception is thrown. We decided to place this method into the state pattern itself, rather than the XML parser, because this way it is easier to maintain and harder to forget to adjust when a new state is made.}
 			
-				\emph{The original idea was to put Task, TaskState and all its children into a separate package inside the model package. Since all the methods used in TaskState are protected or private, rather than public, it would be impossible for any other class to call functions of the state. This however, was not possible. This is due to one of Java's limitations. Java has no "`real"' sub packages. They all count as different packages. Because of this, Java does not allow to call protected methods from a sub package. Sadly, this is exactly what some of Tasks methods needed to do. Because of this, we were forced to implement the state pattern inside the model package as well.}
+				\emph{The original idea was to put Task, TaskState and all its children into a separate package inside the model package. Since all the methods used in TaskState are protected or private, rather than public, it would be impossible for any other class to call functions of the state. This however, was not possible. This is due to one of Java's limitations. Java has no "real" sub packages. They all count as different packages. Because of this, Java does not allow to call protected methods from a sub package. Sadly, this is exactly what some of Tasks methods needed to do. Because of this, we were forced to implement the state pattern inside the model package as well.}
 						
 			\subsubsection{Observer Pattern}
-				Ook observer zou ik hier zetten
+				\emph{In order to keep the states consistent across all tasks and dependencies we used the pull model observer pattern. At first, because one of the use-cases required to test which dependent task would change state as a result of the change of state of a task without actually changing the states, we considered using the push model. This would allow us to notify an observer of a state change, the new state where upon it would report back if and how it and it's dependent tasks would have changed state without changing state. This however would have limited the reusabilty of the observer pattern. But as the use-case requirement could be solved in the UI the observer pattern was reverted to the pull model. The two entities of the pattern are presented by the Subject and Observer<S extends Subject> interfaces using generics to improve reusabilty of the interfaces\footnote{Sadly, the type-erasure implementation of generics in Java only permits an interface to be implemented once by a class, even with different type arguments.}. As the Subject-Observer relationship is an implicit aspect of the task dependency relationship no subscribe(Observer) method is needed. While it is the TaskDependecyManager that maintains the dependency relationship we still chose to make Task both the Observer and Subject as it is Task that keeps the current state. When the state of a task is changed the publish() method is called to notify() all observing tasks, which will then decide whether they will update their own state. In order to comply with Business Rule 2 the observing task only needs to change status if the subject state is Failed. The update(Task subject) method of the observer is passed the subject which published the state change, but the observer still needs to verify if it is actually subscribed to the subject to ensure consistency.}
+				
 		\subsection{Task overview}
 		\emph{
 		As discussed, we want to show the list of tasks in different ways. We might want them sorted by deadline or by duration. However, there is no reason the functionality should be limited to just these two.\\
@@ -410,9 +411,9 @@
 	\section{Self-Evaluation - Iteration 1}
 	It is our opinion that we had a great team effort. However, we can improve. In this iteration we were too eager to get a first version of Class- and other diagrams ready. It would have been a better choice to make a good class-per-class analysis before drawing.\\
 	To conclude we had no real problems regarding teamwork. Also we learned a lot about project organization.
-\section{Project Management - Iteration 2}
-	\subsection{Planning}
-	The planning of our Team Assignment had the following planning:\\
+	\section{Project Management - Iteration 2}
+		\subsection{Planning}
+		The planning of our Team Assignment had the following planning:\\
 	
 		\begin{tabular}{p{300 pt}|c}
 		Activity & Date\\
@@ -427,7 +428,7 @@
 		Finish the report and go over it one more time as a team. & 18/12/2009\\ \hline
 		\end{tabular}
 		
-		\subection{Teamwork}
+		\subsection{Teamwork}
 		
 		
 		We had a total of 16 hours meeting physically for the project. Besides that, every group member also worked at home. A short estimate follows:\\
