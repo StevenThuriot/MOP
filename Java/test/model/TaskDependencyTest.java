@@ -120,7 +120,7 @@ public class TaskDependencyTest {
 		taskHelp.addDependency(taskMain);
 	}
 	
-	@Test//(expected=DependencyCycleException.class)
+	@Test(expected=IllegalStateChangeException.class)
 	public void statusUpdate() throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, IllegalStateChangeException{
 		tdm.addDependency(taskHelp);
 		taskHelp.addDependency(taskHelp2);
@@ -128,7 +128,7 @@ public class TaskDependencyTest {
 		assertTrue(taskMain.isFailed());
 		assertTrue(taskHelp.isFailed());
 		assertTrue(taskHelp2.isFailed());
-		//taskHelp2.setFailed();
+		taskHelp2.setFailed();
 	}
 	
 	
