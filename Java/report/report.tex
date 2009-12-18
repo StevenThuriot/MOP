@@ -43,7 +43,8 @@
 				\end{figure}
 			\subsubsection{Removing Tasks}
 			When a task is to be removed. It first has to check how that will affect other entities in the system. Is a Task still required by other Tasks in a dependency?
-			If this is the case, the user had 2 options: Remove all the tasks recursively, or only remove the selected task and remove binding (dependencies) to other tasks.
+			If this is the case. The user will receive an error message and is asked how he wants to proceed: Cancel the operation or delete all the dependent tasks.
+			
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/ssd_remove_task.jpg}
@@ -63,8 +64,7 @@
 			 \subsubsection{Updating a Task status}
 			Updating a status of a task is integrated in modifying a task, but requires special attention as many different rules apply when adjusting the status of a Task.
 
-			Updating the status can directly reflect the status of dependent tasks. When a task was marked Successful, but is reverted to Failed or Unfinished the user will be asked to update the status of all dependent tasks or leave everything including this tasks status unchanged. This is because may have to revert back to Failed or Unfinished because they depended on the successful completion of this task.\\
-			The application also makes sure Tasks are kept at a consistent state. For example, if a task is marked in a state, this is notified to other, dependant tasks so they can make the possibly necessary adjustments so they comply with all the businessrules. This happens recursively.
+			Updating the status can directly reflect the status of dependent tasks. When a task was marked Successful, but is reverted to Failed or Unfinished the user will be asked to update the status of all dependent tasks or leave everything including this tasks status unchanged. This is because may have to revert back to Failed or Unfinished because they depended on the successful completion of this task.
 			\subsection{Getting a task overview}		
 			\emph{
 			When asking for a overview of tasks, it is sometimes easy to sort and/or filter tasks in a different manner. That way you can get a better overview.\\
@@ -125,7 +125,7 @@
 				\caption{System Sequence Diagram describing the creating of a project}
 			\end{figure}
 			\subsubsection{Remove Project}
-			A project can be removed without too many details. If the user wants to remove a project, all of the tasks connected to that project are removed recursively. The user simply selects a Projects and all of the underlying tasks/dependent tasks are removed with it.
+			A project can be removed without too many details. If the user wants to remove a project, all of the tasks connected to that project are removed. The user simply selects a Projects and all of the underlying tasks/dependent tasks are removed with it.
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/SSD_Remove_Project.png}
@@ -248,6 +248,13 @@
 		\subsection{Task states}
 			\subsubsection{State Pattern}
 				\emph{When receiving the new iteration, it instantly became clear that from now on states would play a big role in the design. Every state has its specific way of handling things. Without using a design pattern to solve this, the methods would become cluttered and unreadable really fast. They would also be very hard to maintain when states are removed or new states are created.}
+				\begin{figure}[H]
+					\begin{center}
+						\includegraphics[scale=0.6]{images/State_Pattern.png}
+					\end{center}
+					\caption{Assign Task to Project Sequence Diagram}
+				\end{figure}
+				
 			
 				\emph{The perfect way to cope with all this is by using the state pattern. The state pattern offers all the functionality without having a lot of if structures inside the methods. This is done by creating an abstract class with all the methods from task that depend on the state of the task. By default, these methods get implemented in the abstract class so they throw an exception, saying the current call is not allowed in  the current state. This abstract class has one child for each possible state. The children will then overwrite the methods that they handle differently. As a result, the children will have a clear overview of all the methods that they allow, and have their own unique way to do so.}
 			
@@ -263,7 +270,7 @@
 					\caption{Assign Task to Project Sequence Diagram}
 				\end{figure}
 			
-				\emph{As you can see, the state changes between Available and Unavailable are quite similar. Because of this, we began to wonder what else was similar. After some thorough research, it became clear that the only difference between these two states was time related. Because of this, we decided to merge these two states into one big state, called "`Unfinished"'. This state would just calculate at runtime if it is available or not, and act accordingly. To eventually set the state, a method is added per state. There was also a parsing method created, to make it possible for the XML Parser to pass strings found in the XML file to the state. The state would then call one of the methods to change the state if it matches one of the existing states. If not, an exception is thrown. We decided to place this method into the state pattern itself, rather than the XML parser, because this way it is easier to maintain and harder to forget to adjust when a new state is made.}
+				\emph{As you can see are the state changes between Available and Unavailable the same. Because of this, we began to wonder what else was similar. After some thorough research, it became clear that the only difference between these two states was time related. Because of this, we decided to merge these two states into one big state, called "`Unfinished"'. This state would just calculate at runtime if it is available or not, and act accordingly. To eventually set the state, a method is added per state. There was also a parsing method created, to make it possible for the XML Parser to pass strings found in the XML file to the state. The state would then call one of the methods to change the state if it matches one of the existing states. If not, an exception is thrown. We decided to place this method into the state pattern itself, rather than the XML parser, because this way it is easier to maintain and harder to forget to adjust when a new state is made.}
 			
 				\emph{The original idea was to put Task, TaskState and all its children into a separate package inside the model package. Since all the methods used in TaskState are protected or private, rather than public, it would be impossible for any other class to call functions of the state. This however, was not possible. This is due to one of Java's limitations. Java has no "real" sub packages. They all count as different packages. Because of this, Java does not allow to call protected methods from a sub package. Sadly, this is exactly what some of Tasks methods needed to do. Because of this, we were forced to implement the state pattern inside the model package as well.}
 						
@@ -304,9 +311,6 @@
 			\caption{Specialised class diagram explaining the Strategy Pattern}
 		\end{figure}
 		}
-		\subsection{Linking Tasks by dependency}
-		Uitleggen hoe tasks gelinked worden zonder te veel binding = taskdependencymanager
-		
 		\subsection{Time representation}
 		\emph{
 		Because Business Rule 3 relates so strongly to time, it seems natural to look for a way to represent time in our software system. As time progresses, the status of a Task may have to be changed to satisfy Business Rule 3. For example, if the deadline of a Task has passed and it wasn't finished yet, the Task was failed. This leaves us with two questions. How should we represent time in our system? How should we design the system so that Business Rule 3 can be uphold for all tasks at all time?}
@@ -391,6 +395,15 @@
 		Koen Van den dries & 23\\
 		Bart Vangeneugden & 25\\
 		\end{tabular}
+		\textbf{Iteration 2:}
+		We had a total of XX hours meeting physically for the iteration. Besides that, every group member worked at home: A short estimate follows:
+		\begin{tabular}{l|l}
+		Member & Time(+/-)\\ \hline
+		Kwinten Missiaen & 18\\
+		Steven Thuriot & 25\\
+		Koen Van den dries & 23\\
+		Bart Vangeneugden & 14\\
+		\end{tabular}
 		\subsection{Self-Evaluation}
 		It is our opinion that we had a great team effort. However, we can improve. In this iteration we were too eager to get a first version of Class- and other diagrams ready. It would have been a better choice to make a good class-per-class analysis before drawing.\\
 		To conclude we had no real problems regarding teamwork. Also we learned a lot about project organization.
@@ -412,18 +425,20 @@
 		\end{tabular}
 		
 		\subsection{Teamwork}
+		
+		
 		We had a total of 16 hours meeting physically for the project. Besides that, every group member also worked at home. A short estimate follows:\\
 		 \begin{tabular}{l|l}
 		Member & Time(+/-)\\ \hline
 		Kwinten Missiaen & 18\\
-		Steven Thuriot & 16\\
-		Koen Van den dries & 15\\
-		Bart Vangeneugden & 15\\
+		Steven Thuriot & 18\\
+		Koen Van den dries & --\\
+		Bart Vangeneugden & --\\
 		\end{tabular}
 		\subsection{Self-Evaluation}
 		Just like last time, we had no real problems regarding teamwork. We also applied the same strategy. Meeting often and working hard.
-		
+	
 		We divided the actual code among us, so it would be manageable to work on. Kwinten took care of making the time controller, the clock and the task dependency manager. Steven handled implementing the state pattern. Koen worked on the observer pattern, the describable wrapper and the GUI. Bart also worked on the GUI, but he also implemented the strategy pattern and the repositories. Finally, we all worked hard on writing tests and adjusting the UML diagrams.
-		
+	
 		Everything was discussed thoroughly and everyone put in his best effort to try and make this iteration a success as well.
 \end{document}
