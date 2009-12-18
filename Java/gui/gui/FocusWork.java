@@ -50,7 +50,7 @@ public class FocusWork extends UseCase {
 				List<Task> tasks = focus.getTasks();
 				Task task = menu.menuGen("Select Task", tasks);
 				menu.println(task.getDescription());
-				if (!dController.getTaskController().hasDependentTasks(task))
+				if (dController.getTaskController().hasDependentTasks(task))
 					menu.printListGen("Dependent Tasks", dController.getTaskController().getDependentTasks(task));
 				else
 					menu.println("Dependent Tasks \n0: None");
