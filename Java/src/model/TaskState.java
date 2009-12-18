@@ -164,7 +164,7 @@ public abstract class TaskState {
 	 * @post 	The task is no longer dependent on <dependency>
 	 * 			|! (new.getDependentTasks()).contains(dependent)
 	 */
-	public void removeDependency(Task dependency) throws IllegalStateCallException, DependencyException{
+	protected void removeDependency(Task dependency) throws IllegalStateCallException, DependencyException{
 		throw new IllegalStateCallException();
 	}
 	
@@ -172,7 +172,7 @@ public abstract class TaskState {
 	 * Removes a resource from the resources required for this task.
 	 * @throws IllegalStateCallException 
 	 */
-	public void removeRequiredResource(Resource resource) throws IllegalStateCallException{
+	protected void removeRequiredResource(Resource resource) throws IllegalStateCallException{
 		throw new IllegalStateCallException();
 	}
 	
