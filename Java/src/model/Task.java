@@ -206,14 +206,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		return this.taskState.canBeExecuted();
 	}
 	
-	/**
-	 * This method returns a boolean indicating whether the current task can be 
-	 * dependent on a task <task>.
-	 * This is false if this dependency would lead to a cycle in the dependencies.
-	 */
-	public boolean canHaveAsDependency(Task task){
-		return dependencyHasNoCycle(task) && dependencySatisfiesBusinessRule1(task);
-	}
+	
 	
 	/**
 	 * This method returns a boolean indicating whether a dependency of the current task
@@ -762,7 +755,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 			try {
 				this.setFailed();
 			} catch (IllegalStateChangeException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	}

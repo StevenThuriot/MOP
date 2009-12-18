@@ -86,6 +86,29 @@ public class TaskControllerTest {
 	}
 	
 	/**
+	 * Test to see if tasks are removed
+	 * @throws EmptyStringException
+	 * @throws BusinessRule1Exception
+	 * @throws DependencyCycleException
+	 * @throws DependencyException
+	 * @throws IllegalStateCallException 
+	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
+	 */
+	@Test
+	public void removeTaskRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
+	{
+		GregorianCalendar end = new GregorianCalendar();
+		end.add(Calendar.MONTH,1);
+		Task taak = controller.createTask("Beschrijving", new GregorianCalendar(), end, 120, new ArrayList<Task>(), new ArrayList<Resource>(), user);
+		Task taak2 = controller.createTask("Beschrijving2", new GregorianCalendar(), end, 120, new ArrayList<Task>(), new ArrayList<Resource>(), user);
+		controller.addDependency(taak2, taak);
+		controller.removeTaskRecursively(taak);
+		assertFalse(controller.getTasks(user).contains(taak));
+		assertFalse(controller.getTasks(user).contains(taak2));
+	}
+	
+	/**
 	 * Test to see if the controller's constructor checks for null
 	 * @throws EmptyStringException
 	 * @throws BusinessRule1Exception
