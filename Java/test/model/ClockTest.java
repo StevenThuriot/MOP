@@ -26,12 +26,14 @@ public class ClockTest {
 	
 	@Before
 	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, TimeException{
+		startDate = new GregorianCalendar(2010, 1,1, 12, 0);
+		dueDate = new GregorianCalendar(2010, 5,1, 12, 0);
 		manager = new RepositoryManager();
 		clock = manager.getClock();
 		clock.setTime(startDate);
 		user = new User("Kwinten");
 		manager.add(user);
-		task = new Task("Make Clock Tests", user,  new TaskTimings(new GregorianCalendar(2010, 1,1, 12, 0), new GregorianCalendar(2010, 5,1, 12, 0), 120), clock);
+		task = new Task("Make Clock Tests", user,  new TaskTimings(startDate, dueDate, 120), clock);
 	}
 	
 	/**
