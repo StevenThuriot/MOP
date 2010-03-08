@@ -41,43 +41,47 @@ public class RepositoryManager {
         resourceRepository = new Repository<Resource>();
         clock = new Clock(this,new GregorianCalendar(1970, 1, 1));
     }
+    
     /**
      * Overridable method add. Will add a project to the project repository
-     * @param p
+     * @param project
      * @return
      */
-    public boolean add(Project p)
+    public boolean add(Project project)
     {
-        return projectRepository.add(p);
+        return projectRepository.add(project);
     }
+    
     /**
      * Overridable method add. Will add a resource to the resource repository
-     * @param p
+     * @param resource
      * @return
      */
-    public boolean add(Resource r)
+    public boolean add(Resource resource)
     {
-        return resourceRepository.add(r);
+        return resourceRepository.add(resource);
     }
+    
     /**
      * Overridable method add. Will add a user to the user repository
-     * @param p
+     * @param user
      * @return
      */
-    public boolean add(User u)
+    public boolean add(User user)
     {
-        return userRepository.add(u);
+        return userRepository.add(user);
     }
+    
     /**
      * Overridable method remove. Will remove a Project to the Project repository if it exists
-     * @param p
+     * @param project
      * @return
      * @throws IllegalStateCallException 
      */
-    public boolean remove(Project p) throws IllegalStateCallException
+    public boolean remove(Project project) throws IllegalStateCallException
     {
-        p.remove();
-        return projectRepository.remove(p);
+        project.remove();
+        return projectRepository.remove(project);
     }
     /**
      * Overridable method remove. Will remove a Resource to the Resource repository if it exists
@@ -85,10 +89,10 @@ public class RepositoryManager {
      * @return
      * @throws ResourceBusyException 
      */
-    public boolean remove(Resource r) throws ResourceBusyException
+    public boolean remove(Resource resource) throws ResourceBusyException
     {
-        r.remove();
-        return resourceRepository.remove(r);
+        resource.remove();
+        return resourceRepository.remove(resource);
     }
     /**
      * Returns the clock of the system.
@@ -129,10 +133,10 @@ public class RepositoryManager {
     public List<Task> getTasks(){
     	ArrayList<Task> tasks = new ArrayList<Task>();
     	ArrayList<User> users = new ArrayList<User>(this.getUsers());
-    	// Iterate over all users to get all tasks
-    	for(User u: users){
-    		for(Task t: u.getTasks()){
-    			tasks.add(t);
+    	
+    	for(User user: users){
+    		for(Task task: user.getTasks()){
+    			tasks.add(task);
     		}
     	}
     	return tasks;

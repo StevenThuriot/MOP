@@ -37,8 +37,8 @@ public class FocusWork {
 	private List<Task> copyList(List<Task> original)
 	{
 	    List<Task> tasks = new ArrayList<Task>();
-	    for(Task t:original)
-	        tasks.add(t);
+	    for(Task task:original)
+	        tasks.add(task);
 	    return tasks;
 	}
 	

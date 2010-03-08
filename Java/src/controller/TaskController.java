@@ -7,6 +7,7 @@ import java.util.*;
 
 import controller.FocusFactory.FocusType;
 
+import exception.ArrayLengthException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
@@ -239,10 +240,11 @@ public class TaskController {
 	  * @param user The user who's asking for his or her tasks
 	  * @param var1 When selecting DeadlineFocus, the max number, otherwise the min duration with a DurationFocus
 	  * @param var2 Maximum duration when selecting a DurationFocus. Ignored when a DeadlineFocus
+	 * @throws ArrayLengthException 
 	 */
-	public List<Task> focusWork(User user,FocusType type,int var1,int var2)
+	public List<Task> focusWork(User user,FocusType type, int[] settings) throws ArrayLengthException
 	{
-		return FocusFactory.createFocus(type, user, var1, var2).getTasks();		
+		return FocusFactory.createFocus(type, user, settings).getTasks();		
 	}
 	
 	/**

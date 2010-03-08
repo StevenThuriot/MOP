@@ -7,36 +7,46 @@ import model.focus.FocusWork;
 import org.junit.Test;
 
 import controller.FocusFactory.FocusType;
+import exception.ArrayLengthException;
 import static org.junit.Assert.*;
 public class FocusFactoryTest {
     
     /**
      * A FocusWork instance is created. Is it a DeadlineFocus?
+     * @throws ArrayLengthException 
      */
     @Test
-    public void testCreateDeadline()
+    public void testCreateDeadline() throws ArrayLengthException
     {
-        FocusWork work = FocusFactory.createFocus(FocusType.DeadlineFocus, null, 0, 0);
+    	int[] settings = new int[] {0};
+    	
+        FocusWork work = FocusFactory.createFocus(FocusType.DeadlineFocus, null, settings);
         assertTrue(work.getStrategy() instanceof DeadlineFocus);
     }
     
     /**
      * Is the instance of type Duration?
+     * @throws ArrayLengthException 
      */
     @Test
-    public void testCreateDuration()
+    public void testCreateDuration() throws ArrayLengthException
     {
-        FocusWork work = FocusFactory.createFocus(FocusType.DurationFocus, null, 0, 0);
+    	int[] settings = new int[] {0,0};
+    	
+        FocusWork work = FocusFactory.createFocus(FocusType.DurationFocus, null, settings);
         assertTrue(work.getStrategy() instanceof DurationFocus);
     }
     
     /**
      * No parameters given. Should return a default FocusStrategy
+     * @throws ArrayLengthException 
      */
     @Test
-    public void testCreateDefault()
+    public void testCreateDefault() throws ArrayLengthException
     {
-        FocusWork work = FocusFactory.createFocus(FocusType.Default, null, 0, 0);
+    	int[] settings = new int[0];
+    	
+        FocusWork work = FocusFactory.createFocus(FocusType.Default, null, settings);
         assertTrue(work.getStrategy() instanceof FocusStrategy);
     }
 }
