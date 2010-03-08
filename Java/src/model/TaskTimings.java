@@ -19,7 +19,7 @@ public class TaskTimings {
 		super();
 		this.duration = duration;
 		this.startDate = startDate;
-		this.dueDate = dueDate;
+		this.dueDate = endDate;
 	}
 	public int getDuration() {
 		return duration;

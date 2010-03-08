@@ -142,39 +142,18 @@ public class Resource implements Describable{
 	 * 			The duration of the period to check.
 	 * @return	False if any reservation is made for a period that overlaps with the given period.
 	 */
-	public boolean availableAt(GregorianCalendar begin,
-			int duration) {
-		boolean available = true;
-		
-		//copying the begin date and adding duration to get the end date
-		GregorianCalendar end = new GregorianCalendar();
-		end.set(Calendar.YEAR, begin.get(Calendar.YEAR));
-		end.set(Calendar.MONTH, begin.get(Calendar.MONTH));
-		end.set(Calendar.DAY_OF_MONTH, begin.get(Calendar.DAY_OF_MONTH));
-		end.set(Calendar.HOUR_OF_DAY, begin.get(Calendar.HOUR_OF_DAY));
-		end.set(Calendar.MINUTE, begin.get(Calendar.MINUTE));
+	public boolean availableAt(GregorianCalendar begin, int duration) {
+	
+		GregorianCalendar end = (GregorianCalendar) begin.clone();
 		end.add(Calendar.MINUTE, duration);
 		
 		for(Reservation r: getReservations()){
-			// do the same copy and add but to get the end date of a reservation
-			GregorianCalendar endReservation = new GregorianCalendar();
-			endReservation.set(Calendar.YEAR, (r.getTime()).get(Calendar.YEAR));
-			endReservation.set(Calendar.MONTH, (r.getTime()).get(Calendar.MONTH));
-			endReservation.set(Calendar.DAY_OF_MONTH, (r.getTime()).get(Calendar.DAY_OF_MONTH));
-			endReservation.set(Calendar.HOUR_OF_DAY, (r.getTime()).get(Calendar.HOUR_OF_DAY));
-			endReservation.set(Calendar.MINUTE, (r.getTime()).get(Calendar.MINUTE));
+			GregorianCalendar endReservation = (GregorianCalendar) r.getTime().clone();
 			endReservation.add(Calendar.MINUTE, duration);
-			
-			//Logic: if <endReservation> is after <begin> and <r.getTime()> is
-			//	before <end>, both timespans overlap.
-			
-			boolean overlap = (endReservation.after(begin) 
-					&& r.getTime().before(end));
-			available = available && !overlap;
+			if(endReservation.after(begin) && r.getTime().before(end))
+				return false;
 		}
-		
-		return available;
-		
+		return true;
 	}
 	
 	/**
