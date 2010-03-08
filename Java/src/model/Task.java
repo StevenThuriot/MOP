@@ -505,28 +505,26 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * and should not be used anymore.
 	 */
 	public void remove(){
-		//removes this task from all required resources
+		ArrayList<Task> dependencies = new ArrayList<Task>(this.getDependencies());
+		for(Task dependency:dependencies){
+			try {
+				this.getTaskDependencyManager().removeDependency(dependency);
+			} catch (DependencyException e) {}
+		}
+		
+		ArrayList<Task> dependents = new ArrayList<Task>(this.getDependentTasks());
+		for(Task t: dependents){
+			try {
+				t.getTaskDependencyManager().removeDependency(this);
+			} catch (DependencyException e) {}
+			
+		}
+		
 		ArrayList<Resource> resources = new ArrayList<Resource>(this.getRequiredResources());
 		for(Resource r: resources){
 			r.removeTaskUsing(this);
 		}
-		//break all dependencies in both directions
-		ArrayList<Task> dependencies = new ArrayList<Task>(this.getDependencies());
-		ArrayList<Task> dependents = new ArrayList<Task>(this.getDependentTasks());
-		for(Task t: dependencies){
-			try {
-				this.getTaskDependencyManager().removeDependency(t);
-				//Exception should not occur -- dependency is always present
-			} catch (DependencyException e) {}
-		}
-		for(Task t: dependents){
-			try {
-				t.getTaskDependencyManager().removeDependency(this);
-				//Exception should not occur - dependency is always present
-			} catch (DependencyException e) {}
-			
-		}
-		// removes this task from the list that its user keeps
+		
 		this.getUser().removeTask(this);
 	}
 	
@@ -557,26 +555,12 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * and should not be used anymore.
 	 */
 	public void removeRecursively(){
-		//removes all other dependent tasks recursively
 		ArrayList<Task> dependents = new ArrayList<Task>(this.getDependentTasks());
 		for(Task t: dependents){
 			t.removeRecursively();
 		}
-		//removes this task from all required resources
-		ArrayList<Resource> resources = new ArrayList<Resource>(this.getRequiredResources());
-		for(Resource r: resources){
-			r.removeTaskUsing(this);
-		}
-		//break dependencies with all tasks that this task depends on
-		ArrayList<Task> dependencies = new ArrayList<Task>(this.getDependencies());
-		for(Task t: dependencies){
-			try {
-				this.getTaskDependencyManager().removeDependency(t);
-				//Exception should not occur -- dependency is always there
-			} catch (DependencyException e) {}
-		}
-		// removes this task from the list that its user keeps
-		this.getUser().removeTask(this);
+		
+		this.remove();		
 	}
 	
 	/**
