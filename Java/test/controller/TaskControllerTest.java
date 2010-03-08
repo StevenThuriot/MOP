@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 
 import controller.TaskController;
 import controller.FocusFactory.FocusType;
+import exception.ArrayLengthException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
@@ -366,9 +367,10 @@ public class TaskControllerTest {
 	 * @throws BusinessRule1Exception
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
+	 * @throws ArrayLengthException 
 	 */
 	@Test
-	public void testFocus() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	public void testFocus() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, ArrayLengthException
 	{
 
 		GregorianCalendar startDate = new GregorianCalendar();//Now
@@ -378,8 +380,8 @@ public class TaskControllerTest {
 		manager = new RepositoryManager();
 		@SuppressWarnings("unused")
 		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
-		
-		assertEquals(1, controller.focusWork(user, FocusType.DeadlineFocus, 10, 0).size());
+		int[] settings = new int[] {10};
+		assertEquals(1, controller.focusWork(user, FocusType.DeadlineFocus, settings).size());
 	}
 	
 	/**
