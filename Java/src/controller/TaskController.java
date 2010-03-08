@@ -20,6 +20,7 @@ import exception.UnknownStateException;
 
 import model.Resource;
 import model.Task;
+import model.TaskTimings;
 import model.User;
 import model.repositories.RepositoryManager;
 
@@ -59,21 +60,19 @@ public class TaskController {
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 */
-	public Task createTask(String description, GregorianCalendar startDate, 
-			GregorianCalendar dueDate, int duration, 
+	public Task createTask(String description,TaskTimings timings, 
 			ArrayList<Task> dependencies, ArrayList<Resource> resources, User user) 
 	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
 	{
-		Task t = new Task(description, user, startDate, dueDate, duration, dependencies, resources, manager.getClock());
+		Task t = new Task(description, user, timings, dependencies, resources, manager.getClock());
 
 		return t;
 	}
 	
-	public Task createTask(String description, GregorianCalendar startDate, 
-			GregorianCalendar dueDate, int duration, User user) 
+	public Task createTask(String description, TaskTimings timings, User user) 
 	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
 	{
-		Task t = new Task(description, user, startDate, dueDate, duration, manager.getClock());
+		Task t = new Task(description, user, timings, manager.getClock());
 		
 		return t;
 	}

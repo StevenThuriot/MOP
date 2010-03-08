@@ -19,6 +19,7 @@ import model.Project;
 import model.Resource;
 import model.ResourceType;
 import model.Task;
+import model.TaskTimings;
 import model.User;
 
 import org.w3c.dom.DOMException;
@@ -207,7 +208,7 @@ public class XMLParser {
 			    
 			    String projectID = this.getNodeByName(childNode, "mop:refProject").getTextContent();
 				
-			    Task task = controller.getTaskController().createTask(description, startDate, dueDate, duration, user);
+			    Task task = controller.getTaskController().createTask(description, new TaskTimings(startDate, dueDate, duration), user);
 			    
 			    stateMap.put(task, state);
 			    			    

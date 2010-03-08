@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import model.Resource;
 import model.Task;
+import model.TaskTimings;
 import model.User;
 import controller.DispatchController;
 import java.util.GregorianCalendar;
@@ -48,7 +49,7 @@ public class CreateTask extends UseCase {
 		int duration = Integer.parseInt(menu.prompt("Duration?"));
 		if (hasDep||hasRes){
 			try {
-				dController.getTaskController().createTask(descr, startDate, dueDate, duration, deps, reqRes, user);
+				dController.getTaskController().createTask(descr, new TaskTimings(startDate, dueDate, duration), deps, reqRes, user);
 			} catch (EmptyStringException e) {
 				menu.println("Empty description");
 			} catch (BusinessRule1Exception e) {
@@ -65,7 +66,7 @@ public class CreateTask extends UseCase {
 			}
 		}else{
 			try {
-				dController.getTaskController().createTask(descr, startDate, dueDate, duration, user);
+				dController.getTaskController().createTask(descr, new TaskTimings(startDate, dueDate, duration), user);
 			} catch (EmptyStringException e) {
 				menu.println("Empty description");
 			} catch (BusinessRule1Exception e) {

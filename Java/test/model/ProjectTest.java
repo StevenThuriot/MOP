@@ -67,7 +67,7 @@ public class ProjectTest {
         User user = new User("John");
         GregorianCalendar endDate = new GregorianCalendar();
         endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
-        Task task = new Task("Descr",user,new GregorianCalendar(),endDate,120, manager.getClock());
+        Task task = new Task("Descr",user, new TaskTimings(new GregorianCalendar(),endDate,120), manager.getClock());
         proj.bindTask(task);
         assertTrue(proj.getTasks().contains(task));
         proj.remove();

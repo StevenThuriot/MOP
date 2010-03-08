@@ -34,12 +34,11 @@ public class ResourceTest {
 		resource = new Resource("Description",ResourceType.Room);
 		user = new User("John");
 		
-		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		manager = new RepositoryManager();
 		// 4 days to finish task
-		task1 = new Task("Descr",user, startDate,endDate,1440, manager.getClock());
+		task1 = new Task("Descr",user, new TaskTimings(new GregorianCalendar(),endDate,1440), manager.getClock());
 		
 	}
 

@@ -53,11 +53,11 @@ public class TaskDependencyTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		// 4 days to finish the task from now on
 		int duration = 1;
-		taskMain = new Task("Main Task",user,startDate,endDate,duration, manager.getClock());
+		taskMain = new Task("Main Task",user,new TaskTimings(startDate,endDate,duration), manager.getClock());
 		//sets up a second Task
-		taskHelp = new Task("Help Task", user, startDate, endDate, duration, manager.getClock());
+		taskHelp = new Task("Help Task", user, new TaskTimings(startDate, endDate, duration), manager.getClock());
 		//sets up yet another Task
-		taskHelp2 = new Task("Help Task2", user, startDate, endDate, duration, manager.getClock());
+		taskHelp2 = new Task("Help Task2", user, new TaskTimings(startDate, endDate, duration), manager.getClock());
 		//sets up the TDM
 		tdm = taskMain.getTaskDependencyManager();
 	}

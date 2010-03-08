@@ -77,7 +77,7 @@ public class TaskTest {
 		endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
         resource = new Resource("Projector", ResourceType.Tool);
-        task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+        task = new Task("Descr",user,new TaskTimings((GregorianCalendar)manager.getClock().getTime().clone(), endDate, 120), manager.getClock());
 	}
 	
 	/**
@@ -115,13 +115,12 @@ public class TaskTest {
 		// TODO: other BR's here?
 		
 		//Try a different task, that fails business rule 1
-		startDate = new GregorianCalendar();
 		endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR,1);
 		//One day is available, but the duration is 25 hours. Business Rule exception should be thrown.
 		//Task "MOP" can never be completed in time :-(
 		@SuppressWarnings("unused")
-		Task task2 = new Task("MOP", user, startDate, endDate, 1500, manager.getClock());
+		Task task2 = new Task("MOP", user, new TaskTimings(new GregorianCalendar(), endDate, 1500), manager.getClock());
 	}/**
 	 * Testing setting the state to failed
 	 * @throws DependencyException 
@@ -259,7 +258,7 @@ public class TaskTest {
 	@Test
 	public void checkStateEight() throws IllegalStateChangeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, BusinessRule2Exception
 	{
-		Task task2 = new Task("some name", user, startDate, endDate, 50, manager.getClock());
+		Task task2 = new Task("some name", user, new TaskTimings(startDate, endDate, 50), manager.getClock());
 		task2.setSuccessful();
 		task.addDependency(task2);
 		
@@ -426,7 +425,7 @@ public class TaskTest {
 	public void checkStateSeventeen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, BusinessRule2Exception 
 	{
 		task.setSuccessful();
-		task.addDependency(new Task("some name", user, startDate, endDate, 50, manager.getClock()));
+		task.addDependency(new Task("some name", user, new TaskTimings(startDate, endDate, 50), manager.getClock()));
 	}
 	
 	/**
@@ -475,7 +474,7 @@ public class TaskTest {
 	@Test(expected=IllegalStateCallException.class)
 	public void checkStateNineteen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception 
 	{
-		Task task2 = new Task("some name", user, startDate, endDate, 50, manager.getClock());
+		Task task2 = new Task("some name", user, new TaskTimings(startDate, endDate, 50), manager.getClock());
 
 		task.addDependency(task2);
 		task2.setSuccessful();
@@ -617,7 +616,7 @@ public class TaskTest {
 	@Test
 	public void dependencies1() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		// Try a proper dependency
-		Task task2 = new Task("some name", user, startDate, endDate, 50, manager.getClock());
+		Task task2 = new Task("some name", user, new TaskTimings(startDate, endDate, 50), manager.getClock());
 		task.addDependency(task2);
 		// Assure that it is properly initialized
 		// For more details, see TaskDependencyManager and corresponding test class
@@ -644,7 +643,7 @@ public class TaskTest {
 		startDate.add(Calendar.DAY_OF_YEAR, 4);
 		endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 5);
-		Task task2 = new Task("some name", user, startDate, endDate, 1380, manager.getClock());
+		Task task2 = new Task("some name", user, new TaskTimings(startDate, endDate, 1380), manager.getClock());
 		// <task2> starts after 3 days and takes 23 hours. <task> takes another 2 hours
 		// This dependency will not satisfy business rule 1
 		task.addDependency(task2);		
@@ -671,7 +670,7 @@ public class TaskTest {
 		startDate.add(Calendar.DAY_OF_YEAR, 1);
 		endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 5);
-		Task task2 = new Task("some name", user, startDate, endDate, 1440, manager.getClock());
+		Task task2 = new Task("some name", user, new TaskTimings(startDate, endDate, 1440), manager.getClock());
 		task.addDependency(task2);
 		//<task2> takes 24 hours to complete, <task> takes another 2.
 		// Earliest end time should be 26 hours after the startDate of <task2>
@@ -693,8 +692,8 @@ public class TaskTest {
 	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		//Sets up a required resource, and a dependency in both directions
 		task.addRequiredResource(resource);
-		Task task2 = new Task("some dependency",user,startDate,endDate,120,manager.getClock());
-		Task task3 = new Task("some dependentTask",user,startDate,endDate,120,manager.getClock());
+		Task task2 = new Task("some dependency",user,new TaskTimings(startDate,endDate,120),manager.getClock());
+		Task task3 = new Task("some dependentTask",user,new TaskTimings(startDate,endDate,120),manager.getClock());
 		task.addDependency(task2);
 		task3.addDependency(task);
 		// remove the task
@@ -721,11 +720,11 @@ public class TaskTest {
 		Resource resource2 = new Resource("some resource",ResourceType.Tool);
 		Resource resource3 = new Resource("some other resource",ResourceType.Tool);
 		//Sets up 3 additional tasks
-		Task task2 = new Task("some dependency",user,startDate,endDate,120,manager.getClock());
+		Task task2 = new Task("some dependency",user,new TaskTimings(startDate,endDate,120),manager.getClock());
 		task2.addRequiredResource(resource2);
-		Task task3 = new Task("some dependentTask",user,startDate,endDate,120,manager.getClock());
+		Task task3 = new Task("some dependentTask",user,new TaskTimings(startDate,endDate,120),manager.getClock());
 		task3.addRequiredResource(resource3);
-		Task task4 = new Task("some other task",user, startDate, endDate,120,manager.getClock());
+		Task task4 = new Task("some other task",user, new TaskTimings(startDate, endDate,120),manager.getClock());
 		task3.addDependency(task4);
 		//Sets up a hierarchy of 3 levels
 		task3.addDependency(task2);
@@ -809,8 +808,8 @@ public class TaskTest {
 	@Test
 	public void testDurationComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
 	{
-		Task t1 = new Task("d", user, startDate, endDate, 1, manager.getClock());
-		Task t2 = new Task("d", user, startDate, endDate, 2, manager.getClock());
+		Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		Task t2 = new Task("d", user, new TaskTimings(startDate, endDate, 2), manager.getClock());
 		
 		TaskDurationComparator c = new TaskDurationComparator();
 		assertEquals(-1, c.compare(t1, t2));
@@ -827,8 +826,8 @@ public class TaskTest {
 	@Test
 	public void testDurationComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
 	{
-		Task t1 = new Task("d", user, startDate, endDate, 2, manager.getClock());
-		Task t2 = new Task("d", user, startDate, endDate, 1, manager.getClock());
+		Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 2), manager.getClock());
+		Task t2 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
 		
 		TaskDurationComparator c = new TaskDurationComparator();
 		assertEquals(1, c.compare(t1, t2));
@@ -845,8 +844,8 @@ public class TaskTest {
 	@Test
 	public void testDurationComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
 	{
-		Task t1 = new Task("d", user, startDate, endDate, 1, manager.getClock());
-		Task t2 = new Task("d", user, startDate, endDate, 1, manager.getClock());
+		Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		Task t2 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
 		
 		TaskDurationComparator c = new TaskDurationComparator();
 		assertEquals(0, c.compare(t1, t2));
@@ -865,8 +864,8 @@ public class TaskTest {
 	{
 		GregorianCalendar end2 = (GregorianCalendar) endDate.clone();
 		
-		Task t1 = new Task("d", user, startDate, endDate, 1, manager.getClock());
-		Task t2 = new Task("d", user, startDate, end2, 1, manager.getClock());
+		Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		Task t2 = new Task("d", user, new TaskTimings(startDate, end2, 1), manager.getClock());
 		
 		TaskDeadlineComparator c = new TaskDeadlineComparator();
 		assertEquals(0, c.compare(t1, t2));
@@ -886,8 +885,8 @@ public class TaskTest {
 		GregorianCalendar end2 = (GregorianCalendar) endDate.clone();
 		end2.add(Calendar.DAY_OF_WEEK, 1);
 		
-		Task t1 = new Task("d", user, startDate, endDate, 1, manager.getClock());
-		Task t2 = new Task("d", user, startDate, end2, 1, manager.getClock());
+		Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		Task t2 = new Task("d", user, new TaskTimings(startDate, end2, 1), manager.getClock());
 		
 		TaskDeadlineComparator c = new TaskDeadlineComparator();
 		assertEquals(-1, c.compare(t1, t2));
@@ -907,8 +906,8 @@ public class TaskTest {
 		GregorianCalendar end2 = (GregorianCalendar) endDate.clone();
 		end2.add(Calendar.DAY_OF_WEEK, -1);
 		
-		Task t1 = new Task("d", user, startDate, endDate, 1, manager.getClock());
-		Task t2 = new Task("d", user, startDate, end2, 1, manager.getClock());
+		Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		Task t2 = new Task("d", user, new TaskTimings(startDate, end2, 1), manager.getClock());
 		
 		TaskDeadlineComparator c = new TaskDeadlineComparator();
 		assertEquals(1, c.compare(t1, t2));
