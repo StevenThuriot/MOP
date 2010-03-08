@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import model.Task;
+import model.TaskTimings;
 import model.User;
 import model.repositories.RepositoryManager;
 
@@ -31,8 +32,8 @@ public class FocusStrategyTest {
         end1.add(Calendar.DAY_OF_MONTH, 1);
         GregorianCalendar end2 = new GregorianCalendar();
         end2.add(Calendar.MONTH, 1);
-        controller.createTask("Task1", new GregorianCalendar(), end1, 10, user);
-        controller.createTask("Task2", new GregorianCalendar(), end2, 3600, user);
+        controller.createTask("Task1", new TaskTimings(new GregorianCalendar(), end1, 10), user);
+        controller.createTask("Task2", new TaskTimings(new GregorianCalendar(), end2, 3600), user);
         
     }
     

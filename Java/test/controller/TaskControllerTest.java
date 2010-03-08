@@ -7,6 +7,7 @@ import java.util.GregorianCalendar;
 import model.Resource;
 import model.ResourceType;
 import model.Task;
+import model.TaskTimings;
 import model.User;
 import model.repositories.RepositoryManager;
 
@@ -62,7 +63,7 @@ public class TaskControllerTest {
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
-		Task taak = controller.createTask("Beschrijving", new GregorianCalendar(), end, 120, new ArrayList<Task>(), new ArrayList<Resource>(), user);
+		Task taak = controller.createTask("Beschrijving", new TaskTimings(new GregorianCalendar(), end, 120), new ArrayList<Task>(), new ArrayList<Resource>(), user);
 		assertTrue(controller.getTasks(user).contains(taak));
 	}
 	
@@ -81,7 +82,7 @@ public class TaskControllerTest {
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
-		Task taak = controller.createTask("Beschrijving", new GregorianCalendar(), end, 120, new ArrayList<Task>(), new ArrayList<Resource>(), user);
+		Task taak = controller.createTask("Beschrijving",new TaskTimings( new GregorianCalendar(), end, 120), new ArrayList<Task>(), new ArrayList<Resource>(), user);
 		controller.removeTask(taak);
 		assertFalse(controller.getTasks(user).contains(taak));
 	}
@@ -101,8 +102,8 @@ public class TaskControllerTest {
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
-		Task taak = controller.createTask("Beschrijving", new GregorianCalendar(), end, 120, new ArrayList<Task>(), new ArrayList<Resource>(), user);
-		Task taak2 = controller.createTask("Beschrijving2", new GregorianCalendar(), end, 120, new ArrayList<Task>(), new ArrayList<Resource>(), user);
+		Task taak = controller.createTask("Beschrijving",new TaskTimings( new GregorianCalendar(), end, 120), new ArrayList<Task>(), new ArrayList<Resource>(), user);
+		Task taak2 = controller.createTask("Beschrijving2", new TaskTimings(new GregorianCalendar(), end, 120), new ArrayList<Task>(), new ArrayList<Resource>(), user);
 		controller.addDependency(taak2, taak);
 		controller.removeTaskRecursively(taak);
 		assertFalse(controller.getTasks(user).contains(taak));
@@ -142,7 +143,7 @@ public class TaskControllerTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 		
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		Task task = new Task("Descr",user,new TaskTimings(new GregorianCalendar(), endDate, 120), manager.getClock());
 		
 		controller.setFailed(task);
 		assertEquals(true, task.isFailed());
@@ -161,12 +162,11 @@ public class TaskControllerTest {
 	@Test
 	public void testSetSuccessful() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception
 	{
-		GregorianCalendar startDate = (GregorianCalendar) manager.getClock().getTime().clone();//Now
 		GregorianCalendar endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		Task task = new Task("Descr",user,new TaskTimings( (GregorianCalendar) manager.getClock().getTime().clone(),endDate,120), manager.getClock());
 		
 		controller.setSuccessful(task);
 		assertEquals(true, task.isSuccesful());
@@ -191,7 +191,7 @@ public class TaskControllerTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
 		
 		controller.parseStateString(task, "Successful");
 		assertEquals(true, task.isSuccesful());
@@ -214,8 +214,8 @@ public class TaskControllerTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
-		Task task2 = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
+		Task task2 = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
 		task.addDependency(task2);
 		
 		assertEquals(task.getDependentTasks(), controller.getDependentTasks(task));
@@ -238,8 +238,8 @@ public class TaskControllerTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
-		Task task2 = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
+		Task task2 = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
 		task.addDependency(task2);
 
 		assertEquals(true, controller.hasDependentTasks(task2));
@@ -263,8 +263,8 @@ public class TaskControllerTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
-		Task task2 = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
+		Task task2 = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
 		task.addDependency(task2);
 
 		assertEquals(false, controller.hasDependencies(task2));
@@ -287,8 +287,8 @@ public class TaskControllerTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
-		Task task2 = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
+		Task task2 = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
 		
 		Resource r = new Resource("d", ResourceType.Room);
 		controller.addRequiredResource(task, r);
@@ -321,8 +321,8 @@ public class TaskControllerTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
-		Task task2 = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
+		Task task2 = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
 
 		controller.addDependency(task, task2);
 
@@ -354,7 +354,7 @@ public class TaskControllerTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 2); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
 		controller.setTaskDescription(task, "blub");
 		
 		assertEquals("blub", task.getDescription());
@@ -379,7 +379,7 @@ public class TaskControllerTest {
 
 		manager = new RepositoryManager();
 		@SuppressWarnings("unused")
-		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
+		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
 		int[] settings = new int[] {10};
 		assertEquals(1, controller.focusWork(user, FocusType.DeadlineFocus, settings).size());
 	}
@@ -405,8 +405,8 @@ public class TaskControllerTest {
 		endDate2.add(Calendar.DAY_OF_YEAR, 5); 
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,startDate,endDate,120, manager.getClock());
-		Task task2 = new Task("Descr",user,startDate2,endDate2,200, manager.getClock());
+		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
+		Task task2 = new Task("Descr",user,new TaskTimings(startDate2,endDate2,200), manager.getClock());
 		
 		controller.setTaskSchedule(task2, startDate, endDate, 120);
 

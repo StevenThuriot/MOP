@@ -107,10 +107,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 */
-	public Task(String description, User user,GregorianCalendar startDate, GregorianCalendar dueDate, int duration,
-			ArrayList<Task> dependencies, ArrayList<Resource> reqResources, Clock clock) throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+	public Task(String description, User user,TaskTimings timings, ArrayList<Task> dependencies, ArrayList<Resource> reqResources, Clock clock)
+			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		
-		this(description, user, startDate, dueDate, duration, clock);
+		this(description, user, timings, clock);
 		
 		for(Task t: dependencies){
 			if (t != null)
@@ -127,12 +127,8 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * 	Initializes a Task object with the given User, start date, due date and duration.
 	 * @param 	user
 	 * 			The User who is responsible for this task.
-	 * @param 	startDate
-	 * 			The start date for a Task. A Task can only be performed after the start date.
-	 * @param 	dueDate
-	 * 			The deadline for a Task. A Task must be completed before its deadline.
-	 * @param 	duration
-	 * 			The amount of time required to finish a Task, expressed in minutes.
+	 * @param 	timings
+	 * 			Time data for the Task such as duration, startDate and dueDate
 	 * @throws EmptyStringException 
 	 * @throws BusinessRule1Exception 
 	 * @throws IllegalStateCallException 
@@ -151,7 +147,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @post	The task has dependencies nor dependent tasks
 	 * 			TODO: formal definition
 	 */
-	public Task(String description, User user, GregorianCalendar startDate, GregorianCalendar dueDate, int duration, Clock clock) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+	public Task(String description, User user, TaskTimings timings, Clock clock) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		requiredResources = new ArrayList<Resource>();
 		tdm = new TaskDependencyManager(this);
 		this.clock = clock;
@@ -160,9 +156,9 @@ public class Task implements Describable, Subject, Observer<Task>{
 		
 		this.setDescription(description);
 		this.setUser(user);
-		this.setStartDate(startDate);
-		this.setDuration(duration);
-		this.setDueDate(dueDate);		
+		this.setStartDate(timings.getStartDate());
+		this.setDuration(timings.getDuration());
+		this.setDueDate(timings.getDueDate());		
 		
 		
 		if(!satisfiesBusinessRule1())
