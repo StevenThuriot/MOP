@@ -737,7 +737,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * a task it depends on.
 	 */
 	public void update(Task subject){
-		if(!getDependencies().contains(subject))
+		if(!this.dependsOn(subject))
 			throw new RuntimeException("Observer was notified by a subject it was not subscribed to");
 		if(subject.isFailed())
 			try {
