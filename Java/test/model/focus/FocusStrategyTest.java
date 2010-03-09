@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import controller.TaskController;
+import exception.ArrayLengthException;
 
 import static org.junit.Assert.*;
 
@@ -47,23 +48,26 @@ public class FocusStrategyTest {
     }
     
     @Test
-    public void testEmptySetDeadline()
+    public void testEmptySetDeadline() throws ArrayLengthException
     {
-        FocusWork work = new FocusWork(user,new DeadlineFocus(0));
+    	int[] settings = new int[] {0};
+        FocusWork work = new FocusWork(user,new DeadlineFocus(settings));
         assertEquals(0,work.getTasks().size());
     }
     
     @Test
-    public void testSortDuration()
+    public void testSortDuration() throws ArrayLengthException
     {
-        List<Task> tasks = new FocusWork(user,new DurationFocus(0,Integer.MAX_VALUE)).getTasks();
+    	int[] settings = new int[] {0, Integer.MAX_VALUE};
+        List<Task> tasks = new FocusWork(user,new DurationFocus(settings)).getTasks();
         assertTrue(tasks.get(0).getDuration() < tasks.get(1).getDuration());
     }
     
     @Test
-    public void testSortDeadline()
+    public void testSortDeadline() throws ArrayLengthException
     {
-        List<Task> tasks = new FocusWork(user,new DeadlineFocus(10)).getTasks();
+    	int[] settings = new int[] {10};
+        List<Task> tasks = new FocusWork(user,new DeadlineFocus(settings)).getTasks();
         assertTrue(tasks.get(0).getDueDate().before(tasks.get(1).getDueDate()));
     }
     

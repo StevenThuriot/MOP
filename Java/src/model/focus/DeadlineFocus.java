@@ -4,14 +4,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import exception.ArrayLengthException;
+
 import model.Task;
 import model.TaskDeadlineComparator;
 
 public class DeadlineFocus extends FocusStrategy {
 
 	private int amount;
-	public DeadlineFocus(int amount) {
-		this.amount = amount;
+	public DeadlineFocus(int[] settings) throws ArrayLengthException {
+		if (settings.length == 1)
+			this.amount = settings[0];
+		else
+			throw new ArrayLengthException();
 	}
 	/**
 	 * Sort the given list of tasks by using a Comparator that compares deadlines.

@@ -4,16 +4,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import exception.ArrayLengthException;
+
 import model.Task;
 import model.TaskDurationComparator;
 
 public class DurationFocus extends FocusStrategy {
 
 	private int minimum,maximum;
-	public DurationFocus(int minimum,int maximum)
+	public DurationFocus(int[] settings) throws ArrayLengthException
 	{
-		this.minimum = minimum;
-		this.maximum = maximum;
+    	if (settings.length == 2)
+    	{
+			this.minimum = settings[0];
+			this.maximum = settings[1];
+    	} else {
+    		throw new ArrayLengthException();
+    	}
 	}
 	
 	/**
