@@ -1,5 +1,6 @@
 package gui;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import model.Task;
@@ -34,7 +35,13 @@ public class FocusWork extends UseCase {
 			//Which kind of Focus would we like to see?
 			// 1. Deadline-based
 			// 2. Duration-based
-			int choice = menu.menu("How would you like your tasks to be shown?", "Deadline Based", "Duration Based", "Default");
+			
+			List<String> focusTypes = new ArrayList<String>();
+			for (FocusType focusType : FocusType.values()) {
+				focusTypes.add(focusType.toString());
+			}
+			
+			int choice = menu.menu("How would you like your tasks to be shown?", focusTypes);
 			model.focus.FocusWork focus;
 			
 			int[] settings;
@@ -64,8 +71,12 @@ public class FocusWork extends UseCase {
 						focus = FocusFactory.createFocus(FocusType.Default, user, new int[0]);
 				}
 				
-				loop: while (true) {
-					List<Task> tasks = focus.getTasks();
+				List<Task> tasks = focus.getTasks();
+				
+				if (tasks.size() > 0) 
+				{
+					loop: while (true) {
+					
 					Task task = menu.menuGen("Select Task", tasks);
 					menu.println(task.getDescription());
 					if (dController.getTaskController().hasDependentTasks(task))
@@ -80,25 +91,29 @@ public class FocusWork extends UseCase {
 						menu.printListGen("Required Resources", dController.getTaskController().getRequiredResources(task));
 					else
 						menu.println("Required Resources \n0: None");
-					menu.println("Start date: " + menu.format(task.getStartDate()));
-					menu.println("Due date: " + menu.format(task.getDueDate()));
-					menu.println("Duration: " + task.getDuration() + " Minutes");
-					choice = menu.menu("Select Action", "Change type of focus", "Return to List", "Change Task Status", "Modify Task Details", "Return to Menu");
-					switch (choice) {
-						case 0:
-							continue focus;
-						case 1:
-							continue loop;
-						case 2:
-							(new UpdateTaskStatus()).startUseCase(menu, dController, user, task);
-							break;
-						case 3:
-							(new ModifyTaskDetails()).startUseCase(menu, dController, user, task);
-							break;
-						case 4:
-							break focus;
+						menu.println("Start date: " + menu.format(task.getStartDate()));
+						menu.println("Due date: " + menu.format(task.getDueDate()));
+						menu.println("Duration: " + task.getDuration() + " Minutes");
+						choice = menu.menu("Select Action", "Change type of focus", "Return to List", "Change Task Status", "Modify Task Details", "Return to Menu");
+						switch (choice) {
+							case 0:
+								continue focus;
+							case 1:
+								continue loop;
+							case 2:
+								(new UpdateTaskStatus()).startUseCase(menu, dController, user, task);
+								break;
+							case 3:
+								(new ModifyTaskDetails()).startUseCase(menu, dController, user, task);
+								break;
+							case 4:
+								break focus;
+						}
 					}
+				} else {
+					System.out.println("No tasks has been found with the selected settings.");
 				}
+				
 			} catch (ArrayLengthException e) {
 				System.out.println(e.getMessage());
 			}

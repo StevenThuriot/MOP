@@ -5,10 +5,11 @@ import model.focus.*;
 
 public class FocusFactory {
 	 public enum FocusType{
-		 DurationFocus,
 		 DeadlineFocus,
+		 DurationFocus,
 		 Default
 	 }
+	 
 		/**
 		 * Shows all the tasks according to a certain FocusType strategy.
 		  * @param type A type of FocusWork (enum)
@@ -23,13 +24,9 @@ public class FocusFactory {
 	{
 		switch(type) {
     		case DeadlineFocus:
-    			if (settings.length == 1)
-    				return new FocusWork(user,new DeadlineFocus(settings[0]));
-    			else
-    				throw new ArrayLengthException();
+   				return new FocusWork(user,new DeadlineFocus(settings));
             case DurationFocus:
-            	if (settings.length == 2)
-            		return new FocusWork(user, new DurationFocus(settings[0], settings[1]));
+           		return new FocusWork(user, new DurationFocus(settings));
             default:
                 return new FocusWork(user, new FocusStrategy());
 		}
