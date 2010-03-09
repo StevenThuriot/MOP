@@ -104,7 +104,6 @@ public class Resource implements Describable{
 		Reservation res = new Reservation(user, startTime, duration, this);
 		this.addReservation(res);
 		return res;
-		
 	}
 
 	/**
@@ -147,10 +146,10 @@ public class Resource implements Describable{
 		GregorianCalendar end = (GregorianCalendar) begin.clone();
 		end.add(Calendar.MINUTE, duration);
 		
-		for(Reservation r: getReservations()){
-			GregorianCalendar endReservation = (GregorianCalendar) r.getTime().clone();
+		for(Reservation reservation: getReservations()){
+			GregorianCalendar endReservation = (GregorianCalendar) reservation.getTime().clone();
 			endReservation.add(Calendar.MINUTE, duration);
-			if(endReservation.after(begin) && r.getTime().before(end))
+			if(endReservation.after(begin) && reservation.getTime().before(end))
 				return false;
 		}
 		return true;
@@ -202,8 +201,8 @@ public class Resource implements Describable{
 	 * @param	r
 	 * 			The new reservation to add.
 	 */
-	protected void addReservation(Reservation r){
-		reservations.add(r);
+	protected void addReservation(Reservation reservation){
+		reservations.add(reservation);
 	}
 
 	public ResourceType getType() {
