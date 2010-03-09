@@ -46,14 +46,9 @@ public class Project implements Describable{
 	 * @throws IllegalStateCallException 
 	 */
 	public void remove() throws IllegalStateCallException{
-		List<Task> taskList = this.getTasks();
-		
-		if (taskList.size() > 0)
-		{
 			for(Task task: this.getTasks()){
 				task.remove();
 			}
-		}
 	}
 	
 	/**

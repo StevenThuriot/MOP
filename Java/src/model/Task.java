@@ -485,6 +485,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 	}
 	
 	//@Override
+	/**
+	 * 'Publishes' a change to this task: notifies all dependent tasks that 
+	 * a change has been made, and that they may need to update as well.
+	 */
 	public void publish() {
 		for(Task t: getDependentTasks()){
 			t.update(this);
@@ -727,7 +731,11 @@ public class Task implements Describable, Subject, Observer<Task>{
 
 	}
 
-	//@Override
+	
+	/**
+	 * Updates this Task's status in response to a 'notify' executed by
+	 * a task it depends on.
+	 */
 	public void update(Task subject){
 		if(!getDependencies().contains(subject))
 			throw new RuntimeException("Observer was notified by a subject it was not subscribed to");
