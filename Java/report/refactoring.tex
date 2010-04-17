@@ -33,4 +33,36 @@ We have thought about using polymorphism to solve this problem. This, however, w
 
 The last problem was also found in the focus factory. According to the type you want, a certain amount of parameters need to be passed. Before, the method asked to pass all the parameters. This result in the programmer having to pass more parameters than needed in some cases, some of them being null objects. The method was reworked so an array is passed instead. The method is now much cleaner and easier to use.
 
+\section{Models}
+When looking at the models, we found small problems such as \emph{Data Clumps}
+and \emph{Long parameter list}.
+When creating a Task object, the GUI would call a controller, that would call a
+Task constructor. All these methods would
+share the same few parameters.
+This would form a problemn when we would want to change a method, or add a
+parameter. Eventually, having a long parameter list would simply slug the
+development process.
+We introduced a \emph{Value Object}. In the GUI, a small object would be created
+with that contains those parameters that are shared along all of these methods.
+It is passed along these methods, and only extracted when needed, in the Task
+Constructor.
+Having a value object makes changing parameters a very quick and easy task. It
+also keeps our code a little bit cleaner.
+
+We also solved a few bad smells related like \emph{Long Method} and
+\emph{Duplicate Code}. Often, both of these problems could be solved using the
+same solution: \emph{Extract Method}.
+A long method means a lot is going on in one method. If a lot is going on, the
+method becomes bloated and more difficult to understand.
+Splitting it up makes it very clear to see what happens, and gives the
+developper a great overview so he can make faster and better changes.
+Smaller methods are usually very clear in exactly what they do, no matter how
+small ther footprint.
+This is also the case for duplicate code. Often a small operation is used
+throughout several methods. However it's explicitly coded in all of these
+methods.
+If however that operation needs a change, that could create a large task for the
+developer.
+Extracting that operation to a seperate method taks all of these problems away.
+
 \end{document}
