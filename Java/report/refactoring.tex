@@ -64,5 +64,10 @@ methods.
 If however that operation needs a change, that could create a large task for the
 developer.
 Extracting that operation to a seperate method taks all of these problems away.
+In a few places, the code was changed to use the method Task.dependsOn(), a method that already existed, but wasn't always used.
+In another small change, a basic javadoc description was added for the methods of the observer subsystem (Task.publish() and Task.update()).
 
+
+Most of the refactoring in the model was done on the Task class. In other model classes, only little refactoring was necessary. A few small changes were made - most of them related to poorly chosen variable names. 
+In the method Project.remove() a few lines of obsolete code were removed.
 \end{document}
