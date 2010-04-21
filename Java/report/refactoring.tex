@@ -28,6 +28,8 @@ The refactoring of the controllers wasn't too much work as these were quite good
 The biggest problem here were variables that were given unclear names. This might cause uncertainties or problems when you, or especially when another member of the team, starts reworking the existing code. This also makes the need to read the Javadocs of said methods smaller or in some cases even unneeded. As a result, the work that needs to be done, will be done sooner and will also frustrate the programmer less. As you can see, even something as small as this, is worth the trouble of doing right from the start. 
 The controllers that had the most problems with this were the repository manager and the focus work classes.
 
+In the XMLParser there is a large procedural algorithm for parsing the XML file and initializing the model. This however leads to a \emph{Long Method} with comments explaining the different sections of the algorithm. This was solved using \emph{Extract Method} to separate each section while also grouping related sections of the algorithm together.
+
 The next problem were the usage of a few switch cases throughout the code. The focus factory has a switch case to determine which type of focus the user wants to create. The refactoring book clearly states that switch cases cause a bad smell. However, being a factory, there is no good way around this. Because this is a factory, it also solves the bad smell of the switch cause itself. The problem with switch cases is that these may appear more than once in your code. Since the whole point of the factory is to take care of the creation of the wanted focus object, this switch case will never appear again throughout the model.  In other words, this piece of code should not be sensitive to duplicated code. The only other place this appears is in the GUI. The case in the GUI has therefore been adjusted in such a way that it now asks the factory for the possibilities and prints these on the screen, rather than the hardcoded print it used to have. This takes away the control the GUI has over this and gives it back to the factory. Because of this, the only occurrence of the switch case can be found here. 
 We have thought about using polymorphism to solve this problem. This, however, was not the way to go. As a result of this, the GUI would become massive and almost impossible to change in the future. This is, of course, even worse than having a switch case there.
 
@@ -63,7 +65,7 @@ throughout several methods. However it's explicitly coded in all of these
 methods.
 If however that operation needs a change, that could create a large task for the
 developer.
-Extracting that operation to a seperate method taks all of these problems away.
+Extracting that operation to a seperate method takes all of these problems away.
 In a few places, the code was changed to use the method Task.dependsOn(), a method that already existed, but wasn't always used.
 In another small change, a basic javadoc description was added for the methods of the observer subsystem (Task.publish() and Task.update()).
 
