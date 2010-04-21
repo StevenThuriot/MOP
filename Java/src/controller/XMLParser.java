@@ -47,9 +47,9 @@ public class XMLParser {
 	private Document document = null;
 	private DispatchController controller;
 	
-	HashMap<String, Project> projectMap = new HashMap<String, Project>();
-	HashMap<String, Task> taskMap = new HashMap<String, Task>();
-	HashMap<String, Resource> resourceMap = new HashMap<String, Resource>();
+	private HashMap<String, Project> projectMap = new HashMap<String, Project>();
+	private HashMap<String, Task> taskMap = new HashMap<String, Task>();
+	private HashMap<String, Resource> resourceMap = new HashMap<String, Resource>();
 	
 	/**
 	 * Constructor
@@ -138,90 +138,47 @@ public class XMLParser {
 		Node userNode = this.getNodeByName(this.getRootNode(), "mop:user");
 		Node userName = this.getNodeByName(userNode, "mop:name");
 		
-		Node resources = this.getNodeByName(this.getRootNode(), "mop:resources");
-		NodeList nodeList = resources.getChildNodes();
+		User user = new User(userName.getTextContent());
 		
-		Node projects = this.getNodeByName(this.getRootNode(), "mop:projects");
-		NodeList projectList = projects.getChildNodes();
+		
+		parseResources();
+		
+		parseProjects();
+		
+		parseReservations(userNode, user);
 
+		parseTasks(userNode, user);
+		
+		return user;
+	}
+
+	private void parseTasks(Node userNode, User user) throws NameNotFoundException, ParseException, EmptyStringException, BusinessRule1Exception,
+			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException {
 		Node tasks = this.getNodeByName(userNode, "mop:tasks");
 		NodeList taskList = tasks.getChildNodes();
 		
-		Node reservations = this.getNodeByName(userNode, "mop:reservations");
-		NodeList reservationList = reservations.getChildNodes();
-		
-		User user = new User(userName.getTextContent());
-		
 		HashMap<Task, String> stateMap = new HashMap<Task, String>();
+		injectTasks(user, taskList, stateMap);
 		
-		//Get Resources
-		for (int i = 0; i < nodeList.getLength(); i++) {
-			Node childNode = nodeList.item(i);
-			
-			if (childNode.getNodeName() != "#text")
-		    {
-				String id = childNode.getAttributes().item(0).getTextContent();
-				String description = this.getNodeByName(childNode, "mop:description").getTextContent();
-				ResourceType type = ResourceType.valueOf(this.getNodeByName(childNode, "mop:type").getTextContent());
-				 
-				resourceMap.put(id, controller.getResourceController().createResource(description, type));
-		    }
+		linkDepedencies(taskList);
+		
+		setTaskStates(stateMap);
+	}
+
+	private void setTaskStates(HashMap<Task, String> stateMap) throws UnknownStateException, BusinessRule3Exception {
+		//Set states
+		for (Task task : stateMap.keySet()) {
+			try {
+				controller.getTaskController().parseStateString(task, stateMap.get(task));
+			} catch (IllegalStateChangeException e) {
+				//Sad face : <
+			} catch (BusinessRule2Exception e) {
+				//Crying face :' <
+			}
 		}
-		
-		//Inject projects
-		for (int i = 0; i < projectList.getLength(); i++) {
-			Node childNode = projectList.item(i);
-			
-			if (childNode.getNodeName() != "#text")
-		    {
-				String id = childNode.getAttributes().item(0).getTextContent();
-				String description = this.getNodeByName(childNode, "mop:description").getTextContent();
-				
-				projectMap.put(id, controller.getProjectController().createProject(description));				
-		    }
-		}	
-		
-		//Inject tasks
-		for (int i = 0; i < taskList.getLength(); i++) {
-			Node childNode = taskList.item(i);
-			
-			if (childNode.getNodeName() != "#text" && childNode.getNodeName().length() > 0)
-		    {
-				String id = childNode.getAttributes().item(0).getTextContent();
-				String description = this.getNodeByName(childNode, "mop:description").getTextContent();
-				String startString = this.getNodeByName(childNode, "mop:startDate").getTextContent();
-			    			    
-			    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-			    Date start = sdf.parse(startString);
-			    
-			    GregorianCalendar startDate = new GregorianCalendar();
-			    startDate.setTime(start);
-			    
-			    String dueString = this.getNodeByName(childNode, "mop:endDate").getTextContent();  
-			    Date due = sdf.parse(dueString);
-			    GregorianCalendar dueDate = new GregorianCalendar();
-			    dueDate.setTime(due);
-			    
-			    int duration = Integer.parseInt(this.getNodeByName(childNode, "mop:duration").getTextContent());
-			    
-			    String state = this.getNodeByName(childNode, "mop:status").getTextContent();
-			    
-			    String projectID = this.getNodeByName(childNode, "mop:refProject").getTextContent();
-				
-			    Task task = controller.getTaskController().createTask(description, new TaskTimings(startDate, dueDate, duration), user);
-			    
-			    stateMap.put(task, state);
-			    			    
-			    if (projectID.length() > 0 && projectID != null)
-			    {
-				    Project project = projectMap.get(projectID);
-				    controller.getProjectController().bind(project, task);
-			    }
-			    
-			    taskMap.put(id, task);
-		    }
-		}
-		
+	}
+
+	private void linkDepedencies(NodeList taskList) throws NameNotFoundException, IllegalStateCallException, BusinessRule1Exception, DependencyCycleException {
 		//Link dependencies and resources
 		for (int i = 0; i < taskList.getLength(); i++) {
 			Node childNode = taskList.item(i);
@@ -276,8 +233,56 @@ public class XMLParser {
 				}
 		    }
 		}
-		
+	}
+
+	private void injectTasks(User user, NodeList taskList, HashMap<Task, String> stateMap) throws NameNotFoundException, ParseException, EmptyStringException,
+			BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, BusinessRule3Exception {
+		//Inject tasks
+		for (int i = 0; i < taskList.getLength(); i++) {
+			Node childNode = taskList.item(i);
+			
+			if (childNode.getNodeName() != "#text" && childNode.getNodeName().length() > 0)
+		    {
+				String id = childNode.getAttributes().item(0).getTextContent();
+				String description = this.getNodeByName(childNode, "mop:description").getTextContent();
+				String startString = this.getNodeByName(childNode, "mop:startDate").getTextContent();
+			    			    
+			    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+			    Date start = sdf.parse(startString);
+			    
+			    GregorianCalendar startDate = new GregorianCalendar();
+			    startDate.setTime(start);
+			    
+			    String dueString = this.getNodeByName(childNode, "mop:endDate").getTextContent();  
+			    Date due = sdf.parse(dueString);
+			    GregorianCalendar dueDate = new GregorianCalendar();
+			    dueDate.setTime(due);
+			    
+			    int duration = Integer.parseInt(this.getNodeByName(childNode, "mop:duration").getTextContent());
+			    
+			    String state = this.getNodeByName(childNode, "mop:status").getTextContent();
+			    
+			    String projectID = this.getNodeByName(childNode, "mop:refProject").getTextContent();
+				
+			    Task task = controller.getTaskController().createTask(description, new TaskTimings(startDate, dueDate, duration), user);
+			    
+			    stateMap.put(task, state);
+			    			    
+			    if (projectID.length() > 0 && projectID != null)
+			    {
+				    Project project = projectMap.get(projectID);
+				    controller.getProjectController().bind(project, task);
+			    }
+			    
+			    taskMap.put(id, task);
+		    }
+		}
+	}
+
+	private void parseReservations(Node userNode, User user) throws NameNotFoundException, ParseException, NotAvailableException {
 		//Make reservations
+		Node reservations = this.getNodeByName(userNode, "mop:reservations");
+		NodeList reservationList = reservations.getChildNodes();
 		for (int i = 0; i < reservationList.getLength(); i++) {
 			Node childNode = reservationList.item(i);
 			
@@ -299,18 +304,40 @@ public class XMLParser {
 				controller.getResourceController().createReservation(startTime, duration, resource, user);	
 		    }
 		}
-		
-		//Set states
-		for (Task task : stateMap.keySet()) {
-			try {
-				controller.getTaskController().parseStateString(task, stateMap.get(task));
-			} catch (IllegalStateChangeException e) {
-				//Sad face : <
-			} catch (BusinessRule2Exception e) {
-				//Crying face :' <
-			}
+	}
+
+	private void parseProjects() throws NameNotFoundException, EmptyStringException {
+		//Inject projects
+		Node projects = this.getNodeByName(this.getRootNode(), "mop:projects");
+		NodeList projectList = projects.getChildNodes();
+		for (int i = 0; i < projectList.getLength(); i++) {
+			Node childNode = projectList.item(i);
+			
+			if (childNode.getNodeName() != "#text")
+		    {
+				String id = childNode.getAttributes().item(0).getTextContent();
+				String description = this.getNodeByName(childNode, "mop:description").getTextContent();
+				
+				projectMap.put(id, controller.getProjectController().createProject(description));				
+		    }
 		}
-		
-		return user;
+	}
+
+	private void parseResources() throws NameNotFoundException, EmptyStringException {
+		//Get Resources
+		Node resources = this.getNodeByName(this.getRootNode(), "mop:resources");
+		NodeList resourceList = resources.getChildNodes();
+		for (int i = 0; i < resourceList.getLength(); i++) {
+			Node childNode = resourceList.item(i);
+			
+			if (childNode.getNodeName() != "#text")
+		    {
+				String id = childNode.getAttributes().item(0).getTextContent();
+				String description = this.getNodeByName(childNode, "mop:description").getTextContent();
+				ResourceType type = ResourceType.valueOf(this.getNodeByName(childNode, "mop:type").getTextContent());
+				 
+				resourceMap.put(id, controller.getResourceController().createResource(description, type));
+		    }
+		}
 	}
 }
