@@ -1,6 +1,7 @@
 package test;
 
 import model.ClockTest;
+import model.FieldTest;
 import model.ProjectTest;
 import model.ResourceTest;
 import model.TaskDependencyTest;
@@ -28,7 +29,7 @@ import exception.ExceptionsTest;
 		ProjectControllerTest.class,ResourceControllerTest.class,TaskControllerTest.class,
 		TaskDependencyTest.class,TaskDependencyTest.class,TypeRepoTest.class,GenericRepoTest.class,
 		DispatchControllerTest.class,FocusFactoryTest.class,FocusStrategyTest.class,XMLParserTest.class,
-		ExceptionsTest.class, ClockTest.class, TimeControllerTest.class})
+		ExceptionsTest.class, ClockTest.class, TimeControllerTest.class, FieldTest.class})
 public class AllTests {
 
 }
