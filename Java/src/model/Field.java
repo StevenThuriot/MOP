@@ -7,7 +7,7 @@ abstract class Field<T> {
 	
 	public Field(String name, FieldType type, T value) {
 		this.setName(name);
-		this.setType(type);
+		this.type = type;
 		this.setValue(value);
 	}
 	
@@ -21,10 +21,6 @@ abstract class Field<T> {
 	
 	public final FieldType getType() {
 		return type;
-	}
-	
-	public final void setType(FieldType type) {
-		this.type = type;
 	}
 	
 	public final T getValue() {
