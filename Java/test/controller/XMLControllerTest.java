@@ -44,7 +44,7 @@ public class XMLControllerTest {
     {
         manager = new RepositoryManager();
         dcontroller = new DispatchController(manager);
-        controller = new XMLController();
+        controller = dcontroller.getXmlController();
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
         Date date = sdf.parse("2009-10-20T20:00:00");
