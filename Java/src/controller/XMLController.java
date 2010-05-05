@@ -21,6 +21,26 @@ import model.XMLParser;
 
 public class XMLController {
 	
+	/**
+	 * Parses the given XML file
+	 * @param filename
+	 * @param controller
+	 * @return
+	 * @throws NameNotFoundException
+	 * @throws DOMException
+	 * @throws NullPointerException
+	 * @throws EmptyStringException
+	 * @throws ParseException
+	 * @throws BusinessRule1Exception
+	 * @throws DependencyCycleException
+	 * @throws DependencyException
+	 * @throws IllegalStateCallException
+	 * @throws BusinessRule3Exception
+	 * @throws NotAvailableException
+	 * @throws UnknownStateException
+	 * @throws IllegalStateChangeException
+	 * @throws BusinessRule2Exception
+	 */
 	public User parse(String filename, DispatchController controller) throws NameNotFoundException, DOMException, NullPointerException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
 	{
 		XMLParser parser = new XMLParser(filename, controller);

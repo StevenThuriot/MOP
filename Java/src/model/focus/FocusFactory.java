@@ -1,15 +1,9 @@
-package controller;
+package model.focus;
 import exception.ArrayLengthException;
 import model.User;
 import model.focus.*;
 
 public class FocusFactory {
-	 public enum FocusType{
-		 DeadlineFocus,
-		 DurationFocus,
-		 Default
-	 }
-	 
 		/**
 		 * Shows all the tasks according to a certain FocusType strategy.
 		  * @param type A type of FocusWork (enum)

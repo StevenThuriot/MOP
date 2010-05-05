@@ -31,6 +31,11 @@ public class DispatchController {
 	 */
 	private XMLController xmlController;
 	
+	/**
+	 * The Focus controller used to create focus types
+	 */
+	private FocusController focusController;
+	
 	
 	/**
 	 * The Constructor
@@ -43,6 +48,7 @@ public class DispatchController {
 		this.taskController = new TaskController(manager);
 		this.timeController = new TimeController(manager);
 		this.xmlController = new XMLController();
+		this.focusController = new FocusController();
 	}
 
 	/**
@@ -83,4 +89,11 @@ public class DispatchController {
 	public XMLController getXmlController() {
 		return xmlController;
 	}
+
+	/**
+	 * @return the focusController
+	 */
+	public FocusController getFocusController() {
+		return focusController;
+	}	
 }

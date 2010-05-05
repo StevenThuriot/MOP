@@ -6,8 +6,8 @@ import java.util.List;
 import model.Task;
 import model.User;
 import controller.DispatchController;
-import controller.FocusFactory;
-import controller.FocusFactory.FocusType;
+import controller.FocusController;
+import model.focus.FocusType;
 import exception.ArrayLengthException;
 
 public class FocusWork extends UseCase {
@@ -43,6 +43,7 @@ public class FocusWork extends UseCase {
 			
 			int choice = menu.menu("How would you like your tasks to be shown?", focusTypes);
 			model.focus.FocusWork focus;
+			FocusController fController = dController.getFocusController();
 			
 			int[] settings;
 			try {
@@ -52,8 +53,8 @@ public class FocusWork extends UseCase {
 						int numberOfTasksInteger = Integer.parseInt(numberOfTasksString);
 						
 						settings = new int[] {numberOfTasksInteger};
-											
-						focus = FocusFactory.createFocus(FocusType.DeadlineFocus, user, settings);
+						
+						focus = fController.createFocus(FocusType.DeadlineFocus, user, settings);
 					
 						break;
 					case 1:
@@ -65,10 +66,10 @@ public class FocusWork extends UseCase {
 						
 						settings = new int[] {minDurationInteger, maxDurationInteger};
 						
-						focus = FocusFactory.createFocus(FocusType.DurationFocus, user, settings);
+						focus = fController.createFocus(FocusType.DurationFocus, user, settings);
 						break;
 					default:
-						focus = FocusFactory.createFocus(FocusType.Default, user, new int[0]);
+						focus = fController.createFocus(FocusType.Default, user, new int[0]);
 				}
 				
 				List<Task> tasks = focus.getTasks();
