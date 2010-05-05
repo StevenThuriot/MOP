@@ -2,9 +2,11 @@ package test;
 
 import model.ClockTest;
 import model.FieldTest;
+import model.InvitationTest;
 import model.ProjectTest;
 import model.ResourceTest;
 import model.TaskDependencyTest;
+import model.TaskInvitationManagerTest;
 import model.TaskTest;
 import model.UserTest;
 import model.focus.FocusStrategyTest;
@@ -29,7 +31,8 @@ import exception.ExceptionsTest;
 		ProjectControllerTest.class,ResourceControllerTest.class,TaskControllerTest.class,
 		TaskDependencyTest.class,TaskDependencyTest.class,TypeRepoTest.class,GenericRepoTest.class,
 		DispatchControllerTest.class,FocusFactoryTest.class,FocusStrategyTest.class,XMLParserTest.class,
-		ExceptionsTest.class, ClockTest.class, TimeControllerTest.class, FieldTest.class})
+		ExceptionsTest.class, ClockTest.class, TimeControllerTest.class, FieldTest.class,
+		TaskInvitationManagerTest.class, InvitationTest.class})
 public class AllTests {
 
 }

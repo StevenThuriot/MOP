@@ -40,6 +40,9 @@ public class ExceptionsTest {
         //UnknownStateException
         assertEquals("An unknown state has been passed to the parser.", (new UnknownStateException()).getMessage());
         assertEquals("MSG", (new UnknownStateException("MSG")).getMessage());
+        //InvitationExistsException
+        assertEquals("Invitation was already created for this combination User/Task", (new InvitationExistsException()).getMessage());
+        assertEquals("MSG", (new InvitationExistsException("MSG")).getMessage());
         
     }
 }
