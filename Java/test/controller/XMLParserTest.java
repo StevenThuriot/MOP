@@ -18,11 +18,13 @@ import org.junit.Test;
 import org.w3c.dom.DOMException;
 
 import exception.BusinessRule1Exception;
+import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
+import exception.IllegalStateChangeException;
 import exception.NotAvailableException;
 import exception.TimeException;
 import exception.UnknownStateException;
@@ -67,9 +69,11 @@ public class XMLParserTest {
      * @throws BusinessRule3Exception 
      * @throws NotAvailableException 
      * @throws UnknownStateException 
+     * @throws BusinessRule2Exception 
+     * @throws IllegalStateChangeException 
      */
     @Test
-    public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException
+    public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
     {
         User result = parser.Parse();
         manager.add(result);
@@ -93,9 +97,11 @@ public class XMLParserTest {
      * @throws BusinessRule3Exception 
      * @throws NotAvailableException 
      * @throws UnknownStateException 
+     * @throws BusinessRule2Exception 
+     * @throws IllegalStateChangeException 
      */
     @Test
-    public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException
+    public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
     {
         User result = parser.Parse();
         Resource devRoom = manager.getResources().get(0); //Should be the 'Development room' resource
