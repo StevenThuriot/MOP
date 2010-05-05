@@ -17,7 +17,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import controller.TaskController;
-import controller.FocusFactory.FocusType;
+import model.focus.FocusType;
 import exception.ArrayLengthException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
@@ -358,30 +358,6 @@ public class TaskControllerTest {
 		controller.setTaskDescription(task, "blub");
 		
 		assertEquals("blub", task.getDescription());
-	}
-	
-	/**
-	 * Testing the focuswork
-	 * @throws NullPointerException
-	 * @throws EmptyStringException
-	 * @throws BusinessRule1Exception
-	 * @throws IllegalStateCallException
-	 * @throws BusinessRule3Exception
-	 * @throws ArrayLengthException 
-	 */
-	@Test
-	public void testFocus() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, ArrayLengthException
-	{
-
-		GregorianCalendar startDate = new GregorianCalendar();//Now
-		GregorianCalendar endDate = new GregorianCalendar();
-		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
-
-		manager = new RepositoryManager();
-		@SuppressWarnings("unused")
-		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
-		int[] settings = new int[] {10};
-		assertEquals(1, controller.focusWork(user, FocusType.DeadlineFocus, settings).size());
 	}
 	
 	/**
