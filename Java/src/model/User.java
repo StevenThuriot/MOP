@@ -97,6 +97,11 @@ public class User implements Describable{
 	public List<Task> getTasks(){
 		return  Collections.unmodifiableList(userTasks);
 	}
+
+	public void addInvitation(Invitation invitation) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 

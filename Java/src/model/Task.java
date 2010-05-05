@@ -77,6 +77,12 @@ public class Task implements Describable, Subject, Observer<Task>{
 	private TaskDependencyManager tdm;
 	
 	/**
+	 * A TaskInvitationManager object to keep track of helper users
+	 * invited for this task.
+	 */
+	private TaskInvitationManager tim;
+	
+	/**
 	 * A clock indicating the current time of the system
 	 */
 	private Clock clock;
@@ -150,6 +156,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	public Task(String description, User user, TaskTimings timings, Clock clock) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		requiredResources = new ArrayList<Resource>();
 		tdm = new TaskDependencyManager(this);
+		tim = new TaskInvitationManager(this);
 		this.clock = clock;
 		
 		this.taskState = new UnfinishedTaskState(this);
@@ -419,6 +426,15 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 */
 	public TaskDependencyManager getTaskDependencyManager(){
 		return tdm;
+	}
+	
+	/**
+	 * Returns the TaskInvitationManager for this task
+	 * @return
+	 */
+	public TaskInvitationManager getTaskInvitationManager()
+	{
+		return tim;
 	}
 	
 	/**
@@ -781,5 +797,9 @@ public class Task implements Describable, Subject, Observer<Task>{
 			
 			throw new BusinessRule1Exception("");
 		}
+	}
+
+	protected void addInvitation(Invitation invitation) throws InvitationExistsException {
+		this.tim.add(invitation);
 	}
 }
