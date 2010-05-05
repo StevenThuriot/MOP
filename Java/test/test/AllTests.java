@@ -10,6 +10,7 @@ import model.TaskInvitationManagerTest;
 import model.TaskTest;
 import model.UserTaskManagerTest;
 import model.UserTest;
+import model.XMLParserTest;
 import model.focus.FocusStrategyTest;
 import model.repositories.GenericRepoTest;
 import model.repositories.TypeRepoTest;
@@ -24,7 +25,7 @@ import controller.ProjectControllerTest;
 import controller.ResourceControllerTest;
 import controller.TaskControllerTest;
 import controller.TimeControllerTest;
-import controller.XMLParserTest;
+import controller.XMLControllerTest;
 import exception.ExceptionsTest;
 
 @RunWith(value=Suite.class)
@@ -33,7 +34,7 @@ import exception.ExceptionsTest;
 		TaskDependencyTest.class,TaskDependencyTest.class,TypeRepoTest.class,GenericRepoTest.class,
 		DispatchControllerTest.class,FocusFactoryTest.class,FocusStrategyTest.class,XMLParserTest.class,
 		ExceptionsTest.class, ClockTest.class, TimeControllerTest.class, FieldTest.class,
-		TaskInvitationManagerTest.class, InvitationTest.class,UserTaskManagerTest.class})
+		TaskInvitationManagerTest.class, InvitationTest.class,UserTaskManagerTest.class, XMLControllerTest.class})
 public class AllTests {
 
 }

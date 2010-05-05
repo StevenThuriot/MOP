@@ -10,7 +10,7 @@ import javax.naming.NameNotFoundException;
 import org.w3c.dom.DOMException;
 
 import controller.DispatchController;
-import controller.XMLParser;
+import controller.XMLController;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
@@ -44,12 +44,13 @@ public class MainGUI implements Runnable{
 		
 		dController.getTimeController().setTime(menu.promptDate("Give Current Time"));
 		
-		XMLParser parser = new XMLParser("students_public.xml", dController);
+		
+		XMLController xmlController = dController.getXmlController();
 		
 		User user = null;
 		
 		try {
-			user = parser.Parse();
+			user = xmlController.parse("students_public.xml", dController);
 		} catch (NameNotFoundException e) {
 			MainGUI.writeError("File not found.");
 		} catch (DOMException e) {

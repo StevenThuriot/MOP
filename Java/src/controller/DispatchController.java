@@ -26,6 +26,11 @@ public class DispatchController {
 	 */
 	private TimeController timeController;
 	
+	/**
+	 * The XML controller used to parse XML files.
+	 */
+	private XMLController xmlController;
+	
 	
 	/**
 	 * The Constructor
@@ -37,6 +42,7 @@ public class DispatchController {
 		this.resourceController = new ResourceController(manager);
 		this.taskController = new TaskController(manager);
 		this.timeController = new TimeController(manager);
+		this.xmlController = new XMLController();
 	}
 
 	/**
@@ -69,5 +75,12 @@ public class DispatchController {
 	 */
 	public TimeController getTimeController(){
 		return timeController;
+	}
+
+	/**
+	 * @return the xmlController
+	 */
+	public XMLController getXmlController() {
+		return xmlController;
 	}
 }
