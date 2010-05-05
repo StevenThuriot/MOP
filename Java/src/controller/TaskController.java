@@ -5,7 +5,7 @@ package controller;
 
 import java.util.*;
 
-import controller.FocusFactory.FocusType;
+import model.focus.FocusType;
 
 import exception.ArrayLengthException;
 import exception.BusinessRule1Exception;
@@ -231,19 +231,6 @@ public class TaskController {
 	 */
 	public List<Resource> getRequiredResources(Task task){
 		return task.getRequiredResources();
-	}
-	
-	/**
-	 * Shows all the tasks according to a certain FocusType strategy.
-	  * @param type A type of FocusWork (enum)
-	  * @param user The user who's asking for his or her tasks
-	  * @param var1 When selecting DeadlineFocus, the max number, otherwise the min duration with a DurationFocus
-	  * @param var2 Maximum duration when selecting a DurationFocus. Ignored when a DeadlineFocus
-	 * @throws ArrayLengthException 
-	 */
-	public List<Task> focusWork(User user,FocusType type, int[] settings) throws ArrayLengthException
-	{
-		return FocusFactory.createFocus(type, user, settings).getTasks();		
 	}
 	
 	/**
