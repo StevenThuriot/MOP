@@ -82,6 +82,14 @@ public class Invitation {
 				return true;
 		return false;
 	}
+
+	/**
+	 * Destroy coupling with Task and User so this instance can be removed correctly
+	 */
+	public void remove() {
+		task.removeInvitation(this);
+		user.removeInvitation(this);
+	}
 	
 	
 }

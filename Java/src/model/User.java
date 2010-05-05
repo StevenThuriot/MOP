@@ -1,6 +1,5 @@
 package model;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import gui.Describable;
@@ -20,7 +19,7 @@ public class User implements Describable{
 	 * 			| for every task in userTasks:
 	 * 			| 	task.getUser() == this
 	 */
-	private ArrayList<Task> userTasks;
+	private UserTaskManager taskManager;
 	
 
 	/**
@@ -31,7 +30,7 @@ public class User implements Describable{
 	public User(String name)
 	{
 		this.name = name;
-		userTasks = new ArrayList<Task>();
+		taskManager = new UserTaskManager(this);
 	}
 	
 	/**
@@ -78,7 +77,7 @@ public class User implements Describable{
 	 * should not be used directly.
 	 */
 	protected void removeTask(Task task){
-		userTasks.remove(task);
+		taskManager.remove(task);
 	}
 	
 	/**
@@ -87,7 +86,7 @@ public class User implements Describable{
 	 * directly.
 	 */
 	protected void addTask(Task task){
-		userTasks.add(task);
+		taskManager.add(task);
 	}
 	
 
@@ -95,14 +94,31 @@ public class User implements Describable{
 	 * Returns all the tasks that this user is responsible for.
 	 */
 	public List<Task> getTasks(){
-		return  Collections.unmodifiableList(userTasks);
+		return  Collections.unmodifiableList(taskManager.getOwnedTasks());
 	}
 
+	/**
+	 * Add an invitation to the user
+	 * @param invitation
+	 */
 	public void addInvitation(Invitation invitation) {
-		// TODO Auto-generated method stub
-		
+		this.taskManager.add(invitation);
+	}
+
+	/**
+	 * Remove an invitation from the user
+	 * @param invitation
+	 */
+	public void removeInvitation(Invitation invitation) {
+		this.taskManager.remove(invitation);
+	}
+
+	/**
+	 * Retrieve the user's task manager
+	 * @return
+	 */
+	protected UserTaskManager getUserTaskManager() {
+		return taskManager;
 	}
 	
-	
-
 }

@@ -8,6 +8,7 @@ import model.ResourceTest;
 import model.TaskDependencyTest;
 import model.TaskInvitationManagerTest;
 import model.TaskTest;
+import model.UserTaskManagerTest;
 import model.UserTest;
 import model.focus.FocusStrategyTest;
 import model.repositories.GenericRepoTest;
@@ -32,7 +33,7 @@ import exception.ExceptionsTest;
 		TaskDependencyTest.class,TaskDependencyTest.class,TypeRepoTest.class,GenericRepoTest.class,
 		DispatchControllerTest.class,FocusFactoryTest.class,FocusStrategyTest.class,XMLParserTest.class,
 		ExceptionsTest.class, ClockTest.class, TimeControllerTest.class, FieldTest.class,
-		TaskInvitationManagerTest.class, InvitationTest.class})
+		TaskInvitationManagerTest.class, InvitationTest.class,UserTaskManagerTest.class})
 public class AllTests {
 
 }

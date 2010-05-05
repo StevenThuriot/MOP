@@ -802,4 +802,8 @@ public class Task implements Describable, Subject, Observer<Task>{
 	protected void addInvitation(Invitation invitation) throws InvitationExistsException {
 		this.tim.add(invitation);
 	}
+
+	protected void removeInvitation(Invitation invitation) {
+		this.tim.remove(invitation);
+	}
 }
