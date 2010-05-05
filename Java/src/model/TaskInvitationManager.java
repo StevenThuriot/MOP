@@ -1,7 +1,6 @@
 package model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -40,6 +39,10 @@ public class TaskInvitationManager {
 			invitations.add(invitation);
 		}
 		
+		protected void remove(Invitation invitation) {
+			this.invitations.remove(invitation);
+		}
+		
 		private boolean alreadyInvited(Invitation checkingInvitation) {
 			for(Invitation iteratedInvitation:invitations)
 				if(iteratedInvitation.equals(checkingInvitation))
@@ -64,4 +67,6 @@ public class TaskInvitationManager {
 		{
 			return task;
 		}
+
+		
 }

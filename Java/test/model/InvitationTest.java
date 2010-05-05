@@ -50,4 +50,12 @@ public class InvitationTest {
 		assertTrue(taskMain.getTaskInvitationManager().getInvitations().contains(invitation));
 		//TODO: Check this for the user
 	}
+	@Test
+	public void removeTest() throws InvitationExistsException
+	{
+		invitation = new Invitation(taskMain,user);
+		assertFalse(taskMain.getTaskInvitationManager().getInvitations().isEmpty());
+		invitation.remove();
+		assertTrue(taskMain.getTaskInvitationManager().getInvitations().isEmpty());
+	}
 }
