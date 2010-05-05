@@ -132,8 +132,10 @@ public class XMLParser {
 	 * @throws BusinessRule3Exception 
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
+	 * @throws BusinessRule2Exception 
+	 * @throws IllegalStateChangeException 
 	 */
-	public User Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException
+	public User Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
 	{
 		Node userNode = this.getNodeByName(this.getRootNode(), "mop:user");
 		Node userName = this.getNodeByName(userNode, "mop:name");
@@ -153,7 +155,7 @@ public class XMLParser {
 	}
 
 	private void parseTasks(Node userNode, User user) throws NameNotFoundException, ParseException, EmptyStringException, BusinessRule1Exception,
-			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException {
+			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception {
 		Node tasks = this.getNodeByName(userNode, "mop:tasks");
 		NodeList taskList = tasks.getChildNodes();
 		
@@ -165,16 +167,10 @@ public class XMLParser {
 		setTaskStates(stateMap);
 	}
 
-	private void setTaskStates(HashMap<Task, String> stateMap) throws UnknownStateException, BusinessRule3Exception {
+	private void setTaskStates(HashMap<Task, String> stateMap) throws UnknownStateException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception {
 		//Set states
 		for (Task task : stateMap.keySet()) {
-			try {
 				controller.getTaskController().parseStateString(task, stateMap.get(task));
-			} catch (IllegalStateChangeException e) {
-				//Sad face : <
-			} catch (BusinessRule2Exception e) {
-				//Crying face :' <
-			}
 		}
 	}
 

@@ -12,11 +12,13 @@ import org.w3c.dom.DOMException;
 import controller.DispatchController;
 import controller.XMLParser;
 import exception.BusinessRule1Exception;
+import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
+import exception.IllegalStateChangeException;
 import exception.NotAvailableException;
 import exception.TimeException;
 import exception.UnknownStateException;
@@ -72,6 +74,10 @@ public class MainGUI implements Runnable{
 			MainGUI.writeError("Two or more reservations overlap.");
 		} catch (UnknownStateException e) {
 			MainGUI.writeError("An unknown state has been found.");
+		} catch (IllegalStateChangeException e) {
+			MainGUI.writeError("An illegal state chance has occurred. This is most likely due to a faulty XML file.");
+		} catch (BusinessRule2Exception e) {
+			MainGUI.writeError("A business rule 2 violation has occurred. This is most likely due to a faulty XML file.");
 		}
 	
 		this.manager.add(user);
