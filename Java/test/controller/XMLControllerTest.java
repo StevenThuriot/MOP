@@ -1,4 +1,9 @@
 package controller;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -10,6 +15,7 @@ import javax.naming.NameNotFoundException;
 import model.Resource;
 import model.Task;
 import model.User;
+import model.XMLParser;
 import model.repositories.RepositoryManager;
 
 import org.junit.After;
@@ -28,9 +34,9 @@ import exception.IllegalStateChangeException;
 import exception.NotAvailableException;
 import exception.TimeException;
 import exception.UnknownStateException;
-import static org.junit.Assert.*;
-public class XMLParserTest {
-    private XMLParser parser;
+
+public class XMLControllerTest {
+    private XMLController controller;
     private RepositoryManager manager;
     private DispatchController dcontroller;
     @Before
@@ -38,7 +44,7 @@ public class XMLParserTest {
     {
         manager = new RepositoryManager();
         dcontroller = new DispatchController(manager);
-        parser = new XMLParser("students_public.xml", dcontroller);
+        controller = new XMLController();
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
         Date date = sdf.parse("2009-10-20T20:00:00");
@@ -51,7 +57,8 @@ public class XMLParserTest {
     public void tearDown()
     {
         manager = null;
-        parser  = null;
+        controller  = null;
+        dcontroller = null;
     }
     
     /**
@@ -75,7 +82,7 @@ public class XMLParserTest {
     @Test
     public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
     {
-        User result = parser.Parse();
+        User result = controller.parse("students_public.xml", dcontroller);
         manager.add(result);
         assertEquals(2,manager.getProjects().size());
         assertEquals(4,manager.getResources().size());
@@ -103,7 +110,7 @@ public class XMLParserTest {
     @Test
     public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
     {
-        User result = parser.Parse();
+        User result = controller.parse("students_public.xml", dcontroller);
         Resource devRoom = manager.getResources().get(0); //Should be the 'Development room' resource
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);

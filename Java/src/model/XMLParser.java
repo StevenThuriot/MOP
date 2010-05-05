@@ -1,4 +1,4 @@
-package controller;
+package model;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,12 +15,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import model.Project;
-import model.Resource;
-import model.ResourceType;
-import model.Task;
-import model.TaskTimings;
-import model.User;
+import controller.*;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
