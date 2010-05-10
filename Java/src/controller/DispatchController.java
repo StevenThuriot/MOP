@@ -25,12 +25,14 @@ public class DispatchController {
 	 * The time controller. It handles the clock in the system.
 	 */
 	private TimeController timeController;
-	
+	/**
+	 * The InvitationController. It handles all invitation adding/removing/updating
+	 */
+	private InvitationController invitationController;
 	/**
 	 * The XML controller used to parse XML files.
 	 */
 	private XMLController xmlController;
-	
 	/**
 	 * The Focus controller used to create focus types
 	 */
@@ -47,6 +49,7 @@ public class DispatchController {
 		this.resourceController = new ResourceController(manager);
 		this.taskController = new TaskController(manager);
 		this.timeController = new TimeController(manager);
+		this.invitationController = new InvitationController(manager);
 		this.xmlController = new XMLController();
 		this.focusController = new FocusController();
 	}
@@ -82,7 +85,14 @@ public class DispatchController {
 	public TimeController getTimeController(){
 		return timeController;
 	}
-
+	/**
+	 * Returns the Invitation Controller
+	 * @return
+	 */
+	public InvitationController getInvitationController()
+	{
+		return invitationController;
+	}
 	/**
 	 * @return the xmlController
 	 */

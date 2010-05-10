@@ -138,7 +138,6 @@ public class TaskControllerTest {
 	@Test
 	public void testSetFailed() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException
 	{
-		GregorianCalendar startDate = new GregorianCalendar();//Now
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 		

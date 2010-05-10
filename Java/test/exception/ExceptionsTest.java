@@ -1,5 +1,7 @@
 package exception;
 
+import model.Invitation.InvitationState;
+
 import org.junit.Test;
 import static org.junit.Assert.*;
 public class ExceptionsTest {
@@ -43,6 +45,10 @@ public class ExceptionsTest {
         //InvitationExistsException
         assertEquals("Invitation was already created for this combination User/Task", (new InvitationExistsException()).getMessage());
         assertEquals("MSG", (new InvitationExistsException("MSG")).getMessage());
-        
+        //InvitationNotPendingException
+        assertEquals("Can't update this invitation's state. It is already been accepted or declined.",(new InvitationNotPendingException()).getMessage());
+        assertEquals(InvitationState.ACCEPTED, (new InvitationNotPendingException(InvitationState.ACCEPTED)).getState());
+        //InvitationInvitesOwnerException
+        assertEquals("You can't invite the owner of a task to help on that task", (new InvitationInvitesOwnerException()).getMessage());
     }
 }

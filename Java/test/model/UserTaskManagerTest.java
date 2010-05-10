@@ -15,16 +15,13 @@ import exception.BusinessRule3Exception;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.InvitationExistsException;
+import exception.InvitationInvitesOwnerException;
 public class UserTaskManagerTest {
 
 	/**
 	 * The user we'll be using
 	 */
 	private User user;
-	/**
-	 * The TaskManager we'll be testing
-	 */
-	private UserTaskManager taskManager;
 	/**
 	 * A task we can use
 	 */
@@ -38,9 +35,7 @@ public class UserTaskManagerTest {
 	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
 	{
 		user = new User("Bart");
-		taskManager = user.getUserTaskManager();
 		manager = new RepositoryManager();
-		User user = new User("John");
 		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
@@ -52,17 +47,16 @@ public class UserTaskManagerTest {
 	public void tearDown()
 	{
 		user = null;
-		taskManager = null;
 	}
 	@Test
-	public void adding() throws InvitationExistsException
+	public void adding() throws InvitationExistsException, InvitationInvitesOwnerException
 	{
 		User user1 = new User("John");
 		Invitation invitation = new Invitation(taskMain, user1);
 		assertTrue(user1.getUserTaskManager().getInvitations().contains(invitation));
 	}
 	@Test
-	public void removing() throws InvitationExistsException
+	public void removing() throws InvitationExistsException, InvitationInvitesOwnerException
 	{
 		User user1 = new User("John");
 		Invitation invitation = new Invitation(taskMain, user1);

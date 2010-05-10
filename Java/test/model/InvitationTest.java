@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.InvitationExistsException;
+import exception.InvitationInvitesOwnerException;
 
 public class InvitationTest {
 	/**
@@ -44,16 +45,18 @@ public class InvitationTest {
 		taskMain = new Task("Main Task",user,new TaskTimings(startDate,endDate,duration), manager.getClock());
 	}
 	@Test
-	public void initTest() throws InvitationExistsException
+	public void initTest() throws InvitationExistsException, InvitationInvitesOwnerException
 	{
-		invitation = new Invitation(taskMain, user);
+		User user2 = new User("Jack");
+		invitation = new Invitation(taskMain, user2);
 		assertTrue(taskMain.getTaskInvitationManager().getInvitations().contains(invitation));
 		//TODO: Check this for the user
 	}
 	@Test
-	public void removeTest() throws InvitationExistsException
+	public void removeTest() throws InvitationExistsException, InvitationInvitesOwnerException
 	{
-		invitation = new Invitation(taskMain,user);
+		User user2 = new User("Jack");
+		invitation = new Invitation(taskMain,user2);
 		assertFalse(taskMain.getTaskInvitationManager().getInvitations().isEmpty());
 		invitation.remove();
 		assertTrue(taskMain.getTaskInvitationManager().getInvitations().isEmpty());

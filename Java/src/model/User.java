@@ -96,7 +96,7 @@ public class User implements Describable{
 	public List<Task> getTasks(){
 		return  Collections.unmodifiableList(taskManager.getOwnedTasks());
 	}
-
+	
 	/**
 	 * Add an invitation to the user
 	 * @param invitation
@@ -119,6 +119,10 @@ public class User implements Describable{
 	 */
 	protected UserTaskManager getUserTaskManager() {
 		return taskManager;
+	}
+
+	public List<Invitation> getInvitations() {
+		return taskManager.getInvitations();
 	}
 	
 }

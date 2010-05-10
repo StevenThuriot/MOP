@@ -47,11 +47,16 @@ public class UserTaskManager {
 		return Collections.unmodifiableList(this.ownedTasks);
 	}
 	/**
-	 * Get the invitations for this user
+	 * Get the pending or accepted invitations for this user
+	 * Declined invitations are not shown
 	 * @return
 	 */
 	protected List<Invitation> getInvitations() {
-		return Collections.unmodifiableList(this.invitations);
+		ArrayList<Invitation> pendingOrAcceptedInvitations = new ArrayList<Invitation>();
+		for(Invitation invi:this.invitations)
+			if(!invi.getState().equals(InvitationState.PENDING))
+				pendingOrAcceptedInvitations.add(invi);
+		return Collections.unmodifiableList(pendingOrAcceptedInvitations);
 	}
 	/**
 	 * Get all the tasks this user owns aswell as helps on
