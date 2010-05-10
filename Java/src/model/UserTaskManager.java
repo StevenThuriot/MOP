@@ -54,7 +54,7 @@ public class UserTaskManager {
 	protected List<Invitation> getInvitations() {
 		ArrayList<Invitation> pendingOrAcceptedInvitations = new ArrayList<Invitation>();
 		for(Invitation invi:this.invitations)
-			if(!invi.getState().equals(InvitationState.PENDING))
+			if(!invi.getState().equals(InvitationState.DECLINED))
 				pendingOrAcceptedInvitations.add(invi);
 		return Collections.unmodifiableList(pendingOrAcceptedInvitations);
 	}
