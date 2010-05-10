@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import exception.InvitationExistsException;
+import exception.InvitationInvitesOwnerException;
 
 /**
  * A TaskInvitationManager is an object that keeps track of the 
@@ -32,10 +33,12 @@ public class TaskInvitationManager {
 			this.invitations = new ArrayList<Invitation>();
 		}
 
-		protected void add(Invitation invitation) throws InvitationExistsException
+		protected void add(Invitation invitation) throws InvitationExistsException, InvitationInvitesOwnerException
 		{
 			if(this.alreadyInvited(invitation))
 				throw new InvitationExistsException();
+			if(invitation.getUser().equals(invitation.getTask().getUser()))
+				throw new InvitationInvitesOwnerException();
 			invitations.add(invitation);
 		}
 		
@@ -54,7 +57,7 @@ public class TaskInvitationManager {
 		 * Return an unmodifiableList of invitations already added to this Task
 		 * @return
 		 */
-		protected List<Invitation> getInvitations()
+		public List<Invitation> getInvitations()
 		{
 			return Collections.unmodifiableList(this.invitations);
 		}

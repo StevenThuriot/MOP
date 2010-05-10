@@ -22,6 +22,7 @@ import org.junit.runners.Suite.SuiteClasses;
 
 import controller.DispatchControllerTest;
 import controller.FocusControllerTest;
+import controller.InvitationControllerTest;
 import controller.ProjectControllerTest;
 import controller.ResourceControllerTest;
 import controller.TaskControllerTest;
@@ -35,8 +36,8 @@ import exception.ExceptionsTest;
 		TaskDependencyTest.class,TaskDependencyTest.class,TypeRepoTest.class,GenericRepoTest.class,
 		DispatchControllerTest.class,FocusFactoryTest.class,FocusStrategyTest.class,XMLParserTest.class,
 		ExceptionsTest.class, ClockTest.class, TimeControllerTest.class, FieldTest.class,
-		TaskInvitationManagerTest.class, InvitationTest.class,UserTaskManagerTest.class, 
-		XMLControllerTest.class, FocusControllerTest.class})
+		TaskInvitationManagerTest.class, InvitationTest.class,UserTaskManagerTest.class,
+		InvitationControllerTest.class,XMLControllerTest.class, FocusControllerTest.class})
 public class AllTests {
 
 }

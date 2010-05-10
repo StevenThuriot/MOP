@@ -799,7 +799,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		}
 	}
 
-	protected void addInvitation(Invitation invitation) throws InvitationExistsException {
+	protected void addInvitation(Invitation invitation) throws InvitationExistsException, InvitationInvitesOwnerException {
 		this.tim.add(invitation);
 	}
 

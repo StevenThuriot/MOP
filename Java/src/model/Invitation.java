@@ -1,6 +1,9 @@
 package model;
 
 import exception.InvitationExistsException;
+import exception.InvitationInvitesOwnerException;
+import exception.InvitationNotPendingException;
+import gui.Describable;
 
 /**
  * Invitation class that provides a link between a Helper User and a Task.
@@ -8,8 +11,8 @@ import exception.InvitationExistsException;
  * @author bart
  *
  */
-public class Invitation {
-	protected enum InvitationState {
+public class Invitation implements Describable{
+	public enum InvitationState {
 		ACCEPTED,PENDING,DECLINED
 	}
 
@@ -28,13 +31,15 @@ public class Invitation {
 	 */
 	private InvitationState status;
 	
-	public Invitation(Task task,User user) throws InvitationExistsException
+	public Invitation(Task task,User user) throws InvitationExistsException, InvitationInvitesOwnerException
 	{
 		this.task = task;
 		this.user = user;
 		
 		this.task.addInvitation(this);
 		this.user.addInvitation(this);
+		
+		this.status = InvitationState.PENDING;
 	}
 	
 	/**
@@ -56,17 +61,28 @@ public class Invitation {
 	
 	/**
 	 * Method to accept this invitation
+	 * @throws InvitationNotPendingException 
 	 */
-	protected void accept()
+	public void accept() throws InvitationNotPendingException
 	{
-		this.status = InvitationState.ACCEPTED;
+		if(this.status == InvitationState.PENDING){
+			this.status = InvitationState.ACCEPTED;
+		}else{
+			throw new InvitationNotPendingException(this.status);
+		}
 	}
+	
 	/**
-	 * Method to decline this invitation
+	 * Method decline this invitation
+	 * @throws InvitationNotPendingException 
 	 */
-	protected void decline()
+	public void decline() throws InvitationNotPendingException
 	{
-		this.status = InvitationState.DECLINED;
+		if(this.status == InvitationState.PENDING){
+			this.status = InvitationState.DECLINED;
+		}else{
+			throw new InvitationNotPendingException(this.status);
+		}
 	}
 
 	public InvitationState getState()
@@ -91,5 +107,13 @@ public class Invitation {
 		user.removeInvitation(this);
 	}
 	
-	
+	public String toString()
+	{
+		return user.getName() + " is invited for " + task.getDescription() + ". State is " + this.getState().toString();
+	}
+
+	@Override
+	public String getDescription() {
+		return this.toString();
+	}
 }
