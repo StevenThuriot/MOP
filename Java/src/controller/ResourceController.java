@@ -91,21 +91,4 @@ public class ResourceController {
 	public List<Resource> getResources() {
 		return  manager.getResources();
 	}
-
-//	/**
-//	 * Remove a resource
-//	 * @param r
-//	 * @throws ResourceBusyException
-//	 */
-//	public void removeResource(Resource r) throws ResourceBusyException {
-//		manager.remove(r);
-//	}
-	
-//	/**
-//	 * Get a list of all tasks using this resource
-//	 * @return
-//	 */
-//	public List<Task> getTasksUsing(Resource r){
-//		return r.getTasksUsing();
-//	}
 }

@@ -32,8 +32,6 @@ public class Reservation implements AssetAllocation{
 	/**
 	 * Makes a new Reservation with the given time, duration and resource, and
 	 * for the given user.
-	 * @param 	newUser
-	 * 			The user for which this reservation is made.
 	 * @param 	newTime
 	 * 			The time for which this reservation is made. 
 	 * @param 	newDuration
@@ -70,18 +68,6 @@ public class Reservation implements AssetAllocation{
 	private void setTask(Task task) {
 		this.task = task;
 	}
-
-
-//	/**
-//	 * Sets the user that made this reservation.
-//	 * @post	| new.getUser() == newUser
-//	 */
-//	private void setUser(User newUser) throws NullPointerException{		
-//		if (newUser == null)
-//			throw new NullPointerException("Null was passed");
-//		
-//		user = newUser;
-//	}
 	
 	/**
 	 * Returns the start date for this reservation.
@@ -164,11 +150,4 @@ public class Reservation implements AssetAllocation{
 			return true;
 		return false;
 	}
-	
-//	/**
-//	 * Returns the user that made this reservation.
-//	 */
-//	public User getUser(){
-//		return user;
-//	}
 }
