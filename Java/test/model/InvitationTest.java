@@ -36,7 +36,7 @@ public class InvitationTest {
 	public void setUp() throws Exception
 	{
 		manager = new RepositoryManager();
-		user = new User("John");
+		user = new User("John",new UserType(""));
 		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
@@ -47,7 +47,7 @@ public class InvitationTest {
 	@Test
 	public void initTest() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
-		User user2 = new User("Jack");
+		User user2 = new User("Jack",new UserType(""));
 		invitation = new Invitation(taskMain, user2);
 		assertTrue(taskMain.getTaskInvitationManager().getAssetAllocations().contains(invitation));
 		//TODO: Check this for the user
@@ -55,7 +55,7 @@ public class InvitationTest {
 	@Test
 	public void removeTest() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
-		User user2 = new User("Jack");
+		User user2 = new User("Jack",new UserType(""));
 		invitation = new Invitation(taskMain,user2);
 		assertFalse(taskMain.getTaskInvitationManager().getAssetAllocations().isEmpty());
 		invitation.remove();

@@ -31,7 +31,7 @@ public class ClockTest {
 		manager = new RepositoryManager();
 		clock = manager.getClock();
 		clock.setTime(startDate);
-		user = new User("Kwinten");
+		user = new User("Kwinten",new UserType(""));
 		manager.add(user);
 		task = new Task("Make Clock Tests", user,  new TaskTimings(startDate, dueDate, 120), clock);
 	}

@@ -39,16 +39,16 @@ public class ResourceController {
     /**
 	 * Create a new reservation
 	 * @param startTime
-	 * @param date
-	 * @param duration
-	 * @param resource
-	 * @return
+     * @param duration
+     * @param resource
+     * @param date
+     * @return
 	 * @throws NotAvailableException
      * @throws NoReservationOverlapException 
      * @throws AssetAllocatedException 
 	 */
-	public Reservation createReservation(Task task, GregorianCalendar startTime, int duration, Resource resource) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException {
-		return new Reservation(task,startTime,  duration, resource);
+	public Reservation createReservation(GregorianCalendar startTime, int duration, Resource resource, Task task) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException {
+		return new Reservation(startTime,duration,  resource, task);
 	}
 
 	/**

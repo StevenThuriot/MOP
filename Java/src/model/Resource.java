@@ -134,7 +134,7 @@ public class Resource implements Describable, Asset{
 		return type;
 	}
 
-	private void setType(ResourceType type) throws NullPointerException {
+	void setType(ResourceType type) throws NullPointerException {
 		if (type == null)
 			throw new NullPointerException("Null has been passed");
 		

@@ -34,7 +34,7 @@ public class UserTaskManagerTest {
 	@Before
 	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
 	{
-		user = new User("Bart");
+		user = new User("Bart",new UserType(""));
 		manager = new RepositoryManager();
 		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate = new GregorianCalendar();
@@ -51,14 +51,14 @@ public class UserTaskManagerTest {
 	@Test
 	public void adding() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
-		User user1 = new User("John");
+		User user1 = new User("John",new UserType(""));
 		Invitation invitation = new Invitation(taskMain, user1);
 		assertTrue(user1.getUserTaskManager().getInvitations().contains(invitation));
 	}
 	@Test
 	public void removing() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
-		User user1 = new User("John");
+		User user1 = new User("John",new UserType(""));
 		Invitation invitation = new Invitation(taskMain, user1);
 		assertTrue(user1.getUserTaskManager().getInvitations().contains(invitation));
 		user1.removeInvitation(invitation);

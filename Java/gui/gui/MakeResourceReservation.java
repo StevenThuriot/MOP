@@ -43,7 +43,7 @@ public class MakeResourceReservation extends UseCase {
 		GregorianCalendar startDate = menu.promptDate("Give Start Date");
 		int duration = Integer.parseInt(menu.prompt("Duration?"));
 		try {
-			dController.getResourceController().createReservation(startDate, duration, resource, user);
+			dController.getResourceController().createReservation(duration, resource, user, startDate);
 		} catch (NotAvailableException e) {
 			System.out.println("Resource is already reserved");
 		}

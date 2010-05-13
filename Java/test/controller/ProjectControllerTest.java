@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import model.Project;
 import model.TaskTimings;
 import model.User;
+import model.UserType;
 import model.repositories.RepositoryManager;
 
 import org.junit.After;
@@ -115,7 +116,7 @@ public class ProjectControllerTest {
 	    TaskController taskController = new TaskController(manager);
 	    GregorianCalendar end = new GregorianCalendar();
 	    end.add(Calendar.MONTH, 1);
-	    controller.bind(p,taskController.createTask("Descr", new TaskTimings(new GregorianCalendar(), end, 120), new User("Bart")));
+	    controller.bind(p,taskController.createTask("Descr", new TaskTimings(new GregorianCalendar(), end, 120), new User("Bart",new UserType(""))));
 	    assertTrue(!p.getTasks().isEmpty());
 	}
 }
