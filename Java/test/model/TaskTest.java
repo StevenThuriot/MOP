@@ -72,11 +72,11 @@ public class TaskTest {
 	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
 	{
 	    manager = new RepositoryManager();
-		user = new User("John");
+		user = new User("John",new UserType(""));
 		startDate = (GregorianCalendar) manager.getClock().getTime().clone();//Now
 		endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
-        resource = new Resource("Projector", ResourceType.Tool);
+        resource = new Resource("Projector", new ResourceType(""));
         task = new Task("Descr",user,new TaskTimings((GregorianCalendar)manager.getClock().getTime().clone(), endDate, 120), manager.getClock());
 	}
 	
@@ -102,8 +102,7 @@ public class TaskTest {
 	 */
 	@Test(expected=BusinessRule1Exception.class)
 	public void initialization() throws EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, BusinessRule1Exception{
-		// <task> is initialized with no required resources
-		assertTrue(task.getRequiredResources().isEmpty());
+		
 		// <task> is initialized with no dependencies or depending tasks
 		assertTrue(task.getDependencies().isEmpty());
 		assertTrue(task.getDependentTasks().isEmpty());
@@ -358,51 +357,6 @@ public class TaskTest {
 	}
 	
 	/**
-	 * Testing canBeExecuted when succesful
-	 * @throws DependencyException 
-	 * @throws IllegalStateChangeException 
-	 * @throws IllegalStateCallException 
-	 * @throws EmptyStringException 
-	 * @throws NullPointerException 
-	 * @throws BusinessRule3Exception 
-	 * @throws NotAvailableException 
-	 * @throws BusinessRule2Exception 
-	 * @throws UnknownStateException 
-	 */
-	@Test
-	public void checkStateFifteen() throws IllegalStateChangeException, NullPointerException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, BusinessRule2Exception
-	{
-		task.addRequiredResource(resource);
-		task.setSuccessful();
-		resource.createReservation(startDate, 100000, user);
-		
-		
-		assertEquals(false, task.canBeExecuted());
-	}
-	
-	/**
-	 * Testing default implementation for add required resource
-	 * @throws IllegalStateChangeException 
-	 * @throws DependencyException 
-	 * @throws IllegalStateChangeException 
-	 * @throws IllegalStateCallException 
-	 * @throws IllegalStateCallException 
-	 * @throws BusinessRule3Exception 
-	 * @throws BusinessRule2Exception 
-	 * @throws EmptyStringException 
-	 * @throws NullPointerException 
-	 * @throws BusinessRule3Exception 
-	 * @throws NotAvailableException 
-	 * @throws UnknownStateException 
-	 */
-	@Test(expected=IllegalStateCallException.class)
-	public void checkStateSixteen() throws IllegalStateChangeException, IllegalStateCallException, BusinessRule2Exception, BusinessRule3Exception 
-	{
-		task.setSuccessful();
-		task.addRequiredResource(resource);
-	}
-	
-	/**
 	 * Testing default implementation for add dependancy
 	 * @throws IllegalStateChangeException 
 	 * @throws DependencyException 
@@ -426,29 +380,6 @@ public class TaskTest {
 	{
 		task.setSuccessful();
 		task.addDependency(new Task("some name", user, new TaskTimings(startDate, endDate, 50), manager.getClock()));
-	}
-	
-	/**
-	 * Testing default implementation for add required resource
-	 * @throws IllegalStateChangeException 
-	 * @throws DependencyException 
-	 * @throws IllegalStateChangeException 
-	 * @throws IllegalStateCallException 
-	 * @throws IllegalStateCallException 
-	 * @throws BusinessRule3Exception 
-	 * @throws BusinessRule2Exception 
-	 * @throws EmptyStringException 
-	 * @throws NullPointerException 
-	 * @throws BusinessRule3Exception 
-	 * @throws NotAvailableException 
-	 * @throws UnknownStateException 
-	 */
-	@Test(expected=IllegalStateCallException.class)
-	public void checkStateEightteen() throws IllegalStateChangeException, IllegalStateCallException, BusinessRule2Exception, BusinessRule3Exception 
-	{
-		task.addRequiredResource(resource);
-		task.setSuccessful();
-		task.removeRequiredResource(resource);
 	}
 	
 	/**

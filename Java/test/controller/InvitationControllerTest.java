@@ -6,6 +6,7 @@ import model.Invitation;
 import model.Task;
 import model.TaskTimings;
 import model.User;
+import model.UserType;
 import model.Invitation.InvitationState;
 import model.repositories.RepositoryManager;
 
@@ -32,8 +33,8 @@ public class InvitationControllerTest {
 	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
 	{
 		manager = new RepositoryManager();
-		user = new User("John");
-		owner = new User("Bart");
+		user = new User("John",new UserType(""));
+		owner = new User("Bart",new UserType(""));
 		controller = new InvitationController(manager);
 		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate = new GregorianCalendar();
@@ -62,7 +63,7 @@ public class InvitationControllerTest {
 	@Test(expected=AssetAllocatedException.class)
 	public void createTest2() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
-		User user2 = new User("Jack");
+		User user2 = new User("Jack",new UserType(""));
 		controller.createInvitation(taskMain,user2);
 		controller.createInvitation(taskMain,user2);
 	}
@@ -76,7 +77,7 @@ public class InvitationControllerTest {
 	@Test
 	public void removeTest() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
-		User user2 = new User("Jack");
+		User user2 = new User("Jack",new UserType(""));
 		Invitation invitation = controller.createInvitation(taskMain,user2);
 		assertTrue(user2.getInvitations().contains(invitation));
 		controller.removeInvitation(invitation);

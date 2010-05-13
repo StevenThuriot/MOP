@@ -47,7 +47,7 @@ public class Reservation implements AssetAllocation{
 	 * @throws AssetAllocatedException 
 	 */
 	//TODO : update status of resource object
-	public Reservation(Task task, GregorianCalendar newTime, int newDuration, Resource newResource) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+	public Reservation(GregorianCalendar newTime, int newDuration, Resource newResource, Task task) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
 		setTime(newTime);
 		setDuration(newDuration);
 		setTask(task);

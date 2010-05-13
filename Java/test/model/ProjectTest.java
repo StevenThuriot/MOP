@@ -64,7 +64,7 @@ public class ProjectTest {
     public void testTask() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
     {
         Project proj = new Project("ABC");
-        User user = new User("John");
+        User user = new User("John",new UserType(""));
         GregorianCalendar endDate = new GregorianCalendar();
         endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
         Task task = new Task("Descr",user, new TaskTimings(new GregorianCalendar(),endDate,120), manager.getClock());

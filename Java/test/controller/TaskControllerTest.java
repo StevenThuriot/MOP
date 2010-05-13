@@ -9,6 +9,7 @@ import model.ResourceType;
 import model.Task;
 import model.TaskTimings;
 import model.User;
+import model.UserType;
 import model.repositories.RepositoryManager;
 
 import org.junit.After;
@@ -40,7 +41,7 @@ public class TaskControllerTest {
 	{
 		manager = new RepositoryManager();
 		controller = new TaskController(manager);
-		user = new User("John");
+		user = new User("John",new UserType(""));
 	}
 	
 	@After
@@ -63,7 +64,7 @@ public class TaskControllerTest {
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
-		Task taak = controller.createTask("Beschrijving", new TaskTimings(new GregorianCalendar(), end, 120), new ArrayList<Task>(), new ArrayList<Resource>(), user);
+		Task taak = controller.createTask("Beschrijving", new TaskTimings(new GregorianCalendar(), end, 120), new ArrayList<Task>(), user);
 		assertTrue(controller.getTasks(user).contains(taak));
 	}
 	
@@ -82,7 +83,7 @@ public class TaskControllerTest {
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
-		Task taak = controller.createTask("Beschrijving",new TaskTimings( new GregorianCalendar(), end, 120), new ArrayList<Task>(), new ArrayList<Resource>(), user);
+		Task taak = controller.createTask("Beschrijving",new TaskTimings( new GregorianCalendar(), end, 120), new ArrayList<Task>(), user);
 		controller.removeTask(taak);
 		assertFalse(controller.getTasks(user).contains(taak));
 	}
@@ -102,8 +103,8 @@ public class TaskControllerTest {
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
-		Task taak = controller.createTask("Beschrijving",new TaskTimings( new GregorianCalendar(), end, 120), new ArrayList<Task>(), new ArrayList<Resource>(), user);
-		Task taak2 = controller.createTask("Beschrijving2", new TaskTimings(new GregorianCalendar(), end, 120), new ArrayList<Task>(), new ArrayList<Resource>(), user);
+		Task taak = controller.createTask("Beschrijving",new TaskTimings( new GregorianCalendar(), end, 120), new ArrayList<Task>(), user);
+		Task taak2 = controller.createTask("Beschrijving2", new TaskTimings(new GregorianCalendar(), end, 120), new ArrayList<Task>(), user);
 		controller.addDependency(taak2, taak);
 		controller.removeTaskRecursively(taak);
 		assertFalse(controller.getTasks(user).contains(taak));
@@ -268,38 +269,6 @@ public class TaskControllerTest {
 
 		assertEquals(false, controller.hasDependencies(task2));
 		assertEquals(true, controller.hasDependencies(task));
-	}
-	
-	/**
-	 * Testing the controllers HasRequiredResources
-	 * @throws NullPointerException
-	 * @throws EmptyStringException
-	 * @throws BusinessRule1Exception
-	 * @throws IllegalStateCallException
-	 * @throws BusinessRule3Exception
-	 */
-	@Test
-	public void testHasRequiredResources() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
-	{
-		GregorianCalendar startDate = new GregorianCalendar();//Now
-		GregorianCalendar endDate = new GregorianCalendar();
-		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
-
-		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
-		Task task2 = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
-		
-		Resource r = new Resource("d", ResourceType.Room);
-		controller.addRequiredResource(task, r);
-
-		assertEquals(true, controller.hasRequiredResources(task));
-		assertEquals(false, controller.hasRequiredResources(task2));
-		
-		assertEquals(true, controller.getRequiredResources(task).contains(r));
-		
-		controller.removeRequiredResource(task, r);
-
-		assertEquals(false, controller.hasRequiredResources(task));
 	}
 	
 	/**

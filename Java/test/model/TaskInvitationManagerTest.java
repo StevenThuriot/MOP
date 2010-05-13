@@ -39,8 +39,8 @@ public class TaskInvitationManagerTest {
 	public void setUp() throws Exception
 	{
 		manager = new RepositoryManager();
-		User owner = new User("John");
-		user = new User("Jack");
+		User owner = new User("John",new UserType(""));
+		user = new User("Jack",new UserType(""));
 		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4);

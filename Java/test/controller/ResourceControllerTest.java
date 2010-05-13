@@ -1,12 +1,16 @@
 package controller;
 
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import model.Reservation;
 import model.Resource;
 import model.ResourceType;
+import model.Task;
+import model.TaskTimings;
 import model.User;
+import model.UserType;
 import model.repositories.RepositoryManager;
 
 import org.junit.After;
@@ -15,7 +19,9 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import controller.ResourceController;
+import exception.AssetAllocatedException;
 import exception.EmptyStringException;
+import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
 import exception.ResourceBusyException;
 
@@ -25,14 +31,20 @@ public class ResourceControllerTest {
 	private Resource resource;
 	private User user;
 	private RepositoryManager manager;
+	private Task task;
 	
 	
 	@Before
 	public void setUp() throws Exception {
 		manager = new RepositoryManager();
 		controller = new ResourceController(manager);
-		resource = new Resource("Room 101", ResourceType.Room);
-		user = new User("John");
+		resource = new Resource("Room 101", new ResourceType(""));
+		user = new User("John",new UserType(""));
+		GregorianCalendar endDate = new GregorianCalendar();
+		endDate.add(Calendar.DAY_OF_YEAR, 4);
+		manager = new RepositoryManager();
+		// 4 days to finish task
+		task = new Task("Descr",user, new TaskTimings(new GregorianCalendar(),endDate,1440), manager.getClock());
 	}
 	
 	/**
@@ -55,25 +67,29 @@ public class ResourceControllerTest {
 	 * Create a correct reservation
 	 * TODO: Duration aanpassen
 	 * @throws NotAvailableException 
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
 	 */
 	@Test
-	public void createReservation() throws NotAvailableException
+	public void createReservation() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException
 	
 	{
 		GregorianCalendar begin = new GregorianCalendar();
-		Reservation reservatie = controller.createReservation(begin, 140, resource, user);
+		Reservation reservatie = controller.createReservation(begin, 140, resource, task);
 		assertEquals(reservatie, resource.getReservations().get(1));
 	}
 	
 	/**
 	 * Create an overlapping reservation. Should throw a NotAvailableException
 	 * @throws NotAvailableException
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
 	 */
 	@Test(expected=NotAvailableException.class)
-	public void createNoReservation() throws NotAvailableException
+	public void createNoReservation() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException
 	{
-		controller.createReservation(new GregorianCalendar(), 140, resource, user);
-		controller.createReservation(new GregorianCalendar(), 30, resource, user);
+		controller.createReservation(new GregorianCalendar(), 140, resource, task);
+		controller.createReservation(new GregorianCalendar(), 30, resource, task);
 	}
 	
 	/**
@@ -83,22 +99,8 @@ public class ResourceControllerTest {
 	@Test
 	public void createResource() throws EmptyStringException
 	{
-		resource = controller.createResource("Room 101", ResourceType.Room);
+		resource = controller.createResource("Room 101", new ResourceType(""));
 	    assertTrue(manager.getResources().contains(resource));
-	}
-	
-	/**
-	 * Does a resource get removed properly?
-	 * Created and removed through the controller, checks existence in the RepositoryManager
-	 * @throws EmptyStringException
-	 * @throws ResourceBusyException
-	 */
-	@Test
-	public void removeResource() throws EmptyStringException, ResourceBusyException
-	{
-		resource = controller.createResource("Room 101", ResourceType.Room);
-		controller.removeResource(resource);
-		assertFalse(manager.getResources().contains(resource));
 	}
 	
 	/**
@@ -108,7 +110,7 @@ public class ResourceControllerTest {
 	@Test
 	public void testGetResources() throws EmptyStringException
 	{
-	    resource = controller.createResource("Room 101", ResourceType.Room);
+	    resource = controller.createResource("Room 101", new ResourceType(""));
 	    assertTrue(controller.getResources().contains(resource));
 	}
 	
@@ -117,12 +119,14 @@ public class ResourceControllerTest {
 	 * Get a general list of reservations, see of the reservation contains the one we created
 	 * @throws NotAvailableException 
 	 * @throws EmptyStringException 
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
 	 */
 	@Test
-	public void testReservations() throws NotAvailableException, EmptyStringException
+	public void testReservations() throws NotAvailableException, EmptyStringException, NoReservationOverlapException, AssetAllocatedException
 	{
-	    resource = controller.createResource("Room 101", ResourceType.Room);
-	    Reservation reservation = controller.createReservation(new GregorianCalendar(), 101, resource, new User("Bart"));
+	    resource = controller.createResource("Room 101", new ResourceType(""));
+	    Reservation reservation = controller.createReservation(new GregorianCalendar(), 101, resource, task);
 	    assertTrue(controller.getReservations().contains(reservation));
 	}
 }

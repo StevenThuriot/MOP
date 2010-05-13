@@ -22,7 +22,7 @@ public class UserTest {
 	 */
 	@Before
 	public void setUp() throws Exception {
-		user = new User("John");
+		user = new User("John",new UserType(""));
 	}
 
 	/**

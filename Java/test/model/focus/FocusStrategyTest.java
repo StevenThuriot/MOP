@@ -7,6 +7,7 @@ import java.util.List;
 import model.Task;
 import model.TaskTimings;
 import model.User;
+import model.UserType;
 import model.repositories.RepositoryManager;
 
 import org.junit.After;
@@ -28,7 +29,7 @@ public class FocusStrategyTest {
      */
     @Before
     public void setUp() throws Exception {
-        user = new User("John");
+        user = new User("John",new UserType(""));
         GregorianCalendar end1 = new GregorianCalendar();
         end1.add(Calendar.DAY_OF_MONTH, 1);
         GregorianCalendar end2 = new GregorianCalendar();

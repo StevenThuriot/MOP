@@ -31,8 +31,8 @@ public class ResourceTest {
 	
 	@Before
 	public void setUp() throws Exception {
-		resource = new Resource("Description",ResourceType.Room);
-		user = new User("John");
+		resource = new Resource("Description",new ResourceType(""));
+		user = new User("John",new UserType(""));
 		
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
@@ -56,7 +56,7 @@ public class ResourceTest {
 	@Test(expected=EmptyStringException.class)
 	public void emptyDescription() throws EmptyStringException
 	{
-		resource = new Resource("", ResourceType.Room); 
+		resource = new Resource("", new ResourceType("")); 
 	}
 	
 	/**
@@ -73,30 +73,15 @@ public class ResourceTest {
 	@Test
 	public void doesEqualsWork() throws EmptyStringException
 	{
-		Resource res1 = new Resource("Room1",ResourceType.Room);
-		Resource res2 = new Resource("room2",ResourceType.Room);
+		Resource res1 = new Resource("Room1",new ResourceType(""));
+		Resource res2 = new Resource("room2",new ResourceType(""));
 		assertFalse(res1.equals(res2));
 		assertTrue(res1.equals(res1));
 	}
 	
 
 	
-	/**
-	 * Try to remove a resource that is required by a task
-	 * Expected to throw a ResourceBusyException
-	 * @throws ResourceBusyException
-	 * @throws EmptyStringException 
-	 * @throws BusinessRule1Exception 
-	 * @throws IllegalStateCallException 
-	 */
-	@Test(expected=ResourceBusyException.class)
-	public void removeBusyResource() throws ResourceBusyException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException
-	{
-
-		task1.addRequiredResource(resource);
-		
-		resource.remove();
-	}
+	
 	
 	/**
 	 * Tests the behavior of a newly made Resource object
@@ -108,8 +93,6 @@ public class ResourceTest {
 		
 		//Reservations and tasks using should be initialized as empty arraylists
 		assertTrue(resource.getReservations().isEmpty());
-		assertTrue(resource.getTasksUsing().isEmpty());
-		assertFalse(resource.requiredByTask());
 	}
 	
 	/**
@@ -121,11 +104,11 @@ public class ResourceTest {
 	public void reservations() throws NotAvailableException{
 		
 		GregorianCalendar startDate = new GregorianCalendar();
-		resource.createReservation(startDate, 100, user);
+		new Reservation(startDate, 100, resource, task1);
 		
 		startDate.add(Calendar.MINUTE, 50);
 		// Overlap - exception should be thrown
-		resource.createReservation(startDate, 120, user);		
+		new Reservation(startDate, 120, resource, task1);		
 	}
 	
 	/**
@@ -136,7 +119,7 @@ public class ResourceTest {
 	 */
 	@Test(expected=NullPointerException.class)
 	public void reservations2() throws NotAvailableException, EmptyStringException{
-		Resource r = new Resource("d", ResourceType.Room);
+		Resource r = new Resource("d", new ResourceType(""));
 		r.createReservation(new GregorianCalendar(), 100, null);
 	}
 	
@@ -148,7 +131,7 @@ public class ResourceTest {
 	 */
 	@Test(expected=NullPointerException.class)
 	public void reservations3() throws NotAvailableException, EmptyStringException{
-		Resource r = new Resource("d", ResourceType.Room);
+		Resource r = new Resource("d", new ResourceType(""));
 		r.createReservation(null, 100, user);
 	}
 	
@@ -160,7 +143,7 @@ public class ResourceTest {
 	 */
 	@Test
 	public void reservations4() throws NotAvailableException, EmptyStringException{
-		Resource r = new Resource("d", ResourceType.Room);
+		Resource r = new Resource("d", new ResourceType(""));
 		Reservation s = r.createReservation(new GregorianCalendar(), 100, user);
 		assertEquals(100, s.getDuration());
 	}
@@ -173,7 +156,7 @@ public class ResourceTest {
 	 */
 	@Test
 	public void reservations5() throws NotAvailableException, EmptyStringException{
-		Resource r = new Resource("d", ResourceType.Room);
+		Resource r = new Resource("d", new ResourceType(""));
 		Reservation s = r.createReservation(new GregorianCalendar(), 100, user);
 		assertEquals(r, s.getReservedResource());
 	}
@@ -197,7 +180,7 @@ public class ResourceTest {
 	 */
 	@Test
 	public void reservations7() throws NotAvailableException, EmptyStringException{
-		Resource r = new Resource("d", ResourceType.Room);
+		Resource r = new Resource("d", new ResourceType(""));
 		Reservation s = r.createReservation(new GregorianCalendar(), 100, user);
 		assertEquals(user, s.getUser());
 	}
@@ -226,20 +209,6 @@ public class ResourceTest {
 		@SuppressWarnings("unused")
 		Reservation r = new Reservation(user, startDate, 10, null);
 	}
-	
-	
-   /**
-     * Add and remove a task that uses this resource
- * @throws IllegalStateCallException 
-     */
-    @Test
-    public void testUsingTask() throws IllegalStateCallException
-    {
-    	task1.addRequiredResource(resource);
-        assertTrue(resource.getTasksUsing().contains(task1));
-        task1.removeRequiredResource(resource);
-        assertFalse(resource.getTasksUsing().contains(task1));
-    }
     
     /**
      * Testing the toString method
@@ -256,7 +225,7 @@ public class ResourceTest {
     @Test
     public void testGetType()
     {
-    	assertEquals(ResourceType.Room, resource.getType());
+    	assertEquals(new ResourceType(""), resource.getType());
     }
     
     /**
@@ -266,27 +235,6 @@ public class ResourceTest {
     public void testSetType()
     {
     	resource.setType(null);
-    }
-    
-    /**
-     * Testing the clone method
-     * @throws NotAvailableException 
-     * @throws IllegalStateCallException 
-     */
-    @Test
-    public void testClone() throws NotAvailableException, IllegalStateCallException
-    {
-    	GregorianCalendar startDate = new GregorianCalendar();
-		resource.createReservation(startDate, 100, user);
-		
-		task1.addRequiredResource(resource);
-        assertTrue(resource.getTasksUsing().contains(task1));
-        
-        Resource r = resource.clone();
-    	assertEquals("Description", r.getDescription());
-    	assertEquals(ResourceType.Room, r.getType());
-    	assertEquals(2, r.getReservations().size());
-    	assertEquals(1, r.getTasksUsing().size());
     }
 
 }

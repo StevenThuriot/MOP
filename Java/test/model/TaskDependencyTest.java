@@ -47,7 +47,7 @@ public class TaskDependencyTest {
 	public void setUp() throws Exception {
 		manager = new RepositoryManager();
 		//sets up a new Task
-		User user = new User("John");
+		User user = new User("John",new UserType(""));
 		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
