@@ -18,17 +18,17 @@ public class TaskTimings {
 	public TaskTimings(GregorianCalendar startDate, GregorianCalendar endDate, int duration) {
 		super();
 		this.duration = duration;
-		this.startDate = startDate;
-		this.dueDate = endDate;
+		this.startDate = (GregorianCalendar) startDate.clone();
+		this.dueDate = (GregorianCalendar) endDate.clone();
 	}
 	public int getDuration() {
 		return duration;
 	}
 	public GregorianCalendar getStartDate() {
-		return startDate;
+		return (GregorianCalendar) startDate.clone();
 	}
 	public GregorianCalendar getDueDate() {
-		return dueDate;
+		return (GregorianCalendar) dueDate.clone();
 	}
 	private int duration;
 	private GregorianCalendar startDate;

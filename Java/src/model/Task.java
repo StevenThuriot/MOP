@@ -57,12 +57,12 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 */
 	private User user;
 
-	/**
-	 * An ArrayList containing the Resources that this Task requires to be performed.
-	 * @invar 	Every effective element in $requiredResources is a Resource.
-	 * 			TODO: formal definition
-	 */
-	private ArrayList<Resource> requiredResources;
+//	/**
+//	 * An ArrayList containing the Resources that this Task requires to be performed.
+//	 * @invar 	Every effective element in $requiredResources is a Resource.
+//	 * 			TODO: formal definition
+//	 */
+//	private ArrayList<Resource> requiredResources;
 
 
 	/**
@@ -80,7 +80,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * A TaskInvitationManager object to keep track of helper users
 	 * invited for this task.
 	 */
-	private TaskInvitationManager tim;
+	private TaskAssetManager tam;
 	
 	/**
 	 * A clock indicating the current time of the system
@@ -123,10 +123,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 				this.addDependency(t);
 		}
 		
-		for(Resource r: reqResources){
-			if (r != null)
-				this.addRequiredResource(r);
-		}
+//		for(Resource r: reqResources){
+//			if (r != null)
+//				this.addRequiredResource(r);
+//		}
 	}
 	
 	/**
@@ -154,9 +154,9 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * 			TODO: formal definition
 	 */
 	public Task(String description, User user, TaskTimings timings, Clock clock) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
-		requiredResources = new ArrayList<Resource>();
+//		requiredResources = new ArrayList<Resource>();
 		tdm = new TaskDependencyManager(this);
-		tim = new TaskInvitationManager(this);
+		tam = new TaskAssetManager(this);
 		this.clock = clock;
 		
 		this.taskState = new UnfinishedTaskState(this);
@@ -192,13 +192,13 @@ public class Task implements Describable, Subject, Observer<Task>{
 		this.taskState.addDependency(dependency);
 	}
 	
-	/**
-	 * Adds a resource to the resources required for this task.
-	 * @throws IllegalStateCallException 
-	 */
-	public void addRequiredResource(Resource resource) throws IllegalStateCallException{
-		this.taskState.addRequiredResource(resource);
-	}
+//	/**
+//	 * Adds a resource to the resources required for this task.
+//	 * @throws IllegalStateCallException 
+//	 */
+//	public void addRequiredResource(Resource resource) throws IllegalStateCallException{
+//		this.taskState.addRequiredResource(resource);
+//	}
 	
 	/**
 	 * Returns whether a task can be executed right now.
@@ -270,21 +270,21 @@ public class Task implements Describable, Subject, Observer<Task>{
 		this.getTaskDependencyManager().addDependency(dependency);
 	}
 	
-	/**
-	 * Adds a resource to the resources required for this task.
-	 */
-	protected void doAddRequiredResource(Resource resource){
-		requiredResources.add(resource);
-		resource.addTaskUsing(this);
-	}
+//	/**
+//	 * Adds a resource to the resources required for this task.
+//	 */
+//	protected void doAddRequiredResource(Resource resource){
+//		requiredResources.add(resource);
+//		resource.addTaskUsing(this);
+//	}
 	
-	/**
-	 * Removes a resource from the resources required for this task.
-	 */
-	protected void doRemoveRequiredResource(Resource resource){
-		requiredResources.remove(resource);
-		resource.removeTaskUsing(this);
-	}
+//	/**
+//	 * Removes a resource from the resources required for this task.
+//	 */
+//	protected void doRemoveRequiredResource(Resource resource){
+//		requiredResources.remove(resource);
+//		resource.removeTaskUsing(this);
+//	}
 	
 	/**
 	 * Sets <newDescription> to be the new description of this task.
@@ -404,13 +404,13 @@ public class Task implements Describable, Subject, Observer<Task>{
 		return this.taskState.getPossibleStateChanges();
 	}
 	
-	/**
-	 * Returns an ArrayList containing all the tasks that depend on this task.
-	 * @return
-	 */
-	public List<Resource> getRequiredResources(){
-		return Collections.unmodifiableList(requiredResources);
-	}
+//	/**
+//	 * Returns an ArrayList containing all the tasks that depend on this task.
+//	 * @return
+//	 */
+//	public List<Resource> getRequiredResources(){
+//		return Collections.unmodifiableList(requiredResources);
+//	}
 	
 	/**
 	 * Returns the start date for this Task, 
@@ -432,9 +432,9 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * Returns the TaskInvitationManager for this task
 	 * @return
 	 */
-	public TaskInvitationManager getTaskInvitationManager()
+	public TaskAssetManager getTaskInvitationManager()
 	{
-		return tim;
+		return tam;
 	}
 	
 	/**
@@ -540,10 +540,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 			
 		}
 		
-		ArrayList<Resource> resources = new ArrayList<Resource>(this.getRequiredResources());
-		for(Resource r: resources){
-			r.removeTaskUsing(this);
-		}
+//		ArrayList<Resource> resources = new ArrayList<Resource>(this.getRequiredResources());
+//		for(Resource r: resources){
+//			r.removeTaskUsing(this);
+//		}
 		
 		this.getUser().removeTask(this);
 	}
@@ -583,13 +583,13 @@ public class Task implements Describable, Subject, Observer<Task>{
 		this.remove();		
 	}
 	
-	/**
-	 * Removes a resource from the resources required for this task.
-	 * @throws IllegalStateCallException 
-	 */
-	public void removeRequiredResource(Resource resource) throws IllegalStateCallException{
-		this.taskState.removeRequiredResource(resource);
-	}
+//	/**
+//	 * Removes a resource from the resources required for this task.
+//	 * @throws IllegalStateCallException 
+//	 */
+//	public void removeRequiredResource(Resource resource) throws IllegalStateCallException{
+//		this.taskState.removeRequiredResource(resource);
+//	}
 	
 	/**
 	 * Returns whether the current task satisfies the business rule 1.
@@ -799,11 +799,19 @@ public class Task implements Describable, Subject, Observer<Task>{
 		}
 	}
 
-	protected void addInvitation(Invitation invitation) throws InvitationExistsException, InvitationInvitesOwnerException {
-		this.tim.add(invitation);
+	protected void addAssetAllocation(AssetAllocation assetAllocation) throws AssetAllocatedException{
+		this.tam.add(assetAllocation);
 	}
 
-	protected void removeInvitation(Invitation invitation) {
-		this.tim.remove(invitation);
+	protected void removeAssetAllocation(AssetAllocation assetAllocation) {
+		this.tam.remove(assetAllocation);
+	}
+	
+	protected boolean checkOverlap(GregorianCalendar begin, int duration){
+		return this.tam.checkOverlap(begin, duration);
+	}
+	
+	protected boolean assetsAvailableAt(GregorianCalendar begin, int duration){
+		return this.tam.assetsAvailableAt(begin, duration);
 	}
 }

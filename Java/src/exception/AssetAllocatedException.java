@@ -1,13 +1,13 @@
 package exception;
 
 @SuppressWarnings("serial")
-public class InvitationExistsException extends Exception{
+public class AssetAllocatedException extends Exception{
 
-	public InvitationExistsException()
+	public AssetAllocatedException()
 	{
 		super("Invitation was already created for this combination User/Task");
 	}
-	public InvitationExistsException(String message)
+	public AssetAllocatedException(String message)
 	{
 		super(message);
 	}

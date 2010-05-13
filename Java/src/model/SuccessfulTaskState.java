@@ -9,23 +9,23 @@ public class SuccessfulTaskState extends TaskState {
 		super(context);
 	}
 
-	/**
-	 * Returns whether a task can be executed right now.
-	 * This is true when all its dependencies are (successfully) finished and
-	 * all of its required resources are available.
-	 */
-	@Override
-	protected Boolean canBeExecuted(){
-		boolean resourceReady = true;
-		
-		GregorianCalendar now = this.getContext().getClock().getTime();
-		
-		for(Resource r: this.getContext().getRequiredResources()){
-			resourceReady = resourceReady && (r.availableAt(now, this.getContext().getDuration()));
-		}
-
-		return resourceReady;
-	}
+//	/**
+//	 * Returns whether a task can be executed right now.
+//	 * This is true when all its dependencies are (successfully) finished and
+//	 * all of its required resources are available.
+//	 */
+//	@Override
+//	protected Boolean canBeExecuted(){
+//		boolean resourceReady = true;
+//		
+//		GregorianCalendar now = this.getContext().getClock().getTime();
+//		
+//		for(Resource r: this.getContext().getRequiredResources()){
+//			resourceReady = resourceReady && (r.availableAt(now, this.getContext().getDuration()));
+//		}
+//
+//		return resourceReady;
+//	}
 	
 	/**
 	 * Returns whether a task is succesful or not.

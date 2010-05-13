@@ -17,7 +17,7 @@ import exception.BusinessRule1Exception;
 import exception.BusinessRule3Exception;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
-import exception.InvitationExistsException;
+import exception.AssetAllocatedException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
 import static org.junit.Assert.*;
@@ -53,14 +53,14 @@ public class InvitationControllerTest {
 	}
 	
 	@Test
-	public void createTest() throws InvitationExistsException, InvitationInvitesOwnerException
+	public void createTest() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
 		Invitation invitation = controller.createInvitation(taskMain,user);
 		assertTrue(user.getInvitations().contains(invitation));
 	}
 	
-	@Test(expected=InvitationExistsException.class)
-	public void createTest2() throws InvitationExistsException, InvitationInvitesOwnerException
+	@Test(expected=AssetAllocatedException.class)
+	public void createTest2() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
 		User user2 = new User("Jack");
 		controller.createInvitation(taskMain,user2);
@@ -68,13 +68,13 @@ public class InvitationControllerTest {
 	}
 	
 	@Test(expected=InvitationInvitesOwnerException.class)
-	public void createTest3() throws InvitationExistsException, InvitationInvitesOwnerException
+	public void createTest3() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
 		controller.createInvitation(taskMain,owner);
 	}
 	
 	@Test
-	public void removeTest() throws InvitationExistsException, InvitationInvitesOwnerException
+	public void removeTest() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
 		User user2 = new User("Jack");
 		Invitation invitation = controller.createInvitation(taskMain,user2);

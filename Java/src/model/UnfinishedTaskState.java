@@ -32,12 +32,12 @@ public class UnfinishedTaskState extends TaskState {
 		this.getContext().doAddDependency(dependency);
 	}
 	
-	/**
-	 * Adds a resource to the resources required for this task.
-	 */
-	protected void addRequiredResource(Resource resource){
-		this.getContext().doAddRequiredResource(resource);
-	}
+//	/**
+//	 * Adds a resource to the resources required for this task.
+//	 */
+//	protected void addRequiredResource(Resource resource){
+//		this.getContext().doAddRequiredResource(resource);
+//	}
 		
 	/**
 	 * Returns whether a task can be executed right now.
@@ -47,7 +47,7 @@ public class UnfinishedTaskState extends TaskState {
 	@Override
 	protected Boolean canBeExecuted(){
 		
-		boolean resourceReady = true;
+		boolean assetsReady = true;
 		boolean depReady = true;
 		
 		GregorianCalendar now = this.getContext().getClock().getTime();
@@ -55,15 +55,13 @@ public class UnfinishedTaskState extends TaskState {
 		if (now.before(this.getContext().getStartDate())) {
 			return false;
 		} else {
-			for(Resource r: this.getContext().getRequiredResources()){
-				resourceReady = resourceReady && (r.availableAt(now, this.getContext().getDuration()));
-			}
+			assetsReady = this.getContext().assetsAvailableAt(now, this.getContext().getDuration());
 			
 			for(Task t: this.getContext().getDependencies()){
 				depReady = depReady && t.isSuccesful();
 			}
 			
-			return resourceReady && depReady;	
+			return assetsReady && depReady;	
 		}
 		
 		
@@ -92,12 +90,12 @@ public class UnfinishedTaskState extends TaskState {
 		this.getContext().getTaskDependencyManager().removeDependency(dependency);
 	}
 	
-	/**
-	 * Removes a resource from the resources required for this task.
-	 */
-	public void removeRequiredResource(Resource resource){
-		this.getContext().doRemoveRequiredResource(resource);
-	}
+//	/**
+//	 * Removes a resource from the resources required for this task.
+//	 */
+//	public void removeRequiredResource(Resource resource){
+//		this.getContext().doRemoveRequiredResource(resource);
+//	}
 	
 	/**
 	 * Returns whether the current task satisfies the business rule 2.

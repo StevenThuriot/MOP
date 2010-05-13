@@ -59,14 +59,12 @@ public class UserTaskManager {
 		return Collections.unmodifiableList(pendingOrAcceptedInvitations);
 	}
 	/**
-	 * Get all the tasks this user owns aswell as helps on
+	 * Get all the tasks this user owns as well as helps on
 	 * @return
 	 */
 	protected List<Task> getTasks()
 	{
-		ArrayList<Task> allTasks = new ArrayList<Task>();
-		for(Task task:this.ownedTasks)
-			allTasks.add(task);
+		ArrayList<Task> allTasks = new ArrayList<Task>(ownedTasks);
 		for(Invitation invitation:this.invitations)
 			if(invitation.getState()==InvitationState.ACCEPTED)
 				allTasks.add(invitation.getTask());

@@ -43,8 +43,8 @@ public class ExceptionsTest {
         assertEquals("An unknown state has been passed to the parser.", (new UnknownStateException()).getMessage());
         assertEquals("MSG", (new UnknownStateException("MSG")).getMessage());
         //InvitationExistsException
-        assertEquals("Invitation was already created for this combination User/Task", (new InvitationExistsException()).getMessage());
-        assertEquals("MSG", (new InvitationExistsException("MSG")).getMessage());
+        assertEquals("Invitation was already created for this combination User/Task", (new AssetAllocatedException()).getMessage());
+        assertEquals("MSG", (new AssetAllocatedException("MSG")).getMessage());
         //InvitationNotPendingException
         assertEquals("Can't update this invitation's state. It is already been accepted or declined.",(new InvitationNotPendingException()).getMessage());
         assertEquals(InvitationState.ACCEPTED, (new InvitationNotPendingException(InvitationState.ACCEPTED)).getState());

@@ -6,7 +6,7 @@ import gui.Describable;
 
 import exception.EmptyStringException;
 
-public class User implements Describable{
+public class User implements Asset,Describable{
 	
 	/**
 	 * A String that describes the name of the user.
@@ -21,15 +21,20 @@ public class User implements Describable{
 	 */
 	private UserTaskManager taskManager;
 	
+	/**
+	 * This user's type
+	 */
+	private UserType type;
 
 	/**
 	 * Creates a new user, with no tasks.
 	 * @param 	name
 	 * 			The name of this user.
 	 */
-	public User(String name)
+	public User(String name, UserType uType)
 	{
 		this.name = name;
+		this.type = uType;
 		taskManager = new UserTaskManager(this);
 	}
 	
@@ -123,6 +128,11 @@ public class User implements Describable{
 
 	public List<Invitation> getInvitations() {
 		return taskManager.getInvitations();
+	}
+
+	@Override
+	public UserType getType() {
+		return type;
 	}
 	
 }

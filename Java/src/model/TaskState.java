@@ -36,13 +36,13 @@ public abstract class TaskState {
 		throw new IllegalStateCallException();
 	}
 	
-	/**
-	 * Adds a resource to the resources required for this task.
-	 * @throws IllegalStateCallException 
-	 */
-	protected void addRequiredResource(Resource resource) throws IllegalStateCallException{
-		throw new IllegalStateCallException();
-	}
+//	/**
+//	 * Adds a resource to the resources required for this task.
+//	 * @throws IllegalStateCallException 
+//	 */
+//	protected void addRequiredResource(Resource resource) throws IllegalStateCallException{
+//		throw new IllegalStateCallException();
+//	}
 	
 	/**
 	 * Populate the possible state changes
@@ -168,13 +168,13 @@ public abstract class TaskState {
 		throw new IllegalStateCallException();
 	}
 	
-	/**
-	 * Removes a resource from the resources required for this task.
-	 * @throws IllegalStateCallException 
-	 */
-	protected void removeRequiredResource(Resource resource) throws IllegalStateCallException{
-		throw new IllegalStateCallException();
-	}
+//	/**
+//	 * Removes a resource from the resources required for this task.
+//	 * @throws IllegalStateCallException 
+//	 */
+//	protected void removeRequiredResource(Resource resource) throws IllegalStateCallException{
+//		throw new IllegalStateCallException();
+//	}
 	
 	/**
 	 * Returns whether the current task satisfies the business rule 2.
