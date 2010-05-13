@@ -12,7 +12,7 @@ import exception.EmptyStringException;
 import exception.NotAvailableException;
 import exception.ResourceBusyException;
 
-public class Resource implements Describable{
+public class Resource implements Describable, Asset{
 
 	
 	/**
@@ -32,10 +32,10 @@ public class Resource implements Describable{
 	 */
 	private ResourceType type;
 	
-	/**
-	 * An ArrayList keeping track of all the tasks using this resource.
-	 */
-	private ArrayList<Task> tasksUsing;
+//	/**
+//	 * An ArrayList keeping track of all the tasks using this resource.
+//	 */
+//	private ArrayList<Task> tasksUsing;
 	
 	
 	/**
@@ -51,71 +51,71 @@ public class Resource implements Describable{
 		this.setDescription(newDescription);
 		this.setType(type);
 		reservations = new ArrayList<Reservation>();
-		tasksUsing = new ArrayList<Task>();
+//		tasksUsing = new ArrayList<Task>();
 	}
 	
-	/**
-	 * Adds a task to the lists of task requiring this resource.
-	 * This method is used whenever the resources required by a task are updated
-	 * and should not be used directly.
-	 */
-	protected void addTaskUsing(Task t){
-		tasksUsing.add(t);
-	}
-	
-	/**
-	 * Removes a task from the lists of task requiring this resource.
-	 * This method is used whenever the resources required by a task are updated
-	 * and should not be used directly.
-	 * @pre	The given task is currently in the list of tasks requiring this resource
-	 * 		|taskUsing.contains(t)
-	 */
-	protected void removeTaskUsing(Task t){
-		tasksUsing.remove(t);
-	}
-	
-	/**
-	 * This methods indicates whether this resource is required by any task.
-	 * @return	true if for any Task task in the system
-	 * 			task.requiredResources().contains(this)
-	 */
-	public Boolean requiredByTask() {
-		return !tasksUsing.isEmpty();
-	}
+//	/**
+//	 * Adds a task to the lists of task requiring this resource.
+//	 * This method is used whenever the resources required by a task are updated
+//	 * and should not be used directly.
+//	 */
+//	protected void addTaskUsing(Task t){
+//		tasksUsing.add(t);
+//	}
+//	
+//	/**
+//	 * Removes a task from the lists of task requiring this resource.
+//	 * This method is used whenever the resources required by a task are updated
+//	 * and should not be used directly.
+//	 * @pre	The given task is currently in the list of tasks requiring this resource
+//	 * 		|taskUsing.contains(t)
+//	 */
+//	protected void removeTaskUsing(Task t){
+//		tasksUsing.remove(t);
+//	}
+//	
+//	/**
+//	 * This methods indicates whether this resource is required by any task.
+//	 * @return	true if for any Task task in the system
+//	 * 			task.requiredResources().contains(this)
+//	 */
+//	public Boolean requiredByTask() {
+//		return !tasksUsing.isEmpty();
+//	}
 
-	/**
-	 * Makes a reservation for this resource at the given time and duration,
-	 * and for the given user.
-	 * @param 	startTime
-	 * 			The start date for the reservation.
-	 * @param 	duration
-	 * 			The duration of the reservation.
-	 * @param 	user
-	 * 			The user that made the reservation.
-	 * @throws 	NotAvailableException
-	 * 			The resource is not available during the given time span.
-	 * 			| !this.availableAt(startTime, duration)
-	 */
-	public Reservation createReservation(GregorianCalendar startTime, int duration, User user) throws NotAvailableException {
-		
-		if(!this.availableAt(startTime, duration))
-			throw new NotAvailableException("The resource is already reserved at that time.");
-		
-		Reservation res = new Reservation(user, startTime, duration, this);
-		this.addReservation(res);
-		return res;
-	}
+//	/**
+//	 * Makes a reservation for this resource at the given time and duration,
+//	 * and for the given user.
+//	 * @param 	startTime
+//	 * 			The start date for the reservation.
+//	 * @param 	duration
+//	 * 			The duration of the reservation.
+//	 * @param 	user
+//	 * 			The user that made the reservation.
+//	 * @throws 	NotAvailableException
+//	 * 			The resource is not available during the given time span.
+//	 * 			| !this.availableAt(startTime, duration)
+//	 */
+//	public Reservation createReservation(GregorianCalendar startTime, int duration/*, User user*/) throws NotAvailableException {
+//		
+//		if(!this.availableAt(startTime, duration))
+//			throw new NotAvailableException("The resource is already reserved at that time.");
+//		
+//		Reservation res = new Reservation(/*user,*/ startTime, duration, this);
+////		this.addReservation(res);
+//		return res;
+//	}
 
-	/**
-	 * Removes a resource from the system.
-	 * @throws 	ResourceBusyException 
-	 * 			The resource is in use by some task and can not be removed.
-	 */
-	public void remove() throws ResourceBusyException{
-		if(this.requiredByTask()){
-			throw new ResourceBusyException("Resource is required by a task");
-		}
-	}
+//	/**
+//	 * Removes a resource from the system.
+//	 * @throws 	ResourceBusyException 
+//	 * 			The resource is in use by some task and can not be removed.
+//	 */
+//	public void remove() throws ResourceBusyException{
+//		if(this.requiredByTask()){
+//			throw new ResourceBusyException("Resource is required by a task");
+//		}
+//	}
 	
 	/**
 	 * Returns an ArrayList of the reservations made for this resource.
@@ -124,12 +124,12 @@ public class Resource implements Describable{
 		return Collections.unmodifiableList(reservations);
 	}
 	
-	/**
-	 * Returns an ArrayList of the Tasks that require this resource.
-	 */
-	public List<Task> getTasksUsing(){
-		return Collections. unmodifiableList(tasksUsing);
-	}
+//	/**
+//	 * Returns an ArrayList of the Tasks that require this resource.
+//	 */
+//	public List<Task> getTasksUsing(){
+//		return Collections. unmodifiableList(tasksUsing);
+//	}
 
 	/**
 	 * Indicates whether a resource is reserved during the specified time span. This is a 
@@ -149,10 +149,10 @@ public class Resource implements Describable{
 		for(Reservation reservation: getReservations()){
 			GregorianCalendar endReservation = (GregorianCalendar) reservation.getTime().clone();
 			endReservation.add(Calendar.MINUTE, duration);
-			if(endReservation.after(begin) && reservation.getTime().before(end))
-				return false;
+			if(reservation.getTime().compareTo(begin)<=0 && endReservation.compareTo(end)>=0 )
+				return true;
 		}
-		return true;
+		return false;
 	}
 	
 	/**
@@ -202,6 +202,8 @@ public class Resource implements Describable{
 	 * 			The new reservation to add.
 	 */
 	protected void addReservation(Reservation reservation){
+		
+		
 		reservations.add(reservation);
 	}
 
@@ -209,26 +211,26 @@ public class Resource implements Describable{
 		return type;
 	}
 
-	public void setType(ResourceType type) throws NullPointerException {
+	private void setType(ResourceType type) throws NullPointerException {
 		if (type == null)
 			throw new NullPointerException("Null has been passed");
 		
 		this.type = type;
 	}
 
-	@SuppressWarnings("unchecked")
-	public Resource clone()
-	{
-		Resource res = null;
-		try {
-			res = new Resource(this.description,this.type);
-			res.reservations = (ArrayList<Reservation>) this.reservations.clone();
-			res.tasksUsing = (ArrayList<Task>) this.tasksUsing.clone();
-		} catch (EmptyStringException e) {
-			//Will never happen but pfft, Java...
-		}
-		return res;
-	}
+//	@SuppressWarnings("unchecked")
+//	public Resource clone()
+//	{
+//		Resource res = null;
+//		try {
+//			res = new Resource(this.description,this.type);
+//			res.reservations = (ArrayList<Reservation>) this.reservations.clone();
+//			res.tasksUsing = (ArrayList<Task>) this.tasksUsing.clone();
+//		} catch (EmptyStringException e) {
+//			//Will never happen but pfft, Java...
+//		}
+//		return res;
+//	}
 	
 	
 

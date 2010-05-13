@@ -3,7 +3,7 @@ package controller;
 import java.util.Collections;
 import java.util.List;
 
-import exception.InvitationExistsException;
+import exception.AssetAllocatedException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
 import model.Invitation;
@@ -34,10 +34,10 @@ public class InvitationController {
 	 * Create a new invitation that couples <user> to <task>
 	 * @param task
 	 * @param user
-	 * @throws InvitationExistsException
+	 * @throws AssetAllocatedException
 	 * @throws InvitationInvitesOwnerException 
 	 */
-	public Invitation createInvitation(Task task, User user) throws InvitationExistsException, InvitationInvitesOwnerException
+	public Invitation createInvitation(Task task, User user) throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
 		return new Invitation(task,user);
 	}

@@ -11,7 +11,9 @@ import model.ResourceType;
 import model.Task;
 import model.User;
 import model.repositories.RepositoryManager;
+import exception.AssetAllocatedException;
 import exception.EmptyStringException;
+import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
 import exception.ResourceBusyException;
 
@@ -40,12 +42,13 @@ public class ResourceController {
 	 * @param date
 	 * @param duration
 	 * @param resource
-	 * @param user
 	 * @return
 	 * @throws NotAvailableException
+     * @throws NoReservationOverlapException 
+     * @throws AssetAllocatedException 
 	 */
-	public Reservation createReservation(GregorianCalendar startTime, int duration, Resource resource, User user) throws NotAvailableException {
-		return resource.createReservation(startTime,  duration, user);
+	public Reservation createReservation(Task task, GregorianCalendar startTime, int duration, Resource resource) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException {
+		return new Reservation(task,startTime,  duration, resource);
 	}
 
 	/**
@@ -89,20 +92,20 @@ public class ResourceController {
 		return  manager.getResources();
 	}
 
-	/**
-	 * Remove a resource
-	 * @param r
-	 * @throws ResourceBusyException
-	 */
-	public void removeResource(Resource r) throws ResourceBusyException {
-		manager.remove(r);
-	}
+//	/**
+//	 * Remove a resource
+//	 * @param r
+//	 * @throws ResourceBusyException
+//	 */
+//	public void removeResource(Resource r) throws ResourceBusyException {
+//		manager.remove(r);
+//	}
 	
-	/**
-	 * Get a list of all tasks using this resource
-	 * @return
-	 */
-	public List<Task> getTasksUsing(Resource r){
-		return r.getTasksUsing();
-	}
+//	/**
+//	 * Get a list of all tasks using this resource
+//	 * @return
+//	 */
+//	public List<Task> getTasksUsing(Resource r){
+//		return r.getTasksUsing();
+//	}
 }

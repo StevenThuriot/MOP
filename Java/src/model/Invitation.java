@@ -1,6 +1,8 @@
 package model;
 
-import exception.InvitationExistsException;
+import java.util.GregorianCalendar;
+
+import exception.AssetAllocatedException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
 import gui.Describable;
@@ -11,7 +13,7 @@ import gui.Describable;
  * @author bart
  *
  */
-public class Invitation implements Describable{
+public class Invitation implements Describable, AssetAllocation{
 	public enum InvitationState {
 		ACCEPTED,PENDING,DECLINED
 	}
@@ -31,12 +33,15 @@ public class Invitation implements Describable{
 	 */
 	private InvitationState status;
 	
-	public Invitation(Task task,User user) throws InvitationExistsException, InvitationInvitesOwnerException
+	public Invitation(Task task,User user) throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
 		this.task = task;
 		this.user = user;
 		
-		this.task.addInvitation(this);
+		if(this.getUser().equals(this.getTask().getUser()))
+			throw new InvitationInvitesOwnerException();
+		
+		this.task.addAssetAllocation(this);
 		this.user.addInvitation(this);
 		
 		this.status = InvitationState.PENDING;
@@ -54,7 +59,7 @@ public class Invitation implements Describable{
 	 * Method for retrieving the task for this Invitation
 	 * @return
 	 */
-	protected Task getTask()
+	public Task getTask()
 	{
 		return this.task;
 	}
@@ -103,7 +108,7 @@ public class Invitation implements Describable{
 	 * Destroy coupling with Task and User so this instance can be removed correctly
 	 */
 	public void remove() {
-		task.removeInvitation(this);
+		task.removeAssetAllocation(this);
 		user.removeInvitation(this);
 	}
 	
@@ -115,5 +120,20 @@ public class Invitation implements Describable{
 	@Override
 	public String getDescription() {
 		return this.toString();
+	}
+
+	@Override
+	public boolean isAvailableAt(GregorianCalendar begin, int duration) {
+		if(this.status == InvitationState.ACCEPTED)
+			return true;
+		return false;
+	}
+
+	/**
+	 * Invitations shouldn't interfere with overlap so return true by default.
+	 */
+	@Override
+	public boolean hasOverlap(GregorianCalendar begin, int duration) {
+		return true;
 	}
 }

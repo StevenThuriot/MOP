@@ -7,7 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import exception.InvitationExistsException;
+import exception.AssetAllocatedException;
 import exception.InvitationInvitesOwnerException;
 import static org.junit.Assert.*;
 
@@ -28,7 +28,7 @@ public class TaskInvitationManagerTest {
 	/**
 	 * The InvitationManager itself
 	 */
-	private TaskInvitationManager tim;
+	private TaskAssetManager tim;
 	
 	/**
 	 * User to be invited
@@ -54,17 +54,17 @@ public class TaskInvitationManagerTest {
 	public void initTest()
 	{
 		assertEquals(taskMain, tim.getTask());
-		assertTrue(tim.getInvitations().isEmpty());
+		assertTrue(tim.getAssetAllocations().isEmpty());
 	}
 	
 	@Test
-	public void testInvite1() throws InvitationExistsException, InvitationInvitesOwnerException
+	public void testInvite1() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
 		Invitation invitation = new Invitation(taskMain, user);
-		assertTrue(tim.getInvitations().contains(invitation));
+		assertTrue(tim.getAssetAllocations().contains(invitation));
 	}
-	@Test(expected=InvitationExistsException.class)
-	public void testInvite2() throws InvitationExistsException, InvitationInvitesOwnerException
+	@Test(expected=AssetAllocatedException.class)
+	public void testInvite2() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
 		new Invitation(taskMain, user);
 		new Invitation(taskMain, user);

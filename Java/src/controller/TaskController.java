@@ -132,15 +132,15 @@ public class TaskController {
 			return true;
 	}
 	
-	public Boolean hasRequiredResources(Task task)
-	{
-		int size = task.getRequiredResources().size();
-		
-		if (size == 0)
-			return false;
-		else
-			return true;
-	}
+//	public Boolean hasRequiredResources(Task task)
+//	{
+//		int size = task.getRequiredResources().size();
+//		
+//		if (size == 0)
+//			return false;
+//		else
+//			return true;
+//	}
 	
 	/**
 	 * Get the tasks this task is dependent on.
@@ -177,26 +177,26 @@ public class TaskController {
 		task.removeDependency(dependency);
 	}
 	
-	/**
-	 * Add required resource to task
-	 * @param task
-	 * @param resource
-	 * @throws IllegalStateCallException 
-	 */
-	public void addRequiredResource(Task task, Resource resource) throws IllegalStateCallException{
-		task.addRequiredResource(resource);
-	}
+//	/**
+//	 * Add required resource to task
+//	 * @param task
+//	 * @param resource
+//	 * @throws IllegalStateCallException 
+//	 */
+//	public void addRequiredResource(Task task, Resource resource) throws IllegalStateCallException{
+//		task.addRequiredResource(resource);
+//	}
 
 	
-	/**
-	 * Remove required resource to task
-	 * @param task
-	 * @param resource
-	 * @throws IllegalStateCallException 
-	 */
-	public void removeRequiredResource(Task task, Resource resource) throws IllegalStateCallException{
-		task.removeRequiredResource(resource);
-	}
+//	/**
+//	 * Remove required resource to task
+//	 * @param task
+//	 * @param resource
+//	 * @throws IllegalStateCallException 
+//	 */
+//	public void removeRequiredResource(Task task, Resource resource) throws IllegalStateCallException{
+//		task.removeRequiredResource(resource);
+//	}
 	
 	/**
 	 * Set new task description
@@ -224,14 +224,14 @@ public class TaskController {
 		task.updateTaskTiming(startDate, dueDate, duration);
 	}
 	
-	/**
-	 * Get the resources this task requires
-	 * @param task
-	 * @return
-	 */
-	public List<Resource> getRequiredResources(Task task){
-		return task.getRequiredResources();
-	}
+//	/**
+//	 * Get the resources this task requires
+//	 * @param task
+//	 * @return
+//	 */
+//	public List<Resource> getRequiredResources(Task task){
+//		return task.getRequiredResources();
+//	}
 	
 	/**
 	 * Change the current state to Succesful

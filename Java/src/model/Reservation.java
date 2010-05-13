@@ -1,10 +1,14 @@
 package model;
 
+import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import exception.AssetAllocatedException;
+import exception.InvitationInvitesOwnerException;
+import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
 
-public class Reservation {
+public class Reservation implements AssetAllocation{
 	/**
 	 * The resource for which this reservation is made.
 	 */
@@ -21,9 +25,9 @@ public class Reservation {
 	private int duration;
 	
 	/**
-	 * The user who made this reservation.
+	 * The task to whom the resource is reserved
 	 */
-	private User user;
+	private Task task;
 
 	/**
 	 * Makes a new Reservation with the given time, duration and resource, and
@@ -39,39 +43,51 @@ public class Reservation {
 	 * @throws 	NotAvailableException
 	 * 			The resource is not available at the given time.
 	 * 			|!newResource.availableAt(newTime)
+	 * @throws  NoReservationOverlapException 
+	 * 			This reservation does not have a overlapping time span with the other reservations
+	 * 			|!newTask.checkOverlap(newTime, newDuration)
+	 * @throws AssetAllocatedException 
 	 */
 	//TODO : update status of resource object
-	public Reservation(User newUser, GregorianCalendar newTime, int newDuration, Resource newResource) throws NotAvailableException{
+	public Reservation(Task task, GregorianCalendar newTime, int newDuration, Resource newResource) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
 		setTime(newTime);
-		
 		setDuration(newDuration);
+		setTask(task);
 		
 		if(!newResource.availableAt(newTime, newDuration))
 			throw new NotAvailableException(
 					"This resource is not available at the given time.");
+		if(!getTask().checkOverlap(newTime, newDuration))
+			throw new NoReservationOverlapException("This reservation does not have a overlapping time span with the other reservations");
 		
+		getTask().addAssetAllocation(this);
+		newResource.addReservation(this);		
 		setReservedResource(newResource);
-		newResource.addReservation(this);
-		setUser(newUser);
 	}
 	
 
-	/**
-	 * Sets the user that made this reservation.
-	 * @post	| new.getUser() == newUser
-	 */
-	private void setUser(User newUser) throws NullPointerException{		
-		if (newUser == null)
-			throw new NullPointerException("Null was passed");
-		
-		user = newUser;
+
+	private void setTask(Task task) {
+		this.task = task;
 	}
+
+
+//	/**
+//	 * Sets the user that made this reservation.
+//	 * @post	| new.getUser() == newUser
+//	 */
+//	private void setUser(User newUser) throws NullPointerException{		
+//		if (newUser == null)
+//			throw new NullPointerException("Null was passed");
+//		
+//		user = newUser;
+//	}
 	
 	/**
 	 * Returns the start date for this reservation.
 	 */
 	public GregorianCalendar getTime(){
-		return time;
+		return (GregorianCalendar) time.clone();
 	}
 	
 	/**
@@ -81,7 +97,7 @@ public class Reservation {
 	private void setTime(GregorianCalendar newTime) throws NullPointerException{
 		if (newTime == null)
 			throw new NullPointerException("Null was passed");
-		time = newTime;
+		time = (GregorianCalendar) newTime.clone();
 	}
 	
 	/**
@@ -118,11 +134,41 @@ public class Reservation {
 		
 		reservedResource = newResource;
 	}
-	
-	/**
-	 * Returns the user that made this reservation.
-	 */
-	public User getUser(){
-		return user;
+
+
+	@Override
+	public boolean isAvailableAt(GregorianCalendar begin, int duration) {
+		GregorianCalendar end = (GregorianCalendar) begin.clone();
+		end.add(Calendar.MINUTE, duration);
+		GregorianCalendar endReservation = (GregorianCalendar) this.getTime().clone();
+		endReservation.add(Calendar.MINUTE, duration);
+		if(this.getTime().compareTo(begin)<=0 && endReservation.compareTo(end)>=0 )
+			return true;
+		return false;
 	}
+
+
+	@Override
+	public Task getTask() {
+		return task;
+	}
+
+
+	@Override
+	public boolean hasOverlap(GregorianCalendar begin, int duration) {
+		GregorianCalendar end = (GregorianCalendar) begin.clone();
+		end.add(Calendar.MINUTE, duration);
+		GregorianCalendar endReservation = (GregorianCalendar) this.getTime().clone();
+		endReservation.add(Calendar.MINUTE, duration);
+		if(this.getTime().compareTo(end)<=0 && endReservation.compareTo(begin)>=0 )
+			return true;
+		return false;
+	}
+	
+//	/**
+//	 * Returns the user that made this reservation.
+//	 */
+//	public User getUser(){
+//		return user;
+//	}
 }

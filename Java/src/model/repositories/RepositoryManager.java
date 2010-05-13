@@ -83,17 +83,17 @@ public class RepositoryManager {
         project.remove();
         return projectRepository.remove(project);
     }
-    /**
-     * Overridable method remove. Will remove a Resource to the Resource repository if it exists
-     * @param p
-     * @return
-     * @throws ResourceBusyException 
-     */
-    public boolean remove(Resource resource) throws ResourceBusyException
-    {
-        resource.remove();
-        return resourceRepository.remove(resource);
-    }
+//    /**
+//     * Overridable method remove. Will remove a Resource to the Resource repository if it exists
+//     * @param p
+//     * @return
+//     * @throws ResourceBusyException 
+//     */
+//    public boolean remove(Resource resource) throws ResourceBusyException
+//    {
+//        resource.remove();
+//        return resourceRepository.remove(resource);
+//    }
     /**
      * Returns the clock of the system.
      * @return
