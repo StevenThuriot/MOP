@@ -57,13 +57,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 */
 	private User user;
 
-//	/**
-//	 * An ArrayList containing the Resources that this Task requires to be performed.
-//	 * @invar 	Every effective element in $requiredResources is a Resource.
-//	 * 			TODO: formal definition
-//	 */
-//	private ArrayList<Resource> requiredResources;
-
 
 	/**
 	 * A Status object keeping track of the status of a Task.
@@ -113,7 +106,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 */
-	public Task(String description, User user,TaskTimings timings, ArrayList<Task> dependencies, ArrayList<Resource> reqResources, Clock clock)
+	public Task(String description, User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock)
 			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		
 		this(description, user, timings, clock);
@@ -123,10 +116,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 				this.addDependency(t);
 		}
 		
-//		for(Resource r: reqResources){
-//			if (r != null)
-//				this.addRequiredResource(r);
-//		}
 	}
 	
 	/**
@@ -153,8 +142,9 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @post	The task has dependencies nor dependent tasks
 	 * 			TODO: formal definition
 	 */
-	public Task(String description, User user, TaskTimings timings, Clock clock) throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
-//		requiredResources = new ArrayList<Resource>();
+	public Task(String description, User user, TaskTimings timings, Clock clock) 
+			throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+		
 		tdm = new TaskDependencyManager(this);
 		tam = new TaskAssetManager(this);
 		this.clock = clock;
@@ -191,14 +181,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 	public void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException{
 		this.taskState.addDependency(dependency);
 	}
-	
-//	/**
-//	 * Adds a resource to the resources required for this task.
-//	 * @throws IllegalStateCallException 
-//	 */
-//	public void addRequiredResource(Resource resource) throws IllegalStateCallException{
-//		this.taskState.addRequiredResource(resource);
-//	}
 	
 	/**
 	 * Returns whether a task can be executed right now.
@@ -269,22 +251,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 		
 		this.getTaskDependencyManager().addDependency(dependency);
 	}
-	
-//	/**
-//	 * Adds a resource to the resources required for this task.
-//	 */
-//	protected void doAddRequiredResource(Resource resource){
-//		requiredResources.add(resource);
-//		resource.addTaskUsing(this);
-//	}
-	
-//	/**
-//	 * Removes a resource from the resources required for this task.
-//	 */
-//	protected void doRemoveRequiredResource(Resource resource){
-//		requiredResources.remove(resource);
-//		resource.removeTaskUsing(this);
-//	}
 	
 	/**
 	 * Sets <newDescription> to be the new description of this task.
@@ -403,14 +369,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 	{
 		return this.taskState.getPossibleStateChanges();
 	}
-	
-//	/**
-//	 * Returns an ArrayList containing all the tasks that depend on this task.
-//	 * @return
-//	 */
-//	public List<Resource> getRequiredResources(){
-//		return Collections.unmodifiableList(requiredResources);
-//	}
 	
 	/**
 	 * Returns the start date for this Task, 
@@ -539,11 +497,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 			} catch (DependencyException e) {}
 			
 		}
-		
-//		ArrayList<Resource> resources = new ArrayList<Resource>(this.getRequiredResources());
-//		for(Resource r: resources){
-//			r.removeTaskUsing(this);
-//		}
+		//TODO deal with assets
 		
 		this.getUser().removeTask(this);
 	}
@@ -582,14 +536,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 		
 		this.remove();		
 	}
-	
-//	/**
-//	 * Removes a resource from the resources required for this task.
-//	 * @throws IllegalStateCallException 
-//	 */
-//	public void removeRequiredResource(Resource resource) throws IllegalStateCallException{
-//		this.taskState.removeRequiredResource(resource);
-//	}
 	
 	/**
 	 * Returns whether the current task satisfies the business rule 1.

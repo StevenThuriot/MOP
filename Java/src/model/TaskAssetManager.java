@@ -46,6 +46,11 @@ public class TaskAssetManager {
 			this.assetAllocations.remove(assetAllocation);
 		}
 		
+		protected void removeAll(){
+			for(AssetAllocation assetAllocation: assetAllocations)
+				this.remove(assetAllocation);
+		}
+		
 		private boolean alreadyAllocated(AssetAllocation checkingAssetAllocation) {
 			for(AssetAllocation iteratedAssetAllocation:assetAllocations)
 				if(iteratedAssetAllocation.equals(checkingAssetAllocation))
