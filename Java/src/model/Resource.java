@@ -74,10 +74,10 @@ public class Resource implements Describable, Asset{
 		for(Reservation reservation: getReservations()){
 			GregorianCalendar endReservation = (GregorianCalendar) reservation.getTime().clone();
 			endReservation.add(Calendar.MINUTE, duration);
-			if(reservation.getTime().compareTo(begin)<=0 && endReservation.compareTo(end)>=0 )
-				return true;
+			if(reservation.getTime().before(end) && endReservation.after(begin) )
+				return false;
 		}
-		return false;
+		return true;
 	}
 	
 	/**
@@ -130,15 +130,25 @@ public class Resource implements Describable, Asset{
 		reservations.add(reservation);
 	}
 
+	/**
+	 * Return the ResourceType of this Resource.
+	 */
 	public ResourceType getType() {
 		return type;
 	}
 
-	void setType(ResourceType type) throws NullPointerException {
+	protected void setType(ResourceType type) throws NullPointerException {
 		if (type == null)
 			throw new NullPointerException("Null has been passed");
 		
 		this.type = type;
+	}
+	
+	/**
+	 * Removes this reservation for this resource. Is protected as it should only be used by the reservation itself.
+	 */
+	protected void removeReservation(Reservation reservation){
+		reservations.remove(reservation);
 	}
 	
 

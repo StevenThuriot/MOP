@@ -19,6 +19,7 @@ import exception.AssetAllocatedException;
 import exception.BusinessRule1Exception;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
+import exception.InvitationInvitesOwnerException;
 import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
 import exception.ResourceBusyException;
@@ -26,16 +27,18 @@ import exception.ResourceBusyException;
 public class ResourceTest {
 
 	private Resource resource;
+	private ResourceType resourceType;
 	private User user;
 	private RepositoryManager manager;
+	
 	
 	Task task1;
 	
 	@Before
 	public void setUp() throws Exception {
-		resource = new Resource("Description",new ResourceType(""));
+		resourceType = new ResourceType("");
+		resource = new Resource("Description",resourceType);
 		user = new User("John",new UserType(""));
-		
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		manager = new RepositoryManager();
@@ -49,6 +52,7 @@ public class ResourceTest {
 		user = null;
 		resource = null;
 		task1 = null;
+		manager = null;
 	}
 	
 	/**
@@ -195,6 +199,15 @@ public class ResourceTest {
 		Reservation s = new Reservation(new GregorianCalendar(), 100, resource, task1);
 		assertEquals(task1, s.getTask());
 	}
+	
+	@Test
+	public void removeReservationTest() throws AssetAllocatedException, NotAvailableException, NoReservationOverlapException
+	{
+		Reservation reservation = new Reservation(new GregorianCalendar(),0,resource,task1);
+		assertFalse(task1.getTaskAssetManager().getAssetAllocations().isEmpty());
+		reservation.remove();
+		assertTrue(task1.getTaskAssetManager().getAssetAllocations().isEmpty());
+	}
     
     /**
      * Testing the toString method
@@ -211,7 +224,7 @@ public class ResourceTest {
     @Test
     public void testGetType()
     {
-    	assertEquals(new ResourceType(""), resource.getType());
+    	assertEquals(resourceType, resource.getType());
     }
     
     /**

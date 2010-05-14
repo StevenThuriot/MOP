@@ -387,10 +387,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 	}
 	
 	/**
-	 * Returns the TaskInvitationManager for this task
+	 * Returns the TaskAssetManager for this task
 	 * @return
 	 */
-	public TaskAssetManager getTaskInvitationManager()
+	public TaskAssetManager getTaskAssetManager()
 	{
 		return tam;
 	}
@@ -497,7 +497,8 @@ public class Task implements Describable, Subject, Observer<Task>{
 			} catch (DependencyException e) {}
 			
 		}
-		//TODO deal with assets
+
+		this.getTaskAssetManager().removeAll();
 		
 		this.getOwner().removeTask(this);
 	}

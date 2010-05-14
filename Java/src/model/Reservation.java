@@ -48,6 +48,8 @@ public class Reservation implements AssetAllocation{
 	 */
 	//TODO : update status of resource object
 	public Reservation(GregorianCalendar newTime, int newDuration, Resource newResource, Task task) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+		if(newTime == null || newResource == null || task == null)
+			throw new NullPointerException();
 		setTime(newTime);
 		setDuration(newDuration);
 		setTask(task);
@@ -148,6 +150,27 @@ public class Reservation implements AssetAllocation{
 		endReservation.add(Calendar.MINUTE, duration);
 		if(this.getTime().compareTo(end)<=0 && endReservation.compareTo(begin)>=0 )
 			return true;
+		return false;
+	}
+
+
+
+	@Override
+	public void remove() {
+		this.getTask().removeAssetAllocation(this);
+		this.getReservedResource().removeReservation(this);
+		this.task = null;
+		this.reservedResource = null;
+	}
+	
+	@Override
+	public boolean equals(Object obj){
+		if (this == obj)
+			return true;
+		if (obj instanceof Reservation)
+			if(this.reservedResource == ((Reservation) obj).reservedResource)
+				if(this.task == ((Reservation) obj).task)
+					return true;
 		return false;
 	}
 }

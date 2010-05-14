@@ -74,6 +74,6 @@ public class InvitationController {
 	 */
 	public List<User> getAllUsers()
 	{
-		return Collections.unmodifiableList(manager.getUsers());
+		return manager.getUsers();
 	}
 }

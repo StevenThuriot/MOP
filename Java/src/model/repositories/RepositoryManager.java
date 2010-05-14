@@ -5,13 +5,14 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import exception.IllegalStateCallException;
-import exception.ResourceBusyException;
 
 import model.Clock;
 import model.Project;
 import model.Resource;
+import model.ResourceType;
 import model.Task;
 import model.User;
+import model.UserType;
 
 public class RepositoryManager {
     /**
@@ -23,13 +24,23 @@ public class RepositoryManager {
      */
     private Repository<User> userRepository;
     /**
+     * UserType repository implementation
+     */
+    private Repository<UserType> userTypeRepository;
+    /**
      * Resource repository implementation
      */
     private Repository<Resource> resourceRepository;
     /**
+     * Resource repository implementation
+     */
+
+    private Repository<ResourceType> resourceTypeRepository;
+    /**
      * A clock that keeps the time in the system
      */
     private Clock clock;
+    
     
     /**
      * Default constructor of RepositoryManager
@@ -63,6 +74,13 @@ public class RepositoryManager {
     }
     
     /**
+     * Add resourceType to repository.
+     */
+    public boolean add(ResourceType resourceType){
+    	return resourceTypeRepository.add(resourceType);
+    }
+    
+    /**
      * Overridable method add. Will add a user to the user repository
      * @param user
      * @return
@@ -70,6 +88,13 @@ public class RepositoryManager {
     public boolean add(User user)
     {
         return userRepository.add(user);
+    }
+    
+    /**
+     * Add userType to repository.
+     */
+    public boolean add(UserType userType){
+    	return userTypeRepository.add(userType);
     }
     
     /**
@@ -83,17 +108,7 @@ public class RepositoryManager {
         project.remove();
         return projectRepository.remove(project);
     }
-//    /**
-//     * Overridable method remove. Will remove a Resource to the Resource repository if it exists
-//     * @param p
-//     * @return
-//     * @throws ResourceBusyException 
-//     */
-//    public boolean remove(Resource resource) throws ResourceBusyException
-//    {
-//        resource.remove();
-//        return resourceRepository.remove(resource);
-//    }
+
     /**
      * Returns the clock of the system.
      * @return
@@ -141,4 +156,20 @@ public class RepositoryManager {
     	}
     	return tasks;
     }
+    
+    /**
+     * Return a list of all UserTypes
+     */
+    public List<UserType> getUserTypes(){
+    	return userTypeRepository.getAll();
+    }
+    
+    /**
+     * Return a list of all ResourceTypes
+     */
+    public List<ResourceType> getResourceTypes(){
+    	return resourceTypeRepository.getAll();
+    }
+    
+    
 }

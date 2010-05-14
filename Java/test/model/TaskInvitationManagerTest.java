@@ -47,7 +47,7 @@ public class TaskInvitationManagerTest {
 		// 4 days to finish the task from now on
 		int duration = 1;
 		taskMain = new Task("Main Task",owner,new TaskTimings(startDate,endDate,duration), manager.getClock());
-		tim = taskMain.getTaskInvitationManager();
+		tim = taskMain.getTaskAssetManager();
 	}
 	
 	@Test
