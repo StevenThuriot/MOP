@@ -35,7 +35,7 @@ public class MakeResourceReservation extends UseCase {
 		List<Reservation> reservations = dController.getResourceController().getReservations();
 		ArrayList<String> rsvDescr = new ArrayList<String>();
 		for(Reservation rsv : reservations){
-			rsvDescr.add("By "+rsv.getUser().getName()+" on "+menu.format( rsv.getTime() )+" for "+rsv.getDuration()+" Minutes");
+			rsvDescr.add("By "+rsv.getOwner().getName()+" on "+menu.format( rsv.getTime() )+" for "+rsv.getDuration()+" Minutes");
 		}
 		if(rsvDescr.isEmpty())
 			rsvDescr.add("None");
