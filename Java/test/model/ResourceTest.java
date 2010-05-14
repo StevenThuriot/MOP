@@ -182,7 +182,7 @@ public class ResourceTest {
 	public void reservations7() throws NotAvailableException, EmptyStringException{
 		Resource r = new Resource("d", new ResourceType(""));
 		Reservation s = r.createReservation(new GregorianCalendar(), 100, user);
-		assertEquals(user, s.getUser());
+		assertEquals(user, s.getOwner());
 	}
 	
 	/**

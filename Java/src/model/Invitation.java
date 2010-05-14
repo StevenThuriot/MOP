@@ -38,7 +38,7 @@ public class Invitation implements Describable, AssetAllocation{
 		this.task = task;
 		this.user = user;
 		
-		if(this.getUser().equals(this.getTask().getUser()))
+		if(this.getUser().equals(this.getTask().getOwner()))
 			throw new InvitationInvitesOwnerException();
 		
 		this.task.addAssetAllocation(this);

@@ -55,7 +55,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * 			|$user != null
 	 * @TODO: consistency with user
 	 */
-	private User user;
+	private User owner;
 
 
 	/**
@@ -398,8 +398,8 @@ public class Task implements Describable, Subject, Observer<Task>{
 	/**
 	 * Returns the user responsible for this Task.
 	 */
-	public User getUser(){
-		return user;
+	public User getOwner(){
+		return owner;
 	}
 	
 	/**
@@ -499,7 +499,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		}
 		//TODO deal with assets
 		
-		this.getUser().removeTask(this);
+		this.getOwner().removeTask(this);
 	}
 	
 	/**
@@ -665,7 +665,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		if (newUser == null)
 			throw new NullPointerException("Null was passed");
 		
-		this.user = newUser;
+		this.owner = newUser;
 	}
 	
 	/**
