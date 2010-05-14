@@ -83,7 +83,7 @@ public class InvitationManager extends UseCase {
 				menu.print("You can't invite yourself to the invitation");
 			}
 		}else{
-			Invitation removeInvitation = menu.menuGen("Select an invitation to be removed", selectedTask.getTaskInvitationManager().getAssetAllocations());
+			Invitation removeInvitation = menu.menuGen("Select an invitation to be removed", selectedTask.getTaskAssetManager().getAssetAllocations());
 			dController.getInvitationController().removeInvitation(removeInvitation);
 			menu.print("Invitation removed");
 		}

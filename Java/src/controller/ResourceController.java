@@ -65,26 +65,6 @@ public class ResourceController {
 	}
 	
 	/**
-	 * Get a list of all reservations
-	 * @return
-	 */
-	public List<Reservation> getReservations() {        
-        ArrayList<Reservation> reservations = new  ArrayList<Reservation>();
-        
-        for(Resource resource : manager.getResources())
-        {
-            List<Reservation> reservationList = resource.getReservations();
-            for (Reservation reservation : reservationList) {
-				if (!reservations.contains(reservation)) {
-					reservations.add(reservation);
-				}
-			}
-        }
-        
-        return  Collections.unmodifiableList(reservations);
-	}
-	
-	/**
 	 * Get a list of all resources
 	 * @return
 	 */

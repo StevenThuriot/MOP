@@ -5,6 +5,8 @@ import java.util.GregorianCalendar;
 
 import model.repositories.RepositoryManager;
 import static org.junit.Assert.*;
+
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -44,12 +46,19 @@ public class InvitationTest {
 		int duration = 1;
 		taskMain = new Task("Main Task",user,new TaskTimings(startDate,endDate,duration), manager.getClock());
 	}
+	@After
+	public void tearDown(){
+		manager = null;
+		user = null;
+		taskMain = null;
+	}
+	
 	@Test
 	public void initTest() throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
 		User user2 = new User("Jack",new UserType(""));
 		invitation = new Invitation(taskMain, user2);
-		assertTrue(taskMain.getTaskInvitationManager().getAssetAllocations().contains(invitation));
+		assertTrue(taskMain.getTaskAssetManager().getAssetAllocations().contains(invitation));
 		//TODO: Check this for the user
 	}
 	@Test
@@ -57,8 +66,8 @@ public class InvitationTest {
 	{
 		User user2 = new User("Jack",new UserType(""));
 		invitation = new Invitation(taskMain,user2);
-		assertFalse(taskMain.getTaskInvitationManager().getAssetAllocations().isEmpty());
+		assertFalse(taskMain.getTaskAssetManager().getAssetAllocations().isEmpty());
 		invitation.remove();
-		assertTrue(taskMain.getTaskInvitationManager().getAssetAllocations().isEmpty());
+		assertTrue(taskMain.getTaskAssetManager().getAssetAllocations().isEmpty());
 	}
 }

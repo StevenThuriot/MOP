@@ -35,6 +35,8 @@ public class Invitation implements Describable, AssetAllocation{
 	
 	public Invitation(Task task,User user) throws AssetAllocatedException, InvitationInvitesOwnerException
 	{
+		if(task==null || user==null)
+			throw new NullPointerException();
 		this.task = task;
 		this.user = user;
 		
@@ -95,12 +97,13 @@ public class Invitation implements Describable, AssetAllocation{
 		return this.status;
 	}
 
-	public boolean equals(Invitation obj) {
+	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if(this.user == obj.user)
-			if(this.task == obj.task)
-				return true;
+		if (obj instanceof Invitation)
+			if(this.user == ((Invitation) obj).user)
+				if(this.task == ((Invitation) obj).task)
+					return true;
 		return false;
 	}
 
@@ -110,6 +113,8 @@ public class Invitation implements Describable, AssetAllocation{
 	public void remove() {
 		task.removeAssetAllocation(this);
 		user.removeInvitation(this);
+		task = null;
+		user = null;
 	}
 	
 	public String toString()

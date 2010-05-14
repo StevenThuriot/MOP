@@ -76,7 +76,7 @@ public class ResourceControllerTest {
 	{
 		GregorianCalendar begin = new GregorianCalendar();
 		Reservation reservatie = controller.createReservation(begin, 140, resource, task);
-		assertEquals(reservatie, resource.getReservations().get(1));
+		assertEquals(reservatie, resource.getReservations().get(0));
 	}
 	
 	/**
@@ -127,6 +127,6 @@ public class ResourceControllerTest {
 	{
 	    resource = controller.createResource("Room 101", new ResourceType(""));
 	    Reservation reservation = controller.createReservation(new GregorianCalendar(), 101, resource, task);
-	    assertTrue(controller.getReservations().contains(reservation));
+	    assertTrue(resource.getReservations().contains(reservation));
 	}
 }

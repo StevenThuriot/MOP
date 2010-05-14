@@ -15,6 +15,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import exception.AssetAllocatedException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
@@ -23,6 +24,7 @@ import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
+import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
 import exception.TaskFailedException;
 import exception.UnknownStateException;
@@ -120,7 +122,9 @@ public class TaskTest {
 		//Task "MOP" can never be completed in time :-(
 		@SuppressWarnings("unused")
 		Task task2 = new Task("MOP", user, new TaskTimings(new GregorianCalendar(), endDate, 1500), manager.getClock());
-	}/**
+	}
+	
+	/**
 	 * Testing setting the state to failed
 	 * @throws DependencyException 
 	 * @throws IllegalStateChangeException 
@@ -353,7 +357,7 @@ public class TaskTest {
 	public void checkStateFourteen() throws IllegalStateChangeException, NullPointerException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, BusinessRule2Exception
 	{
 		task.setSuccessful();
-		assertEquals(true, task.canBeExecuted());
+		assertEquals(false, task.canBeExecuted());
 	}
 	
 	/**
@@ -618,11 +622,14 @@ public class TaskTest {
 	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
+	 * @throws NotAvailableException 
 	 */
 	@Test
-	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
-		//Sets up a required resource, and a dependency in both directions
-		task.addRequiredResource(resource);
+	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+		//Sets up a resource reservation, and a dependency in both directions
+		Reservation reservation = new Reservation(startDate, 120, resource, task);
 		Task task2 = new Task("some dependency",user,new TaskTimings(startDate,endDate,120),manager.getClock());
 		Task task3 = new Task("some dependentTask",user,new TaskTimings(startDate,endDate,120),manager.getClock());
 		task.addDependency(task2);
@@ -633,7 +640,7 @@ public class TaskTest {
 		assertFalse(task3.getDependencies().contains(task));
 		assertFalse(task2.getDependentTasks().contains(task));
 		assertFalse(user.getTasks().contains(task));
-		assertFalse(resource.getTasksUsing().contains(task));
+		assertFalse(resource.getReservations().contains(reservation));
 	}
 	
 	/**
@@ -644,17 +651,21 @@ public class TaskTest {
 	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
+	 * @throws NotAvailableException 
 	 */
 	@Test
-	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+		Reservation reservation = new Reservation(startDate, 120, resource, task);
 		//Sets up 2 additional resources
-		Resource resource2 = new Resource("some resource",ResourceType.Tool);
-		Resource resource3 = new Resource("some other resource",ResourceType.Tool);
+		Resource resource2 = new Resource("some resource",new ResourceType(""));
+		Resource resource3 = new Resource("some other resource",new ResourceType(""));
 		//Sets up 3 additional tasks
 		Task task2 = new Task("some dependency",user,new TaskTimings(startDate,endDate,120),manager.getClock());
-		task2.addRequiredResource(resource2);
+		Reservation reservation2 = new Reservation(startDate, 120, resource2, task2);
 		Task task3 = new Task("some dependentTask",user,new TaskTimings(startDate,endDate,120),manager.getClock());
-		task3.addRequiredResource(resource3);
+		Reservation reservation3 = new Reservation(startDate, 120, resource3, task3);
 		Task task4 = new Task("some other task",user, new TaskTimings(startDate, endDate,120),manager.getClock());
 		task3.addDependency(task4);
 		//Sets up a hierarchy of 3 levels
@@ -669,9 +680,9 @@ public class TaskTest {
 		//Check that <task4> is not deleted
 		assertTrue(user.getTasks().contains(task4));
 		//Check that the resource are no longer required, and that task4 has no reference to task3 anymore
-		assertFalse(resource.getTasksUsing().contains(task));
-		assertFalse(resource2.getTasksUsing().contains(task2));
-		assertFalse(resource3.getTasksUsing().contains(task3));
+		assertFalse(resource.getReservations().contains(reservation));
+		assertFalse(resource2.getReservations().contains(reservation2));
+		assertFalse(resource3.getReservations().contains(reservation3));
 		assertFalse(task4.getDependentTasks().contains(task3));
 	}
 	

@@ -46,9 +46,13 @@ public class TaskAssetManager {
 			this.assetAllocations.remove(assetAllocation);
 		}
 		
+		/**
+		 * Removes all resource allocations. It is the allocation's resposibilty to remove all it's bindings. 
+		 */
 		protected void removeAll(){
-			for(AssetAllocation assetAllocation: assetAllocations)
-				this.remove(assetAllocation);
+			while(!assetAllocations.isEmpty()){
+				assetAllocations.get(0).remove();
+			}
 		}
 		
 		private boolean alreadyAllocated(AssetAllocation checkingAssetAllocation) {
@@ -91,7 +95,7 @@ public class TaskAssetManager {
 		
 		protected Boolean assetsAvailableAt(GregorianCalendar begin, int duration){
 			//TODO implement me.
-			return false;
+			return true;
 		}
 
 		
