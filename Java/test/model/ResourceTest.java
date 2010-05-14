@@ -15,9 +15,11 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import exception.AssetAllocatedException;
 import exception.BusinessRule1Exception;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
+import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
 import exception.ResourceBusyException;
 
@@ -99,9 +101,11 @@ public class ResourceTest {
 	 * Tests the behavior of reservations
 	 * @throws NotAvailableException 
 	 * @throws NotAvailableException 
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
 	 */
 	@Test(expected=NotAvailableException.class)
-	public void reservations() throws NotAvailableException{
+	public void reservations() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
 		
 		GregorianCalendar startDate = new GregorianCalendar();
 		new Reservation(startDate, 100, resource, task1);
@@ -116,11 +120,12 @@ public class ResourceTest {
 	 * @throws NotAvailableException 
 	 * @throws NotAvailableException 
 	 * @throws EmptyStringException 
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
 	 */
 	@Test(expected=NullPointerException.class)
-	public void reservations2() throws NotAvailableException, EmptyStringException{
-		Resource r = new Resource("d", new ResourceType(""));
-		r.createReservation(new GregorianCalendar(), 100, null);
+	public void reservations2() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+		new Reservation(new GregorianCalendar(), 100, null, task1);
 	}
 	
 	/**
@@ -128,11 +133,12 @@ public class ResourceTest {
 	 * @throws NotAvailableException 
 	 * @throws NotAvailableException 
 	 * @throws EmptyStringException 
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
 	 */
 	@Test(expected=NullPointerException.class)
-	public void reservations3() throws NotAvailableException, EmptyStringException{
-		Resource r = new Resource("d", new ResourceType(""));
-		r.createReservation(null, 100, user);
+	public void reservations3() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+		new Reservation(null, 100, resource, task1);
 	}
 	
 	/**
@@ -140,11 +146,12 @@ public class ResourceTest {
 	 * @throws NotAvailableException 
 	 * @throws NotAvailableException 
 	 * @throws EmptyStringException 
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
 	 */
 	@Test
-	public void reservations4() throws NotAvailableException, EmptyStringException{
-		Resource r = new Resource("d", new ResourceType(""));
-		Reservation s = r.createReservation(new GregorianCalendar(), 100, user);
+	public void reservations4() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+		Reservation s = new Reservation(new GregorianCalendar(), 100, resource, task1);
 		assertEquals(100, s.getDuration());
 	}
 	
@@ -153,12 +160,13 @@ public class ResourceTest {
 	 * @throws NotAvailableException 
 	 * @throws NotAvailableException 
 	 * @throws EmptyStringException 
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
 	 */
 	@Test
-	public void reservations5() throws NotAvailableException, EmptyStringException{
-		Resource r = new Resource("d", new ResourceType(""));
-		Reservation s = r.createReservation(new GregorianCalendar(), 100, user);
-		assertEquals(r, s.getReservedResource());
+	public void reservations5() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+		Reservation s = new Reservation(new GregorianCalendar(), 100, resource, task1);
+		assertEquals(resource, s.getReservedResource());
 	}
 	
 	/**
@@ -166,10 +174,12 @@ public class ResourceTest {
 	 * @throws NotAvailableException 
 	 * @throws NotAvailableException 
 	 * @throws EmptyStringException 
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
 	 */
 	@Test(expected=NullPointerException.class)
-	public void reservations6() throws NotAvailableException, EmptyStringException{
-		new Reservation(user, new GregorianCalendar(), 100, null);
+	public void reservations6() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+		new Reservation(new GregorianCalendar(), 100, resource, null);
 	}
 	
 	/**
@@ -177,37 +187,13 @@ public class ResourceTest {
 	 * @throws NotAvailableException 
 	 * @throws NotAvailableException 
 	 * @throws EmptyStringException 
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
 	 */
 	@Test
-	public void reservations7() throws NotAvailableException, EmptyStringException{
-		Resource r = new Resource("d", new ResourceType(""));
-		Reservation s = r.createReservation(new GregorianCalendar(), 100, user);
-		assertEquals(user, s.getOwner());
-	}
-	
-	/**
-	 * Tests the behavior of reservations
-	 * @throws NotAvailableException 
-	 * @throws NotAvailableException 
-	 */
-	@Test(expected=NullPointerException.class)
-	public void reservations8() throws NotAvailableException{
-		@SuppressWarnings("unused")
-		Reservation r = new Reservation(user, null, 10, resource);
-	}
-
-	
-	/**
-	 * Tests the behavior of reservations
-	 * @throws NotAvailableException 
-	 * @throws NotAvailableException 
-	 */
-	@Test(expected=NullPointerException.class)
-	public void reservations9() throws NotAvailableException{
-
-		GregorianCalendar startDate = new GregorianCalendar();
-		@SuppressWarnings("unused")
-		Reservation r = new Reservation(user, startDate, 10, null);
+	public void reservations7() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+		Reservation s = new Reservation(new GregorianCalendar(), 100, resource, task1);
+		assertEquals(task1, s.getTask());
 	}
     
     /**
