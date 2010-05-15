@@ -19,18 +19,18 @@ public class TaskType {
 	/**
 	 * Specifies the constraints relating to resources.
 	 */
-	private ArrayList<TaskTypeResourceConstraint> resourceReq;
-	
-	/**
-	 * Specifies the constraints relating to helper users.
-	 */
-	private ArrayList<TaskTypeHelperConstraint> helperReq;
-	
-	/**
-	 * Specifies the constraints relating to the owner user.
-	 */
-	private ArrayList<TaskTypeOwnerConstraint> ownerReq;
+	private ArrayList<TaskTypeConstraint> constraints;
+
 		
+	
+	public TaskType(String name, ArrayList<Field> fields, 
+			ArrayList<TaskTypeConstraint> constraints){
+		this.name = name;
+		this.fields = fields;
+		this.constraints = constraints;
+		}
+	
+	
 	/**
 	 * @return The name describing this type of Task.
 	 */
@@ -46,23 +46,11 @@ public class TaskType {
 	}
 	
 	/**
-	 * Indicates whether the requirements of this task type are 
-	 * @return
+	 * @return An unmodifiable list containing the constraints specified
+	 * 			in this TaskType
 	 */
-	public boolean satisfiesConstraints(Task t){
-		boolean satisfied = true;
-		for(TaskTypeResourceConstraint constraint: resourceReq){
-			satisfied = satisfied && constraint.satisfied(t);
-		}
-		
-		for(TaskTypeHelperConstraint constraint: helperReq){
-			satisfied = satisfied && constraint.satisfied(t);
-		}
-		
-		for(TaskTypeOwnerConstraint constraint: ownerReq){
-			satisfied = satisfied && constraint.satisfied(t);
-		}
-		return satisfied;
+	public List<TaskTypeConstraint> getConstraints(){
+		return Collections.unmodifiableList(constraints);
 	}
 	
 	
