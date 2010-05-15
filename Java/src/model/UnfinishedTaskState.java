@@ -31,13 +31,6 @@ public class UnfinishedTaskState extends TaskState {
 	protected void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException{
 		this.getContext().doAddDependency(dependency);
 	}
-	
-//	/**
-//	 * Adds a resource to the resources required for this task.
-//	 */
-//	protected void addRequiredResource(Resource resource){
-//		this.getContext().doAddRequiredResource(resource);
-//	}
 		
 	/**
 	 * Returns whether a task can be executed right now.
@@ -89,13 +82,6 @@ public class UnfinishedTaskState extends TaskState {
 	public void removeDependency(Task dependency) throws DependencyException {
 		this.getContext().getTaskDependencyManager().removeDependency(dependency);
 	}
-	
-//	/**
-//	 * Removes a resource from the resources required for this task.
-//	 */
-//	public void removeRequiredResource(Resource resource){
-//		this.getContext().doRemoveRequiredResource(resource);
-//	}
 	
 	/**
 	 * Returns whether the current task satisfies the business rule 2.

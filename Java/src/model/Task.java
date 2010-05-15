@@ -3,7 +3,10 @@ package model;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
 import gui.Describable;
 
 import java.util.GregorianCalendar;
@@ -758,7 +761,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		return this.tam.checkOverlap(begin, duration);
 	}
 	
-	protected boolean assetsAvailableAt(GregorianCalendar begin, int duration){
-		return this.tam.assetsAvailableAt(begin, duration);
+	protected Map<AssetType,Integer> getAssetsAvailableAt(GregorianCalendar begin, int duration){
+		return this.tam.getAssetsAvailableAt(begin, duration);
 	}
 }

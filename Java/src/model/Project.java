@@ -56,7 +56,7 @@ public class Project implements Describable{
 	 * @param 	task
 	 * 			The task to bind to this project.
 	 */
-	public void bindTask(Task task){
+	protected void bindTask(Task task){
 		projectTasks.add(task);
 	}
 	

@@ -173,4 +173,11 @@ public class Reservation implements AssetAllocation{
 					return true;
 		return false;
 	}
+
+
+
+	@Override
+	public ResourceType getAssetType() {
+		return reservedResource.getType();
+	}
 }
