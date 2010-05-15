@@ -5,6 +5,8 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
 import exception.AssetAllocatedException;
 import exception.InvitationInvitesOwnerException;
@@ -93,10 +95,24 @@ public class TaskAssetManager {
 			return hasOverlap;
 		}
 		
-		protected Boolean assetsAvailableAt(GregorianCalendar begin, int duration){
-			//TODO implement me.
-			return true;
+//		protected Boolean assetsAvailableAt(GregorianCalendar begin, int duration){
+//			//TODO implement me.
+//			return true;
+//		}
+		
+		protected Map<AssetType,Integer> getAssetsAvailableAt(GregorianCalendar begin, int duration){
+			HashMap<AssetType,Integer> assetMap = new HashMap<AssetType, Integer>();
+			for(AssetAllocation allocation:assetAllocations){
+				Integer typeCount = assetMap.get(allocation.getAssetType());
+				if(typeCount==null)
+					typeCount = 0;
+				typeCount++;
+				assetMap.put(allocation.getAssetType(), typeCount);
+			}
+			return assetMap;
 		}
+		
+		
 
 		
 }

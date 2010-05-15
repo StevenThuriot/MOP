@@ -14,5 +14,7 @@ public interface AssetAllocation {
 	 * Destroy all bindings between the this allocation, the allocating task and the asset.
 	 */
 	public void remove();
+	
+	public AssetType getAssetType();
 
 }

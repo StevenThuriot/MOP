@@ -30,15 +30,15 @@ public class ProjectController {
         this.manager = manager;
     }
     
-	/**
-	 * Bind task and project
-	 * @param project
-	 * @param task
-	 */
-	public void bind(Project project, Task task)
-	{
-		project.bindTask(task);
-	}
+//	/**
+//	 * Bind task and project
+//	 * @param project
+//	 * @param task
+//	 */
+//	public void bind(Project project, Task task)
+//	{
+//		project.bindTask(task);
+//	}
 
 	/**
 	 * Create a new Project

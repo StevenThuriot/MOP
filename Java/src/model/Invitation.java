@@ -141,4 +141,9 @@ public class Invitation implements Describable, AssetAllocation{
 	public boolean hasOverlap(GregorianCalendar begin, int duration) {
 		return true;
 	}
+
+	@Override
+	public UserType getAssetType() {
+		return user.getType();
+	}
 }
