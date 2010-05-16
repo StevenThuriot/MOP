@@ -31,6 +31,11 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * 			|!$description.equals("")
 	 */
 	private String description;
+	
+	/**
+	 * The TaskType of this Task.
+	 */
+	private TaskType taskT;
 
 	/**
 	 * A GregorianCalendar that describes the start date for this Task.
@@ -109,10 +114,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 */
-	public Task(String description, User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock)
+	public Task(String description, TaskType taskT, User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock)
 			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		
-		this(description, user, timings, clock);
+		this(description, taskT, user, timings, clock);
 		
 		for(Task t: dependencies){
 			if (t != null)
@@ -145,14 +150,16 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @post	The task has dependencies nor dependent tasks
 	 * 			TODO: formal definition
 	 */
-	public Task(String description, User user, TaskTimings timings, Clock clock) 
+	public Task(String description, TaskType taskT, User user, TaskTimings timings, Clock clock) 
 			throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		
 		tdm = new TaskDependencyManager(this);
 		tam = new TaskAssetManager(this);
 		this.clock = clock;
+		this.taskT = taskT;
 		
 		this.taskState = new UnfinishedTaskState(this);
+		
 		
 		this.setDescription(description);
 		this.setUser(user);
