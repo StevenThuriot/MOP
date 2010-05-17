@@ -5,9 +5,6 @@ package controller;
 
 import java.util.*;
 
-import model.focus.FocusType;
-
-import exception.ArrayLengthException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
@@ -18,7 +15,6 @@ import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.UnknownStateException;
 
-import model.Resource;
 import model.Task;
 import model.TaskTimings;
 import model.User;
