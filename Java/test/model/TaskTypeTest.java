@@ -13,6 +13,7 @@ public class TaskTypeTest {
 	Asset asset;
 	TaskType taskT;
 	
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp(){
 		taskT = new TaskType("Playing Go", new ArrayList<Field>()
