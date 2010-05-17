@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<t:theme xmlns:t="http://www.cs.kuleuven.be/mop/theme" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cs.kuleuven.be/mop/theme http://www.cs.kuleuven.be/~thomash/theme.xsd">
+
+	<t:taskTypes>
+		<t:taskType id="implementfeature" name="implement a feature">
+			<t:fields>
+				<t:field id="feature" name="Feature Name" nature="textual"/>
+			</t:fields>
+			<t:requires>
+				<t:requirement type="computer" min="1" max="1"/>
+				<t:requirement type="caffeine" min="1" max="*"/>
+			</t:requires>
+			<t:owners>
+				<t:owner type="devuser"/>
+			</t:owners>
+		</t:taskType>
+
+		<t:taskType id="pair" name="pair programming">
+			<t:fields>
+				<t:field id="feature" name="Feature Name" nature="textual"/>
+			</t:fields>
+			<t:requires>
+				<t:requirement type="computer" min="1" max="1"/>
+				<t:requirement type="devuser" min="1" max="1"/>
+			</t:requires>
+			<t:owners>
+				<t:owner type="devuser"/>
+			</t:owners>
+		</t:taskType>
+
+		<t:taskType id="testfeature" name="test a feature">
+			<t:fields>
+				<t:field id="feature" name="Feature Name" nature="textual"/>
+				<t:field id="junit" name="Name of JUnit Test Class" nature="textual"/>
+			</t:fields>
+			<t:requires>
+				<t:requirement type="computer" min="1" max="1"/>
+				<t:requirement type="devuser" min="0" max="5"/>
+				<t:requirement type="testuser" min="0" max="*"/>
+			</t:requires>
+			<t:owners>
+				<t:owner type="testuser"/>
+				<t:owner type="devuser"/>
+			</t:owners>
+		</t:taskType>
+
+		<t:taskType id="testdistributed" name="test a distributed feature">
+			<t:fields>
+				<t:field id="feature" name="Feature Name" nature="textual"/>
+				<t:field id="junit" name="Name of JUnit Test Class" nature="textual"/>
+			</t:fields>
+			<t:requires>
+				<t:requirement type="computer" min="2" max="*"/>
+			</t:requires>
+			<t:owners>
+				<t:owner type="testuser"/>
+				<t:owner type="devuser"/>
+			</t:owners>
+		</t:taskType>
+	</t:taskTypes>
+
+	<t:userTypes>
+		<t:userType id="devuser" name="Software Developer"/>
+		<t:userType id="testuser" name="Software Tester"/>
+	</t:userTypes>
+
+	<t:resourceTypes>
+		<t:resourceType id="computer" name="All kinds of computers (workstations, notebooks, ...)"/>
+		<t:resourceType id="caffeine" name="caffeine"/>
+	</t:resourceTypes>
+
+</t:theme>

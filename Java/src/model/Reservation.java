@@ -4,7 +4,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import exception.AssetAllocatedException;
-import exception.InvitationInvitesOwnerException;
 import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
 
@@ -179,5 +178,12 @@ public class Reservation implements AssetAllocation{
 	@Override
 	public ResourceType getAssetType() {
 		return reservedResource.getType();
+	}
+
+
+
+	@Override
+	public String getDescription() {
+		return "Reservation: " + this.getAssetType().getDescription();
 	}
 }

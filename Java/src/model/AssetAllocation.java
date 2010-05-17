@@ -1,8 +1,10 @@
 package model;
 
+import gui.Describable;
+
 import java.util.GregorianCalendar;
 
-public interface AssetAllocation {
+public interface AssetAllocation extends Describable {
 	
 	public boolean isAvailableAt(GregorianCalendar begin, int duration); 
 	

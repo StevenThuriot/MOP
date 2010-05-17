@@ -68,4 +68,21 @@ public class FieldTest {
 		assertEquals(FieldType.Numeric, numField.getType());
 		assertEquals(FieldType.Text, textField.getType());
 	}
+	
+	/**
+	 * Value is van het juiste type?
+	 */
+	@Test
+	public void getValue()
+	{
+		Field valueField = new NumericField("integer", 101);
+		assertEquals(101, valueField.getValue());
+		
+		Field valueField2 = new TextField("string", "Bart");
+		assertEquals("Bart", valueField2.getValue());
+		
+		Field valueField3 = new TextField("string2", "Bart2");
+		valueField3.setValue(101);
+		assertEquals("101", valueField3.getValue());
+	}
 }
