@@ -38,7 +38,10 @@ public class DispatchController {
 	 */
 	private FocusController focusController;
 	
-	
+	/**
+	 * The userController to handle Users and UserTypes
+	 */
+	private UserController userController;
 	/**
 	 * The Constructor
 	 */
@@ -50,8 +53,9 @@ public class DispatchController {
 		this.taskController = new TaskController(manager);
 		this.timeController = new TimeController(manager);
 		this.invitationController = new InvitationController(manager);
-		this.xmlController = new XMLController();
+		this.xmlController = new XMLController(manager);
 		this.focusController = new FocusController();
+		this.userController = new UserController(manager);
 	}
 
 	/**
@@ -106,4 +110,12 @@ public class DispatchController {
 	public FocusController getFocusController() {
 		return focusController;
 	}	
+	
+	/**
+	 * @return the userController
+	 */
+	public UserController getUserController()
+	{
+		return userController;
+	}
 }

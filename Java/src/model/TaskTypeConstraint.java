@@ -1,6 +1,6 @@
 package model;
 
-public abstract class TaskTypeConstraint {
+public class TaskTypeConstraint {
 	
 	/**
 	 * The required AssetType.

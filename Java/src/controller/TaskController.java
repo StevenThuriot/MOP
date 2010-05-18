@@ -15,8 +15,11 @@ import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.UnknownStateException;
 
+import model.Field;
 import model.Task;
 import model.TaskTimings;
+import model.TaskType;
+import model.TaskTypeConstraint;
 import model.User;
 import model.repositories.RepositoryManager;
 
@@ -73,6 +76,20 @@ public class TaskController {
 		return t;
 	}
 
+	/**
+	 * Create and return a new Tasktype according to the given variables
+	 * @param name
+	 * @param fields
+	 * @param constraints
+	 * @return the newly created tasktype
+	 */
+	public TaskType addTaskType(String id,String name,ArrayList<Field> fields, ArrayList<TaskTypeConstraint> constraints)
+	{
+		TaskType type = new TaskType(name, fields, constraints);
+		manager.add(id, type);
+		return type;
+	}
+	
 	/**
 	 * Let a task remove itself
 	 * @param t

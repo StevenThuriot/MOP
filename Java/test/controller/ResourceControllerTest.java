@@ -129,4 +129,11 @@ public class ResourceControllerTest {
 	    Reservation reservation = controller.createReservation(new GregorianCalendar(), 101, resource, task);
 	    assertTrue(resource.getReservations().contains(reservation));
 	}
+	
+	@Test
+	public void createTypeTest()
+	{
+		ResourceType type = controller.createResourceType("abc", "Alfabet resource");
+		assertEquals(type,manager.getResourceTypeById("abc"));
+	}
 }
