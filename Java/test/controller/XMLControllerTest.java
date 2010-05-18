@@ -15,8 +15,8 @@ import javax.naming.NameNotFoundException;
 import model.Resource;
 import model.Task;
 import model.User;
-import model.XMLParser;
 import model.repositories.RepositoryManager;
+import model.xml.DataXMLDAO;
 
 import org.junit.After;
 import org.junit.Before;

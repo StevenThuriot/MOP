@@ -17,7 +17,7 @@ import exception.IllegalStateChangeException;
 import exception.NotAvailableException;
 import exception.UnknownStateException;
 import model.User;
-import model.XMLParser;
+import model.xml.DataXMLDAO;
 
 public class XMLController {
 	
@@ -43,7 +43,7 @@ public class XMLController {
 	 */
 	public User parse(String filename, DispatchController controller) throws NameNotFoundException, DOMException, NullPointerException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
 	{
-		XMLParser parser = new XMLParser(filename, controller);
+		DataXMLDAO parser = new DataXMLDAO(filename, controller);
 		
 		return parser.Parse();
 	}

@@ -11,6 +11,7 @@ import model.Resource;
 import model.Task;
 import model.User;
 import model.repositories.RepositoryManager;
+import model.xml.DataXMLDAO;
 
 import org.junit.After;
 import org.junit.Before;
@@ -32,7 +33,7 @@ import exception.TimeException;
 import exception.UnknownStateException;
 import static org.junit.Assert.*;
 public class XMLParserTest {
-    private XMLParser parser;
+    private DataXMLDAO parser;
     private RepositoryManager manager;
     private DispatchController dcontroller;
     @Before
@@ -40,7 +41,7 @@ public class XMLParserTest {
     {
         manager = new RepositoryManager();
         dcontroller = new DispatchController(manager);
-        parser = new XMLParser("students_public.xml", dcontroller);
+        parser = new DataXMLDAO("students_public.xml", dcontroller);
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
         Date date = sdf.parse("2009-10-20T20:00:00");

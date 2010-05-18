@@ -45,6 +45,17 @@ public class TypeRepoTest {
     }
     
     @Test
+    public void testAddResourceType()
+    {
+    	ResourceType type = new ResourceType("ABC and 123");
+    	manager.add("abc123",type);
+    	assertFalse(manager.getResourceTypes().isEmpty());
+    	assertTrue(manager.getResourceTypes().containsKey("abc123"));
+    	assertTrue(manager.getResourceTypes().containsValue(type));
+    	assertEquals(type, manager.getResourceTypeById("abc123"));
+    }
+    
+    @Test
     public void testAddRemoveResource() throws ResourceBusyException
     {
         manager.add(res);
