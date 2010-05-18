@@ -16,10 +16,20 @@ import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.NotAvailableException;
 import exception.UnknownStateException;
+import model.AssetType;
 import model.User;
+import model.repositories.RepositoryManager;
 import model.xml.DataXMLDAO;
+import model.xml.ThemeXMLDAO;
 
 public class XMLController {
+	
+	private RepositoryManager manager;
+	
+	public XMLController(RepositoryManager manager)
+	{
+		this.manager = manager;
+	}
 	
 	/**
 	 * Parses the given XML file
@@ -41,10 +51,22 @@ public class XMLController {
 	 * @throws IllegalStateChangeException
 	 * @throws BusinessRule2Exception
 	 */
-	public User parse(String filename, DispatchController controller) throws NameNotFoundException, DOMException, NullPointerException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
+	public User parse(String dataFilename,String themefilename, DispatchController controller) throws NameNotFoundException, DOMException, NullPointerException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
 	{
-		DataXMLDAO parser = new DataXMLDAO(filename, controller);
+		ThemeXMLDAO themeParser = new ThemeXMLDAO(themefilename, controller);
+		themeParser.Parse();
 		
-		return parser.Parse();
+		DataXMLDAO dataParser = new DataXMLDAO(dataFilename, controller);
+		return dataParser.Parse();
+	}
+	
+	/**
+	 * Returns the asset type by ID, not regarding wether this is a User/resource
+	 * @param id
+	 * @return
+	 */
+	public AssetType getAssetTypeById(String id)
+	{
+		return manager.getAssetById(id);
 	}
 }

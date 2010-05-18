@@ -7,6 +7,7 @@ import java.util.Map;
 
 import exception.IllegalStateCallException;
 
+import model.AssetType;
 import model.Clock;
 import model.Project;
 import model.Resource;
@@ -140,6 +141,14 @@ public class RepositoryManager {
     public UserType getUserTypeById(String id)
     {
     	return this.userTypeRepository.getByKey(id);
+    }
+    
+    public AssetType getAssetById(String id)
+    {
+    	AssetType type = this.getUserTypeById(id);
+    	if(type==null)
+    		return getResourceTypeById(id);
+    	return type;
     }
     
     /**

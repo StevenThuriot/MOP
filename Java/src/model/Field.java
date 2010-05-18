@@ -1,6 +1,6 @@
 package model;
 
-abstract class Field<T> {
+public abstract class Field<T> {
 	/**
 	 * Field name
 	 */

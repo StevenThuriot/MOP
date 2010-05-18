@@ -50,7 +50,7 @@ public class MainGUI implements Runnable{
 		User user = null;
 		
 		try {
-			user = xmlController.parse("students_public.xml", dController);
+			user = xmlController.parse("students_public.xml","theme_development_1.xml", dController);
 		} catch (NameNotFoundException e) {
 			MainGUI.writeError("File not found.");
 		} catch (DOMException e) {

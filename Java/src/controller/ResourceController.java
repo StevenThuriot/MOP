@@ -1,7 +1,5 @@
 package controller;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -9,13 +7,11 @@ import model.Reservation;
 import model.Resource;
 import model.ResourceType;
 import model.Task;
-import model.User;
 import model.repositories.RepositoryManager;
 import exception.AssetAllocatedException;
 import exception.EmptyStringException;
 import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
-import exception.ResourceBusyException;
 
 /**
  * Controller to interact with resources
@@ -70,5 +66,18 @@ public class ResourceController {
 	 */
 	public List<Resource> getResources() {
 		return  manager.getResources();
+	}
+	
+	/**
+	 * Create a new Resource Type and add it to the repository
+	 * @param id
+	 * @param name
+	 * @return
+	 */
+	public ResourceType createResourceType(String id, String name)
+	{
+		ResourceType type = new ResourceType(name);
+		manager.add(id, type);
+		return type;
 	}
 }
