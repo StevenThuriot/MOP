@@ -4,10 +4,12 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import exception.AssetAllocatedException;
+import exception.IllegalStateCallException;
 import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
+import gui.Describable;
 
-public class Reservation implements AssetAllocation{
+public class Reservation extends AssetAllocation implements Describable{
 	/**
 	 * The resource for which this reservation is made.
 	 */
@@ -22,11 +24,6 @@ public class Reservation implements AssetAllocation{
 	 * The duration of this reservation.
 	 */
 	private int duration;
-	
-	/**
-	 * The task to whom the resource is reserved
-	 */
-	private Task task;
 
 	/**
 	 * Makes a new Reservation with the given time, duration and resource, and
@@ -44,9 +41,10 @@ public class Reservation implements AssetAllocation{
 	 * 			This reservation does not have a overlapping time span with the other reservations
 	 * 			|!newTask.checkOverlap(newTime, newDuration)
 	 * @throws AssetAllocatedException 
+	 * @throws IllegalStateCallException 
 	 */
 	//TODO : update status of resource object
-	public Reservation(GregorianCalendar newTime, int newDuration, Resource newResource, Task task) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+	public Reservation(GregorianCalendar newTime, int newDuration, Resource newResource, Task task) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException{
 		if(newTime == null || newResource == null || task == null)
 			throw new NullPointerException();
 		setTime(newTime);
@@ -59,7 +57,11 @@ public class Reservation implements AssetAllocation{
 		if(!getTask().checkOverlap(newTime, newDuration))
 			throw new NoReservationOverlapException("This reservation does not have a overlapping time span with the other reservations");
 		
-		getTask().addAssetAllocation(this);
+		try {
+			getTask().addAssetAllocation(this);
+		} catch (IllegalStateCallException e) {
+			throw new IllegalStateCallException("Reservation can not be made for finished task");
+		}
 		newResource.addReservation(this);		
 		setReservedResource(newResource);
 	}
@@ -185,5 +187,12 @@ public class Reservation implements AssetAllocation{
 	@Override
 	public String getDescription() {
 		return "Reservation: " + this.getAssetType().getDescription();
+	}
+
+
+
+	@Override
+	public boolean countsTowardsLimits() {
+		return true;
 	}
 }
