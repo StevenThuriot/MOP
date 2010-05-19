@@ -753,10 +753,14 @@ public class Task implements Describable, Subject, Observer<Task>{
 		}
 	}
 
-	protected void addAssetAllocation(AssetAllocation assetAllocation) throws AssetAllocatedException{
+	protected void addAssetAllocation(AssetAllocation assetAllocation) throws AssetAllocatedException, IllegalStateCallException{
+		this.taskState.addAssetAllocation(assetAllocation);
+	}
+	
+	protected void doAddAssetAllocation(AssetAllocation assetAllocation) throws AssetAllocatedException{
 		this.tam.add(assetAllocation);
 	}
-
+	
 	protected void removeAssetAllocation(AssetAllocation assetAllocation) {
 		this.tam.remove(assetAllocation);
 	}
@@ -767,5 +771,9 @@ public class Task implements Describable, Subject, Observer<Task>{
 	
 	protected Map<AssetType,Integer> getAssetsAvailableAt(GregorianCalendar begin, int duration){
 		return this.tam.getAssetsAvailableAt(begin, duration);
+	}
+	
+	protected int getAssetAvailableAt(GregorianCalendar begin, int duration, AssetType assetType){
+		return this.tam.getAssetsAvailableAt(begin, duration, assetType);
 	}
 }

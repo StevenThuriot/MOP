@@ -101,13 +101,25 @@ public class TaskAssetManager {
 		protected Map<AssetType,Integer> getAssetsAvailableAt(GregorianCalendar begin, int duration){
 			HashMap<AssetType,Integer> assetMap = new HashMap<AssetType, Integer>();
 			for(AssetAllocation allocation:assetAllocations){
-				Integer typeCount = assetMap.get(allocation.getAssetType());
-				if(typeCount==null)
-					typeCount = 0;
-				typeCount++;
-				assetMap.put(allocation.getAssetType(), typeCount);
+				if (allocation.isAvailableAt(begin, duration)) {
+					Integer typeCount = assetMap.get(allocation.getAssetType());
+					if (typeCount == null)
+						typeCount = 0;
+					typeCount++;
+					assetMap.put(allocation.getAssetType(), typeCount);
+				}
 			}
 			return assetMap;
+		}
+		
+		protected int getAssetsAvailableAt(GregorianCalendar begin, int duration, AssetType assetType){
+			int count = 0;
+			for(AssetAllocation allocation:assetAllocations){
+				if (allocation.getAssetType().equals(assetType) && allocation.isAvailableAt(begin, duration)) {
+					count++;
+				}
+			}
+			return count;
 		}
 		
 		

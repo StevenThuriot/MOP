@@ -4,19 +4,25 @@ import gui.Describable;
 
 import java.util.GregorianCalendar;
 
-public interface AssetAllocation extends Describable {
+public abstract class AssetAllocation implements Describable {
 	
-	public boolean isAvailableAt(GregorianCalendar begin, int duration); 
+	protected Task task;
 	
-	public Task getTask();
+	public abstract boolean isAvailableAt(GregorianCalendar begin, int duration); 
 	
-	public boolean hasOverlap(GregorianCalendar begin, int duration);
+	public Task getTask(){
+		return this.task;
+	}
+	
+	public abstract boolean hasOverlap(GregorianCalendar begin, int duration);
+	
+	public abstract boolean countsTowardsLimits(); 
 	
 	/**
 	 * Destroy all bindings between the this allocation, the allocating task and the asset.
 	 */
-	public void remove();
+	public abstract void remove();
 	
-	public AssetType getAssetType();
+	public abstract AssetType getAssetType();
 
 }

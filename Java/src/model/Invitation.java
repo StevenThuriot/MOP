@@ -3,6 +3,7 @@ package model;
 import java.util.GregorianCalendar;
 
 import exception.AssetAllocatedException;
+import exception.IllegalStateCallException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
 import gui.Describable;
@@ -13,15 +14,10 @@ import gui.Describable;
  * @author bart
  *
  */
-public class Invitation implements Describable, AssetAllocation{
+public class Invitation extends AssetAllocation implements Describable{
 	public enum InvitationState {
 		ACCEPTED,PENDING,DECLINED
 	}
-
-	/**
-	 * Task this invitation is created for
-	 */
-	private Task task;
 	
 	/**
 	 * User this invitation is created for
@@ -33,7 +29,7 @@ public class Invitation implements Describable, AssetAllocation{
 	 */
 	private InvitationState status;
 	
-	public Invitation(Task task,User user) throws AssetAllocatedException, InvitationInvitesOwnerException
+	public Invitation(Task task,User user) throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
 		if(task==null || user==null)
 			throw new NullPointerException();
@@ -43,7 +39,11 @@ public class Invitation implements Describable, AssetAllocation{
 		if(this.getUser().equals(this.getTask().getOwner()))
 			throw new InvitationInvitesOwnerException();
 		
-		this.task.addAssetAllocation(this);
+		try {
+			this.task.addAssetAllocation(this);
+		} catch (IllegalStateCallException e) {
+			throw new IllegalStateCallException("Invitation can not be made for finished task");
+		}
 		this.user.addInvitation(this);
 		
 		this.status = InvitationState.PENDING;
@@ -145,5 +145,10 @@ public class Invitation implements Describable, AssetAllocation{
 	@Override
 	public UserType getAssetType() {
 		return user.getType();
+	}
+
+	@Override
+	public boolean countsTowardsLimits() {
+		return (status == InvitationState.ACCEPTED || status == InvitationState.PENDING);
 	}
 }
