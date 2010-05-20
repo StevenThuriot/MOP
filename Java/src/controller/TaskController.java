@@ -86,7 +86,7 @@ public class TaskController {
 	public TaskType addTaskType(String id,String name,ArrayList<Field> fields, ArrayList<TaskTypeConstraint> constraints)
 	{
 		TaskType type = new TaskType(name, fields, constraints);
-		manager.add(id, type);
+		manager.add(type);
 		return type;
 	}
 	
