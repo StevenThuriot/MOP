@@ -1,5 +1,7 @@
 package model;
 
+import exception.EmptyStringException;
+
 public abstract class Field<T> {
 	/**
 	 * Field name
@@ -19,8 +21,10 @@ public abstract class Field<T> {
 	 * @param name Field name
 	 * @param type Type of field
 	 * @param value The value of the field
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
 	 */
-	public Field(String name, FieldType type, T value) {
+	public Field(String name, FieldType type, T value) throws NullPointerException, EmptyStringException {
 		this.setName(name);
 		this.type = type;
 		this.setValue(value);
@@ -37,8 +41,16 @@ public abstract class Field<T> {
 	/**
 	 * Set the name of the field
 	 * @param name The new name
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException
 	 */
-	public final void setName(String name) {
+	public final void setName(String name) throws EmptyStringException, NullPointerException {
+		if (name == null)
+			throw new NullPointerException("Null was passed");
+		
+		if(name.equals(""))
+			throw new EmptyStringException("A task should have a non-empty description");
+		
 		this.name = name;
 	}
 	
