@@ -74,5 +74,5 @@ public abstract class Field<T> {
 	 * Set the current value of the field
 	 * @param value The new value
 	 */
-	public abstract void setValue(T value);
+	public abstract void setValue(T value) throws NullPointerException;
 }

@@ -5,8 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import exception.WrongFieldsForChosenTypeException;
+import gui.Describable;
 
-public class TaskType {
+public class TaskType implements Describable {
 
 	/**
 	 * A name describing this type of Task.
@@ -124,5 +125,13 @@ public class TaskType {
 		}
 		
 		return true;
+	}
+
+	/**
+	 * Describable interface
+	 */
+	@Override
+	public String getDescription() {
+		return this.getName();
 	}
 }

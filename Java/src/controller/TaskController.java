@@ -14,9 +14,11 @@ import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.UnknownStateException;
+import exception.WrongFieldsForChosenTypeException;
 
 import model.Field;
 import model.Task;
+import model.TaskFactory;
 import model.TaskTimings;
 import model.TaskType;
 import model.TaskTypeConstraint;
@@ -43,8 +45,7 @@ public class TaskController {
         this.manager = manager;
     }
 	/**
-	 * Create a new task
-	 * @param description
+	 * Create a new task without dependencies
 	 * @param startDate
 	 * @param dueDate
 	 * @param duration
@@ -58,22 +59,36 @@ public class TaskController {
 	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
-	public Task createTask(String description,TaskTimings timings, 
-			ArrayList<Task> dependencies, User user) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
+	@SuppressWarnings("unchecked")
+	public Task createTask(TaskType type, List<Field> fields, User owner, TaskTimings timings) 
+	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
-		Task t = new Task(description, user, timings, dependencies, manager.getClock());
-
-		return t;
+		return TaskFactory.createTask(type, fields, owner, timings, manager.getClock());
 	}
 	
-	public Task createTask(String description, TaskTimings timings, User user) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
+	/**
+	 * Create a new task with dependencies
+	 * @param type
+	 * @param fields
+	 * @param owner
+	 * @param timings
+	 * @param dependencies
+	 * @return
+	 * @throws EmptyStringException
+	 * @throws BusinessRule1Exception
+	 * @throws DependencyCycleException
+	 * @throws NullPointerException
+	 * @throws IllegalStateCallException
+	 * @throws BusinessRule3Exception
+	 * @throws WrongFieldsForChosenTypeException 
+	 */
+	@SuppressWarnings("unchecked")
+	public Task createTask(TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies) 
+	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
-		Task t = new Task(description, user, timings, manager.getClock());
-		
-		return t;
+		return TaskFactory.createTask(type, fields, owner, timings, dependencies, manager.getClock());
 	}
 
 	/**
@@ -83,11 +98,21 @@ public class TaskController {
 	 * @param constraints
 	 * @return the newly created tasktype
 	 */
+	@SuppressWarnings("unchecked")
 	public TaskType addTaskType(String id,String name,ArrayList<Field> fields, ArrayList<TaskTypeConstraint> constraints)
 	{
 		TaskType type = new TaskType(name, fields, constraints);
 		manager.add(type);
 		return type;
+	}
+	
+	/**
+	 * Returns all existing tasktypes
+	 * @return
+	 */
+	public List<TaskType> getAllTypes()
+	{
+		return manager.getTaskTypes();
 	}
 	
 	/**
