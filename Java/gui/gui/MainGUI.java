@@ -24,11 +24,13 @@ import exception.TimeException;
 import exception.UnknownStateException;
 
 import model.User;
+import model.UserType;
 import model.repositories.RepositoryManager;
 
 public class MainGUI implements Runnable{
 	private RepositoryManager manager;
 	private User currentUser;
+	private User administrator;
 	private DispatchController dController;
 	@SuppressWarnings("unused")
 	private InputStream in;
@@ -44,8 +46,9 @@ public class MainGUI implements Runnable{
 		
 		dController.getTimeController().setTime(menu.promptDate("Give Current Time"));
 		
-		
 		XMLController xmlController = dController.getXmlController();
+		
+		administrator = new User("Administrator",new UserType("Administrator"));
 		
 		User user = null;
 		
@@ -105,6 +108,11 @@ public class MainGUI implements Runnable{
 	 */
 	public User getCurrentUser(){
 		return currentUser;
+	}
+	
+	public User getAdministrator()
+	{
+		return administrator;
 	}
 	
 	public void run(){
