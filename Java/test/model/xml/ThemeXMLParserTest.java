@@ -14,8 +14,10 @@ import model.repositories.RepositoryManager;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.w3c.dom.DOMException;
 
 import controller.DispatchController;
+import exception.EmptyStringException;
 public class ThemeXMLParserTest {
 
 	private RepositoryManager manager;
@@ -26,7 +28,7 @@ public class ThemeXMLParserTest {
 	Map<String, UserType> userTypeMap;
 
 	@Before
-	public void setUp() throws NameNotFoundException
+	public void setUp() throws NameNotFoundException, NullPointerException, DOMException, EmptyStringException
 	{
 		manager = new RepositoryManager();
         dcontroller = new DispatchController(manager);

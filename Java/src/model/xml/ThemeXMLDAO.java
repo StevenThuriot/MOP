@@ -5,10 +5,12 @@ import java.util.Map;
 
 import javax.naming.NameNotFoundException;
 
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import controller.DispatchController;
+import exception.EmptyStringException;
 
 import model.AssetType;
 import model.Field;
@@ -30,7 +32,7 @@ public class ThemeXMLDAO {
 	}
 	
 	
-	public void Parse(Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException
+	public void Parse(Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException, NullPointerException, DOMException, EmptyStringException
 	{
 		Node taskTypes = parser.getNodeByName(parser.getRootNode(), "t:taskTypes");
 		Node resourceTypes = parser.getNodeByName(parser.getRootNode(), "t:resourceTypes");
@@ -52,14 +54,14 @@ public class ThemeXMLDAO {
 			addResourceType(types.item(i),resourceTypeMap);
 	}
 
-	private void parseTaskTypes(Node taskTypes,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException {
+	private void parseTaskTypes(Node taskTypes,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException, NullPointerException, DOMException, EmptyStringException {
 		NodeList types = taskTypes.getChildNodes();
 		for(int i=0;i<types.getLength();i++)
 			addTaskType(types.item(i),taskTypeMap,resourceTypeMap,userTypeMap);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void addTaskType(Node item,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException {
+	private void addTaskType(Node item,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException, NullPointerException, DOMException, EmptyStringException {
 		if(item.getNodeName()!="#text"){
 			String id = item.getAttributes().item(0).getTextContent();
 			String name = item.getAttributes().item(1).getTextContent();
@@ -70,7 +72,7 @@ public class ThemeXMLDAO {
 	}
 	
 	@SuppressWarnings("unchecked")
-	private ArrayList<Field> parseTaskTypeFields(Node item) throws NameNotFoundException
+	private ArrayList<Field> parseTaskTypeFields(Node item) throws NameNotFoundException, NullPointerException, DOMException, EmptyStringException
 	{
 		ArrayList<Field> allFields = new ArrayList<Field>();
 		Node fieldNode = parser.getNodeByName(parser.getNodeByName(item, "t:fields"),"t:field");
