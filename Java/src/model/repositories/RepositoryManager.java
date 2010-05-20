@@ -21,27 +21,27 @@ public class RepositoryManager {
     /**
      * Project repository implementation
      */
-    private ListRepository<Project> projectRepository;
+    private Repository<Project> projectRepository;
     /**
      * User repository implementation
      */
-    private ListRepository<User> userRepository;
+    private Repository<User> userRepository;
     /**
      * UserType repository implementation
      */
-    private MapRepository<String,UserType> userTypeRepository;
+    private Repository<UserType> userTypeRepository;
     /**
      * Resource repository implementation
      */
-    private ListRepository<Resource> resourceRepository;
+    private Repository<Resource> resourceRepository;
     /**
      * Resource type repository implementation
      */
-    private MapRepository<String,ResourceType> resourceTypeRepository;
+    private Repository<ResourceType> resourceTypeRepository;
     /**
      * Task type repository implementation
      */
-    private MapRepository<String,TaskType> taskTypeRepository;
+    private Repository<TaskType> taskTypeRepository;
     
     /**
      * A clock that keeps the time in the system
@@ -54,12 +54,12 @@ public class RepositoryManager {
      */
     public RepositoryManager()
     {
-        projectRepository = new ListRepository<Project>();
-        userRepository = new ListRepository<User>();
-        resourceRepository = new ListRepository<Resource>();
-        userTypeRepository = new MapRepository<String, UserType>();
-        resourceTypeRepository = new MapRepository<String, ResourceType>();
-        taskTypeRepository = new MapRepository<String, TaskType>();
+        projectRepository = new Repository<Project>();
+        userRepository = new Repository<User>();
+        resourceRepository = new Repository<Resource>();
+        userTypeRepository = new Repository<UserType>();
+        resourceTypeRepository = new Repository<ResourceType>();
+        taskTypeRepository = new Repository<TaskType>();
         clock = new Clock(this,new GregorianCalendar(1970, 1, 1));
     }
     
@@ -86,8 +86,8 @@ public class RepositoryManager {
     /**
      * Add resourceType to repository.
      */
-    public boolean add(String id,ResourceType resourceType){
-    	return resourceTypeRepository.add(id,resourceType);
+    public boolean add(ResourceType resourceType){
+    	return resourceTypeRepository.add(resourceType);
     }
     /**
      * add TaskType to repository
@@ -95,29 +95,11 @@ public class RepositoryManager {
      * @param taskType
      * @return
      */
-    public boolean add(String id,TaskType taskType)
+    public boolean add(TaskType taskType)
     {
-    	return taskTypeRepository.add(id, taskType);
+    	return taskTypeRepository.add(taskType);
     }
-    
-    /**
-     * Get a tasktype by its ID
-     * @param id
-     * @return
-     */
-    public TaskType getTaskTypeById(String id)
-    {
-    	return this.taskTypeRepository.getByKey(id);
-    }
-    
-    /**
-     * get a resourceType by ID
-     */
-    public ResourceType getResourceTypeById(String id)
-    {
-    	return this.resourceTypeRepository.getByKey(id);
-    }
-    
+        
     /**
      * Overridable method add. Will add a user to the user repository
      * @param user
@@ -131,24 +113,8 @@ public class RepositoryManager {
     /**
      * Add userType to repository.
      */
-    public boolean add(String id,UserType userType){
-    	return userTypeRepository.add(id,userType);
-    }
-    
-    /**
-     * get a userType by ID
-     */
-    public UserType getUserTypeById(String id)
-    {
-    	return this.userTypeRepository.getByKey(id);
-    }
-    
-    public AssetType getAssetById(String id)
-    {
-    	AssetType type = this.getUserTypeById(id);
-    	if(type==null)
-    		return getResourceTypeById(id);
-    	return type;
+    public boolean add(UserType userType){
+    	return userTypeRepository.add(userType);
     }
     
     /**
@@ -214,14 +180,14 @@ public class RepositoryManager {
     /**
      * Return a list of all UserTypes
      */
-    public Map<String, UserType> getUserTypes(){
+    public List<UserType> getUserTypes(){
     	return userTypeRepository.getAll();
     }
     
     /**
      * Return a list of all ResourceTypes
      */
-    public Map<String, ResourceType> getResourceTypes(){
+    public List<ResourceType> getResourceTypes(){
     	return resourceTypeRepository.getAll();
     }
     
@@ -229,7 +195,7 @@ public class RepositoryManager {
      * Return all the available tasktypes
      * @return
      */
-    public Map<String,TaskType> getTaskTypes()
+    public List<TaskType> getTaskTypes()
     {
     	return taskTypeRepository.getAll();
     }

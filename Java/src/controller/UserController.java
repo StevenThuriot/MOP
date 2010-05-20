@@ -17,10 +17,10 @@ public class UserController {
 	 * @param description
 	 * @return
 	 */
-	public UserType createUserType(String id, String description)
+	public UserType createUserType(String description)
 	{
 		UserType type = new UserType(description);
-		manager.add(id,type);
+		manager.add(type);
 		return type;
 	}
 }
