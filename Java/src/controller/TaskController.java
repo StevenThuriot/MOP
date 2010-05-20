@@ -87,10 +87,10 @@ public class TaskController {
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@SuppressWarnings("unchecked")
-	public Task createTask(TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies, ArrayList<Resource> requiredResources) 
+	public Task createTask(TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies) 
 	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
-		return TaskFactory.createTask(type, fields, owner, timings, dependencies, requiredResources, manager.getClock());
+		return TaskFactory.createTask(type, fields, owner, timings, dependencies, manager.getClock());
 	}
 
 	/**
