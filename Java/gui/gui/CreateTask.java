@@ -83,7 +83,7 @@ public class CreateTask extends UseCase {
 				
 		if (hasDep || hasRes){
 			try {
-				dController.getTaskController().createTask(type, taskFields, user, timing, deps);
+				dController.getTaskController().createTask(type, taskFields, user, timing, deps, reqRes);
 			} catch (EmptyStringException e) {
 				menu.println("Empty description");
 			} catch (BusinessRule1Exception e) {

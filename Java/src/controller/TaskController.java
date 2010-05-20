@@ -17,6 +17,7 @@ import exception.UnknownStateException;
 import exception.WrongFieldsForChosenTypeException;
 
 import model.Field;
+import model.Resource;
 import model.Task;
 import model.TaskFactory;
 import model.TaskTimings;
@@ -75,6 +76,7 @@ public class TaskController {
 	 * @param owner
 	 * @param timings
 	 * @param dependencies
+	 * @param requiredResources
 	 * @return
 	 * @throws EmptyStringException
 	 * @throws BusinessRule1Exception
@@ -85,10 +87,10 @@ public class TaskController {
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@SuppressWarnings("unchecked")
-	public Task createTask(TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies) 
+	public Task createTask(TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies, ArrayList<Resource> requiredResources) 
 	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
-		return TaskFactory.createTask(type, fields, owner, timings, dependencies, manager.getClock());
+		return TaskFactory.createTask(type, fields, owner, timings, dependencies, requiredResources, manager.getClock());
 	}
 
 	/**
