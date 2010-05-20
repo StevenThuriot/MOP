@@ -15,7 +15,7 @@ import model.focus.FocusFactoryTest;
 import model.focus.FocusStrategyTest;
 import model.repositories.GenericRepoTest;
 import model.repositories.TypeRepoTest;
-import model.xml.XMLParserTest;
+import model.xml.DataXMLParserTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -35,7 +35,7 @@ import exception.ExceptionsTest;
 @SuiteClasses(value={UserTest.class,TaskTest.class,ResourceTest.class,ProjectTest.class,
 		ProjectControllerTest.class,ResourceControllerTest.class,TaskControllerTest.class,
 		TaskDependencyTest.class,TaskDependencyTest.class,TypeRepoTest.class,GenericRepoTest.class,
-		DispatchControllerTest.class,FocusFactoryTest.class,FocusStrategyTest.class,XMLParserTest.class,
+		DispatchControllerTest.class,FocusFactoryTest.class,FocusStrategyTest.class,DataXMLParserTest.class,
 		ExceptionsTest.class, ClockTest.class, TimeControllerTest.class, FieldTest.class,
 		TaskInvitationManagerTest.class, InvitationTest.class,UserTaskManagerTest.class,
 		InvitationControllerTest.class,XMLControllerTest.class, FocusControllerTest.class, TaskTypeTest.class})

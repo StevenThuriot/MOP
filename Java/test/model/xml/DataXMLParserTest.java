@@ -32,7 +32,7 @@ import exception.NotAvailableException;
 import exception.TimeException;
 import exception.UnknownStateException;
 import static org.junit.Assert.*;
-public class XMLParserTest {
+public class DataXMLParserTest {
     private DataXMLDAO parser;
     private RepositoryManager manager;
     private DispatchController dcontroller;

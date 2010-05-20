@@ -41,33 +41,32 @@ public class ThemeXMLDAO {
 		parseTaskTypes(taskTypes,taskTypeMap,resourceTypeMap,userTypeMap);
 	}
 	private void parseUserTypes(Node userTypes,Map<String,UserType> userTypeMap) throws NameNotFoundException {
-		Node typeNode = parser.getNodeByName(userTypes, "t:userType");
-		NodeList types = typeNode.getChildNodes();
+		NodeList types = userTypes.getChildNodes();
 		for(int i=0;i<types.getLength();i++)
 			addUserType(types.item(i),userTypeMap);
 	}
 
 	private void parseResourceTypes(Node resourceTypes,Map<String,ResourceType> resourceTypeMap) throws NameNotFoundException {
-		Node typeNode = parser.getNodeByName(resourceTypes, "t:resourceType");
-		NodeList types = typeNode.getChildNodes();
+		NodeList types = resourceTypes.getChildNodes();
 		for(int i=0;i<types.getLength();i++)
 			addResourceType(types.item(i),resourceTypeMap);
 	}
 
 	private void parseTaskTypes(Node taskTypes,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException {
-		Node typeNode = parser.getNodeByName(taskTypes, "t:taskType");
-		NodeList types = typeNode.getChildNodes();
+		NodeList types = taskTypes.getChildNodes();
 		for(int i=0;i<types.getLength();i++)
 			addTaskType(types.item(i),taskTypeMap,resourceTypeMap,userTypeMap);
 	}
 
 	@SuppressWarnings("unchecked")
 	private void addTaskType(Node item,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException {
-		String id = item.getAttributes().item(0).getTextContent();
-		String name = item.getAttributes().item(1).getTextContent();
-		ArrayList<Field> fields = parseTaskTypeFields(item);
-		ArrayList<TaskTypeConstraint> constraints = parseTaskTypeConstraints(item,resourceTypeMap,userTypeMap);
-		controller.getTaskController().addTaskType(id,name,fields,constraints);
+		if(item.getNodeName()!="#text"){
+			String id = item.getAttributes().item(0).getTextContent();
+			String name = item.getAttributes().item(1).getTextContent();
+			ArrayList<Field> fields = parseTaskTypeFields(item);
+			ArrayList<TaskTypeConstraint> constraints = parseTaskTypeConstraints(item,resourceTypeMap,userTypeMap);
+			taskTypeMap.put(id,controller.getTaskController().addTaskType(id,name,fields,constraints));
+		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -111,14 +110,18 @@ public class ThemeXMLDAO {
 	}
 	
 	private void addUserType(Node item,Map<String, UserType> userTypeMap) {
-		String id = item.getAttributes().item(0).getTextContent();
-		String name = item.getAttributes().item(0).getTextContent();
-		userTypeMap.put(id,controller.getUserController().createUserType(name));
+		if(item.getNodeName()!="#text"){
+			String id = item.getAttributes().item(0).getTextContent();
+			String name = item.getAttributes().item(0).getTextContent();
+			userTypeMap.put(id,controller.getUserController().createUserType(name));
+		}
 	}
 
 	private void addResourceType(Node item,Map<String, ResourceType> resourceTypeMap) {
-		String id = item.getAttributes().item(0).getTextContent();
-		String name = item.getAttributes().item(0).getTextContent();
-		resourceTypeMap.put(id,controller.getResourceController().createResourceType(name));
+		if(item.getNodeName()!="#text"){
+			String id = item.getAttributes().item(0).getTextContent();
+			String name = item.getAttributes().item(0).getTextContent();
+			resourceTypeMap.put(id,controller.getResourceController().createResourceType(name));
+		}
 	}
 }
