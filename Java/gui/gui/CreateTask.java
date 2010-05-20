@@ -62,13 +62,13 @@ public class CreateTask extends UseCase {
 			}
 		}		
 		
-		boolean hasDep = menu.dialogYesNo("I can has Dependency?");
+		boolean hasDep = menu.dialogYesNo("Does this task have any dependancies?");
 				
 		ArrayList<Task> deps = new ArrayList<Task>();
 		if(hasDep)
 			deps = menu.menuGenMulti("Select dependency", dController.getTaskController().getTasks(user));
 		
-		boolean hasRes = menu.dialogYesNo("I can has Resource?");
+		boolean hasRes = menu.dialogYesNo("Does this task require any resources?");
 		ArrayList<Resource> reqRes = new ArrayList<Resource>();
 		if(hasRes)
 			reqRes = menu.menuGenMulti("Select dependancy", dController.getResourceController().getResources());
@@ -94,7 +94,7 @@ public class CreateTask extends UseCase {
 				menu.println("Something very bad has happend");
 				e.printStackTrace();
 			} catch (IllegalStateCallException e) {
-				menu.println("Nice try mate, this call is not allowed on the current state.");
+				menu.println("This call is not allowed on the current state.");
 			} catch (BusinessRule3Exception e) {
 				menu.println("This schedule would violate Business Rule 3. This is probably: starttime after the current time, or the deadline before the current time.");
 			} catch (WrongFieldsForChosenTypeException e) {
@@ -102,7 +102,8 @@ public class CreateTask extends UseCase {
 			}
 		}else{
 			try {
-				dController.getTaskController().createTask(type, taskFields, user, timing);
+				Task task = dController.getTaskController().createTask(type, taskFields, user, timing);
+				//add needed resources to task
 			} catch (EmptyStringException e) {
 				menu.println("Empty description");
 			} catch (BusinessRule1Exception e) {
@@ -113,7 +114,7 @@ public class CreateTask extends UseCase {
 				menu.println("Something very bad has happend");
 				e.printStackTrace();
 			} catch (IllegalStateCallException e) {
-				menu.println("Nice try mate, this call is not allowed on the current state.");
+				menu.println("This call is not allowed on the current state.");
 				e.printStackTrace();
 			} catch (BusinessRule3Exception e) {
 				menu.println("This schedule would violate Business Rule 3. This is probably: starttime after the current time, or the deadline before the current time.");
