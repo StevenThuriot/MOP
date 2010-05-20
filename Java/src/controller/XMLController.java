@@ -1,6 +1,8 @@
 package controller;
 
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.naming.NameNotFoundException;
 
@@ -17,7 +19,10 @@ import exception.IllegalStateChangeException;
 import exception.NotAvailableException;
 import exception.UnknownStateException;
 import model.AssetType;
+import model.ResourceType;
+import model.TaskType;
 import model.User;
+import model.UserType;
 import model.repositories.RepositoryManager;
 import model.xml.DataXMLDAO;
 import model.xml.ThemeXMLDAO;
@@ -54,7 +59,11 @@ public class XMLController {
 	public User parse(String dataFilename,String themefilename, DispatchController controller) throws NameNotFoundException, DOMException, NullPointerException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
 	{
 		ThemeXMLDAO themeParser = new ThemeXMLDAO(themefilename, controller);
-		themeParser.Parse();
+		Map<String, TaskType> taskTypeMap = new HashMap<String, TaskType>();
+		Map<String, ResourceType> resourceTypeMap = new HashMap<String, ResourceType>();
+		Map<String, UserType> userTypeMap = new HashMap<String, UserType>();
+		
+		themeParser.Parse(taskTypeMap,resourceTypeMap,userTypeMap);
 		
 		DataXMLDAO dataParser = new DataXMLDAO(dataFilename, controller);
 		return dataParser.Parse();

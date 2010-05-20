@@ -1,6 +1,7 @@
 package model.xml;
 
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.naming.NameNotFoundException;
 
@@ -9,10 +10,14 @@ import org.w3c.dom.NodeList;
 
 import controller.DispatchController;
 
+import model.AssetType;
 import model.Field;
 import model.NumericField;
+import model.ResourceType;
+import model.TaskType;
 import model.TaskTypeConstraint;
 import model.TextField;
+import model.UserType;
 
 public class ThemeXMLDAO {
 
@@ -25,43 +30,43 @@ public class ThemeXMLDAO {
 	}
 	
 	
-	public void Parse() throws NameNotFoundException
+	public void Parse(Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException
 	{
 		Node taskTypes = parser.getNodeByName(parser.getRootNode(), "t:taskTypes");
 		Node resourceTypes = parser.getNodeByName(parser.getRootNode(), "t:resourceTypes");
 		Node userTypes = parser.getNodeByName(parser.getRootNode(), "t:userTypes");
 		
-		parseResourceTypes(resourceTypes);
-		parseUserTypes(userTypes);
-		parseTaskTypes(taskTypes);
+		parseResourceTypes(resourceTypes,resourceTypeMap);
+		parseUserTypes(userTypes,userTypeMap);
+		parseTaskTypes(taskTypes,taskTypeMap,resourceTypeMap,userTypeMap);
 	}
-	private void parseUserTypes(Node userTypes) throws NameNotFoundException {
+	private void parseUserTypes(Node userTypes,Map<String,UserType> userTypeMap) throws NameNotFoundException {
 		Node typeNode = parser.getNodeByName(userTypes, "t:userType");
 		NodeList types = typeNode.getChildNodes();
 		for(int i=0;i<types.getLength();i++)
-			addUserType(types.item(i));
+			addUserType(types.item(i),userTypeMap);
 	}
 
-	private void parseResourceTypes(Node resourceTypes) throws NameNotFoundException {
+	private void parseResourceTypes(Node resourceTypes,Map<String,ResourceType> resourceTypeMap) throws NameNotFoundException {
 		Node typeNode = parser.getNodeByName(resourceTypes, "t:resourceType");
 		NodeList types = typeNode.getChildNodes();
 		for(int i=0;i<types.getLength();i++)
-			addResourceType(types.item(i));
+			addResourceType(types.item(i),resourceTypeMap);
 	}
 
-	private void parseTaskTypes(Node taskTypes) throws NameNotFoundException {
+	private void parseTaskTypes(Node taskTypes,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException {
 		Node typeNode = parser.getNodeByName(taskTypes, "t:taskType");
 		NodeList types = typeNode.getChildNodes();
 		for(int i=0;i<types.getLength();i++)
-			addTaskType(types.item(i));
+			addTaskType(types.item(i),taskTypeMap,resourceTypeMap,userTypeMap);
 	}
 
 	@SuppressWarnings("unchecked")
-	private void addTaskType(Node item) throws NameNotFoundException {
+	private void addTaskType(Node item,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException {
 		String id = item.getAttributes().item(0).getTextContent();
 		String name = item.getAttributes().item(1).getTextContent();
 		ArrayList<Field> fields = parseTaskTypeFields(item);
-		ArrayList<TaskTypeConstraint> constraints = parseTaskTypeConstraints(item);
+		ArrayList<TaskTypeConstraint> constraints = parseTaskTypeConstraints(item,resourceTypeMap,userTypeMap);
 		controller.getTaskController().addTaskType(id,name,fields,constraints);
 	}
 	
@@ -86,7 +91,7 @@ public class ThemeXMLDAO {
 		return allFields;
 	}
 	
-	private ArrayList<TaskTypeConstraint> parseTaskTypeConstraints(Node item) throws NameNotFoundException
+	private ArrayList<TaskTypeConstraint> parseTaskTypeConstraints(Node item,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException
 	{
 		ArrayList<TaskTypeConstraint> allConstraints = new ArrayList<TaskTypeConstraint>();
 		Node constraintNode = parser.getNodeByName(parser.getNodeByName(item, "t:requires"),"t:requirement");
@@ -97,20 +102,23 @@ public class ThemeXMLDAO {
 			String assetTypeID = constraint.getAttributes().item(0).getTextContent();
 			int minimum = Integer.parseInt(constraint.getAttributes().item(1).getTextContent());
 			int maximum = Integer.parseInt(constraint.getAttributes().item(2).getTextContent());
-			allConstraints.add(new TaskTypeConstraint(controller.getXmlController().getAssetTypeById(assetTypeID),minimum,maximum));
+			AssetType assetType = resourceTypeMap.get(assetTypeID);
+			if(assetType==null)
+				assetType = userTypeMap.get(assetTypeID);
+			allConstraints.add(new TaskTypeConstraint(assetType,minimum,maximum));
 		}
 		return allConstraints;
 	}
 	
-	private void addUserType(Node item) {
+	private void addUserType(Node item,Map<String, UserType> userTypeMap) {
 		String id = item.getAttributes().item(0).getTextContent();
 		String name = item.getAttributes().item(0).getTextContent();
-		controller.getUserController().createUserType(id, name);
+		userTypeMap.put(id,controller.getUserController().createUserType(name));
 	}
 
-	private void addResourceType(Node item) {
+	private void addResourceType(Node item,Map<String, ResourceType> resourceTypeMap) {
 		String id = item.getAttributes().item(0).getTextContent();
 		String name = item.getAttributes().item(0).getTextContent();
-		controller.getResourceController().createResourceType(id, name);
+		resourceTypeMap.put(id,controller.getResourceController().createResourceType(name));
 	}
 }
