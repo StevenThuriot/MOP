@@ -114,7 +114,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 */
-	public Task(TaskType taskT, User user,TaskTimings timings, ArrayList<Task> dependencies, ArrayList<Resource> requiredResources, Clock clock)
+	public Task(TaskType taskT, User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock)
 			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		
 		this(taskT, user, timings, clock);
@@ -122,13 +122,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 		for(Task t: dependencies){
 			if (t != null)
 				this.addDependency(t);
-		}
-		
-		for (Resource resource : requiredResources) {
-			if (resource != null) 
-			{
-				//this.addAssetAllocation(resource);
-			}
 		}
 	}
 	
