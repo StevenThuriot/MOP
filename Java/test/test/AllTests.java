@@ -11,11 +11,11 @@ import model.TaskTest;
 import model.TaskTypeTest;
 import model.UserTaskManagerTest;
 import model.UserTest;
-import model.XMLParserTest;
 import model.focus.FocusFactoryTest;
 import model.focus.FocusStrategyTest;
 import model.repositories.GenericRepoTest;
 import model.repositories.TypeRepoTest;
+import model.xml.XMLParserTest;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

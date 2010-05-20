@@ -8,11 +8,11 @@ import static org.junit.Assert.*;
 
 
 public class GenericRepoTest {
-    private ListRepository<String> repo;
+    private Repository<String> repo;
     @Before
     public void setUp()
     {
-        repo = new ListRepository<String>();
+        repo = new Repository<String>();
     }
     
     @Test

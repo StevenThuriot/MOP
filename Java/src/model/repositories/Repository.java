@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class ListRepository<T> extends ArrayList<T>{
+public class Repository<T> extends ArrayList<T>{
     /**
      * 
      */
@@ -13,7 +13,7 @@ public class ListRepository<T> extends ArrayList<T>{
     /**
      * Default Constructor
      */
-    public ListRepository()
+    public Repository()
     {
         super();
     }

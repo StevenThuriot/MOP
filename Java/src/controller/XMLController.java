@@ -59,14 +59,5 @@ public class XMLController {
 		DataXMLDAO dataParser = new DataXMLDAO(dataFilename, controller);
 		return dataParser.Parse();
 	}
-	
-	/**
-	 * Returns the asset type by ID, not regarding wether this is a User/resource
-	 * @param id
-	 * @return
-	 */
-	public AssetType getAssetTypeById(String id)
-	{
-		return manager.getAssetById(id);
-	}
+
 }
