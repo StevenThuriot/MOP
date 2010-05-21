@@ -122,7 +122,6 @@ public class Invitation extends AssetAllocation implements Describable{
 		return user.getName() + " is invited for " + task.getDescription() + ". State is " + this.getState().toString();
 	}
 
-	@Override
 	public String getDescription() {
 		return this.toString();
 	}

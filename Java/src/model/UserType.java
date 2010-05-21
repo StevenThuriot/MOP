@@ -15,12 +15,10 @@ private String typeDescription;
 		this.typeDescription = typeDescription;
 	}
 	
-	@Override
 	public String getTypeDescription() {
 		return typeDescription;
 	}
 
-	@Override
 	public String getDescription() {
 		return getTypeDescription();
 	}

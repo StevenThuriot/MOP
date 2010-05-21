@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -43,8 +44,10 @@ public class ResourceTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		manager = new RepositoryManager();
 		// 4 days to finish task
-		task1 = new Task("Descr",user, new TaskTimings(new GregorianCalendar(),endDate,1440), manager.getClock());
-		
+		TaskType taskType = new TaskType("reorganizing the test cases", 
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+		task1 = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(new GregorianCalendar(),endDate,1440), manager.getClock());
 	}
 
 	@After

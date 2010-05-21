@@ -184,7 +184,6 @@ public class Reservation extends AssetAllocation implements Describable{
 
 
 
-	@Override
 	public String getDescription() {
 		return "Reservation: " + this.getAssetType().getDescription();
 	}

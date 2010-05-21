@@ -2,6 +2,7 @@ package model;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -14,6 +15,7 @@ import exception.BusinessRule1Exception;
 import exception.BusinessRule3Exception;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
+import exception.WrongFieldsForChosenTypeException;
 
 public class ProjectTest {
     
@@ -61,13 +63,16 @@ public class ProjectTest {
     }
     
     @Test
-    public void testTask() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+    public void testTask() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
     {
         Project proj = new Project("ABC");
         User user = new User("John",new UserType(""));
         GregorianCalendar endDate = new GregorianCalendar();
         endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
-        Task task = new Task("Descr",user, new TaskTimings(new GregorianCalendar(),endDate,120), manager.getClock());
+        TaskType taskType = new TaskType("reorganizing the test cases", 
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+        Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(new GregorianCalendar(),endDate,120), manager.getClock());
         proj.bindTask(task);
         assertTrue(proj.getTasks().contains(task));
         proj.remove();

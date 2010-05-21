@@ -1,14 +1,19 @@
 package controller;
 
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import model.Field;
 import model.Reservation;
 import model.Resource;
 import model.ResourceType;
 import model.Task;
+import model.TaskFactory;
 import model.TaskTimings;
+import model.TaskType;
+import model.TaskTypeConstraint;
 import model.User;
 import model.UserType;
 import model.repositories.RepositoryManager;
@@ -45,7 +50,10 @@ public class ResourceControllerTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		manager = new RepositoryManager();
 		// 4 days to finish task
-		task = new Task("Descr",user, new TaskTimings(new GregorianCalendar(),endDate,1440), manager.getClock());
+		TaskType taskType = new TaskType("reorganizing the test cases", 
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+		task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(new GregorianCalendar(),endDate,1440), manager.getClock());
 	}
 	
 	/**

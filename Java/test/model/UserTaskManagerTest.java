@@ -1,6 +1,7 @@
 package model;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -16,6 +17,7 @@ import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.AssetAllocatedException;
 import exception.InvitationInvitesOwnerException;
+import exception.WrongFieldsForChosenTypeException;
 public class UserTaskManagerTest {
 
 	/**
@@ -32,7 +34,7 @@ public class UserTaskManagerTest {
 	private RepositoryManager manager;
 	
 	@Before
-	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
 		user = new User("Bart",new UserType(""));
 		manager = new RepositoryManager();
@@ -41,7 +43,10 @@ public class UserTaskManagerTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		// 4 days to finish the task from now on
 		int duration = 1;
-		taskMain = new Task("Main Task",user,new TaskTimings(startDate,endDate,duration), manager.getClock());
+		TaskType taskType = new TaskType("reorganizing the test cases", 
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, duration), manager.getClock());
 	}
 	@After
 	public void tearDown()

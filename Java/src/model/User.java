@@ -130,7 +130,6 @@ public class User implements Asset,Describable{
 		return taskManager.getInvitations();
 	}
 
-	@Override
 	public UserType getType() {
 		return type;
 	}
