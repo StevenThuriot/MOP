@@ -1,11 +1,15 @@
 package model.focus;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import model.Field;
 import model.Task;
 import model.TaskTimings;
+import model.TaskType;
+import model.TaskTypeConstraint;
 import model.User;
 import model.UserType;
 import model.repositories.RepositoryManager;
@@ -34,8 +38,10 @@ public class FocusStrategyTest {
         end1.add(Calendar.DAY_OF_MONTH, 1);
         GregorianCalendar end2 = new GregorianCalendar();
         end2.add(Calendar.MONTH, 1);
-        controller.createTask("Task1", new TaskTimings(new GregorianCalendar(), end1, 10), user);
-        controller.createTask("Task2", new TaskTimings(new GregorianCalendar(), end2, 3600), user);
+        TaskType taskType = new TaskType("reorganizing the test cases", 
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+        controller.createTask("Task1",taskType,new ArrayList<Field>(), user, new TaskTimings(new GregorianCalendar(), end1, 10));
+        controller.createTask("Task2",taskType,new ArrayList<Field>(), user, new TaskTimings(new GregorianCalendar(), end2, 3600));
         
     }
     
