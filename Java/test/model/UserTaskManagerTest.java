@@ -49,14 +49,14 @@ public class UserTaskManagerTest {
 		user = null;
 	}
 	@Test
-	public void adding() throws AssetAllocatedException, InvitationInvitesOwnerException
+	public void adding() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
 		User user1 = new User("John",new UserType(""));
 		Invitation invitation = new Invitation(taskMain, user1);
 		assertTrue(user1.getUserTaskManager().getInvitations().contains(invitation));
 	}
 	@Test
-	public void removing() throws AssetAllocatedException, InvitationInvitesOwnerException
+	public void removing() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
 		User user1 = new User("John",new UserType(""));
 		Invitation invitation = new Invitation(taskMain, user1);

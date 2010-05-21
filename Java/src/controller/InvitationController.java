@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.List;
 
 import exception.AssetAllocatedException;
+import exception.IllegalStateCallException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
 import model.Invitation;
@@ -36,8 +37,9 @@ public class InvitationController {
 	 * @param user
 	 * @throws AssetAllocatedException
 	 * @throws InvitationInvitesOwnerException 
+	 * @throws IllegalStateCallException 
 	 */
-	public Invitation createInvitation(Task task, User user) throws AssetAllocatedException, InvitationInvitesOwnerException
+	public Invitation createInvitation(Task task, User user) throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
 		return new Invitation(task,user);
 	}
