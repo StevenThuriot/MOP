@@ -1,5 +1,10 @@
 package gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import model.AllocationType;
+import model.AssetAllocation;
 import model.Invitation;
 import model.Task;
 import model.User;
@@ -83,10 +88,17 @@ public class InvitationManager extends UseCase {
 			} catch (InvitationInvitesOwnerException e) {
 				menu.print("You can't invite yourself to the invitation");
 			} catch (IllegalStateCallException e) {
-				menu.print("This change is not allowed");
+				menu.print("Task is finished, you can no longer extend invitations for it.");
 			}
 		}else{
-			Invitation removeInvitation = (Invitation)menu.menuGen("Select an invitation to be removed", selectedTask.getTaskAssetManager().getAssetAllocations());
+			List<AssetAllocation> allocations =  selectedTask.getAssetAllocations();
+			ArrayList<Invitation> invitations = new ArrayList<Invitation>();
+			for(AssetAllocation allocation: allocations){
+				if(allocation.getAllocationType() == AllocationType.Invitation){
+					invitations.add((Invitation) allocation);
+				}
+			}
+			Invitation removeInvitation = menu.menuGen("Select an invitation to be removed", invitations);
 			dController.getInvitationController().removeInvitation(removeInvitation);
 			menu.print("Invitation removed");
 		}
