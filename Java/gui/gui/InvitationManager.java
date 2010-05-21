@@ -6,6 +6,7 @@ import model.User;
 import model.Invitation.InvitationState;
 import controller.DispatchController;
 import exception.AssetAllocatedException;
+import exception.IllegalStateCallException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
 
@@ -81,9 +82,11 @@ public class InvitationManager extends UseCase {
 				menu.print("This user was already invited for this task.");
 			} catch (InvitationInvitesOwnerException e) {
 				menu.print("You can't invite yourself to the invitation");
+			} catch (IllegalStateCallException e) {
+				menu.print("This change is not allowed");
 			}
 		}else{
-			Invitation removeInvitation = menu.menuGen("Select an invitation to be removed", selectedTask.getTaskAssetManager().getAssetAllocations());
+			Invitation removeInvitation = (Invitation)menu.menuGen("Select an invitation to be removed", selectedTask.getTaskAssetManager().getAssetAllocations());
 			dController.getInvitationController().removeInvitation(removeInvitation);
 			menu.print("Invitation removed");
 		}

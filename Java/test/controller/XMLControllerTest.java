@@ -82,7 +82,7 @@ public class XMLControllerTest {
     @Test
     public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
     {
-        User result = controller.parse("students_public.xml", dcontroller);
+        User result = controller.parse("students_public.xml","theme_development_1.xml", dcontroller);
         manager.add(result);
         assertEquals(2,manager.getProjects().size());
         assertEquals(4,manager.getResources().size());
@@ -110,7 +110,7 @@ public class XMLControllerTest {
     @Test
     public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
     {
-        User result = controller.parse("students_public.xml", dcontroller);
+        User result = controller.parse("students_public.xml","theme_development_1.xml", dcontroller);
         Resource devRoom = manager.getResources().get(0); //Should be the 'Development room' resource
 
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);

@@ -8,6 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.AssetAllocatedException;
+import exception.IllegalStateCallException;
 import exception.InvitationInvitesOwnerException;
 import static org.junit.Assert.*;
 
@@ -58,13 +59,13 @@ public class TaskInvitationManagerTest {
 	}
 	
 	@Test
-	public void testInvite1() throws AssetAllocatedException, InvitationInvitesOwnerException
+	public void testInvite1() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
 		Invitation invitation = new Invitation(taskMain, user);
 		assertTrue(tim.getAssetAllocations().contains(invitation));
 	}
 	@Test(expected=AssetAllocatedException.class)
-	public void testInvite2() throws AssetAllocatedException, InvitationInvitesOwnerException
+	public void testInvite2() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
 		new Invitation(taskMain, user);
 		new Invitation(taskMain, user);

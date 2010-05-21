@@ -54,14 +54,14 @@ public class InvitationControllerTest {
 	}
 	
 	@Test
-	public void createTest() throws AssetAllocatedException, InvitationInvitesOwnerException
+	public void createTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
 		Invitation invitation = controller.createInvitation(taskMain,user);
 		assertTrue(user.getInvitations().contains(invitation));
 	}
 	
 	@Test(expected=AssetAllocatedException.class)
-	public void createTest2() throws AssetAllocatedException, InvitationInvitesOwnerException
+	public void createTest2() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
 		User user2 = new User("Jack",new UserType(""));
 		controller.createInvitation(taskMain,user2);
@@ -69,13 +69,13 @@ public class InvitationControllerTest {
 	}
 	
 	@Test(expected=InvitationInvitesOwnerException.class)
-	public void createTest3() throws AssetAllocatedException, InvitationInvitesOwnerException
+	public void createTest3() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
 		controller.createInvitation(taskMain,owner);
 	}
 	
 	@Test
-	public void removeTest() throws AssetAllocatedException, InvitationInvitesOwnerException
+	public void removeTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
 		User user2 = new User("Jack",new UserType(""));
 		Invitation invitation = controller.createInvitation(taskMain,user2);

@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
 import controller.ResourceController;
 import exception.AssetAllocatedException;
 import exception.EmptyStringException;
+import exception.IllegalStateCallException;
 import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
 import exception.ResourceBusyException;
@@ -69,9 +70,10 @@ public class ResourceControllerTest {
 	 * @throws NotAvailableException 
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
+	 * @throws IllegalStateCallException 
 	 */
 	@Test
-	public void createReservation() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException
+	public void createReservation() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException
 	
 	{
 		GregorianCalendar begin = new GregorianCalendar();
@@ -84,9 +86,10 @@ public class ResourceControllerTest {
 	 * @throws NotAvailableException
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
+	 * @throws IllegalStateCallException 
 	 */
 	@Test(expected=NotAvailableException.class)
-	public void createNoReservation() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException
+	public void createNoReservation() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException
 	{
 		controller.createReservation(new GregorianCalendar(), 140, resource, task);
 		controller.createReservation(new GregorianCalendar(), 30, resource, task);
@@ -121,9 +124,10 @@ public class ResourceControllerTest {
 	 * @throws EmptyStringException 
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
+	 * @throws IllegalStateCallException 
 	 */
 	@Test
-	public void testReservations() throws NotAvailableException, EmptyStringException, NoReservationOverlapException, AssetAllocatedException
+	public void testReservations() throws NotAvailableException, EmptyStringException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException
 	{
 	    resource = controller.createResource("Room 101", new ResourceType(""));
 	    Reservation reservation = controller.createReservation(new GregorianCalendar(), 101, resource, task);
