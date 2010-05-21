@@ -23,6 +23,7 @@ import model.ResourceType;
 import model.Task;
 import model.TaskTimings;
 import model.User;
+import model.UserType;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -88,7 +89,7 @@ public class DataXMLDAO {
 		Node userNode = parser.getNodeByName(parser.getRootNode(), "mop:user");
 		Node userName = parser.getNodeByName(userNode, "mop:name");
 		
-		User user = new User(userName.getTextContent());
+		User user = new User(userName.getTextContent(), new UserType("blub"));
 		
 		
 		parseResources();
@@ -168,7 +169,9 @@ public class DataXMLDAO {
 				
 				if (requiredResources.size() > 0) {
 					for (Resource r : requiredResources)
-						task.addRequiredResource(r);
+					{
+						//task.addRequiredResource(r);
+					}
 				}
 				
 				if (dependencyList.size() > 0) {
@@ -208,14 +211,14 @@ public class DataXMLDAO {
 			    
 			    String projectID = parser.getNodeByName(childNode, "mop:refProject").getTextContent();
 				
-			    Task task = controller.getTaskController().createTask(description, new TaskTimings(startDate, dueDate, duration), user);
+			    Task task = null; //controller.getTaskController().createTask(description, new TaskTimings(startDate, dueDate, duration), user);
 			    
 			    stateMap.put(task, state);
 			    			    
 			    if (projectID.length() > 0 && projectID != null)
 			    {
 				    Project project = projectMap.get(projectID);
-				    controller.getProjectController().bind(project, task);
+				    //controller.getProjectController().bind(project, task);
 			    }
 			    
 			    taskMap.put(id, task);
@@ -245,7 +248,7 @@ public class DataXMLDAO {
 				
 				Resource resource = resourceMap.get(refResource);
 				
-				controller.getResourceController().createReservation(startTime, duration, resource, user);	
+				//controller.getResourceController().createReservation(startTime, duration, resource, user);	
 		    }
 		}
 	}
@@ -278,7 +281,7 @@ public class DataXMLDAO {
 		    {
 				String id = childNode.getAttributes().item(0).getTextContent();
 				String description = parser.getNodeByName(childNode, "mop:description").getTextContent();
-				ResourceType type = ResourceType.valueOf(parser.getNodeByName(childNode, "mop:type").getTextContent());
+				ResourceType type = null;//ResourceType.valueOf(parser.getNodeByName(childNode, "mop:type").getTextContent());
 				 
 				resourceMap.put(id, controller.getResourceController().createResource(description, type));
 		    }
