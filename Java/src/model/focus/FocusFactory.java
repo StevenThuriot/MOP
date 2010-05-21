@@ -1,7 +1,6 @@
 package model.focus;
 import exception.ArrayLengthException;
 import model.User;
-import model.focus.*;
 
 public class FocusFactory {
 		/**

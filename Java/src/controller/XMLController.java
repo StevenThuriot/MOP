@@ -18,7 +18,6 @@ import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.NotAvailableException;
 import exception.UnknownStateException;
-import model.AssetType;
 import model.ResourceType;
 import model.TaskType;
 import model.User;

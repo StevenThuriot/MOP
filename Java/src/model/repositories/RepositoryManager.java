@@ -3,11 +3,9 @@ package model.repositories;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 
 import exception.IllegalStateCallException;
 
-import model.AssetType;
 import model.Clock;
 import model.Project;
 import model.Resource;

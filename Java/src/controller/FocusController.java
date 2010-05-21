@@ -1,9 +1,6 @@
 package controller;
 
-import java.util.List;
-
 import exception.ArrayLengthException;
-import model.Task;
 import model.User;
 import model.focus.FocusFactory;
 import model.focus.FocusType;

@@ -10,7 +10,6 @@ import java.util.Locale;
 
 import model.focus.DeadlineFocus;
 import model.focus.DurationFocus;
-import model.focus.FocusFactory;
 import model.focus.FocusStrategy;
 import model.focus.FocusType;
 import model.focus.FocusWork;
