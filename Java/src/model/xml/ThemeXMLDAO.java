@@ -67,7 +67,7 @@ public class ThemeXMLDAO {
 			String name = item.getAttributes().item(1).getTextContent();
 			ArrayList<Field> fields = parseTaskTypeFields(item);
 			ArrayList<TaskTypeConstraint> constraints = parseTaskTypeConstraints(item,resourceTypeMap,userTypeMap);
-			taskTypeMap.put(id,controller.getTaskController().addTaskType(id,name,fields,constraints));
+			taskTypeMap.put(id,controller.getTaskController().addTaskType(name,fields,constraints));
 		}
 	}
 	
