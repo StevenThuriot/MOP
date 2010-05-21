@@ -1,6 +1,8 @@
 package model;
 
-public class TaskTypeConstraint {
+import gui.Describable;
+
+public class TaskTypeConstraint implements Describable{
 	
 	/**
 	 * The required AssetType.
@@ -38,5 +40,9 @@ public class TaskTypeConstraint {
 	public int getMaximum(){
 		return max;
 	}
-	
+
+	@Override
+	public String getDescription() {
+		return assetType.getDescription() + " min: " + getMinimum() + " max: " + getMaximum();
+	}
 }

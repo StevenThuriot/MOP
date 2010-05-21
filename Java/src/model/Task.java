@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -805,6 +806,22 @@ public class Task implements Describable, Subject, Observer<Task>{
 	
 	public List<AssetAllocation> getAssetAllocations(){
 		return this.tam.getAssetAllocations();
+	}
+	
+	/**
+	 * Method to find out if the Task requires assets
+	 * @return
+	 */
+	public boolean hasRequiredAssets() {
+		return !this.taskType.getConstraints().isEmpty();
+	}
+	/**
+	 * Method to get the Tasks required resources
+	 * @return
+	 */
+	public List<TaskTypeConstraint> getRequiredResources()
+	{
+		return Collections.unmodifiableList(taskType.getConstraints());
 	}
 	
 }

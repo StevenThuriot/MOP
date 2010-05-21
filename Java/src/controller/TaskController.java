@@ -257,4 +257,20 @@ public class TaskController {
 	{
 		t.parseStateString(state);
 	}
+	
+	/**
+	 * Method that returns wether or not a Task requires resources
+	 * @return
+	 */
+	public boolean hasRequiredAssets(Task taak)
+	{
+		if(taak.hasRequiredAssets())
+			return true;
+		return false;
+	}
+	
+	public List<TaskTypeConstraint> getRequiredAssets(Task taak)
+	{
+		return taak.getRequiredResources();
+	}
 }
