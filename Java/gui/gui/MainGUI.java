@@ -93,7 +93,6 @@ public class MainGUI implements Runnable{
 		useCases.add(new UpdateTaskStatus());
 		useCases.add(new CreateProject());
 		useCases.add(new RemoveProject());
-		useCases.add(new AssignTaskToProject());
 		useCases.add(new CreateResource());
 		useCases.add(new MakeResourceReservation());
 		useCases.add(new FocusWork());

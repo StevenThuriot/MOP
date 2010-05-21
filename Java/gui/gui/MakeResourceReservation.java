@@ -32,10 +32,10 @@ public class MakeResourceReservation extends UseCase {
 	
 	private void makeResourceReservation(){
 		Resource resource = menu.menuGen("Select resource to reserve", dController.getResourceController().getResources());
-		List<Reservation> reservations = dController.getResourceController().getReservations();
+		List<Reservation> reservations = resource.getReservations();
 		ArrayList<String> rsvDescr = new ArrayList<String>();
 		for(Reservation rsv : reservations){
-			rsvDescr.add("By "+rsv.getOwner().getName()+" on "+menu.format( rsv.getTime() )+" for "+rsv.getDuration()+" Minutes");
+			rsvDescr.add("For "+rsv.getTask()+" on "+menu.format( rsv.getTime() )+" for "+rsv.getDuration()+" Minutes");
 		}
 		if(rsvDescr.isEmpty())
 			rsvDescr.add("None");
@@ -43,7 +43,7 @@ public class MakeResourceReservation extends UseCase {
 		GregorianCalendar startDate = menu.promptDate("Give Start Date");
 		int duration = Integer.parseInt(menu.prompt("Duration?"));
 		try {
-			dController.getResourceController().createReservation(duration, resource, user, startDate);
+			dController.getResourceController().createReservation(startDate, duration, resource, user);
 		} catch (NotAvailableException e) {
 			System.out.println("Resource is already reserved");
 		}
