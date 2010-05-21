@@ -2,7 +2,9 @@ package model;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -12,6 +14,7 @@ import exception.BusinessRule3Exception;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.TimeException;
+import exception.WrongFieldsForChosenTypeException;
 
 import model.repositories.RepositoryManager;
 
@@ -25,7 +28,7 @@ public class ClockTest {
 	private User user;
 	
 	@Before
-	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, TimeException{
+	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, TimeException, WrongFieldsForChosenTypeException{
 		startDate = new GregorianCalendar(2010, 1,1, 12, 0);
 		dueDate = new GregorianCalendar(2010, 5,1, 12, 0);
 		manager = new RepositoryManager();
@@ -33,7 +36,10 @@ public class ClockTest {
 		clock.setTime(startDate);
 		user = new User("Kwinten",new UserType(""));
 		manager.add(user);
-		task = new Task("Make Clock Tests", user,  new TaskTimings(startDate, dueDate, 120), clock);
+		TaskType taskType = new TaskType("reorganizing the test cases", 
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+		task = TaskFactory.createTask("Make Clock Tests", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, dueDate, 120), clock);
 	}
 	
 	/**
