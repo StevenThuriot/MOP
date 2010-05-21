@@ -146,7 +146,7 @@ public class ResourceControllerTest {
 	@Test
 	public void createTypeTest()
 	{
-		ResourceType type = controller.createResourceType("abc", "Alfabet resource");
-		assertEquals(type,manager.getResourceTypeById("abc"));
+		ResourceType type = controller.createResourceType("Alfabet resource");
+		assertEquals(type,manager.getResourceTypes().contains(type));
 	}
 }
