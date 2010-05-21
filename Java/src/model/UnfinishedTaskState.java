@@ -48,7 +48,7 @@ public class UnfinishedTaskState extends TaskState {
 		if (now.before(this.getContext().getStartDate())) {
 			return false;
 		} else {
-			assetsReady = this.getContext().assetsAvailableAt(now, this.getContext().getDuration());
+			assetsReady = this.getContext().checkAssetAvailability(now, this.getContext().getDuration());
 			
 			for(Task t: this.getContext().getDependencies()){
 				depReady = depReady && t.isSuccesful();

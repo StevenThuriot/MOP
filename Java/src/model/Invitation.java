@@ -137,7 +137,7 @@ public class Invitation extends AssetAllocation implements Describable{
 	 * Invitations shouldn't interfere with overlap so return true by default.
 	 */
 	@Override
-	public boolean hasOverlap(GregorianCalendar begin, int duration) {
+	public boolean checkProposedAllocation(AssetAllocation assetAllocation) {
 		return true;
 	}
 

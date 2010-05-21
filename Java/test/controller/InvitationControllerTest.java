@@ -52,7 +52,7 @@ public class InvitationControllerTest {
 				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
 		//taskMain = new Task("Main Task",owner,new TaskTimings(startDate,endDate,duration), manager.getClock());
 		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, duration), manager.getClock());
+				owner, new TaskTimings(startDate, endDate, duration), manager.getClock());
 	
 	}
 	

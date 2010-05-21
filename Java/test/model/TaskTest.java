@@ -541,6 +541,38 @@ public class TaskTest {
 	}
 	
 	/**
+	 * Testing default implementation for add dependancy
+	 * @throws IllegalStateChangeException 
+	 * @throws DependencyException 
+	 * @throws IllegalStateChangeException 
+	 * @throws IllegalStateCallException 
+	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule3Exception 
+	 * @throws EmptyStringException 
+	 * @throws DependencyCycleException 
+	 * @throws BusinessRule1Exception 
+	 * @throws NullPointerException 
+	 * @throws EmptyStringException 
+	 * @throws NullPointerException 
+	 * @throws BusinessRule3Exception 
+	 * @throws DependencyException 
+	 * @throws BusinessRule2Exception 
+	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws AssetAllocatedException 
+	 * @throws NoReservationOverlapException 
+	 * @throws NotAvailableException 
+	 * @throws NotAvailableException 
+	 * @throws UnknownStateException 
+	 */
+	@SuppressWarnings("unchecked")
+	@Test(expected=IllegalStateCallException.class)
+	public void checkStateTwentySeven() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception, WrongFieldsForChosenTypeException, NotAvailableException, NoReservationOverlapException, AssetAllocatedException 
+	{
+		task.setSuccessful();
+		new Reservation(startDate, 180, resource, task);
+	}
+	
+	/**
 	 * Test to see if description is set properly
 	 * @throws EmptyStringException
 	 * @throws IllegalStateCallException 

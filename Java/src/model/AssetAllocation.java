@@ -14,14 +14,21 @@ public abstract class AssetAllocation implements Describable {
 		return this.task;
 	}
 	
-	public abstract boolean hasOverlap(GregorianCalendar begin, int duration);
+	/**
+	 * Returns whether the proposed allocation can be made alongside this allocation.
+	 * @param assetAllocation The proposed AssetAllocation
+	 * @return default true;
+	 */
+	protected boolean checkProposedAllocation(AssetAllocation assetAllocation){
+		return true;
+	}
 	
-	public abstract boolean countsTowardsLimits(); 
+	protected abstract boolean countsTowardsLimits(); 
 	
 	/**
 	 * Destroy all bindings between the this allocation, the allocating task and the asset.
 	 */
-	public abstract void remove();
+	protected abstract void remove();
 	
 	public abstract AssetType getAssetType();
 	

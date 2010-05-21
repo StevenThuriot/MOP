@@ -33,7 +33,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	/**
 	 * The TaskType of this Task.
 	 */
-	private TaskType taskT;
+	private TaskType taskType;
 
 	/**
 	 * A GregorianCalendar that describes the start date for this Task.
@@ -153,7 +153,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		tdm = new TaskDependencyManager(this);
 		tam = new TaskAssetManager(this);
 		this.clock = clock;
-		this.taskT = taskT;
+		this.taskType = taskT;
 		
 		this.doSetDescription(description);
 		
@@ -753,6 +753,12 @@ public class Task implements Describable, Subject, Observer<Task>{
 		}
 	}
 
+	/**
+	 * Add AssetAllocationto this task.
+	 * @param assetAllocation
+	 * @throws AssetAllocatedException
+	 * @throws IllegalStateCallException
+	 */
 	protected void addAssetAllocation(AssetAllocation assetAllocation) throws AssetAllocatedException, IllegalStateCallException{
 		this.taskState.addAssetAllocation(assetAllocation);
 	}
@@ -761,23 +767,44 @@ public class Task implements Describable, Subject, Observer<Task>{
 		this.tam.add(assetAllocation);
 	}
 	
+	
+	/**
+	 * Remove AssetAllocation from this task.
+	 * Should only be used for destroying connections when deleting this task.
+	 * @param assetAllocation
+	 */
 	protected void removeAssetAllocation(AssetAllocation assetAllocation) {
 		this.tam.remove(assetAllocation);
 	}
 	
-	protected boolean checkOverlap(GregorianCalendar begin, int duration){
-		return this.tam.checkOverlap(begin, duration);
+	
+	/**
+	 * Checks whether the proposed allocation can be made alongside the current allocations.
+	 */
+	protected boolean checkProposedAllocation(AssetAllocation assetAllocation){
+		return this.tam.checkProposedAllocation(assetAllocation);
 	}
 	
 	protected Map<AssetType,Integer> getAssetsAvailableAt(GregorianCalendar begin, int duration){
 		return this.tam.getAssetsAvailableAt(begin, duration);
 	}
 	
-	protected int getAssetAvailableAt(GregorianCalendar begin, int duration, AssetType assetType){
-		return this.tam.getAssetsAvailableAt(begin, duration, assetType);
+	protected int getAssetCountAvailableAt(GregorianCalendar begin, int duration, AssetType assetType){
+		return this.tam.getAssetCountAvailableAt(begin, duration, assetType);
 	}
+	
+	protected int getValidAssetCount(AssetType assetType){
+		return this.tam.getValidAssetCount(assetType);
+	}
+	
+	protected boolean checkAssetAvailability(GregorianCalendar begin, int duration){
+		return true;
+	}
+	
+	
 	
 	public List<AssetAllocation> getAssetAllocations(){
 		return this.tam.getAssetAllocations();
 	}
+	
 }
