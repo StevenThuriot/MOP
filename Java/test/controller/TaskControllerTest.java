@@ -4,10 +4,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
+import model.Field;
 import model.Resource;
 import model.ResourceType;
 import model.Task;
 import model.TaskTimings;
+import model.TaskType;
+import model.TaskTypeConstraint;
 import model.User;
 import model.UserType;
 import model.repositories.RepositoryManager;
@@ -36,12 +39,15 @@ public class TaskControllerTest {
 	private TaskController controller;
 	private User user;
 	private RepositoryManager manager;
+	private TaskType taskType;
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp()
 	{
 		manager = new RepositoryManager();
 		controller = new TaskController(manager);
 		user = new User("John",new UserType(""));
+		taskType = controller.addTaskType("MyType",new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
 	}
 	
 	@After

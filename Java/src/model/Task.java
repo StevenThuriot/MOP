@@ -114,10 +114,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 */
-	public Task(TaskType taskT, User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock)
+	public Task(TaskType taskT, String description,User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock)
 			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		
-		this(taskT, user, timings, clock);
+		this(taskT,description, user, timings, clock);
 		
 		for(Task t: dependencies){
 			if (t != null)
@@ -149,13 +149,15 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @post	The task has dependencies nor dependent tasks
 	 * 			TODO: formal definition
 	 */
-	public Task(TaskType taskT, User user, TaskTimings timings, Clock clock) 
+	public Task(TaskType taskT, String description,User user, TaskTimings timings, Clock clock) 
 			throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
 		
 		tdm = new TaskDependencyManager(this);
 		tam = new TaskAssetManager(this);
 		this.clock = clock;
 		this.taskT = taskT;
+		
+		this.doSetDescription(description);
 		
 		this.taskState = new UnfinishedTaskState(this);
 		
