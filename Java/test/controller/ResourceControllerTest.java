@@ -40,6 +40,7 @@ public class ResourceControllerTest {
 	private Task task;
 	
 	
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
 		manager = new RepositoryManager();

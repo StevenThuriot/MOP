@@ -36,6 +36,7 @@ public class InvitationTest {
 	 */
 	private Invitation invitation;
 	
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception
 	{

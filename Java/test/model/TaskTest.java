@@ -74,6 +74,7 @@ public class TaskTest {
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
@@ -111,6 +112,7 @@ public class TaskTest {
 	 * @throws BusinessRule1Exception 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test(expected=BusinessRule1Exception.class)
 	public void initialization() throws EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, BusinessRule1Exception, WrongFieldsForChosenTypeException{
 		
@@ -271,6 +273,7 @@ public class TaskTest {
 	 * @throws BusinessRule2Exception 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void checkStateEight() throws IllegalStateChangeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, BusinessRule2Exception, WrongFieldsForChosenTypeException
 	{
@@ -394,6 +397,7 @@ public class TaskTest {
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test(expected=IllegalStateCallException.class)
 	public void checkStateSeventeen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, BusinessRule2Exception, WrongFieldsForChosenTypeException 
 	{
@@ -424,6 +428,7 @@ public class TaskTest {
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test(expected=IllegalStateCallException.class)
 	public void checkStateNineteen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception, WrongFieldsForChosenTypeException 
 	{
@@ -568,6 +573,7 @@ public class TaskTest {
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void dependencies1() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
 		// Try a proper dependency
@@ -594,6 +600,7 @@ public class TaskTest {
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test(expected=BusinessRule1Exception.class)
 	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
 		startDate = new GregorianCalendar();
@@ -618,6 +625,7 @@ public class TaskTest {
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void earliestEnd() throws TaskFailedException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
 		//<task> takes two hours to complete, earliest end time is 2 hours after the start date
@@ -652,6 +660,7 @@ public class TaskTest {
 	 * @throws NotAvailableException 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException{
 		//Sets up a resource reservation, and a dependency in both directions
@@ -685,6 +694,7 @@ public class TaskTest {
 	 * @throws NotAvailableException 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException{
 		Reservation reservation = new Reservation(startDate, 120, resource, task);
@@ -781,6 +791,7 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testDurationComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
@@ -802,6 +813,7 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testDurationComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
@@ -823,6 +835,7 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testDurationComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
@@ -844,6 +857,7 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testDeadlineComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
@@ -867,6 +881,7 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testDeadlineComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
@@ -891,6 +906,7 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Test
 	public void testDeadlineComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{

@@ -4,7 +4,6 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -27,6 +26,7 @@ public class ClockTest {
 	private Task task;
 	private User user;
 	
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, TimeException, WrongFieldsForChosenTypeException{
 		startDate = new GregorianCalendar(2010, 1,1, 12, 0);

@@ -17,13 +17,10 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.AssetAllocatedException;
-import exception.BusinessRule1Exception;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
-import exception.InvitationInvitesOwnerException;
 import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
-import exception.ResourceBusyException;
 
 public class ResourceTest {
 
@@ -35,6 +32,7 @@ public class ResourceTest {
 	
 	Task task1;
 	
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
 		resourceType = new ResourceType("");
