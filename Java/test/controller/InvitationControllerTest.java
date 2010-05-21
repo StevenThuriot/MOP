@@ -35,6 +35,7 @@ public class InvitationControllerTest {
 	private User user;
 	private User owner;
 	private InvitationController controller;
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{

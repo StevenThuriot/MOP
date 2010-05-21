@@ -46,6 +46,7 @@ public class TaskDependencyTest {
 	
 	private TaskType taskType;
 	
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
 		manager = new RepositoryManager();

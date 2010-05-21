@@ -37,6 +37,7 @@ public class TaskInvitationManagerTest {
 	 */
 	private User user;
 	
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception
 	{

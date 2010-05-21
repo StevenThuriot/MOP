@@ -62,7 +62,8 @@ public class ProjectTest {
         assertEquals("Hi", hi.getDescription());
     }
     
-    @Test
+    @SuppressWarnings("unchecked")
+	@Test
     public void testTask() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
     {
         Project proj = new Project("ABC");

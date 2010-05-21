@@ -33,6 +33,7 @@ public class UserTaskManagerTest {
 	 */
 	private RepositoryManager manager;
 	
+	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{

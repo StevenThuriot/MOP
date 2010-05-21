@@ -5,8 +5,6 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import model.Field;
-import model.Resource;
-import model.ResourceType;
 import model.Task;
 import model.TaskFactory;
 import model.TaskTimings;
@@ -22,8 +20,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import controller.TaskController;
-import model.focus.FocusType;
-import exception.ArrayLengthException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
