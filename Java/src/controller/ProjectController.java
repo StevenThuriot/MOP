@@ -7,7 +7,6 @@ import java.util.List;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import model.Project;
-import model.Task;
 import model.repositories.RepositoryManager;
 
 /**

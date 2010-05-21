@@ -1,8 +1,6 @@
 package gui;
 
 import model.Field;
-import model.FieldType;
-import model.Resource;
 import model.Task;
 import model.TaskTimings;
 import model.TaskType;
@@ -104,8 +102,7 @@ public class CreateTask extends UseCase {
 			}
 		}else{
 			try {
-				Task task = dController.getTaskController().createTask(descr, type, taskFields, user, timing);
-				//add needed resources to task
+				dController.getTaskController().createTask(descr, type, taskFields, user, timing);
 			} catch (EmptyStringException e) {
 				menu.println("Empty description");
 			} catch (BusinessRule1Exception e) {

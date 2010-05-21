@@ -4,7 +4,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.EmptyStringException;
-import exception.IllegalStateChangeException;
 
 public class FieldTest {
 	private NumericField numField;

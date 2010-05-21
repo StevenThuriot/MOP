@@ -1,12 +1,7 @@
 package controller;
 
-import java.util.Calendar;
-import java.util.GregorianCalendar;
 
 import model.Project;
-import model.TaskTimings;
-import model.User;
-import model.UserType;
 import model.repositories.RepositoryManager;
 
 import org.junit.After;
@@ -15,9 +10,6 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import controller.ProjectController;
-import exception.BusinessRule1Exception;
-import exception.BusinessRule3Exception;
-import exception.DependencyCycleException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 

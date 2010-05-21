@@ -40,6 +40,7 @@ public class TaskControllerTest {
 	private User user;
 	private RepositoryManager manager;
 	private TaskType taskType;
+	
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp()

@@ -6,11 +6,7 @@ import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 import gui.Describable;
-
-
 import exception.EmptyStringException;
-import exception.NotAvailableException;
-import exception.ResourceBusyException;
 
 public class Resource implements Describable, Asset{
 

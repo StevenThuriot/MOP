@@ -17,7 +17,6 @@ import exception.UnknownStateException;
 import exception.WrongFieldsForChosenTypeException;
 
 import model.Field;
-import model.Resource;
 import model.Task;
 import model.TaskFactory;
 import model.TaskTimings;

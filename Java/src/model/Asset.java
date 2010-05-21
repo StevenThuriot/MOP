@@ -3,8 +3,6 @@
  */
 package model;
 
-import java.util.GregorianCalendar;
-
 import gui.Describable;
 
 /**
