@@ -1,5 +1,6 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -47,7 +48,11 @@ public class TaskInvitationManagerTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		// 4 days to finish the task from now on
 		int duration = 1;
-		taskMain = new Task("Main Task",owner,new TaskTimings(startDate,endDate,duration), manager.getClock());
+		TaskType taskType = new TaskType("reorganizing the test cases", 
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+		//taskMain = new Task("Main Task",owner,new TaskTimings(startDate,endDate,duration), manager.getClock());
+		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, duration), manager.getClock());
 		tim = taskMain.getTaskAssetManager();
 	}
 	

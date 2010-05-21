@@ -130,7 +130,6 @@ public class TaskType implements Describable {
 	/**
 	 * Describable interface
 	 */
-	@Override
 	public String getDescription() {
 		return this.getName();
 	}
