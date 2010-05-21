@@ -69,6 +69,15 @@ public class ResourceController {
 	public List<Resource> getResources() {
 		return  manager.getResources();
 	}
+
+	
+	/**
+	 * Get a list of all resource types
+	 */
+	public List<ResourceType> getResourceTypes(){
+		return manager.getResourceTypes();
+	}
+
 	
 	/**
 	 * Create a new Resource Type and add it to the repository
@@ -82,4 +91,5 @@ public class ResourceController {
 		manager.add(type);
 		return type;
 	}
+
 }

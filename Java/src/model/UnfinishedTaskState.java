@@ -184,4 +184,8 @@ public class UnfinishedTaskState extends TaskState {
 			return "Unavailable";
 		}
 	}
+	
+	protected void addAssetAllocation(AssetAllocation assetAllocation) throws IllegalStateCallException, AssetAllocatedException{
+		this.getContext().doAddAssetAllocation(assetAllocation);
+	}
 }

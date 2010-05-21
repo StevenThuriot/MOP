@@ -195,4 +195,11 @@ public class Reservation extends AssetAllocation implements Describable{
 	public boolean countsTowardsLimits() {
 		return true;
 	}
+
+
+
+	@Override
+	public AllocationType getAllocationType() {
+		return AllocationType.Reservation;
+	}
 }
