@@ -42,6 +42,8 @@ public class CreateTask extends UseCase {
 	
 	@SuppressWarnings("unchecked")
 	private void createTask(){
+		String descr = menu.prompt("Give Task Description");
+		
 		TaskType type =  menu.menuGen("Select task type", dController.getTaskController().getAllTypes());
 		
 		List<Field> taskFields = type.getTemplate();
@@ -83,7 +85,7 @@ public class CreateTask extends UseCase {
 				
 		if (hasDep /*|| hasRes*/){
 			try {
-				dController.getTaskController().createTask(type, taskFields, user, timing, deps);
+				dController.getTaskController().createTask(descr, type, taskFields, user, timing, deps);
 			} catch (EmptyStringException e) {
 				menu.println("Empty description");
 			} catch (BusinessRule1Exception e) {
@@ -102,7 +104,7 @@ public class CreateTask extends UseCase {
 			}
 		}else{
 			try {
-				Task task = dController.getTaskController().createTask(type, taskFields, user, timing);
+				Task task = dController.getTaskController().createTask(descr, type, taskFields, user, timing);
 				//add needed resources to task
 			} catch (EmptyStringException e) {
 				menu.println("Empty description");
