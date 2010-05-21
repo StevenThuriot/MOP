@@ -8,6 +8,7 @@ import model.Field;
 import model.Resource;
 import model.ResourceType;
 import model.Task;
+import model.TaskFactory;
 import model.TaskTimings;
 import model.TaskType;
 import model.TaskTypeConstraint;
@@ -32,6 +33,7 @@ import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.UnknownStateException;
+import exception.WrongFieldsForChosenTypeException;
 
 
 public class TaskControllerTest {
@@ -142,15 +144,17 @@ public class TaskControllerTest {
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws IllegalStateChangeException
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testSetFailed() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException
+	public void testSetFailed() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, WrongFieldsForChosenTypeException
 	{
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 		
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,new TaskTimings(new GregorianCalendar(), endDate, 120), manager.getClock());
+		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(new GregorianCalendar(), endDate, 120), manager.getClock());
 		
 		controller.setFailed(task);
 		assertEquals(true, task.isFailed());
@@ -165,15 +169,18 @@ public class TaskControllerTest {
 	 * @throws BusinessRule3Exception
 	 * @throws IllegalStateChangeException
 	 * @throws BusinessRule2Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testSetSuccessful() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception
+	public void testSetSuccessful() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception, WrongFieldsForChosenTypeException
 	{
 		GregorianCalendar endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,new TaskTimings( (GregorianCalendar) manager.getClock().getTime().clone(),endDate,120), manager.getClock());
+		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings((GregorianCalendar) manager.getClock().getTime().clone(),endDate,120)
+		, manager.getClock());
 		
 		controller.setSuccessful(task);
 		assertEquals(true, task.isSuccesful());
@@ -189,16 +196,18 @@ public class TaskControllerTest {
 	 * @throws IllegalStateChangeException
 	 * @throws UnknownStateException 
 	 * @throws BusinessRule2Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testSetSuccessful2() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, UnknownStateException, BusinessRule2Exception
+	public void testSetSuccessful2() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, UnknownStateException, BusinessRule2Exception, WrongFieldsForChosenTypeException
 	{
 		GregorianCalendar startDate = (GregorianCalendar) manager.getClock().getTime().clone();//Now
 		GregorianCalendar endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
+		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
 		
 		controller.parseStateString(task, "Successful");
 		assertEquals(true, task.isSuccesful());
@@ -212,17 +221,20 @@ public class TaskControllerTest {
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws DependencyCycleException
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testGetDependantTasks() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException
+	public void testGetDependantTasks() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, WrongFieldsForChosenTypeException
 	{
 		GregorianCalendar startDate = new GregorianCalendar();//Now
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
-		Task task2 = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
+		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+		Task task2 = TaskFactory.createTask("some dependency", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
 		task.addDependency(task2);
 		
 		assertEquals(task.getDependentTasks(), controller.getDependentTasks(task));
@@ -236,17 +248,20 @@ public class TaskControllerTest {
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws DependencyCycleException
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testHasDependentTasks() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException
+	public void testHasDependentTasks() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, WrongFieldsForChosenTypeException
 	{
 		GregorianCalendar startDate = new GregorianCalendar();//Now
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
-		Task task2 = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
+		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+		Task task2 = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
 		task.addDependency(task2);
 
 		assertEquals(true, controller.hasDependentTasks(task2));
@@ -261,17 +276,20 @@ public class TaskControllerTest {
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws DependencyCycleException
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testHasDependencies() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException
+	public void testHasDependencies() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, WrongFieldsForChosenTypeException
 	{
 		GregorianCalendar startDate = new GregorianCalendar();//Now
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
-		Task task2 = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
+		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+		Task task2 = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
 		task.addDependency(task2);
 
 		assertEquals(false, controller.hasDependencies(task2));
@@ -287,18 +305,21 @@ public class TaskControllerTest {
 	 * @throws BusinessRule3Exception
 	 * @throws DependencyCycleException 
 	 * @throws DependencyException 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testDependencies() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, DependencyException
+	public void testDependencies() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, DependencyException, WrongFieldsForChosenTypeException
 	{
 		GregorianCalendar startDate = new GregorianCalendar();//Now
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
-		Task task2 = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
-
+		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+		Task task2 = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+		
 		controller.addDependency(task, task2);
 
 		assertEquals(true, controller.getDependencies(task).contains(task2));
@@ -320,16 +341,18 @@ public class TaskControllerTest {
 	 * @throws BusinessRule1Exception
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testSetDescription() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	public void testSetDescription() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
 		GregorianCalendar startDate = new GregorianCalendar();//Now
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 2); // 4 days to finish
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
+		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
 		controller.setTaskDescription(task, "blub");
 		
 		assertEquals("blub", task.getDescription());
@@ -342,9 +365,10 @@ public class TaskControllerTest {
 	 * @throws BusinessRule1Exception
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testShedule() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	public void testShedule() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
 		GregorianCalendar startDate = new GregorianCalendar();//Now
 		GregorianCalendar endDate = new GregorianCalendar();
@@ -356,9 +380,10 @@ public class TaskControllerTest {
 		endDate2.add(Calendar.DAY_OF_YEAR, 5); 
 
 		manager = new RepositoryManager();
-		Task task = new Task("Descr",user,new TaskTimings(startDate,endDate,120), manager.getClock());
-		Task task2 = new Task("Descr",user,new TaskTimings(startDate2,endDate2,200), manager.getClock());
-		
+		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+		Task task2 = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate2, endDate2, 200), manager.getClock());
 		controller.setTaskSchedule(task2, startDate, endDate, 120);
 
 		assertEquals(task.getStartDate(), task2.getStartDate());
