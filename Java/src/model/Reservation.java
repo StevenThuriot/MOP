@@ -54,7 +54,7 @@ public class Reservation extends AssetAllocation implements Describable{
 		if(!newResource.availableAt(newTime, newDuration))
 			throw new NotAvailableException(
 					"This resource is not available at the given time.");
-		if(!getTask().checkOverlap(newTime, newDuration))
+		if(!getTask().checkProposedAllocation(this))
 			throw new NoReservationOverlapException("This reservation does not have a overlapping time span with the other reservations");
 		
 		try {
@@ -127,6 +127,7 @@ public class Reservation extends AssetAllocation implements Describable{
 
 	@Override
 	public boolean isAvailableAt(GregorianCalendar begin, int duration) {
+		
 		GregorianCalendar end = (GregorianCalendar) begin.clone();
 		end.add(Calendar.MINUTE, duration);
 		GregorianCalendar endReservation = (GregorianCalendar) this.getTime().clone();
@@ -143,13 +144,25 @@ public class Reservation extends AssetAllocation implements Describable{
 	}
 
 
+	/**
+	 * Returns whether the proposed allocation can be made alongside this reservation.
+	 * There is no conflict when the proposed allocation is not a reservation or a reservation for a different task.
+	 * Otherwise the proposed reservation will only be accepted when it overlaps for at least task duration with the reservation.
+	 * @param assetAllocation The proposed AssetAllocation
+	 * @return default true;
+	 */
 	@Override
-	public boolean hasOverlap(GregorianCalendar begin, int duration) {
-		GregorianCalendar end = (GregorianCalendar) begin.clone();
-		end.add(Calendar.MINUTE, duration);
-		GregorianCalendar endReservation = (GregorianCalendar) this.getTime().clone();
-		endReservation.add(Calendar.MINUTE, duration);
-		if(this.getTime().compareTo(end)<=0 && endReservation.compareTo(begin)>=0 )
+	public boolean checkProposedAllocation(AssetAllocation assetAllocation) {
+		if(assetAllocation.getClass() != Reservation.class)
+			return true;
+		Reservation reservation = (Reservation) assetAllocation;
+		if(reservation.getTask() != this.getTask())
+			return true;
+		GregorianCalendar endReservation = (GregorianCalendar) reservation.getTime().clone();
+		endReservation.add(Calendar.MINUTE, reservation.getDuration()-this.getTask().getDuration());
+		GregorianCalendar end = (GregorianCalendar) this.getTime().clone();
+		end.add(Calendar.MINUTE, this.getDuration()-this.getTask().getDuration());
+		if(this.getTime().compareTo(endReservation)<=0 && end.compareTo(reservation.getTime())>=0 )
 			return true;
 		return false;
 	}

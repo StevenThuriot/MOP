@@ -5,7 +5,7 @@ public class TaskTypeConstraint {
 	/**
 	 * The required AssetType.
 	 */
-	private AssetType assetT;
+	private AssetType assetType;
 	
 	/**
 	 * The minimum amount of assets of specified type required.
@@ -22,13 +22,13 @@ public class TaskTypeConstraint {
 	 * and a given amount <nb>
 	 */
 	public TaskTypeConstraint(AssetType type, int min, int max){
-		assetT = type;
+		assetType = type;
 		this.min = min;
 		this.max = max;
 	}
 	
 	public AssetType getAssetType(){
-		return assetT;
+		return assetType;
 	}
 	
 	public int getMinimum(){

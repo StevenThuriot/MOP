@@ -37,12 +37,17 @@ public class TaskInvitationManagerTest {
 	 */
 	private User user;
 	
+	/**
+	 * User owning the task.
+	 */
+	private User owner;
+	
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception
 	{
 		manager = new RepositoryManager();
-		User owner = new User("John",new UserType(""));
+		owner = new User("John",new UserType(""));
 		user = new User("Jack",new UserType(""));
 		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate = new GregorianCalendar();
@@ -53,7 +58,7 @@ public class TaskInvitationManagerTest {
 				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
 		//taskMain = new Task("Main Task",owner,new TaskTimings(startDate,endDate,duration), manager.getClock());
 		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, duration), manager.getClock());
+				owner, new TaskTimings(startDate, endDate, duration), manager.getClock());
 		tim = taskMain.getTaskAssetManager();
 	}
 	
@@ -64,17 +69,24 @@ public class TaskInvitationManagerTest {
 		assertTrue(tim.getAssetAllocations().isEmpty());
 	}
 	
-	@Test
+	@Test(expected=InvitationInvitesOwnerException.class)
 	public void testInvite1() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
-		Invitation invitation = new Invitation(taskMain, user);
-		assertTrue(tim.getAssetAllocations().contains(invitation));
+		Invitation invitation = new Invitation(taskMain, owner);
 	}
+	
 	@Test(expected=AssetAllocatedException.class)
 	public void testInvite2() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
 		new Invitation(taskMain, user);
 		new Invitation(taskMain, user);
+	}
+	
+	@Test
+	public void testInvite3() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	{
+		Invitation invitation = new Invitation(taskMain, user);
+		assertTrue(tim.getAssetAllocations().contains(invitation));
 	}
 	
 	@After

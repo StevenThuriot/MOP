@@ -81,16 +81,14 @@ public class TaskAssetManager {
 		}
 		
 		/**
-		 * Checks whether there is an overlap between these timings and the allocated assets.
-		 * @pre All current AssetAllocations are overlapping.
+		 * Checks whether the proposed allocation can be made alongside the current allocations.
 		 */
-		protected Boolean checkOverlap(GregorianCalendar begin, int duration) {
-
-			boolean hasOverlap = true;
-			for(AssetAllocation asset: getAssetAllocations()){
-				hasOverlap &= asset.hasOverlap(begin, duration);
+		protected Boolean checkProposedAllocation(AssetAllocation proposedAllocation) {
+			boolean isAccepted = true;
+			for(AssetAllocation assetAllocation: getAssetAllocations()){
+				isAccepted &= assetAllocation.checkProposedAllocation(proposedAllocation);
 			}
-			return hasOverlap;
+			return isAccepted;
 		}
 		
 //		protected Boolean assetsAvailableAt(GregorianCalendar begin, int duration){
@@ -112,10 +110,20 @@ public class TaskAssetManager {
 			return assetMap;
 		}
 		
-		protected int getAssetsAvailableAt(GregorianCalendar begin, int duration, AssetType assetType){
+		protected int getAssetCountAvailableAt(GregorianCalendar begin, int duration, AssetType assetType){
 			int count = 0;
 			for(AssetAllocation allocation:assetAllocations){
 				if (allocation.getAssetType().equals(assetType) && allocation.isAvailableAt(begin, duration)) {
+					count++;
+				}
+			}
+			return count;
+		}
+		
+		protected int getValidAssetCount(AssetType assetType){
+			int count = 0;
+			for(AssetAllocation allocation:assetAllocations){
+				if (allocation.getAssetType().equals(assetType) && allocation.countsTowardsLimits()) {
 					count++;
 				}
 			}
