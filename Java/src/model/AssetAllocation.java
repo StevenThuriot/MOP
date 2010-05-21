@@ -24,5 +24,7 @@ public abstract class AssetAllocation implements Describable {
 	public abstract void remove();
 	
 	public abstract AssetType getAssetType();
+	
+	public abstract AllocationType getAllocationType();
 
 }

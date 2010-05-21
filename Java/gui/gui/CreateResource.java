@@ -29,13 +29,9 @@ public class CreateResource extends UseCase {
 	
 	private void createResource(){
 		String descr = menu.prompt("Give resource description");
-		ArrayList<String> typeDescr = new ArrayList<String>();
-		for(ResourceType rt : ResourceType.values()){
-			typeDescr.add(rt.toString());
-		}
-		int choice = menu.menu("Select resource type", typeDescr);
+		ResourceType choice = menu.menuGen("Select resource type", dController.getResourceController().getResourceTypes());
 		try {
-			dController.getResourceController().createResource(descr, ResourceType.values()[choice]);
+			dController.getResourceController().createResource(descr, choice);
 		} catch (EmptyStringException e) {
 			System.out.println("Empty Description");
 		}

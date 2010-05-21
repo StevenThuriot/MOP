@@ -776,4 +776,8 @@ public class Task implements Describable, Subject, Observer<Task>{
 	protected int getAssetAvailableAt(GregorianCalendar begin, int duration, AssetType assetType){
 		return this.tam.getAssetsAvailableAt(begin, duration, assetType);
 	}
+	
+	public List<AssetAllocation> getAssetAllocations(){
+		return this.tam.getAssetAllocations();
+	}
 }
