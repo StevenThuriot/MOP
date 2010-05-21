@@ -88,8 +88,8 @@ public class FocusWork extends UseCase {
 						menu.printListGen("Dependencies", dController.getTaskController().getDependencies(task));
 					else
 						menu.println("Dependencies \n0: None");
-					if (dController.getTaskController().hasRequiredResources(task))
-						menu.printListGen("Required Resources", dController.getTaskController().getRequiredResources(task));
+					if (dController.getTaskController().hasRequiredAssets(task))
+						menu.printListGen("Required Resources", dController.getTaskController().getRequiredAssets(task));
 					else
 						menu.println("Required Resources \n0: None");
 						menu.println("Start date: " + menu.format(task.getStartDate()));
