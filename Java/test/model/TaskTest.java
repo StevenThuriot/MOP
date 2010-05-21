@@ -28,6 +28,7 @@ import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
 import exception.TaskFailedException;
 import exception.UnknownStateException;
+import exception.WrongFieldsForChosenTypeException;
 
 import static org.junit.Assert.*;
 
@@ -55,6 +56,8 @@ public class TaskTest {
 	 */
 	private Resource resource;
 	private User user;
+	
+	private TaskType taskType;
 
 	/**
 	 * Setting up the test.
@@ -69,17 +72,22 @@ public class TaskTest {
 	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Before
-	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
+		
 	    manager = new RepositoryManager();
 		user = new User("John",new UserType(""));
 		startDate = (GregorianCalendar) manager.getClock().getTime().clone();//Now
 		endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
         resource = new Resource("Projector", new ResourceType(""));
-        task = new Task("Descr",user,new TaskTimings((GregorianCalendar)manager.getClock().getTime().clone(), endDate, 120), manager.getClock());
+        taskType = new TaskType("reorganizing the test cases", 
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+		task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
 	}
 	
 	/**
@@ -101,9 +109,10 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws BusinessRule1Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test(expected=BusinessRule1Exception.class)
-	public void initialization() throws EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, BusinessRule1Exception{
+	public void initialization() throws EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, BusinessRule1Exception, WrongFieldsForChosenTypeException{
 		
 		// <task> is initialized with no dependencies or depending tasks
 		assertTrue(task.getDependencies().isEmpty());
@@ -114,14 +123,17 @@ public class TaskTest {
 		// <task> should satisfy the business rules
 		assertTrue(task.satisfiesBusinessRule1());
 		// TODO: other BR's here?
+		// <task> is initially unfinished
+		assertTrue(task.isUnfinished());
 		
 		//Try a different task, that fails business rule 1
-		endDate = new GregorianCalendar();
+		endDate = (GregorianCalendar) startDate.clone();
 		endDate.add(Calendar.DAY_OF_YEAR,1);
 		//One day is available, but the duration is 25 hours. Business Rule exception should be thrown.
 		//Task "MOP" can never be completed in time :-(
 		@SuppressWarnings("unused")
-		Task task2 = new Task("MOP", user, new TaskTimings(new GregorianCalendar(), endDate, 1500), manager.getClock());
+		Task impossibleTask = TaskFactory.createTask("MOP", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 1500), manager.getClock());
 	}
 	
 	/**
@@ -257,11 +269,13 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule2Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void checkStateEight() throws IllegalStateChangeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, BusinessRule2Exception
+	public void checkStateEight() throws IllegalStateChangeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, BusinessRule2Exception, WrongFieldsForChosenTypeException
 	{
-		Task task2 = new Task("some name", user, new TaskTimings(startDate, endDate, 50), manager.getClock());
+		Task task2 = TaskFactory.createTask("some name", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 50), manager.getClock());
 		task2.setSuccessful();
 		task.addDependency(task2);
 		
@@ -376,14 +390,17 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws BusinessRule2Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
 	 */
 	@Test(expected=IllegalStateCallException.class)
-	public void checkStateSeventeen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, BusinessRule2Exception 
+	public void checkStateSeventeen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, BusinessRule2Exception, WrongFieldsForChosenTypeException 
 	{
 		task.setSuccessful();
-		task.addDependency(new Task("some name", user, new TaskTimings(startDate, endDate, 50), manager.getClock()));
+		Task temp = TaskFactory.createTask("some name", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 50), manager.getClock());
+		task.addDependency(temp);
 	}
 	
 	/**
@@ -403,14 +420,16 @@ public class TaskTest {
 	 * @throws BusinessRule3Exception 
 	 * @throws DependencyException 
 	 * @throws BusinessRule2Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
 	 */
 	@Test(expected=IllegalStateCallException.class)
-	public void checkStateNineteen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception 
+	public void checkStateNineteen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception, WrongFieldsForChosenTypeException 
 	{
-		Task task2 = new Task("some name", user, new TaskTimings(startDate, endDate, 50), manager.getClock());
-
+		Task task2 = TaskFactory.createTask("some name", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 50), manager.getClock());
+		
 		task.addDependency(task2);
 		task2.setSuccessful();
 		task.setSuccessful();
@@ -547,11 +566,13 @@ public class TaskTest {
 	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void dependencies1() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+	public void dependencies1() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
 		// Try a proper dependency
-		Task task2 = new Task("some name", user, new TaskTimings(startDate, endDate, 50), manager.getClock());
+		Task task2 = TaskFactory.createTask("some name", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 50), manager.getClock());
 		task.addDependency(task2);
 		// Assure that it is properly initialized
 		// For more details, see TaskDependencyManager and corresponding test class
@@ -571,14 +592,16 @@ public class TaskTest {
 	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test(expected=BusinessRule1Exception.class)
-	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
 		startDate = new GregorianCalendar();
 		startDate.add(Calendar.DAY_OF_YEAR, 4);
 		endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 5);
-		Task task2 = new Task("some name", user, new TaskTimings(startDate, endDate, 1380), manager.getClock());
+		Task task2 = TaskFactory.createTask("some name", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 1380), manager.getClock());
 		// <task2> starts after 3 days and takes 23 hours. <task> takes another 2 hours
 		// This dependency will not satisfy business rule 1
 		task.addDependency(task2);		
@@ -593,9 +616,10 @@ public class TaskTest {
 	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void earliestEnd() throws TaskFailedException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+	public void earliestEnd() throws TaskFailedException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
 		//<task> takes two hours to complete, earliest end time is 2 hours after the start date
 		GregorianCalendar earliestEnd = (GregorianCalendar) manager.getClock().getTime().clone();
 		earliestEnd.add(Calendar.HOUR, 2);
@@ -605,7 +629,8 @@ public class TaskTest {
 		startDate.add(Calendar.DAY_OF_YEAR, 1);
 		endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 5);
-		Task task2 = new Task("some name", user, new TaskTimings(startDate, endDate, 1440), manager.getClock());
+		Task task2 = TaskFactory.createTask("some name", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 1440), manager.getClock());
 		task.addDependency(task2);
 		//<task2> takes 24 hours to complete, <task> takes another 2.
 		// Earliest end time should be 26 hours after the startDate of <task2>
@@ -625,13 +650,17 @@ public class TaskTest {
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws NotAvailableException 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException{
 		//Sets up a resource reservation, and a dependency in both directions
+		assertTrue(task.isUnfinished());
 		Reservation reservation = new Reservation(startDate, 120, resource, task);
-		Task task2 = new Task("some dependency",user,new TaskTimings(startDate,endDate,120),manager.getClock());
-		Task task3 = new Task("some dependentTask",user,new TaskTimings(startDate,endDate,120),manager.getClock());
+		Task task2 = TaskFactory.createTask("some dependency", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+		Task task3 = TaskFactory.createTask("some dependentTask", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
 		task.addDependency(task2);
 		task3.addDependency(task);
 		// remove the task
@@ -654,19 +683,23 @@ public class TaskTest {
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws NotAvailableException 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException{
+	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException{
 		Reservation reservation = new Reservation(startDate, 120, resource, task);
 		//Sets up 2 additional resources
 		Resource resource2 = new Resource("some resource",new ResourceType(""));
 		Resource resource3 = new Resource("some other resource",new ResourceType(""));
 		//Sets up 3 additional tasks
-		Task task2 = new Task("some dependency",user,new TaskTimings(startDate,endDate,120),manager.getClock());
+		Task task2 = TaskFactory.createTask("some dependency", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
 		Reservation reservation2 = new Reservation(startDate, 120, resource2, task2);
-		Task task3 = new Task("some dependentTask",user,new TaskTimings(startDate,endDate,120),manager.getClock());
+		Task task3 = TaskFactory.createTask("some dependentTask", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
 		Reservation reservation3 = new Reservation(startDate, 120, resource3, task3);
-		Task task4 = new Task("some other task",user, new TaskTimings(startDate, endDate,120),manager.getClock());
+		Task task4 = TaskFactory.createTask("some other task", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
 		task3.addDependency(task4);
 		//Sets up a hierarchy of 3 levels
 		task3.addDependency(task2);
@@ -746,12 +779,15 @@ public class TaskTest {
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testDurationComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	public void testDurationComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
-		Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
-		Task t2 = new Task("d", user, new TaskTimings(startDate, endDate, 2), manager.getClock());
+		Task t1 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		Task t2 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 2), manager.getClock());
 		
 		TaskDurationComparator c = new TaskDurationComparator();
 		assertEquals(-1, c.compare(t1, t2));
@@ -764,12 +800,15 @@ public class TaskTest {
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testDurationComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	public void testDurationComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
-		Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 2), manager.getClock());
-		Task t2 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		Task t1 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 2), manager.getClock());
+		Task t2 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 1), manager.getClock());
 		
 		TaskDurationComparator c = new TaskDurationComparator();
 		assertEquals(1, c.compare(t1, t2));
@@ -782,12 +821,15 @@ public class TaskTest {
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testDurationComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	public void testDurationComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
-		Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
-		Task t2 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		Task t1 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		Task t2 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 1), manager.getClock());
 		
 		TaskDurationComparator c = new TaskDurationComparator();
 		assertEquals(0, c.compare(t1, t2));
@@ -800,14 +842,17 @@ public class TaskTest {
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testDeadlineComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	public void testDeadlineComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
 		GregorianCalendar end2 = (GregorianCalendar) endDate.clone();
 		
-		Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
-		Task t2 = new Task("d", user, new TaskTimings(startDate, end2, 1), manager.getClock());
+		Task t1 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		Task t2 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, end2, 1), manager.getClock());
 		
 		TaskDeadlineComparator c = new TaskDeadlineComparator();
 		assertEquals(0, c.compare(t1, t2));
@@ -820,15 +865,18 @@ public class TaskTest {
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testDeadlineComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	public void testDeadlineComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
 		GregorianCalendar end2 = (GregorianCalendar) endDate.clone();
 		end2.add(Calendar.DAY_OF_WEEK, 1);
 		
-		Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
-		Task t2 = new Task("d", user, new TaskTimings(startDate, end2, 1), manager.getClock());
+		Task t1 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		Task t2 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, end2, 1), manager.getClock());
 		
 		TaskDeadlineComparator c = new TaskDeadlineComparator();
 		assertEquals(-1, c.compare(t1, t2));
@@ -841,15 +889,20 @@ public class TaskTest {
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@Test
-	public void testDeadlineComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+	public void testDeadlineComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
 		GregorianCalendar end2 = (GregorianCalendar) endDate.clone();
 		end2.add(Calendar.DAY_OF_WEEK, -1);
 		
-		Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
-		Task t2 = new Task("d", user, new TaskTimings(startDate, end2, 1), manager.getClock());
+		//Task t1 = new Task("d", user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		Task t1 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, endDate, 1), manager.getClock());
+		//Task t2 = new Task("d", user, new TaskTimings(startDate, end2, 1), manager.getClock());
+		Task t2 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
+				user, new TaskTimings(startDate, end2, 1), manager.getClock());
 		
 		TaskDeadlineComparator c = new TaskDeadlineComparator();
 		assertEquals(1, c.compare(t1, t2));
