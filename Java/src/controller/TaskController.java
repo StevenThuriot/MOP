@@ -101,7 +101,7 @@ public class TaskController {
 	 * @return the newly created tasktype
 	 */
 	@SuppressWarnings("unchecked")
-	public TaskType addTaskType(String id,String name,ArrayList<Field> fields, ArrayList<TaskTypeConstraint> constraints)
+	public TaskType addTaskType(String name,ArrayList<Field> fields, ArrayList<TaskTypeConstraint> constraints)
 	{
 		TaskType type = new TaskType(name, fields, constraints);
 		manager.add(type);
