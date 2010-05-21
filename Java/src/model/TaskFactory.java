@@ -28,11 +28,11 @@ public class TaskFactory {
 	 * @throws NullPointerException 
 	 */
 	@SuppressWarnings("unchecked")
-	public static Task createTask(TaskType type, List<Field> fields, User owner, TaskTimings timings, Clock clock) 
+	public static Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, Clock clock) 
 		throws WrongFieldsForChosenTypeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
 	{
 		TaskType clonedType = type.setTemplate(fields, owner);
-		Task newTask = new Task(clonedType, owner, timings, clock);
+		Task newTask = new Task(clonedType, description, owner, timings, clock);
 		
 		return newTask;
 	}
@@ -55,11 +55,11 @@ public class TaskFactory {
 	 * @throws NullPointerException 
 	 */
 	@SuppressWarnings("unchecked")
-	public static Task createTask(TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies, Clock clock) 
+	public static Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies, Clock clock) 
 		throws WrongFieldsForChosenTypeException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception
 	{
 		TaskType clonedType = type.setTemplate(fields, owner);
-		Task newTask = new Task(clonedType, owner, timings, dependencies, clock);
+		Task newTask = new Task(clonedType, description, owner, timings, dependencies, clock);
 				
 		return newTask;
 	}

@@ -47,36 +47,11 @@ public class TaskController {
     }
 	/**
 	 * Create a new task without dependencies
-	 * @param startDate
-	 * @param dueDate
-	 * @param duration
-	 * @param dependencies
-	 * @param resources
-	 * @param user
-	 * @return
-	 * @throws EmptyStringException
-	 * @throws BusinessRule1Exception
-	 * @throws DependencyCycleException
-	 * @throws IllegalStateCallException 
-	 * @throws NullPointerException 
-	 * @throws BusinessRule3Exception 
-	 * @throws WrongFieldsForChosenTypeException 
-	 */
-	@SuppressWarnings("unchecked")
-	public Task createTask(TaskType type, List<Field> fields, User owner, TaskTimings timings) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
-	{
-		return TaskFactory.createTask(type, fields, owner, timings, manager.getClock());
-	}
-	
-	/**
-	 * Create a new task with dependencies
 	 * @param type
 	 * @param fields
+	 * @param description
 	 * @param owner
 	 * @param timings
-	 * @param dependencies
-	 * @param requiredResources
 	 * @return
 	 * @throws EmptyStringException
 	 * @throws BusinessRule1Exception
@@ -84,13 +59,37 @@ public class TaskController {
 	 * @throws NullPointerException
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
-	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongFieldsForChosenTypeException
 	 */
 	@SuppressWarnings("unchecked")
-	public Task createTask(TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies) 
+	public Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings) 
 	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
 	{
-		return TaskFactory.createTask(type, fields, owner, timings, dependencies, manager.getClock());
+		return TaskFactory.createTask(description, type, fields, owner, timings, manager.getClock());
+	}
+	
+	/**
+	 * Create a new task with dependencies
+	 * @param type
+	 * @param fields
+	 * @param description
+	 * @param owner
+	 * @param timings
+	 * @param dependencies
+	 * @return
+	 * @throws EmptyStringException
+	 * @throws BusinessRule1Exception
+	 * @throws DependencyCycleException
+	 * @throws NullPointerException
+	 * @throws IllegalStateCallException
+	 * @throws BusinessRule3Exception
+	 * @throws WrongFieldsForChosenTypeException
+	 */
+	@SuppressWarnings("unchecked")
+	public Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies) 
+	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+	{
+		return TaskFactory.createTask(description, type, fields, owner, timings, dependencies, manager.getClock());
 	}
 
 	/**
