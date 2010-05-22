@@ -46,13 +46,16 @@ public class ResourceControllerTest {
 	public void setUp() throws Exception {
 		manager = new RepositoryManager();
 		controller = new ResourceController(manager);
-		resource = new Resource("Room 101", new ResourceType(""));
+		ResourceType resourceType = new ResourceType("");
+		resource = new Resource("Room 101", resourceType);
 		user = new User("John",new UserType(""));
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		// 4 days to finish task
+		ArrayList<TaskTypeConstraint> constraints = new ArrayList<TaskTypeConstraint>();
+		constraints.add(new TaskTypeConstraint(resourceType,1,2));
 		TaskType taskType = new TaskType("reorganizing the test cases", 
-				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+				new ArrayList<Field>(), constraints);
 		task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(new GregorianCalendar(),endDate,1440), manager.getClock());
 	}
@@ -144,7 +147,6 @@ public class ResourceControllerTest {
 	@Test
 	public void testReservations() throws NotAvailableException, EmptyStringException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
-	    resource = controller.createResource("Room 101", new ResourceType(""));
 	    Reservation reservation = controller.createReservation(new GregorianCalendar(), 101, resource, task);
 	    assertTrue(resource.getReservations().contains(reservation));
 	}

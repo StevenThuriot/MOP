@@ -56,8 +56,10 @@ public class TaskInvitationManagerTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		// 4 days to finish the task from now on
 		int duration = 1;
+		ArrayList<TaskTypeConstraint> constraints = new ArrayList<TaskTypeConstraint>();
+			constraints.add(new TaskTypeConstraint(user.getType(),1,2));
 		TaskType taskType = new TaskType("reorganizing the test cases", 
-				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+				new ArrayList<Field>(), constraints);
 		//taskMain = new Task("Main Task",owner,new TaskTimings(startDate,endDate,duration), manager.getClock());
 		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
 				owner, new TaskTimings(startDate, endDate, duration), manager.getClock());

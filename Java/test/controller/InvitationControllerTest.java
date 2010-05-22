@@ -36,6 +36,7 @@ public class InvitationControllerTest {
 	private RepositoryManager manager;
 	private Task taskMain;
 	private User user;
+	private UserType userType;
 	private User owner;
 	private InvitationController controller;
 	@SuppressWarnings("unchecked")
@@ -43,16 +44,19 @@ public class InvitationControllerTest {
 	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		manager = new RepositoryManager();
-		user = new User("John",new UserType(""));
-		owner = new User("Bart",new UserType(""));
+		userType = new UserType("");
+		user = new User("John",userType);
+		owner = new User("Bart",userType);
 		controller = new InvitationController(manager);
 		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		// 4 days to finish the task from now on
 		int duration = 1;
+		ArrayList<TaskTypeConstraint> constraints = new ArrayList<TaskTypeConstraint>();
+		constraints.add(new TaskTypeConstraint(userType,1,2));
 		TaskType taskType = new TaskType("reorganizing the test cases", 
-				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+			new ArrayList<Field>(), constraints);
 		//taskMain = new Task("Main Task",owner,new TaskTimings(startDate,endDate,duration), manager.getClock());
 		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
 				owner, new TaskTimings(startDate, endDate, duration), manager.getClock());
@@ -79,7 +83,7 @@ public class InvitationControllerTest {
 	@Test(expected=AssetAllocatedException.class)
 	public void createTest2() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
-		User user2 = new User("Jack",new UserType(""));
+		User user2 = new User("Jack",userType);
 		controller.createInvitation(taskMain,user2);
 		controller.createInvitation(taskMain,user2);
 	}
@@ -93,7 +97,7 @@ public class InvitationControllerTest {
 	@Test
 	public void removeTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
-		User user2 = new User("Jack",new UserType(""));
+		User user2 = new User("Jack",userType);
 		Invitation invitation = controller.createInvitation(taskMain,user2);
 		assertTrue(user2.getInvitations().contains(invitation));
 		controller.removeInvitation(invitation);
