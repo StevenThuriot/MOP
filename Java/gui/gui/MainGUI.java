@@ -24,7 +24,6 @@ import exception.TimeException;
 import exception.UnknownStateException;
 
 import model.User;
-import model.UserType;
 import model.repositories.RepositoryManager;
 
 public class MainGUI implements Runnable{
@@ -105,20 +104,23 @@ public class MainGUI implements Runnable{
 	}
 	
 	public void run(){
-		if(menu.dialogYesNo("Log in as administrator"))
+		if(menu.dialogYesNo("Log in as administrator?"))
 		{
 			UseCase adminMenu = new AdminMenu();
 			adminMenu.startUseCase(menu, dController, this);
 		}else{
-			currentUser = menu.menuGen("Select User", manager.getUsers());
-			boolean run = true;
-			while (run) {
-				UseCase choice = menu.menuGenOpt("Select Action", useCases,"Exit");
-				if (choice == null) {
-					run = false;
-				}else{
-				choice.startUseCase(menu, dController, this);
+			currentUser = menu.menuGenOpt("Select User", manager.getUsers(),"Exit");
+			while(currentUser!=null){
+				boolean run = true;
+				while (run) {
+					UseCase choice = menu.menuGenOpt("Select Action", useCases,"Log out");
+					if (choice == null) {
+						run = false;
+					}else{
+					choice.startUseCase(menu, dController, this);
+					}
 				}
+				currentUser = menu.menuGenOpt("Select User", manager.getUsers(),"Exit");
 			}
 		}
 	}
