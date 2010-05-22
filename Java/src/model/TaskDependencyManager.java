@@ -178,6 +178,23 @@ public class TaskDependencyManager {
 		return Collections.unmodifiableList(dependentTasks);
 	}
 	
+	protected void remove(){
+		ArrayList<Task> dependencies = new ArrayList<Task>(this.getDependencies());
+		for(Task dependency:dependencies){
+			try {
+				removeDependency(dependency);
+			} catch (DependencyException e) {}
+		}
+		
+		ArrayList<Task> dependents = new ArrayList<Task>(this.getDependentTasks());
+		for(Task t: dependents){
+			try {
+				t.getTaskDependencyManager().removeDependency(this.getTask());
+			} catch (DependencyException e) {}
+			
+		}
+	}
+	
 	
 	
 }

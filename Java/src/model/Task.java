@@ -491,21 +491,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * and should not be used anymore.
 	 */
 	public void remove(){
-		ArrayList<Task> dependencies = new ArrayList<Task>(this.getDependencies());
-		for(Task dependency:dependencies){
-			try {
-				this.getTaskDependencyManager().removeDependency(dependency);
-			} catch (DependencyException e) {}
-		}
-		
-		ArrayList<Task> dependents = new ArrayList<Task>(this.getDependentTasks());
-		for(Task t: dependents){
-			try {
-				t.getTaskDependencyManager().removeDependency(this);
-			} catch (DependencyException e) {}
-			
-		}
-
+		this.getTaskDependencyManager().remove();
 		this.getTaskAssetManager().removeAll();
 		
 		this.getOwner().removeTask(this);
