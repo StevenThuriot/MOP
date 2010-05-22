@@ -49,7 +49,6 @@ public class ResourceControllerTest {
 		user = new User("John",new UserType(""));
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
-		manager = new RepositoryManager();
 		// 4 days to finish task
 		TaskType taskType = new TaskType("reorganizing the test cases", 
 				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
@@ -147,6 +146,6 @@ public class ResourceControllerTest {
 	public void createTypeTest()
 	{
 		ResourceType type = controller.createResourceType("Alfabet resource");
-		assertEquals(type,manager.getResourceTypes().contains(type));
+		assertTrue(manager.getResourceTypes().contains(type));
 	}
 }
