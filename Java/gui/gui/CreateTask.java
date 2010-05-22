@@ -69,12 +69,6 @@ public class CreateTask extends UseCase {
 		if(hasDep)
 			deps = menu.menuGenMulti("Select dependency", dController.getTaskController().getTasks(user));
 		
-		/*boolean hasRes = menu.dialogYesNo("Does this task require any resources?");
-		ArrayList<Resource> reqRes = new ArrayList<Resource>();
-		if(hasRes)
-			reqRes = menu.menuGenMulti("Select dependancy", dController.getResourceController().getResources());
-		*/
-		
 		GregorianCalendar startDate = menu.promptDate("Give start Date");
 		GregorianCalendar dueDate = menu.promptDate("Give due date");
 		int duration = Integer.parseInt(menu.prompt("Duration?"));
@@ -82,7 +76,7 @@ public class CreateTask extends UseCase {
 		TaskTimings timing = new TaskTimings(startDate, dueDate, duration);
 		
 				
-		if (hasDep /*|| hasRes*/){
+		if (hasDep){
 			try {
 				dController.getTaskController().createTask(descr, type, taskFields, user, timing, deps);
 			} catch (EmptyStringException e) {

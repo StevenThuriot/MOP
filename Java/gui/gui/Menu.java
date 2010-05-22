@@ -68,12 +68,12 @@ public class Menu {
 		int choice=0;
 		while (true) {
 			while (!s.hasNextInt()) {
-				out.println("Incorrect input, try again");
+				out.println("Incorrect input, try again.");
 				s.next();
 			}
 			choice = s.nextInt();
 			if(choice < 0 || choice >= options.size()){
-				out.println("Incorrect input, try again");
+				out.println("Incorrect input, try again.");
 				continue;
 			}else
 				break;
@@ -91,12 +91,12 @@ public class Menu {
 		int choice=0;
 		while (true) {
 			while (!s.hasNextInt()) {
-				out.println("Incorrect input, try again");
+				out.println("Incorrect input, try again.");
 				s.next();
 			}
 			choice = s.nextInt();
 			if(choice < 0){
-				out.println("Incorrect input, try again");
+				out.println("Incorrect input, try again.");
 				continue;
 			}
 			if(choice >= options.size()){
@@ -119,12 +119,12 @@ public class Menu {
 		while (true) {
 			this.printListGen(title, o,"No more");
 			while (!s.hasNextInt()) {
-				out.println("Incorrect input, try again");
+				out.println("Incorrect input, try again.");
 				s.next();
 			}
 			choice = s.nextInt();
 			if(choice < 0){
-				out.println("Incorrect input, try again");
+				out.println("Incorrect input, try again.");
 				continue;
 			}
 			if(choice >= o.size())
@@ -144,12 +144,12 @@ public class Menu {
 		int choice = 0;
 		while (true) {
 			while (!s.hasNextInt()) {
-				out.println("Incorrect input, try again");
+				out.println("Incorrect input, try again.");
 				s.next();
 			}
 			choice = s.nextInt();
 			if(choice < 0 || choice >= options.length){
-				out.println("Incorrect input, try again");
+				out.println("Incorrect input, try again.");
 				continue;
 			}else
 				break;

@@ -36,6 +36,7 @@ public class FocusWork extends UseCase {
 			//Which kind of Focus would we like to see?
 			// 1. Deadline-based
 			// 2. Duration-based
+			// 3. Type-based
 			
 			List<String> focusTypes = new ArrayList<String>();
 			for (FocusType focusType : FocusType.values()) {

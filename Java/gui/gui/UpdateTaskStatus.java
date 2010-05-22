@@ -86,13 +86,13 @@ public class UpdateTaskStatus extends UseCase {
 				int level = 0;
 				Task t = null;
 				if(dController.getTaskController().hasDependentTasks(task)){
-					menu.println("This tasks has dependent tasks whose state may have to change as well");
+					menu.println("This tasks has dependent tasks whose state may have to change as well.");
 					while(!a.isEmpty()){
 						t = a.pop();
 						level = l.pop();
 						for(int j = 0; j < level;j++)
 							menu.print("\t");
-						menu.println(t.getDescription()+" "+(t.canBeExecuted()?"Available":"Uavailable")+" Fail!!!1111");
+						menu.println(t.getDescription()+" "+(t.canBeExecuted()?"Available":"Uavailable")+" Fail");
 						for(Task t2: dController.getTaskController().getDependentTasks(t))
 							if(!t2.isFailed()){
 								a.push(t2);

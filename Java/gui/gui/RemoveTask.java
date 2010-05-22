@@ -40,7 +40,7 @@ public class RemoveTask extends UseCase {
 			l.push(0);
 			int level = 0;
 			Task t = null;
-			menu.println("This tasks has dependent tasks who may need to be removed as well");
+			menu.println("This tasks has dependent tasks who may need to be removed as well.");
 			while(!a.isEmpty()){
 				t = a.pop();
 				level = l.pop();
