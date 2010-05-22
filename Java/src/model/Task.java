@@ -119,6 +119,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	public Task(TaskType taskT,List<Field> fields, String description,User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock)
 			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
 		
@@ -155,6 +156,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @post	The task has dependencies nor dependent tasks
 	 * 			TODO: formal definition
 	 */
+	@SuppressWarnings("unchecked")
 	public Task(TaskType taskT,List<Field> fields, String description,User user, TaskTimings timings, Clock clock) 
 			throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
 		
@@ -183,6 +185,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @param fields2
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	private void doSetFields(List<Field> fields2) throws WrongFieldsForChosenTypeException {
 		taskType.checkFields(fields2);
 		this.fields = fields2;
