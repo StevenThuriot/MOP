@@ -61,13 +61,13 @@ public class Reservation extends AssetAllocation implements Describable{
 		if(!getTask().checkProposedAllocation(this))
 			throw new NoReservationOverlapException("This reservation does not have a overlapping time span with the other reservations");
 		
+		setReservedResource(newResource);
 		try {
 			getTask().addAssetAllocation(this);
 		} catch (IllegalStateCallException e) {
 			throw new IllegalStateCallException("Reservation can not be made for finished task");
 		}
 		newResource.addReservation(this);		
-		setReservedResource(newResource);
 	}
 	
 
