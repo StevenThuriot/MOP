@@ -72,6 +72,7 @@ public class TaskInvitationManagerTest {
 	@Test(expected=InvitationInvitesOwnerException.class)
 	public void testInvite1() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
 	{
+		@SuppressWarnings("unused")
 		Invitation invitation = new Invitation(taskMain, owner);
 	}
 	

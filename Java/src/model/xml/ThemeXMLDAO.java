@@ -41,6 +41,8 @@ public class ThemeXMLDAO {
 		parseResourceTypes(resourceTypes,resourceTypeMap);
 		parseUserTypes(userTypes,userTypeMap);
 		parseTaskTypes(taskTypes,taskTypeMap,resourceTypeMap,userTypeMap);
+		
+				
 	}
 	private void parseUserTypes(Node userTypes,Map<String,UserType> userTypeMap) throws NameNotFoundException {
 		NodeList types = userTypes.getChildNodes();
@@ -58,17 +60,6 @@ public class ThemeXMLDAO {
 		NodeList types = taskTypes.getChildNodes();
 		for(int i=0;i<types.getLength();i++)
 			addTaskType(types.item(i),taskTypeMap,resourceTypeMap,userTypeMap);
-	}
-
-	@SuppressWarnings("unchecked")
-	private void addTaskType(Node item,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException, NullPointerException, DOMException, EmptyStringException {
-		if(item.getNodeName()!="#text"){
-			String id = item.getAttributes().item(0).getTextContent();
-			String name = item.getAttributes().item(1).getTextContent();
-			ArrayList<Field> fields = parseTaskTypeFields(item);
-			ArrayList<TaskTypeConstraint> constraints = parseTaskTypeConstraints(item,resourceTypeMap,userTypeMap);
-			taskTypeMap.put(id,controller.getTaskController().addTaskType(name,fields,constraints));
-		}
 	}
 	
 	@SuppressWarnings("unchecked")
@@ -115,7 +106,10 @@ public class ThemeXMLDAO {
 		if(item.getNodeName()!="#text"){
 			String id = item.getAttributes().item(0).getTextContent();
 			String name = item.getAttributes().item(0).getTextContent();
-			userTypeMap.put(id,controller.getUserController().createUserType(name));
+			
+			UserType type = controller.getUserController().createUserType(name);
+			
+			userTypeMap.put(id, type);
 		}
 	}
 
@@ -123,7 +117,24 @@ public class ThemeXMLDAO {
 		if(item.getNodeName()!="#text"){
 			String id = item.getAttributes().item(0).getTextContent();
 			String name = item.getAttributes().item(0).getTextContent();
-			resourceTypeMap.put(id,controller.getResourceController().createResourceType(name));
+			
+			ResourceType type = controller.getResourceController().createResourceType(name);
+			
+			resourceTypeMap.put(id, type);
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void addTaskType(Node item,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException, NullPointerException, DOMException, EmptyStringException {
+		if(item.getNodeName()!="#text"){
+			String id = item.getAttributes().item(0).getTextContent();
+			String name = item.getAttributes().item(1).getTextContent();
+			ArrayList<Field> fields = parseTaskTypeFields(item);
+			ArrayList<TaskTypeConstraint> constraints = parseTaskTypeConstraints(item,resourceTypeMap,userTypeMap);
+			
+			TaskType type = controller.getTaskController().addTaskType(name,fields,constraints);
+			
+			taskTypeMap.put(id, type);
 		}
 	}
 }

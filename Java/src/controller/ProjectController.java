@@ -7,6 +7,7 @@ import java.util.List;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import model.Project;
+import model.Task;
 import model.repositories.RepositoryManager;
 
 /**
@@ -59,5 +60,15 @@ public class ProjectController {
 	public void removeProject(Project p) throws IllegalStateCallException {
 		p.remove();
 		manager.remove(p);
+	}
+
+	/**
+	 * Binding a task to a project
+	 * @param project
+	 * @param task
+	 */
+	public void bind(Project project, Task task) {
+		// TODO Auto-generated method stub
+		
 	}
 }

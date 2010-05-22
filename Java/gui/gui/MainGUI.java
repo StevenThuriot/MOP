@@ -11,6 +11,7 @@ import org.w3c.dom.DOMException;
 
 import controller.DispatchController;
 import controller.XMLController;
+import exception.AssetAllocatedException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
@@ -19,9 +20,13 @@ import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
+import exception.NoReservationOverlapException;
+import exception.NonExistingTypeSelected;
 import exception.NotAvailableException;
 import exception.TimeException;
 import exception.UnknownStateException;
+import exception.WrongFieldsForChosenTypeException;
+import exception.WrongUserForTaskTypeException;
 
 import model.User;
 import model.repositories.RepositoryManager;
@@ -46,10 +51,10 @@ public class MainGUI implements Runnable{
 		
 		XMLController xmlController = dController.getXmlController();
 		
-		User user = null;
+		ArrayList<User> users = null;
 		
 		try {
-			user = xmlController.parse("students_public.xml","theme_development_1.xml", dController);
+			users = xmlController.parse("students_public.xml","theme_development_1.xml", dController);
 		} catch (NameNotFoundException e) {
 			MainGUI.writeError("File not found.");
 		} catch (DOMException e) {
@@ -78,9 +83,22 @@ public class MainGUI implements Runnable{
 			MainGUI.writeError("An illegal state chance has occurred. This is most likely due to a faulty XML file.");
 		} catch (BusinessRule2Exception e) {
 			MainGUI.writeError("A business rule 2 violation has occurred. This is most likely due to a faulty XML file.");
+		} catch (NoReservationOverlapException e) {
+			MainGUI.writeError("A reservation overlap has occurred. This is most likely due to a faulty XML file.");
+		} catch (AssetAllocatedException e) {
+			MainGUI.writeError("A asset allocation error has occurred. This is most likely due to a faulty XML file.");
+		} catch (WrongFieldsForChosenTypeException e) {
+			MainGUI.writeError("An error has occurred while trying to make a task with fields from a different type. This is most likely due to a faulty XML file.");
+		} catch (NonExistingTypeSelected e) {
+			MainGUI.writeError("An error has occurred while trying to make a task from a non existing type. This is most likely due to a faulty XML file.");
+		} catch (WrongUserForTaskTypeException e) {
+			MainGUI.writeError("An error has occurred while trying to make a task with an unallowed owner. This is most likely due to a faulty XML file.");
 		}
 	
-		this.manager.add(user);
+		for (User user : users) {
+			this.manager.add(user);
+		}
+			
 		this.in = in;
 		this.out = out;
 		useCases = new ArrayList<UseCase>();
