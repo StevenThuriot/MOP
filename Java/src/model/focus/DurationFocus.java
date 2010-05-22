@@ -12,12 +12,12 @@ import model.TaskDurationComparator;
 public class DurationFocus extends FocusStrategy {
 
 	private int minimum,maximum;
-	public DurationFocus(int[] settings) throws ArrayLengthException
+	public DurationFocus(Object[] settings) throws ArrayLengthException
 	{
     	if (settings.length == 2)
     	{
-			this.minimum = settings[0];
-			this.maximum = settings[1];
+			this.minimum = (Integer)settings[0];
+			this.maximum = (Integer)settings[1];
     	} else {
     		throw new ArrayLengthException();
     	}

@@ -13,13 +13,15 @@ public class FocusFactory {
 		  * 	The default strategy does not require any items.
 		 * @throws ArrayLengthException 
 		 */
-	public static FocusWork createFocus(FocusType type, User user, int[] settings) throws ArrayLengthException
+	public static FocusWork createFocus(FocusType type, User user, Object[] settings) throws ArrayLengthException
 	{
 		switch(type) {
     		case DeadlineFocus:
    				return new FocusWork(user,new DeadlineFocus(settings));
             case DurationFocus:
            		return new FocusWork(user, new DurationFocus(settings));
+            case TaskTypeFocus:
+            	return new FocusWork(user, new TaskTypeFocus(settings));
             default:
                 return new FocusWork(user, new FocusStrategy());
 		}

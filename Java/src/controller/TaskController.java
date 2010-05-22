@@ -15,6 +15,7 @@ import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.UnknownStateException;
 import exception.WrongFieldsForChosenTypeException;
+import exception.WrongUserForTaskTypeException;
 
 import model.Field;
 import model.Task;
@@ -58,11 +59,12 @@ public class TaskController {
 	 * @throws NullPointerException
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
-	 * @throws WrongFieldsForChosenTypeException
+	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	public Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		return TaskFactory.createTask(description, type, fields, owner, timings, manager.getClock());
 	}
@@ -83,10 +85,11 @@ public class TaskController {
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws WrongFieldsForChosenTypeException
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	public Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		return TaskFactory.createTask(description, type, fields, owner, timings, dependencies, manager.getClock());
 	}

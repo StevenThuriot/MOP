@@ -31,6 +31,7 @@ import exception.NotAvailableException;
 import exception.TaskFailedException;
 import exception.UnknownStateException;
 import exception.WrongFieldsForChosenTypeException;
+import exception.WrongUserForTaskTypeException;
 
 import static org.junit.Assert.*;
 
@@ -75,10 +76,11 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Before
-	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		
 	    manager = new RepositoryManager();
@@ -113,10 +115,11 @@ public class TaskTest {
 	 * @throws BusinessRule3Exception 
 	 * @throws BusinessRule1Exception 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test(expected=BusinessRule1Exception.class)
-	public void initialization() throws EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, BusinessRule1Exception, WrongFieldsForChosenTypeException{
+	public void initialization() throws EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, BusinessRule1Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
 		
 		// <task> is initialized with no dependencies or depending tasks
 		assertTrue(task.getDependencies().isEmpty());
@@ -274,10 +277,11 @@ public class TaskTest {
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule2Exception 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void checkStateEight() throws IllegalStateChangeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, BusinessRule2Exception, WrongFieldsForChosenTypeException
+	public void checkStateEight() throws IllegalStateChangeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		Task task2 = TaskFactory.createTask("some name", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, endDate, 50), manager.getClock());
@@ -396,12 +400,13 @@ public class TaskTest {
 	 * @throws BusinessRule3Exception 
 	 * @throws BusinessRule2Exception 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test(expected=IllegalStateCallException.class)
-	public void checkStateSeventeen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, BusinessRule2Exception, WrongFieldsForChosenTypeException 
+	public void checkStateSeventeen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException 
 	{
 		task.setSuccessful();
 		Task temp = TaskFactory.createTask("some name", taskType, new ArrayList<Field>(),
@@ -427,12 +432,13 @@ public class TaskTest {
 	 * @throws DependencyException 
 	 * @throws BusinessRule2Exception 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test(expected=IllegalStateCallException.class)
-	public void checkStateNineteen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception, WrongFieldsForChosenTypeException 
+	public void checkStateNineteen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException 
 	{
 		Task task2 = TaskFactory.createTask("some name", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, endDate, 50), manager.getClock());
@@ -606,10 +612,11 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void dependencies1() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
+	public void dependencies1() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
 		// Try a proper dependency
 		Task task2 = TaskFactory.createTask("some name", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, endDate, 50), manager.getClock());
@@ -633,10 +640,11 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test(expected=BusinessRule1Exception.class)
-	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
+	public void dependencies2() throws DependencyCycleException, EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
 		startDate = new GregorianCalendar();
 		startDate.add(Calendar.DAY_OF_YEAR, 4);
 		endDate = new GregorianCalendar();
@@ -658,10 +666,11 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void earliestEnd() throws TaskFailedException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
+	public void earliestEnd() throws TaskFailedException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
 		//<task> takes two hours to complete, earliest end time is 2 hours after the start date
 		GregorianCalendar earliestEnd = (GregorianCalendar) manager.getClock().getTime().clone();
 		earliestEnd.add(Calendar.HOUR, 2);
@@ -693,10 +702,11 @@ public class TaskTest {
 	 * @throws NoReservationOverlapException 
 	 * @throws NotAvailableException 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException{
+	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
 		//Sets up a resource reservation, and a dependency in both directions
 		assertTrue(task.isUnfinished());
 		Reservation reservation = new Reservation(startDate, 120, resource, task);
@@ -727,10 +737,11 @@ public class TaskTest {
 	 * @throws NoReservationOverlapException 
 	 * @throws NotAvailableException 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException{
+	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
 		Reservation reservation = new Reservation(startDate, 120, resource, task);
 		//Sets up 2 additional resources
 		Resource resource2 = new Resource("some resource",new ResourceType(""));
@@ -824,10 +835,11 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testDurationComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+	public void testDurationComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		Task t1 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, endDate, 1), manager.getClock());
@@ -846,10 +858,11 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testDurationComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+	public void testDurationComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		Task t1 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, endDate, 2), manager.getClock());
@@ -868,10 +881,11 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testDurationComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+	public void testDurationComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		Task t1 = TaskFactory.createTask("d", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, endDate, 1), manager.getClock());
@@ -890,10 +904,11 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testDeadlineComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+	public void testDeadlineComparator() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		GregorianCalendar end2 = (GregorianCalendar) endDate.clone();
 		
@@ -914,10 +929,11 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testDeadlineComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+	public void testDeadlineComparator2() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		GregorianCalendar end2 = (GregorianCalendar) endDate.clone();
 		end2.add(Calendar.DAY_OF_WEEK, 1);
@@ -939,10 +955,11 @@ public class TaskTest {
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testDeadlineComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+	public void testDeadlineComparator3() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		GregorianCalendar end2 = (GregorianCalendar) endDate.clone();
 		end2.add(Calendar.DAY_OF_WEEK, -1);
@@ -958,12 +975,13 @@ public class TaskTest {
 		assertEquals(1, c.compare(t1, t2));
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Test
 	/**
 	 * Tests whether the CanBeExecuted method works properly in various
 	 * situations.
 	 */
-	public void testCanBeExecuted() throws NullPointerException, WrongFieldsForChosenTypeException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, AssetAllocatedException, InvitationInvitesOwnerException, InvitationNotPendingException, NotAvailableException, NoReservationOverlapException{
+	public void testCanBeExecuted() throws NullPointerException, WrongFieldsForChosenTypeException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, AssetAllocatedException, InvitationInvitesOwnerException, InvitationNotPendingException, NotAvailableException, NoReservationOverlapException, WrongUserForTaskTypeException{
 		
 		ResourceType goBoard = new ResourceType("Go board");
 		Resource board = new Resource("Kwinten's go board",goBoard);

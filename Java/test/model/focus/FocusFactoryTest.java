@@ -18,7 +18,7 @@ public class FocusFactoryTest {
     @Test
     public void testCreateDeadline() throws ArrayLengthException
     {
-    	int[] settings = new int[] {0};
+    	Object[] settings = new Object[] {0};
     	
         FocusWork work = FocusFactory.createFocus(FocusType.DeadlineFocus, null, settings);
         assertTrue(work.getStrategy() instanceof DeadlineFocus);
@@ -31,7 +31,7 @@ public class FocusFactoryTest {
     @Test
     public void testCreateDuration() throws ArrayLengthException
     {
-    	int[] settings = new int[] {0,0};
+    	Object[] settings = new Object[] {0,0};
     	
         FocusWork work = FocusFactory.createFocus(FocusType.DurationFocus, null, settings);
         assertTrue(work.getStrategy() instanceof DurationFocus);
@@ -44,7 +44,7 @@ public class FocusFactoryTest {
     @Test
     public void testCreateDefault() throws ArrayLengthException
     {
-    	int[] settings = new int[0];
+    	Object[] settings = new Object[0];
     	
         FocusWork work = FocusFactory.createFocus(FocusType.Default, null, settings);
         assertTrue(work.getStrategy() instanceof FocusStrategy);

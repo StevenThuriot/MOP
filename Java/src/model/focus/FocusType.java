@@ -9,5 +9,6 @@ package model.focus;
 public enum FocusType{
 	 DeadlineFocus,
 	 DurationFocus,
+	 TaskTypeFocus,
 	 Default
 }

@@ -18,6 +18,7 @@ import exception.IllegalStateCallException;
 import exception.AssetAllocatedException;
 import exception.InvitationInvitesOwnerException;
 import exception.WrongFieldsForChosenTypeException;
+import exception.WrongUserForTaskTypeException;
 public class UserTaskManagerTest {
 
 	/**
@@ -35,7 +36,7 @@ public class UserTaskManagerTest {
 	
 	@SuppressWarnings("unchecked")
 	@Before
-	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		user = new User("Bart",new UserType(""));
 		manager = new RepositoryManager();

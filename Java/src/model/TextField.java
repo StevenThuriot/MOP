@@ -27,4 +27,17 @@ public class TextField extends Field<String> {
 		
 		this.value = value;
 	}
+
+	@Override
+	public Field<String> clone() {
+		Field<String> clonedField = null;
+		try {
+			clonedField = new TextField(this.getName(), this.getValue());
+		} catch (NullPointerException e) {
+			//For this error to occur, the to be cloned field has to be invalid. This is not possible
+		} catch (EmptyStringException e) {
+			//For this error to occur, the to be cloned field has to be invalid. This is not possible
+		}
+		return clonedField;
+	}
 }

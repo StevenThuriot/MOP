@@ -50,5 +50,7 @@ public class ExceptionsTest {
         assertEquals(InvitationState.ACCEPTED, (new InvitationNotPendingException(InvitationState.ACCEPTED)).getState());
         //InvitationInvitesOwnerException
         assertEquals("You can't invite the owner of a task to help on that task", (new InvitationInvitesOwnerException()).getMessage());
+        //WrongUserForTaskTypeException
+        assertEquals("The user can not create a task of this tasktype",(new WrongUserForTaskTypeException()).getMessage());
     }
 }

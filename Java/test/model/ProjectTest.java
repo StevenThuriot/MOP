@@ -16,6 +16,7 @@ import exception.BusinessRule3Exception;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.WrongFieldsForChosenTypeException;
+import exception.WrongUserForTaskTypeException;
 
 public class ProjectTest {
     
@@ -64,7 +65,7 @@ public class ProjectTest {
     
     @SuppressWarnings("unchecked")
 	@Test
-    public void testTask() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+    public void testTask() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
     {
         Project proj = new Project("ABC");
         User user = new User("John",new UserType(""));

@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 import exception.WrongFieldsForChosenTypeException;
+import exception.WrongUserForTaskTypeException;
 import gui.Describable;
 
 public class TaskType implements Describable {
@@ -44,12 +45,15 @@ public class TaskType implements Describable {
 	}
 	
 	/**
-	 * @return A list containing the fields needed to describe this type of Task.
+	 * @return A cloned list containing the fields needed to describe this type of Task.
 	 */
 	@SuppressWarnings("unchecked")
 	public List<Field> getTemplate(){
-		List<Field> clonedTemplate = (List<Field>) template.clone();
-		
+		List<Field> clonedTemplate = new ArrayList<Field>();
+		for(Field templateField:this.template)
+		{
+			clonedTemplate.add(templateField.clone());
+		}
 		return Collections.unmodifiableList(clonedTemplate);
 	}
 	
@@ -59,35 +63,6 @@ public class TaskType implements Describable {
 	 */
 	public List<TaskTypeConstraint> getConstraints(){
 		return Collections.unmodifiableList(constraints);
-	}
-	
-	/**
-	 * 
-	 * @param fields The fields filled in by the GUI
-	 * @return A clone of itself with all the fields filled in
-	 * @throws WrongFieldsForChosenTypeException
-	 */
-	@SuppressWarnings("unchecked")
-	public TaskType setTemplate(List<Field> fields, User owner) throws WrongFieldsForChosenTypeException
-	{
-		this.checkFields(fields);	
-		TaskType taskType = this.clone();
-		taskType.template = new ArrayList<Field>(fields);
-		
-		//check constraints + check user
-		return taskType;
-		//else throw new MAG_NIET_EXCEPTION!
-	}
-	
-	/**
-	 * Returns a clone of itself
-	 * @return title says it all
-	 */
-	@SuppressWarnings("unchecked")
-	public TaskType clone() {	
-		ArrayList<Field> fields = new ArrayList<Field>(this.getTemplate());
-		ArrayList<TaskTypeConstraint> straints = (ArrayList<TaskTypeConstraint>) constraints.clone();
-		return new TaskType(this.getName(), fields, straints);
 	}
 
 
@@ -99,10 +74,10 @@ public class TaskType implements Describable {
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@SuppressWarnings("unchecked")
-	public Boolean checkFields(List<Field> fields) throws WrongFieldsForChosenTypeException
+	public void checkFields(List<Field> fields) throws WrongFieldsForChosenTypeException
 	{
 		if (fields.size() != template.size())
-			return false;
+			throw new WrongFieldsForChosenTypeException();
 		
 		for (int i = 0; i < template.size(); i++) 
 		{
@@ -112,19 +87,23 @@ public class TaskType implements Describable {
 			try {
 				templateField = fields.get(i);
 			} catch (ArrayIndexOutOfBoundsException e) {
-				return false;
+				throw new WrongFieldsForChosenTypeException();
 			}
 			
 			if (! (selectedField.getType().equals(templateField.getType()))) {
-				return false;
+				throw new WrongFieldsForChosenTypeException();
 			}
 			
 			if (! (selectedField.getName().equals(templateField.getName()))) {
-				return false;
+				throw new WrongFieldsForChosenTypeException();
 			}
 		}
-		
+	}
+	
+	public boolean checkOwner(User owner) throws WrongUserForTaskTypeException
+	{
 		return true;
+		//TODO: checken of de User een owner mag zijn?
 	}
 
 	/**

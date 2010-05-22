@@ -4,20 +4,23 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import exception.ArrayLengthException;
-
 import model.Task;
 import model.TaskDeadlineComparator;
+import model.TaskType;
+import exception.ArrayLengthException;
 
-public class DeadlineFocus extends FocusStrategy {
-
+public class TaskTypeFocus extends FocusStrategy {
 	private int amount;
-	public DeadlineFocus(Object[] settings) throws ArrayLengthException {
-		if (settings.length == 1)
-			this.amount = (Integer)settings[0];
-		else
+	private TaskType taskType;
+	public TaskTypeFocus(Object[] options) throws ArrayLengthException
+	{
+		if(options.length==2){
+			this.amount=(Integer)options[0];
+			this.taskType = (TaskType) options[1];
+		}else
 			throw new ArrayLengthException();
 	}
+	
 	/**
 	 * Sort the given list of tasks by using a Comparator that compares deadlines.
 	 */
@@ -27,7 +30,7 @@ public class DeadlineFocus extends FocusStrategy {
 		return tasks;
 	}
 	/**
-	 * Method that returns only a few tasks out of a list. This 'few' is defined by the given amount
+	 * Method that returns only a few tasks out of a list. This 'few' is defined by the given tasktype
 	 * @param tasks Original list of tasks
 	 * @return sublist of the original list
 	 */
@@ -37,6 +40,12 @@ public class DeadlineFocus extends FocusStrategy {
 	        return new ArrayList<Task>();
 	    if(amount > tasks.size())
 	        amount = tasks.size();
-		return tasks.subList(0, amount);
+		ArrayList<Task> filteredTasks = new ArrayList<Task>();
+		for(Task task : tasks)
+		{
+			if(task.getTaskType().equals(this.taskType))
+				filteredTasks.add(task);
+		}
+		return filteredTasks;
 	}
 }

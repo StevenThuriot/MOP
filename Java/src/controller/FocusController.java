@@ -20,7 +20,7 @@ public class FocusController {
 	  * 	The default strategy does not require any items.
 	 * @throws ArrayLengthException 
 	 */
-	public FocusWork createFocus(FocusType type, User user, int[] settings) throws ArrayLengthException
+	public FocusWork createFocus(FocusType type, User user, Object[] settings) throws ArrayLengthException
 	{
 		return FocusFactory.createFocus(type, user, settings);
 	}

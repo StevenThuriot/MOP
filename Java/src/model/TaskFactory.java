@@ -9,6 +9,7 @@ import exception.DependencyCycleException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.WrongFieldsForChosenTypeException;
+import exception.WrongUserForTaskTypeException;
 
 
 public class TaskFactory {
@@ -26,19 +27,19 @@ public class TaskFactory {
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	public static Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, Clock clock) 
-		throws WrongFieldsForChosenTypeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception
+		throws  WrongFieldsForChosenTypeException,NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException
 	{
-		TaskType clonedType = type.setTemplate(fields, owner);
-		Task newTask = new Task(clonedType, description, owner, timings, clock);
-		
+		type.checkOwner(owner);
+		Task newTask = new Task(type,fields, description, owner, timings, clock);
 		return newTask;
 	}
 	
 	/**
-	 * Method to create a new task
+	 * Method to create a new task with dependencies
 	 * @param type The type of task loaded from the XML file
 	 * @param fields The filled in fields passed from the GUI
 	 * @param owner The owner of the task
@@ -53,13 +54,14 @@ public class TaskFactory {
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule1Exception 
 	 * @throws NullPointerException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	public static Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies, Clock clock) 
-		throws WrongFieldsForChosenTypeException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception
+		throws WrongFieldsForChosenTypeException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException
 	{
-		TaskType clonedType = type.setTemplate(fields, owner);
-		Task newTask = new Task(clonedType, description, owner, timings, dependencies, clock);
+		type.checkOwner(owner);
+		Task newTask = new Task(type,fields, description, owner, timings, dependencies, clock);
 				
 		return newTask;
 	}

@@ -13,6 +13,7 @@ import model.focus.DurationFocus;
 import model.focus.FocusStrategy;
 import model.focus.FocusType;
 import model.focus.FocusWork;
+import model.focus.TaskTypeFocus;
 import model.repositories.RepositoryManager;
 
 import org.junit.After;
@@ -55,7 +56,7 @@ public class FocusControllerTest {
     @Test
     public void testCreateDeadline() throws ArrayLengthException
     {
-    	int[] settings = new int[] {0};
+    	Object[] settings = new Object[] {0};
     	
         FocusWork work = controller.createFocus(FocusType.DeadlineFocus, null, settings);
         assertTrue(work.getStrategy() instanceof DeadlineFocus);
@@ -68,10 +69,23 @@ public class FocusControllerTest {
     @Test
     public void testCreateDuration() throws ArrayLengthException
     {
-    	int[] settings = new int[] {0,0};
+    	Object[] settings = new Object[] {0,0};
     	
         FocusWork work = controller.createFocus(FocusType.DurationFocus, null, settings);
         assertTrue(work.getStrategy() instanceof DurationFocus);
+    }
+    
+    /**
+     * Is the instance of type TaskType
+     * @throws ArrayLengthException
+     */
+    @Test
+    public void testCreateTaskType() throws ArrayLengthException
+    {
+    	Object[] settings = new Object[]{0,null};
+    	
+    	FocusWork work = controller.createFocus(FocusType.TaskTypeFocus, null, settings);
+        assertTrue(work.getStrategy() instanceof TaskTypeFocus);
     }
     
     /**
@@ -81,7 +95,7 @@ public class FocusControllerTest {
     @Test
     public void testCreateDefault() throws ArrayLengthException
     {
-    	int[] settings = new int[0];
+    	Object[] settings = new Object[0];
     	
         FocusWork work = controller.createFocus(FocusType.Default, null, settings);
         assertTrue(work.getStrategy() instanceof FocusStrategy);
