@@ -178,6 +178,12 @@ public class TaskDependencyManager {
 		return Collections.unmodifiableList(dependentTasks);
 	}
 	
+	/**
+	 * Removes the TaskDependencyManager object and makes sure
+	 * all bonds are correctly broken.
+	 * This method is responsible for breaking the dependencies 
+	 * on the other side of the binding.
+	 */
 	protected void remove(){
 		ArrayList<Task> dependencies = new ArrayList<Task>(this.getDependencies());
 		for(Task dependency:dependencies){
