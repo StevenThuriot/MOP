@@ -572,7 +572,6 @@ public class TaskTest {
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
 	 */
-	@SuppressWarnings("unchecked")
 	@Test(expected=IllegalStateCallException.class)
 	public void checkStateTwentySeven() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception, WrongFieldsForChosenTypeException, NotAvailableException, NoReservationOverlapException, AssetAllocatedException 
 	{

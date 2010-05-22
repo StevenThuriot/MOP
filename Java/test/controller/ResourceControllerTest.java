@@ -29,7 +29,6 @@ import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
-import exception.ResourceBusyException;
 
 public class ResourceControllerTest {
 
