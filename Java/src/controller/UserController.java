@@ -1,5 +1,8 @@
 package controller;
 
+import java.util.List;
+
+import model.User;
 import model.UserType;
 import model.repositories.RepositoryManager;
 
@@ -22,5 +25,15 @@ public class UserController {
 		UserType type = new UserType(description);
 		manager.add(type);
 		return type;
+	}
+	
+	public List<UserType> getAllUserTypes()
+	{
+		return manager.getUserTypes();
+	}
+
+	public void createUser(UserType uType, String name) {
+		User newUser = new User(name, uType);
+		manager.add(newUser);
 	}
 }

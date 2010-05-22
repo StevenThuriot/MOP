@@ -30,7 +30,6 @@ import model.repositories.RepositoryManager;
 public class MainGUI implements Runnable{
 	private RepositoryManager manager;
 	private User currentUser;
-	private User administrator;
 	private DispatchController dController;
 	@SuppressWarnings("unused")
 	private InputStream in;
@@ -47,8 +46,6 @@ public class MainGUI implements Runnable{
 		dController.getTimeController().setTime(menu.promptDate("Give Current Time"));
 		
 		XMLController xmlController = dController.getXmlController();
-		
-		administrator = new User("Administrator",new UserType("Administrator"));
 		
 		User user = null;
 		
@@ -97,7 +94,6 @@ public class MainGUI implements Runnable{
 		useCases.add(new MakeResourceReservation());
 		useCases.add(new FocusWork());
 		useCases.add(new ModifyTaskDetails());
-		useCases.add(new SetClock());
 	}
 	
 	/**
@@ -108,22 +104,23 @@ public class MainGUI implements Runnable{
 		return currentUser;
 	}
 	
-	public User getAdministrator()
-	{
-		return administrator;
-	}
-	
 	public void run(){
-		currentUser = menu.menuGen("Select User", manager.getUsers());
-		boolean run = true;
-		while (run) {
-			UseCase choice = menu.menuGenOpt("Select Action", useCases,"Exit");
-			if (choice == null) {
-				run = false;
-			}else{
-			choice.startUseCase(menu, dController, this);
+		if(menu.dialogYesNo("Log in as administrator"))
+		{
+			UseCase adminMenu = new AdminMenu();
+			adminMenu.startUseCase(menu, dController, this);
+		}else{
+			currentUser = menu.menuGen("Select User", manager.getUsers());
+			boolean run = true;
+			while (run) {
+				UseCase choice = menu.menuGenOpt("Select Action", useCases,"Exit");
+				if (choice == null) {
+					run = false;
+				}else{
+				choice.startUseCase(menu, dController, this);
+				}
 			}
-		}		
+		}
 	}
 	
 	/**
