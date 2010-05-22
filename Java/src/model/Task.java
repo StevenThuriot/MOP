@@ -793,7 +793,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	protected void doAddAssetAllocation(AssetAllocation assetAllocation) throws AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		if(!this.isAssetTypeRequired(assetAllocation.getAssetType()))
 			throw new AssetTypeNotRequiredException();
-		if(!this.isAssetConstraintFull(assetAllocation.getAssetType()))
+		if(this.isAssetConstraintFull(assetAllocation.getAssetType()))
 			throw new AssetConstraintFullException();
 		this.tam.add(assetAllocation);
 	}

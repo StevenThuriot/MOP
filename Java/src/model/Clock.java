@@ -34,7 +34,7 @@ public class Clock implements Subject {
 	 * Returns the time as indicated on the clock.
 	 */
 	public GregorianCalendar getTime(){
-		return currentTime;
+		return (GregorianCalendar) currentTime.clone();
 	}
 	
 	/**
