@@ -35,6 +35,11 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * The TaskType of this Task.
 	 */
 	private TaskType taskType;
+	/**
+	 * Fields for this task
+	 */
+	@SuppressWarnings("unchecked")
+	private List<Field> fields;
 
 	/**
 	 * A GregorianCalendar that describes the start date for this Task.
@@ -112,11 +117,12 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 */
-	public Task(TaskType taskT, String description,User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock)
-			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+	public Task(TaskType taskT,List<Field> fields, String description,User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock)
+			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
 		
-		this(taskT,description, user, timings, clock);
+		this(taskT,fields,description, user, timings, clock);
 		
 		for(Task t: dependencies){
 			if (t != null)
@@ -135,6 +141,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
+	 * @throws WrongFieldsForChosenTypeException 
 	 * @post	The user responsible for this Task is  <user>.
 	 * 			| getUser() == user
 	 * @post	The start date of this Task is <startDate>
@@ -148,14 +155,14 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @post	The task has dependencies nor dependent tasks
 	 * 			TODO: formal definition
 	 */
-	public Task(TaskType taskT, String description,User user, TaskTimings timings, Clock clock) 
-			throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception{
+	public Task(TaskType taskT,List<Field> fields, String description,User user, TaskTimings timings, Clock clock) 
+			throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
 		
 		tdm = new TaskDependencyManager(this);
 		tam = new TaskAssetManager(this);
 		this.clock = clock;
 		this.taskType = taskT;
-		
+		this.doSetFields(fields);
 		this.doSetDescription(description);
 		
 		this.taskState = new UnfinishedTaskState(this);
@@ -171,7 +178,16 @@ public class Task implements Describable, Subject, Observer<Task>{
 		
 		user.addTask(this);
 	}
-	
+	/**
+	 * Check the fields with the current tasktype
+	 * @param fields2
+	 * @throws WrongFieldsForChosenTypeException 
+	 */
+	private void doSetFields(List<Field> fields2) throws WrongFieldsForChosenTypeException {
+		taskType.checkFields(fields2);
+		this.fields = fields2;
+	}
+
 	/**
 	 * Adds a dependency to the current task.
 	 * @param 	dependency
@@ -808,6 +824,15 @@ public class Task implements Describable, Subject, Observer<Task>{
 	public List<TaskTypeConstraint> getRequiredResources()
 	{
 		return Collections.unmodifiableList(taskType.getConstraints());
+	}
+	
+	/**
+	 * Return the Tasks tasktype for comparison
+	 * @return
+	 */
+	public TaskType getTaskType()
+	{
+		return this.taskType;
 	}
 	
 }

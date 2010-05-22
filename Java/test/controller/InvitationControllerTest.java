@@ -27,6 +27,7 @@ import exception.AssetAllocatedException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
 import exception.WrongFieldsForChosenTypeException;
+import exception.WrongUserForTaskTypeException;
 import static org.junit.Assert.*;
 public class InvitationControllerTest {
 
@@ -37,7 +38,7 @@ public class InvitationControllerTest {
 	private InvitationController controller;
 	@SuppressWarnings("unchecked")
 	@Before
-	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException
+	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		manager = new RepositoryManager();
 		user = new User("John",new UserType(""));

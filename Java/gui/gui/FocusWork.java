@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import model.Task;
+import model.TaskType;
 import model.User;
 import controller.DispatchController;
 import controller.FocusController;
@@ -45,14 +46,14 @@ public class FocusWork extends UseCase {
 			model.focus.FocusWork focus;
 			FocusController fController = dController.getFocusController();
 			
-			int[] settings;
+			Object[] settings;
 			try {
 				switch (choice) {
 					case 0:
 						String numberOfTasksString = menu.prompt("How many tasks would you like to see?");
 						int numberOfTasksInteger = Integer.parseInt(numberOfTasksString);
 						
-						settings = new int[] {numberOfTasksInteger};
+						settings = new Object[] {numberOfTasksInteger};
 						
 						focus = fController.createFocus(FocusType.DeadlineFocus, user, settings);
 					
@@ -64,12 +65,17 @@ public class FocusWork extends UseCase {
 						String maxDurationString = menu.prompt("Maximum duration of a task?");
 						int maxDurationInteger = Integer.parseInt(maxDurationString);
 						
-						settings = new int[] {minDurationInteger, maxDurationInteger};
+						settings = new Object[] {minDurationInteger, maxDurationInteger};
 						
 						focus = fController.createFocus(FocusType.DurationFocus, user, settings);
 						break;
+					case 2:
+						TaskType selectedTaskType = menu.menuGen("Select a tasktype to filter on", dController.getTaskController().getAllTypes());
+						int amountOfTasks = Integer.parseInt(menu.prompt("How many tasks would you like to see?"));
+						settings = new Object[] {amountOfTasks,selectedTaskType};
+						focus = fController.createFocus(FocusType.TaskTypeFocus, user, settings);
 					default:
-						focus = fController.createFocus(FocusType.Default, user, new int[0]);
+						focus = fController.createFocus(FocusType.Default, user, new Object[0]);
 				}
 				
 				List<Task> tasks = focus.getTasks();

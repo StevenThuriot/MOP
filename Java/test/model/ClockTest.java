@@ -14,6 +14,7 @@ import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.TimeException;
 import exception.WrongFieldsForChosenTypeException;
+import exception.WrongUserForTaskTypeException;
 
 import model.repositories.RepositoryManager;
 
@@ -28,7 +29,7 @@ public class ClockTest {
 	
 	@SuppressWarnings("unchecked")
 	@Before
-	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, TimeException, WrongFieldsForChosenTypeException{
+	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, TimeException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
 		startDate = new GregorianCalendar(2010, 1,1, 12, 0);
 		dueDate = new GregorianCalendar(2010, 5,1, 12, 0);
 		manager = new RepositoryManager();

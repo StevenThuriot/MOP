@@ -25,5 +25,18 @@ public class NumericField extends Field<Integer> {
 			throw new NullPointerException("Null was passed");
 		
 		this.value = value;
+	}
+
+	@Override
+	public Field<Integer> clone() {
+		Field<Integer> clonedField = null;
+		try {
+			clonedField = new NumericField(this.getName(), this.getValue());
+		} catch (NullPointerException e) {
+			//For this error to occur, the to be cloned field has to be invalid. This is not possible
+		} catch (EmptyStringException e) {
+			//For this error to occur, the to be cloned field has to be invalid. This is not possible
+		}
+		return clonedField;
 	}	
 }

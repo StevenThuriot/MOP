@@ -17,6 +17,7 @@ import exception.DependencyCycleException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.WrongFieldsForChosenTypeException;
+import exception.WrongUserForTaskTypeException;
 
 public class CreateTask extends UseCase {
 	public CreateTask(){		
@@ -99,6 +100,8 @@ public class CreateTask extends UseCase {
 				menu.println("This schedule would violate Business Rule 3. This is probably: starttime after the current time, or the deadline before the current time.");
 			} catch (WrongFieldsForChosenTypeException e) {
 				menu.println("The passed fields do not match the selected type");
+			} catch (WrongUserForTaskTypeException e) {
+				menu.println(e.getMessage());
 			}
 		}else{
 			try {
@@ -119,6 +122,8 @@ public class CreateTask extends UseCase {
 				menu.println("This schedule would violate Business Rule 3. This is probably: starttime after the current time, or the deadline before the current time.");
 			} catch (WrongFieldsForChosenTypeException e) {
 				menu.println("The passed fields do not match the selected type");
+			} catch (WrongUserForTaskTypeException e) {
+				menu.println(e.getMessage());
 			}
 		}
 	}

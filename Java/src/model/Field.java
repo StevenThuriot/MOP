@@ -75,4 +75,9 @@ public abstract class Field<T> {
 	 * @param value The new value
 	 */
 	public abstract void setValue(T value) throws NullPointerException;
+	
+	/**
+	 * Clone the field
+	 */
+	public abstract Field<T> clone();
 }
