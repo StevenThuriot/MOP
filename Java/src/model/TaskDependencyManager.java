@@ -201,6 +201,17 @@ public class TaskDependencyManager {
 		}
 	}
 	
+	/**
+	 * Check if the dependecies for the owning task are satisfied
+	 */
+	protected boolean checkDependecies(){
+		boolean isSatisfied = true;
+		for(Task task: this.getDependencies()){
+			isSatisfied &= task.isSuccesful();
+		}
+		return isSatisfied;
+	}
+	
 	
 	
 }

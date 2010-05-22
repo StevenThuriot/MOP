@@ -25,6 +25,8 @@ import static org.junit.Assert.*;
 
 import controller.ResourceController;
 import exception.AssetAllocatedException;
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.NoReservationOverlapException;
@@ -78,9 +80,11 @@ public class ResourceControllerTest {
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws IllegalStateCallException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	@Test
-	public void createReservation() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException
+	public void createReservation() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	
 	{
 		GregorianCalendar begin = new GregorianCalendar();
@@ -94,9 +98,11 @@ public class ResourceControllerTest {
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws IllegalStateCallException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	@Test(expected=NotAvailableException.class)
-	public void createNoReservation() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException
+	public void createNoReservation() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		controller.createReservation(new GregorianCalendar(), 140, resource, task);
 		controller.createReservation(new GregorianCalendar(), 30, resource, task);
@@ -132,9 +138,11 @@ public class ResourceControllerTest {
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws IllegalStateCallException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	@Test
-	public void testReservations() throws NotAvailableException, EmptyStringException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException
+	public void testReservations() throws NotAvailableException, EmptyStringException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 	    resource = controller.createResource("Room 101", new ResourceType(""));
 	    Reservation reservation = controller.createReservation(new GregorianCalendar(), 101, resource, task);

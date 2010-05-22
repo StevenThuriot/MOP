@@ -3,6 +3,8 @@ package model;
 import java.util.GregorianCalendar;
 
 import exception.AssetAllocatedException;
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.IllegalStateCallException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
@@ -29,7 +31,7 @@ public class Invitation extends AssetAllocation implements Describable{
 	 */
 	private InvitationState status;
 	
-	public Invitation(Task task,User user) throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public Invitation(Task task,User user) throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		if(task==null || user==null)
 			throw new NullPointerException();

@@ -204,7 +204,7 @@ public abstract class TaskState {
 	
 	public abstract String toString();
 	
-	protected void addAssetAllocation(AssetAllocation assetAllocation) throws IllegalStateCallException, AssetAllocatedException{
+	protected void addAssetAllocation(AssetAllocation assetAllocation) throws IllegalStateCallException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		throw new IllegalStateCallException();
 	}	
 }

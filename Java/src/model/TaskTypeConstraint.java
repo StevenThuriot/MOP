@@ -1,5 +1,7 @@
 package model;
 
+import java.util.GregorianCalendar;
+
 import gui.Describable;
 
 public class TaskTypeConstraint implements Describable{
@@ -45,4 +47,20 @@ public class TaskTypeConstraint implements Describable{
 	public String getDescription() {
 		return assetType.getDescription() + " min: " + getMinimum() + " max: " + getMaximum();
 	}
+	
+	/**
+	 * Checks whether the constraint is satisfied for said Task at the specified timings
+	 */
+	protected boolean checkConstraint(Task task, GregorianCalendar begin, int duration){
+		int count = task.getAssetCountAvailableAt(begin, duration, this.getAssetType());
+		return (this.getMinimum() <= count) && (count <= this.getMaximum());
+	}
+	
+	/**
+	 * Check if this Constraint is already full in the specified Task.
+	 */
+	protected boolean isAssetConstraintFull(Task task){
+		return (task.getValidAssetCount(this.getAssetType()) == this.getMaximum());
+	}
+	
 }

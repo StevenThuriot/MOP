@@ -4,6 +4,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import exception.AssetAllocatedException;
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.IllegalStateCallException;
 import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
@@ -42,9 +44,11 @@ public class Reservation extends AssetAllocation implements Describable{
 	 * 			|!newTask.checkOverlap(newTime, newDuration)
 	 * @throws AssetAllocatedException 
 	 * @throws IllegalStateCallException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	//TODO : update status of resource object
-	public Reservation(GregorianCalendar newTime, int newDuration, Resource newResource, Task task) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException{
+	public Reservation(GregorianCalendar newTime, int newDuration, Resource newResource, Task task) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		if(newTime == null || newResource == null || task == null)
 			throw new NullPointerException();
 		setTime(newTime);

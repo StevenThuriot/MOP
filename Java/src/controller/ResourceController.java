@@ -9,6 +9,8 @@ import model.ResourceType;
 import model.Task;
 import model.repositories.RepositoryManager;
 import exception.AssetAllocatedException;
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.NoReservationOverlapException;
@@ -44,8 +46,10 @@ public class ResourceController {
      * @throws NoReservationOverlapException 
      * @throws AssetAllocatedException 
      * @throws IllegalStateCallException 
+     * @throws AssetTypeNotRequiredException 
+     * @throws AssetConstraintFullException 
 	 */
-	public Reservation createReservation(GregorianCalendar startTime, int duration, Resource resource, Task task) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException {
+	public Reservation createReservation(GregorianCalendar startTime, int duration, Resource resource, Task task) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException {
 		return new Reservation(startTime,duration,  resource, task);
 	}
 

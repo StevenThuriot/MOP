@@ -19,6 +19,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule3Exception;
 import exception.EmptyStringException;
@@ -68,14 +70,14 @@ public class InvitationControllerTest {
 	}
 	
 	@Test
-	public void createTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public void createTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		Invitation invitation = controller.createInvitation(taskMain,user);
 		assertTrue(user.getInvitations().contains(invitation));
 	}
 	
 	@Test(expected=AssetAllocatedException.class)
-	public void createTest2() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public void createTest2() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		User user2 = new User("Jack",new UserType(""));
 		controller.createInvitation(taskMain,user2);
@@ -83,13 +85,13 @@ public class InvitationControllerTest {
 	}
 	
 	@Test(expected=InvitationInvitesOwnerException.class)
-	public void createTest3() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public void createTest3() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		controller.createInvitation(taskMain,owner);
 	}
 	
 	@Test
-	public void removeTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public void removeTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		User user2 = new User("Jack",new UserType(""));
 		Invitation invitation = controller.createInvitation(taskMain,user2);

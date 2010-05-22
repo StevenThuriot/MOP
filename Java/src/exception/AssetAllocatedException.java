@@ -5,7 +5,7 @@ public class AssetAllocatedException extends Exception{
 
 	public AssetAllocatedException()
 	{
-		super("Invitation was already created for this combination User/Task");
+		super("This AssetAllocation was already allocated");
 	}
 	public AssetAllocatedException(String message)
 	{
