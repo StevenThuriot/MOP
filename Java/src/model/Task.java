@@ -686,9 +686,21 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * Returns a string representation of this Task.
 	 * At the moment, this returns the description.
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public String toString(){
-		return getDescription();
+		String task = this.getDescription();
+		
+		task += "\n";
+		
+		for (Field field : this.fields) 
+		{
+			task += field.getName() + ": " + field.getValue().toString() + "\n";
+		}		
+		
+		return task;
+		
+		//return getDescription();
 	}
 
 	/**
