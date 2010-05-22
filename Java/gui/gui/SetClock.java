@@ -1,6 +1,5 @@
 package gui;
 
-import model.User;
 import controller.DispatchController;
 import exception.TimeException;
 
@@ -11,9 +10,8 @@ public class SetClock extends UseCase {
 		return "Set Clock";
 	}
 	
-	private SetClock(Menu menu, DispatchController dController, User user) {
+	private SetClock(Menu menu, DispatchController dController) {
 		this.menu = menu;
-		this.user = user;
 		this.dController = dController;
 	}
 	
@@ -21,7 +19,7 @@ public class SetClock extends UseCase {
 
 	@Override
 	public void startUseCase(Menu menu, DispatchController dController, MainGUI mainGUI) {
-		(new SetClock(menu, dController, mainGUI.getCurrentUser())).setClock();
+		(new SetClock(menu, dController)).setClock();
 	}
 	
 	private void setClock(){
