@@ -24,6 +24,8 @@ import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
+import exception.InvitationInvitesOwnerException;
+import exception.InvitationNotPendingException;
 import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
 import exception.TaskFailedException;
@@ -954,5 +956,46 @@ public class TaskTest {
 		
 		TaskDeadlineComparator c = new TaskDeadlineComparator();
 		assertEquals(1, c.compare(t1, t2));
+	}
+	
+	@Test
+	/**
+	 * Tests whether the CanBeExecuted method works properly in various
+	 * situations.
+	 */
+	public void testCanBeExecuted() throws NullPointerException, WrongFieldsForChosenTypeException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, AssetAllocatedException, InvitationInvitesOwnerException, InvitationNotPendingException, NotAvailableException, NoReservationOverlapException{
+		
+		ResourceType goBoard = new ResourceType("Go board");
+		Resource board = new Resource("Kwinten's go board",goBoard);
+		UserType goPlayer = new UserType("Go player");
+		User kwinten = new User("Kwinten", goPlayer);
+		User steven = new User("Dieter", goPlayer);
+		TaskTypeConstraint constraintBoard = new TaskTypeConstraint(goBoard, 1,1);
+		TaskTypeConstraint constraintOwner = new TaskTypeConstraint(goPlayer, 1,1);
+		//TODO!!! Verschil tussen helper en owner in constraints.
+		TaskTypeConstraint constraintHelper = new TaskTypeConstraint(goPlayer,1,1);
+		ArrayList<TaskTypeConstraint> assetsReq = new ArrayList<TaskTypeConstraint>();
+		assetsReq.add(constraintBoard);
+		assetsReq.add(constraintOwner);
+		assetsReq.add(constraintHelper);
+
+		TaskType goGame = new TaskType("Playing go", 
+				new ArrayList<Field>(), assetsReq);
+		Task playGo = TaskFactory.createTask("Playing Go", goGame, new ArrayList<Field>(), 
+				kwinten, new TaskTimings(startDate, endDate, 120), manager.getClock());
+		
+		//Resources not ready! Task can not be executed.
+		assertFalse(playGo.canBeExecuted());
+		
+		//Create reservation
+		Reservation reserveBoard = new Reservation(startDate,150, board, playGo);
+		//Helper user still not satisfied though!
+		assertFalse(playGo.canBeExecuted());
+		
+		//Invite Steven
+		Invitation inviteSteven = new Invitation(playGo, steven);
+		inviteSteven.accept();
+		//Task should be ready to run
+		assertTrue(playGo.canBeExecuted());
 	}
 }
