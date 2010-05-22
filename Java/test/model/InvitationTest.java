@@ -12,6 +12,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.AssetAllocatedException;
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.IllegalStateCallException;
 import exception.InvitationInvitesOwnerException;
 
@@ -60,7 +62,7 @@ public class InvitationTest {
 	}
 	
 	@Test
-	public void initTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public void initTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		User user2 = new User("Jack",new UserType(""));
 		invitation = new Invitation(taskMain, user2);
@@ -68,7 +70,7 @@ public class InvitationTest {
 		//TODO: Check this for the user
 	}
 	@Test
-	public void removeTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public void removeTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		User user2 = new User("Jack",new UserType(""));
 		invitation = new Invitation(taskMain,user2);

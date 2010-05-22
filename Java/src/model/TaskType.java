@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import exception.WrongFieldsForChosenTypeException;
@@ -111,5 +112,39 @@ public class TaskType implements Describable {
 	 */
 	public String getDescription() {
 		return this.getName();
+	}
+	
+	/**
+	 * Checks whether the constraints are satisfied for said Task at the specified timings
+	 */
+	protected boolean checkConstraints(Task task, GregorianCalendar begin, int duration){
+		boolean isSatisfied = true;
+		for(TaskTypeConstraint constraint: constraints){
+			isSatisfied &= constraint.checkConstraint(task,begin,duration);
+		}
+		return isSatisfied;
+	}
+	
+	/**
+	 * Returns whether the AssetType is required for Tasks of this Type
+	 */
+	protected boolean isAssetTypeRequired(AssetType assetType){
+		ArrayList<AssetType> types = new ArrayList<AssetType>();
+		for(TaskTypeConstraint constraint: constraints){
+			types.add(constraint.getAssetType());
+		}
+		return types.contains(assetType);
+	}
+	
+	/**
+	 * Returns whether the Asset Constraint is full.
+	 */
+	protected boolean isAssetConstraintFull(Task task, AssetType assetType){
+		for(TaskTypeConstraint constraint: constraints){
+			if(constraint.getAssetType() == assetType){
+				return constraint.isAssetConstraintFull(task);
+			}
+		}
+		return false;
 	}
 }

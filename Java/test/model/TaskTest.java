@@ -16,6 +16,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.AssetAllocatedException;
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
@@ -570,10 +572,12 @@ public class TaskTest {
 	 * @throws NoReservationOverlapException 
 	 * @throws NotAvailableException 
 	 * @throws NotAvailableException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 * @throws UnknownStateException 
 	 */
 	@Test(expected=IllegalStateCallException.class)
-	public void checkStateTwentySeven() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception, WrongFieldsForChosenTypeException, NotAvailableException, NoReservationOverlapException, AssetAllocatedException 
+	public void checkStateTwentySeven() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception, WrongFieldsForChosenTypeException, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException 
 	{
 		task.setSuccessful();
 		new Reservation(startDate, 180, resource, task);
@@ -702,10 +706,12 @@ public class TaskTest {
 	 * @throws NotAvailableException 
 	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws WrongUserForTaskTypeException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
+	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		//Sets up a resource reservation, and a dependency in both directions
 		assertTrue(task.isUnfinished());
 		Reservation reservation = new Reservation(startDate, 120, resource, task);
@@ -737,10 +743,12 @@ public class TaskTest {
 	 * @throws NotAvailableException 
 	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws WrongUserForTaskTypeException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
+	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		Reservation reservation = new Reservation(startDate, 120, resource, task);
 		//Sets up 2 additional resources
 		Resource resource2 = new Resource("some resource",new ResourceType(""));
@@ -980,7 +988,7 @@ public class TaskTest {
 	 * Tests whether the CanBeExecuted method works properly in various
 	 * situations.
 	 */
-	public void testCanBeExecuted() throws NullPointerException, WrongFieldsForChosenTypeException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, AssetAllocatedException, InvitationInvitesOwnerException, InvitationNotPendingException, NotAvailableException, NoReservationOverlapException, WrongUserForTaskTypeException{
+	public void testCanBeExecuted() throws NullPointerException, WrongFieldsForChosenTypeException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, AssetAllocatedException, InvitationInvitesOwnerException, InvitationNotPendingException, NotAvailableException, NoReservationOverlapException, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		
 		ResourceType goBoard = new ResourceType("Go board");
 		Resource board = new Resource("Kwinten's go board",goBoard);

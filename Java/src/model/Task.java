@@ -772,16 +772,29 @@ public class Task implements Describable, Subject, Observer<Task>{
 	}
 
 	/**
-	 * Add AssetAllocationto this task.
+	 * Add AssetAllocation to this task.
 	 * @param assetAllocation
 	 * @throws AssetAllocatedException
 	 * @throws IllegalStateCallException
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
-	protected void addAssetAllocation(AssetAllocation assetAllocation) throws AssetAllocatedException, IllegalStateCallException{
+	protected void addAssetAllocation(AssetAllocation assetAllocation) throws AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		this.taskState.addAssetAllocation(assetAllocation);
 	}
 	
-	protected void doAddAssetAllocation(AssetAllocation assetAllocation) throws AssetAllocatedException{
+	/**
+	 * Actually add the assetAllocation to this task.
+	 * @param assetAllocation
+	 * @throws AssetAllocatedException
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
+	 */
+	protected void doAddAssetAllocation(AssetAllocation assetAllocation) throws AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException{
+		if(!this.isAssetTypeRequired(assetAllocation.getAssetType()))
+			throw new AssetTypeNotRequiredException();
+		if(!this.isAssetConstraintFull(assetAllocation.getAssetType()))
+			throw new AssetConstraintFullException();
 		this.tam.add(assetAllocation);
 	}
 	
@@ -807,20 +820,61 @@ public class Task implements Describable, Subject, Observer<Task>{
 		return this.tam.getAssetsAvailableAt(begin, duration);
 	}
 	
+	/**
+	 * Returns the amount of assets of the specified type available at the specified timings
+	 * @param begin
+	 * @param duration
+	 * @param assetType
+	 * @return
+	 */
 	protected int getAssetCountAvailableAt(GregorianCalendar begin, int duration, AssetType assetType){
 		return this.tam.getAssetCountAvailableAt(begin, duration, assetType);
 	}
 	
+	/**
+	 * Returns the amount of assets of the type that count towards the TaskTypeConstraints.
+	 * @param assetType
+	 * @return
+	 */
 	protected int getValidAssetCount(AssetType assetType){
 		return this.tam.getValidAssetCount(assetType);
 	}
 	
-	protected boolean checkAssetAvailability(GregorianCalendar begin, int duration){
-		return true;
+	
+	/**
+	 * Check if all dependencies and requirements are fulfilled for task execution.
+	 * @return
+	 */
+	protected boolean doCheckCanBeExecuted(){
+		GregorianCalendar now = this.getClock().getTime();
+		
+		if (now.before(this.getStartDate())) {
+			return false;
+		} else {
+			boolean assetsReady = this.getTaskType().checkConstraints(this, now, this.getDuration());
+			boolean depReady = this.tdm.checkDependecies();
+			return assetsReady && depReady;	
+		}
 	}
 	
+	/**
+	 * Returns whether the AssetType is required for this Task
+	 */
+	protected boolean isAssetTypeRequired(AssetType assetType){
+		return this.getTaskType().isAssetTypeRequired(assetType);
+	}
 	
+	/**
+	 * Returns whether the Constraints for said AssetType is already Full
+	 */
+	protected boolean isAssetConstraintFull(AssetType assetType){
+		return this.getTaskType().isAssetConstraintFull(this, assetType);
+	}
 	
+	/**
+	 * Returns a list of all AssetAllocations
+	 * @return
+	 */
 	public List<AssetAllocation> getAssetAllocations(){
 		return this.tam.getAssetAllocations();
 	}

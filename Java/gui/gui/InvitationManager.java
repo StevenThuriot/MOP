@@ -11,6 +11,7 @@ import model.User;
 import model.Invitation.InvitationState;
 import controller.DispatchController;
 import exception.AssetAllocatedException;
+import exception.AssetTypeNotRequiredException;
 import exception.IllegalStateCallException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
@@ -89,6 +90,8 @@ public class InvitationManager extends UseCase {
 				menu.print("You can't invite yourself to the invitation.");
 			} catch (IllegalStateCallException e) {
 				menu.print("Task is finished, you can no longer extend invitations for it.");
+			} catch (AssetTypeNotRequiredException e) {
+				menu.print("This UserType can not be invited");
 			}
 		}else{
 			List<AssetAllocation> allocations =  selectedTask.getAssetAllocations();

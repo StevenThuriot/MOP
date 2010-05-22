@@ -11,6 +11,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule3Exception;
 import exception.EmptyStringException;
@@ -56,14 +58,14 @@ public class UserTaskManagerTest {
 		user = null;
 	}
 	@Test
-	public void adding() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public void adding() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		User user1 = new User("John",new UserType(""));
 		Invitation invitation = new Invitation(taskMain, user1);
 		assertTrue(user1.getUserTaskManager().getInvitations().contains(invitation));
 	}
 	@Test
-	public void removing() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public void removing() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		User user1 = new User("John",new UserType(""));
 		Invitation invitation = new Invitation(taskMain, user1);

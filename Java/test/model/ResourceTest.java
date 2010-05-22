@@ -17,6 +17,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.AssetAllocatedException;
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.NoReservationOverlapException;
@@ -109,9 +111,11 @@ public class ResourceTest {
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws IllegalStateCallException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	@Test(expected=NotAvailableException.class)
-	public void reservations() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException{
+	public void reservations() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		
 		GregorianCalendar startDate = new GregorianCalendar();
 		new Reservation(startDate, 100, resource, task1);
@@ -129,9 +133,11 @@ public class ResourceTest {
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws IllegalStateCallException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	@Test(expected=NullPointerException.class)
-	public void reservations2() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException{
+	public void reservations2() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		new Reservation(new GregorianCalendar(), 100, null, task1);
 	}
 	
@@ -143,9 +149,11 @@ public class ResourceTest {
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws IllegalStateCallException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	@Test(expected=NullPointerException.class)
-	public void reservations3() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException{
+	public void reservations3() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		new Reservation(null, 100, resource, task1);
 	}
 	
@@ -157,9 +165,11 @@ public class ResourceTest {
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws IllegalStateCallException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	@Test
-	public void reservations4() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException{
+	public void reservations4() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		Reservation s = new Reservation(new GregorianCalendar(), 100, resource, task1);
 		assertEquals(100, s.getDuration());
 	}
@@ -172,9 +182,11 @@ public class ResourceTest {
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws IllegalStateCallException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	@Test
-	public void reservations5() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException{
+	public void reservations5() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		Reservation s = new Reservation(new GregorianCalendar(), 100, resource, task1);
 		assertEquals(resource, s.getReservedResource());
 	}
@@ -187,9 +199,11 @@ public class ResourceTest {
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws IllegalStateCallException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	@Test(expected=NullPointerException.class)
-	public void reservations6() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException{
+	public void reservations6() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		new Reservation(new GregorianCalendar(), 100, resource, null);
 	}
 	
@@ -201,15 +215,17 @@ public class ResourceTest {
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws IllegalStateCallException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
 	@Test
-	public void reservations7() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException{
+	public void reservations7() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		Reservation s = new Reservation(new GregorianCalendar(), 100, resource, task1);
 		assertEquals(task1, s.getTask());
 	}
 	
 	@Test
-	public void removeReservationTest() throws AssetAllocatedException, NotAvailableException, NoReservationOverlapException, IllegalStateCallException
+	public void removeReservationTest() throws AssetAllocatedException, NotAvailableException, NoReservationOverlapException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		Reservation reservation = new Reservation(new GregorianCalendar(),0,resource,task1);
 		assertFalse(task1.getTaskAssetManager().getAssetAllocations().isEmpty());

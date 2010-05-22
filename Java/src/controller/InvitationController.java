@@ -3,6 +3,8 @@ package controller;
 import java.util.List;
 
 import exception.AssetAllocatedException;
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.IllegalStateCallException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
@@ -37,8 +39,10 @@ public class InvitationController {
 	 * @throws AssetAllocatedException
 	 * @throws InvitationInvitesOwnerException 
 	 * @throws IllegalStateCallException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws AssetConstraintFullException 
 	 */
-	public Invitation createInvitation(Task task, User user) throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public Invitation createInvitation(Task task, User user) throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		return new Invitation(task,user);
 	}

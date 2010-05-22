@@ -9,6 +9,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.AssetAllocatedException;
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.IllegalStateCallException;
 import exception.InvitationInvitesOwnerException;
 import static org.junit.Assert.*;
@@ -70,21 +72,21 @@ public class TaskInvitationManagerTest {
 	}
 	
 	@Test(expected=InvitationInvitesOwnerException.class)
-	public void testInvite1() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public void testInvite1() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		@SuppressWarnings("unused")
 		Invitation invitation = new Invitation(taskMain, owner);
 	}
 	
 	@Test(expected=AssetAllocatedException.class)
-	public void testInvite2() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public void testInvite2() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		new Invitation(taskMain, user);
 		new Invitation(taskMain, user);
 	}
 	
 	@Test
-	public void testInvite3() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException
+	public void testInvite3() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		Invitation invitation = new Invitation(taskMain, user);
 		assertTrue(tim.getAssetAllocations().contains(invitation));

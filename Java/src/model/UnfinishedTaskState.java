@@ -39,25 +39,7 @@ public class UnfinishedTaskState extends TaskState {
 	 */
 	@Override
 	protected Boolean canBeExecuted(){
-		
-		boolean assetsReady = true;
-		boolean depReady = true;
-		
-		GregorianCalendar now = this.getContext().getClock().getTime();
-		
-		if (now.before(this.getContext().getStartDate())) {
-			return false;
-		} else {
-			assetsReady = this.getContext().checkAssetAvailability(now, this.getContext().getDuration());
-			
-			for(Task t: this.getContext().getDependencies()){
-				depReady = depReady && t.isSuccesful();
-			}
-			
-			return assetsReady && depReady;	
-		}
-		
-		
+		return this.getContext().doCheckCanBeExecuted();
 	}
 	
 	/**
@@ -185,7 +167,7 @@ public class UnfinishedTaskState extends TaskState {
 		}
 	}
 	
-	protected void addAssetAllocation(AssetAllocation assetAllocation) throws IllegalStateCallException, AssetAllocatedException{
+	protected void addAssetAllocation(AssetAllocation assetAllocation) throws IllegalStateCallException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		this.getContext().doAddAssetAllocation(assetAllocation);
 	}
 }
