@@ -53,22 +53,22 @@ public class InvitationManager extends UseCase {
 		Invitation selectedInvitation = null;
 		while(selectedInvitation==null && selectedInvitation.getState()!=InvitationState.PENDING)
 		{
-			selectedInvitation = menu.menuGen("Select an invitation to be updated", user.getInvitations());
+			selectedInvitation = menu.menuGen("Select an invitation to be updated.", user.getInvitations());
 			if(selectedInvitation.getState().equals(InvitationState.ACCEPTED))
-				menu.print("You can't update this invitation. It is already accepted");
+				menu.print("You can't update this invitation. It is already accepted.");
 		}
 		if(menu.dialogYesNo("Accept this invitation?"))
 		{
 			try {
 				this.dController.getInvitationController().acceptInvitation(selectedInvitation);
 			} catch (InvitationNotPendingException e) {
-				menu.print("You can't update this invitation. It is already been set");
+				menu.print("You can't update this invitation. It is already been set.");
 			}
 		}else{
 			try {
 				this.dController.getInvitationController().declineInvitation(selectedInvitation);
 			} catch (InvitationNotPendingException e) {
-				menu.print("You can't update this invitation. It is already been set");
+				menu.print("You can't update this invitation. It is already been set.");
 			}
 		}
 	}
@@ -86,7 +86,7 @@ public class InvitationManager extends UseCase {
 			} catch (AssetAllocatedException e) {
 				menu.print("This user was already invited for this task.");
 			} catch (InvitationInvitesOwnerException e) {
-				menu.print("You can't invite yourself to the invitation");
+				menu.print("You can't invite yourself to the invitation.");
 			} catch (IllegalStateCallException e) {
 				menu.print("Task is finished, you can no longer extend invitations for it.");
 			}
