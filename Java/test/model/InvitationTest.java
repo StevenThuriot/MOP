@@ -32,6 +32,7 @@ public class InvitationTest {
 	 * User to be invited
 	 */
 	private User user;
+	private UserType userType;
 
 	/**
 	 * The invitation itself
@@ -43,14 +44,16 @@ public class InvitationTest {
 	public void setUp() throws Exception
 	{
 		manager = new RepositoryManager();
-		user = new User("John",new UserType(""));
+		user = new User("John",userType);
 		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		// 4 days to finish the task from now on
 		int duration = 1;
+		 ArrayList<TaskTypeConstraint> constraints = new ArrayList<TaskTypeConstraint>();
+			constraints.add(new TaskTypeConstraint(userType,1,2));
 		TaskType taskType = new TaskType("reorganizing the test cases", 
-				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+				new ArrayList<Field>(), constraints);
 		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, endDate, duration), manager.getClock());
 	}
@@ -64,7 +67,7 @@ public class InvitationTest {
 	@Test
 	public void initTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
-		User user2 = new User("Jack",new UserType(""));
+		User user2 = new User("Jack",userType);
 		invitation = new Invitation(taskMain, user2);
 		assertTrue(taskMain.getTaskAssetManager().getAssetAllocations().contains(invitation));
 		//TODO: Check this for the user
@@ -72,7 +75,7 @@ public class InvitationTest {
 	@Test
 	public void removeTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
-		User user2 = new User("Jack",new UserType(""));
+		User user2 = new User("Jack",userType);
 		invitation = new Invitation(taskMain,user2);
 		assertFalse(taskMain.getTaskAssetManager().getAssetAllocations().isEmpty());
 		invitation.remove();
