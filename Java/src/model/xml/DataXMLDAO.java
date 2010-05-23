@@ -67,7 +67,7 @@ public class DataXMLDAO {
 	Map<String, ResourceType> resourceTypeMap = null;
 	Map<String, UserType> userTypeMap = null;
 	
-	private Boolean ENABLE_DEBUG = false;
+	private Boolean ENABLE_DEBUG = true;
 	
 	/**
 	 * Debugger tool
@@ -172,7 +172,7 @@ public class DataXMLDAO {
 				users.add(user);
 			}
 		}
-
+		
 		parseTime();
 
 		return users;
@@ -251,7 +251,7 @@ public class DataXMLDAO {
 		for (Task task : stateMap.keySet()) {
 			String state = stateMap.get(task);
 			
-			System.out.println(task.getDescription());
+			debug(task.getDescription());
 		  
 			controller.getTaskController().parseStateString(task, state);
 		}
