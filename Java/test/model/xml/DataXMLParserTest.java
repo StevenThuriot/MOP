@@ -66,7 +66,7 @@ public class DataXMLParserTest {
 		
 		themeParser.Parse(taskTypeMap,resourceTypeMap,userTypeMap);
 		
-		parser = new DataXMLDAO("students_public.xml", dcontroller, taskTypeMap, resourceTypeMap, userTypeMap);
+		parser = new DataXMLDAO("students_public.xml", manager, dcontroller, taskTypeMap, resourceTypeMap, userTypeMap);
 		
 		ArrayList<User> parsedUsers = parser.Parse();
 		
@@ -74,13 +74,6 @@ public class DataXMLParserTest {
 			manager.add(user);
 			users.put(user.getName(), user);
 		}
-        
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-        Date date = sdf.parse("2009-10-20T20:00:00");
-	    GregorianCalendar gregDate = new GregorianCalendar();
-	    gregDate.setTime(date);
-	    
-        manager.getClock().setTime(gregDate);
     }
     
     @After
@@ -90,6 +83,21 @@ public class DataXMLParserTest {
         parser  = null;
         dcontroller = null;
         users = null;
+    }
+    
+    /**
+     * Testing system time
+     * @throws ParseException
+     */
+    @Test
+    public void timeTest() throws ParseException
+    {
+    	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+        Date date = sdf.parse("2009-10-22T00:00:00");
+	    GregorianCalendar gregDate = new GregorianCalendar();
+	    gregDate.setTime(date);
+	    
+    	assertEquals(gregDate, manager.getClock().getTime());
     }
     
     /**

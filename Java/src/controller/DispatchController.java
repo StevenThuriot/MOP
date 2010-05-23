@@ -53,7 +53,7 @@ public class DispatchController {
 		this.taskController = new TaskController(manager);
 		this.timeController = new TimeController(manager);
 		this.invitationController = new InvitationController(manager);
-		this.xmlController = new XMLController();
+		this.xmlController = new XMLController(manager);
 		this.focusController = new FocusController();
 		this.userController = new UserController(manager);
 	}

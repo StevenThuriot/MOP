@@ -25,6 +25,7 @@ import model.TaskTimings;
 import model.TaskType;
 import model.User;
 import model.UserType;
+import model.repositories.RepositoryManager;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
@@ -44,6 +45,7 @@ import exception.IllegalStateChangeException;
 import exception.NoReservationOverlapException;
 import exception.NonExistingTypeSelected;
 import exception.NotAvailableException;
+import exception.TimeException;
 import exception.UnknownStateException;
 import exception.WrongFieldsForChosenTypeException;
 import exception.WrongUserForTaskTypeException;
@@ -54,7 +56,7 @@ import exception.WrongUserForTaskTypeException;
  */
 public class DataXMLDAO {
 	private XMLParser parser;
-	
+	RepositoryManager manager;
 	private DispatchController controller;
 	
 	private HashMap<String, Project> projectMap = new HashMap<String, Project>();
@@ -84,10 +86,11 @@ public class DataXMLDAO {
 	 * @param resourceTypeMap 
 	 * @param taskTypeMap 
 	 */
-	public DataXMLDAO(String filename, DispatchController controller, Map<String, TaskType> taskTypeMap, Map<String, ResourceType> resourceTypeMap, Map<String, UserType> userTypeMap)
+	public DataXMLDAO(String filename, RepositoryManager manager, DispatchController controller, Map<String, TaskType> taskTypeMap, Map<String, ResourceType> resourceTypeMap, Map<String, UserType> userTypeMap)
 	{
 		this.controller = controller;
 		this.parser = new XMLParser(filename);
+		this.manager = manager;
 		
 		this.taskTypeMap = taskTypeMap;
 		this.resourceTypeMap = resourceTypeMap;
@@ -119,9 +122,11 @@ public class DataXMLDAO {
 	 * @throws WrongUserForTaskTypeException 
 	 * @throws AssetConstraintFullException 
 	 * @throws AssetTypeNotRequiredException 
+	 * @throws TimeException 
 	 */
-	public ArrayList<User> Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException
+	public ArrayList<User> Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException
 	{
+		parseTime();
 		parseResources();
 		parseProjects();
 				
@@ -173,6 +178,26 @@ public class DataXMLDAO {
 	}
 
 	/**
+	 * Parsing system time
+	 * @throws NameNotFoundException
+	 * @throws DOMException
+	 * @throws ParseException
+	 * @throws TimeException
+	 */
+	private void parseTime() throws NameNotFoundException, DOMException, ParseException, TimeException {
+		Node systemTime = parser.getNodeByName(parser.getRootNode(), "mop:systemtime");
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+        Date date = sdf.parse(systemTime.getTextContent());
+	    GregorianCalendar gregDate = new GregorianCalendar();
+	    gregDate.setTime(date);
+	    
+	    debug("Setting the system time.");
+	    
+        manager.getClock().setTime(gregDate);
+	}
+
+	/**
 	 * Parsing the tasks, linking them and setting the correct states.
 	 * @param userNode
 	 * @param user
@@ -218,7 +243,7 @@ public class DataXMLDAO {
 	 * @throws BusinessRule2Exception
 	 */
 	private void setTaskStates(LinkedHashMap<Task, String> stateMap) throws UnknownStateException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception {
-		debug("--- Start ---");
+		debug("--- Start setting task states ---");
 		
 		for (Task task : stateMap.keySet()) {
 			String state = stateMap.get(task);
@@ -228,7 +253,7 @@ public class DataXMLDAO {
 			controller.getTaskController().parseStateString(task, state);
 		}
 		
-		debug("--- Stop ---");
+		debug("--- Stop setting task states ---");
 	}
 
 	/**
@@ -397,6 +422,8 @@ public class DataXMLDAO {
 	 * @throws AssetTypeNotRequiredException 
 	 */
 	private void parseReservations(Node userNode, Task task) throws NameNotFoundException, ParseException, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException {
+		debug("--- Start parsing reservations ---");
+		
 		Node reservations = parser.getNodeByName(userNode, "mop:reservations");
 		NodeList reservationList = reservations.getChildNodes();
 		for (int i = 0; i < reservationList.getLength(); i++) {
@@ -420,6 +447,8 @@ public class DataXMLDAO {
 				controller.getResourceController().createReservation(startTime, duration, resource, task);	
 		    }
 		}
+		
+		debug("--- Stop parsing reservations ---");
 	}
 
 	/**
@@ -428,6 +457,8 @@ public class DataXMLDAO {
 	 * @throws EmptyStringException
 	 */
 	private void parseProjects() throws NameNotFoundException, EmptyStringException {
+		debug("--- Start parsing projects ---");
+		
 		Node projects = parser.getNodeByName(parser.getRootNode(), "mop:projects");
 		NodeList projectList = projects.getChildNodes();
 		
@@ -442,6 +473,8 @@ public class DataXMLDAO {
 				projectMap.put(id, controller.getProjectController().createProject(description));				
 		    }
 		}
+		
+		debug("--- Stop parsing projects ---");
 	}
 
 	/**
@@ -451,6 +484,8 @@ public class DataXMLDAO {
 	 * @throws NonExistingTypeSelected 
 	 */
 	private void parseResources() throws NameNotFoundException, EmptyStringException, NonExistingTypeSelected {
+		debug("--- Start parsing resources ---");
+		
 		Node resources = parser.getNodeByName(parser.getRootNode(), "mop:resources");
 		NodeList resourceList = resources.getChildNodes();
 				
@@ -477,5 +512,7 @@ public class DataXMLDAO {
 				resourceMap.put(id, controller.getResourceController().createResource(description, type));
 		    }
 		}
+		
+		debug("--- Stop parsing resources ---");
 	}
 }

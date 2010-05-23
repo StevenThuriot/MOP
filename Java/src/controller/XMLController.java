@@ -23,6 +23,7 @@ import exception.IllegalStateChangeException;
 import exception.NoReservationOverlapException;
 import exception.NonExistingTypeSelected;
 import exception.NotAvailableException;
+import exception.TimeException;
 import exception.UnknownStateException;
 import exception.WrongFieldsForChosenTypeException;
 import exception.WrongUserForTaskTypeException;
@@ -30,17 +31,19 @@ import model.ResourceType;
 import model.TaskType;
 import model.User;
 import model.UserType;
+import model.repositories.RepositoryManager;
 import model.xml.DataXMLDAO;
 import model.xml.ThemeXMLDAO;
 
 public class XMLController {
 	
+	RepositoryManager manager = null;
 	
-	public XMLController()
+	public XMLController(RepositoryManager manager)
 	{
-		
+		this.manager = manager;
 	}
-	
+
 	/**
 	 * Parses the given XML file
 	 * @param filename
@@ -67,8 +70,9 @@ public class XMLController {
 	 * @throws WrongUserForTaskTypeException 
 	 * @throws AssetConstraintFullException 
 	 * @throws AssetTypeNotRequiredException 
+	 * @throws TimeException 
 	 */
-	public ArrayList<User> parse(String dataFilename,String themefilename, DispatchController controller) throws NameNotFoundException, DOMException, NullPointerException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException
+	public ArrayList<User> parse(String dataFilename,String themefilename, DispatchController controller) throws NameNotFoundException, DOMException, NullPointerException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException
 	{
 		ThemeXMLDAO themeParser = new ThemeXMLDAO(themefilename, controller);
 		
@@ -78,7 +82,7 @@ public class XMLController {
 		
 		themeParser.Parse(taskTypeMap,resourceTypeMap,userTypeMap);
 		
-		DataXMLDAO dataParser = new DataXMLDAO(dataFilename, controller, taskTypeMap, resourceTypeMap, userTypeMap);
+		DataXMLDAO dataParser = new DataXMLDAO(dataFilename, manager, controller, taskTypeMap, resourceTypeMap, userTypeMap);
 		return dataParser.Parse();
 	}
 
