@@ -101,9 +101,10 @@ public class MainGUI implements Runnable{
 			MainGUI.writeError("An error has occurred while parsing the XML file. This is most likely due to a faulty XML file.");
 		}
 	
-		for (User user : users) {
-			this.manager.add(user);
-		}
+		if(users!=null)
+			for (User user : users) {
+				this.manager.add(user);
+			}
 			
 		this.in = in;
 		this.out = out;
@@ -128,13 +129,15 @@ public class MainGUI implements Runnable{
 	}
 	
 	public void run(){
-		if(menu.dialogYesNo("Log in as administrator?"))
-		{
-			UseCase adminMenu = new AdminMenu();
-			adminMenu.startUseCase(menu, dController, this);
-		}else{
-			currentUser = menu.menuGenOpt("Select User", manager.getUsers(),"Exit");
-			while(currentUser!=null){
+		boolean runStart = true;
+		while(runStart){
+			int adminOrExit = menu.menu("What would you like to do", "Log in as administrator","Log in as user","Exit");
+			if(adminOrExit==0)
+			{
+				UseCase adminMenu = new AdminMenu();
+				adminMenu.startUseCase(menu, dController, this);
+			}else if(adminOrExit==1){
+				currentUser = menu.menuGen("Select User", manager.getUsers());
 				boolean run = true;
 				while (run) {
 					UseCase choice = menu.menuGenOpt("Select Action", useCases,"Log out");
@@ -144,7 +147,8 @@ public class MainGUI implements Runnable{
 					choice.startUseCase(menu, dController, this);
 					}
 				}
-				currentUser = menu.menuGenOpt("Select User", manager.getUsers(),"Exit");
+			}else{
+				runStart = false;
 			}
 		}
 	}
