@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -114,8 +116,8 @@ public class DataXMLDAO {
 		ArrayList<User> users = new ArrayList<User>();
 		NodeList allNodes = parser.getRootNode().getChildNodes();
 				
-		for(int i=0; i<allNodes.getLength(); i++){
-			Node userNode = allNodes.item(i);
+		for(int teller = 0; teller < allNodes.getLength(); teller++){
+			Node userNode = allNodes.item(teller);
 			  
 			if (userNode.getNodeName() != "#text" && userNode.getNodeName().equals("mop:user"))
 			{
@@ -136,7 +138,10 @@ public class DataXMLDAO {
 				
 				User user = new User(userName.getTextContent(), typeOfUser);
 				
+				System.out.println("---- Parsing tasks for " + user.getName() + " ( Usernode: "+teller+" ) ----");
 				parseTasks(userNode, user);
+				System.out.println("---- Finished parsing tasks for " + user.getName() + "----");
+				
 				
 				users.add(user);
 			}
@@ -174,7 +179,7 @@ public class DataXMLDAO {
 		Node tasks = parser.getNodeByName(userNode, "mop:tasks");
 		NodeList taskList = tasks.getChildNodes();
 		
-		HashMap<Task, String> stateMap = new HashMap<Task, String>();
+		LinkedHashMap<Task, String> stateMap = new LinkedHashMap<Task, String>();
 		injectTasks(user, taskList, stateMap);
 		
 		linkDepedencies(taskList);
@@ -190,11 +195,18 @@ public class DataXMLDAO {
 	 * @throws IllegalStateChangeException
 	 * @throws BusinessRule2Exception
 	 */
-	private void setTaskStates(HashMap<Task, String> stateMap) throws UnknownStateException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception {
-		//Set states
+	private void setTaskStates(LinkedHashMap<Task, String> stateMap) throws UnknownStateException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception {
+		System.out.println("--- Start ---");
+		
 		for (Task task : stateMap.keySet()) {
-				controller.getTaskController().parseStateString(task, stateMap.get(task));
+			String state = stateMap.get(task);
+			
+			System.out.println(task.getDescription());
+		  
+			//controller.getTaskController().parseStateString(task, state);
 		}
+		
+		System.out.println("--- Stop ---");
 	}
 
 	/**
@@ -262,7 +274,7 @@ public class DataXMLDAO {
 	 * @throws AssetTypeNotRequiredException 
 	 */
 	@SuppressWarnings("unchecked")
-	private void injectTasks(User user, NodeList taskList, HashMap<Task, String> stateMap) throws NameNotFoundException, ParseException, EmptyStringException,
+	private void injectTasks(User user, NodeList taskList, LinkedHashMap<Task, String> stateMap) throws NameNotFoundException, ParseException, EmptyStringException,
 			BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException {
 		
 		for (int i = 0; i < taskList.getLength(); i++) {

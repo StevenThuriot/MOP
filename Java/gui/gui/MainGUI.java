@@ -58,7 +58,7 @@ public class MainGUI implements Runnable{
 		try {
 			users = xmlController.parse("students_public.xml","theme_development_1.xml", dController);
 		} catch (NameNotFoundException e) {
-			MainGUI.writeError("File not found.");
+			MainGUI.writeError("Error retreiving some of the nodes in the XML file.");
 		} catch (DOMException e) {
 			MainGUI.writeError("DOM Exception while parsing the XML file.");
 		} catch (NullPointerException e) {
