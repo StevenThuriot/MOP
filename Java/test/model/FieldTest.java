@@ -12,8 +12,8 @@ public class FieldTest {
 	@Before
 	public void setUp() throws NullPointerException, EmptyStringException
 	{
-		numField = new NumericField("Numbers", 1);
-		textField = new TextField("Text", "This is text");
+		numField = new NumericField("Numbers", 1, null);
+		textField = new TextField("Text", "This is text", null);
 	}
 	
 	/**
@@ -82,10 +82,10 @@ public class FieldTest {
 	@Test
 	public void getValue() throws NullPointerException, EmptyStringException
 	{
-		Field valueField = new NumericField("integer", 101);
+		Field valueField = new NumericField("integer", 101, null);
 		assertEquals(101, valueField.getValue());
 		
-		Field valueField2 = new TextField("string", "Bart");
+		Field valueField2 = new TextField("string", "Bart", null);
 		assertEquals("Bart", valueField2.getValue());
 	}
 	
@@ -98,13 +98,13 @@ public class FieldTest {
 	@Test
 	public void getValue2() throws NullPointerException, EmptyStringException
 	{
-		Field valueField = new NumericField("integer", 101);
+		Field valueField = new NumericField("integer", 101, null);
 		assertEquals(101, valueField.getValue());
 		
-		Field valueField2 = new TextField("string", "Bart");
+		Field valueField2 = new TextField("string", "Bart", null);
 		assertEquals("Bart", valueField2.getValue());
 		
-		Field valueField3 = new TextField("string2", "Bart2");
+		Field valueField3 = new TextField("string2", "Bart2", null);
 		valueField3.setValue("101");
 		assertEquals("101", valueField3.getValue());
 		
@@ -145,7 +145,7 @@ public class FieldTest {
 	@Test(expected=NullPointerException.class)
 	public void ValuenullTest3() throws NullPointerException, EmptyStringException
 	{
-		Field valueField = new NumericField("integer", 101);
+		Field valueField = new NumericField("integer", 101, null);
 		valueField.setValue(null);
 	}
 		
@@ -157,7 +157,7 @@ public class FieldTest {
 	@Test(expected=NullPointerException.class)
 	public void ValuenullTest4() throws NullPointerException, EmptyStringException
 	{
-		new TextField("integer", null);
+		new TextField("integer", null, null);
 	}
 		
 	/**
@@ -168,7 +168,7 @@ public class FieldTest {
 	@Test(expected=NullPointerException.class)
 	public void NamenullTest1() throws NullPointerException, EmptyStringException
 	{
-		new TextField(null, "string");
+		new TextField(null, "string", null);
 	}
 		
 	/**
@@ -179,7 +179,7 @@ public class FieldTest {
 	@Test(expected=NullPointerException.class)
 	public void NamenullTest2() throws NullPointerException, EmptyStringException
 	{
-		new NumericField(null, 101);
+		new NumericField(null, 101, null);
 	}
 		
 	/**
@@ -190,7 +190,7 @@ public class FieldTest {
 	@Test(expected=EmptyStringException.class)
 	public void EmptyNameTest1() throws NullPointerException, EmptyStringException
 	{
-		new NumericField("", 101);
+		new NumericField("", 101, null);
 	}
 		
 	/**
@@ -201,6 +201,6 @@ public class FieldTest {
 	@Test(expected=EmptyStringException.class)
 	public void EmptyNameTest2() throws NullPointerException, EmptyStringException
 	{
-		new TextField("", "string");
+		new TextField("", "string", null);
 	}
 }

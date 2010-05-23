@@ -66,19 +66,21 @@ public class ThemeXMLDAO {
 	private ArrayList<Field> parseTaskTypeFields(Node item) throws NameNotFoundException, NullPointerException, DOMException, EmptyStringException
 	{
 		ArrayList<Field> allFields = new ArrayList<Field>();
-		Node fieldNode = parser.getNodeByName(parser.getNodeByName(item, "t:fields"),"t:field");
+		Node fieldNode = parser.getNodeByName(item, "t:fields");
 		NodeList fieldNodes = fieldNode.getChildNodes();
 		for(int i=0;i<fieldNodes.getLength();i++)
 		{
 			Node field = fieldNodes.item(i);
-			Field newField = null;
-			if(field.getAttributes().item(2).getTextContent().equals("textual"))
-			{
-				newField = new TextField(field.getAttributes().item(1).getTextContent(),"");
-			}else{
-				newField = new NumericField(field.getAttributes().item(1).getTextContent(),0);
+			if(field.getNodeName()!="#text"){
+				Field newField = null;
+				if(field.getAttributes().getNamedItem("nature").getTextContent().equals("textual"))
+				{
+					newField = new TextField(field.getAttributes().getNamedItem("name").getTextContent(),"",field.getAttributes().getNamedItem("id").getTextContent());
+				}else{
+					newField = new NumericField(field.getAttributes().getNamedItem("name").getTextContent(),0,field.getAttributes().getNamedItem("id").getTextContent());
+				}
+				allFields.add(newField);
 			}
-			allFields.add(newField);
 		}
 		return allFields;
 	}
@@ -86,26 +88,34 @@ public class ThemeXMLDAO {
 	private ArrayList<TaskTypeConstraint> parseTaskTypeConstraints(Node item,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException
 	{
 		ArrayList<TaskTypeConstraint> allConstraints = new ArrayList<TaskTypeConstraint>();
-		Node constraintNode = parser.getNodeByName(parser.getNodeByName(item, "t:requires"),"t:requirement");
+		Node constraintNode = parser.getNodeByName(item, "t:requires");
 		NodeList constraintNodes = constraintNode.getChildNodes();
 		for(int i=0;i<constraintNodes.getLength();i++)
 		{
 			Node constraint = constraintNodes.item(i);
-			String assetTypeID = constraint.getAttributes().item(0).getTextContent();
-			int minimum = Integer.parseInt(constraint.getAttributes().item(1).getTextContent());
-			int maximum = Integer.parseInt(constraint.getAttributes().item(2).getTextContent());
-			AssetType assetType = resourceTypeMap.get(assetTypeID);
-			if(assetType==null)
-				assetType = userTypeMap.get(assetTypeID);
-			allConstraints.add(new TaskTypeConstraint(assetType,minimum,maximum));
+			if(constraint.getNodeName()!="#text"){
+				String assetTypeID = constraint.getAttributes().getNamedItem("type").getTextContent();
+				int minimum = Integer.parseInt(constraint.getAttributes().getNamedItem("min").getTextContent());
+				int maximum = 0;
+				try{
+					maximum = Integer.parseInt(constraint.getAttributes().getNamedItem("max").getTextContent());
+				}catch(NumberFormatException e)
+				{
+					maximum = Integer.MAX_VALUE;
+				}
+				AssetType assetType = resourceTypeMap.get(assetTypeID);
+				if(assetType==null)
+					assetType = userTypeMap.get(assetTypeID);
+				allConstraints.add(new TaskTypeConstraint(assetType,minimum,maximum));
+			}
 		}
 		return allConstraints;
 	}
 	
 	private void addUserType(Node item,Map<String, UserType> userTypeMap) {
 		if(item.getNodeName()!="#text"){
-			String id = item.getAttributes().item(0).getTextContent();
-			String name = item.getAttributes().item(0).getTextContent();
+			String id = item.getAttributes().getNamedItem("id").getTextContent();
+			String name = item.getAttributes().getNamedItem("name").getTextContent();
 			
 			UserType type = controller.getUserController().createUserType(name);
 			
@@ -115,8 +125,8 @@ public class ThemeXMLDAO {
 
 	private void addResourceType(Node item,Map<String, ResourceType> resourceTypeMap) {
 		if(item.getNodeName()!="#text"){
-			String id = item.getAttributes().item(0).getTextContent();
-			String name = item.getAttributes().item(0).getTextContent();
+			String id = item.getAttributes().getNamedItem("id").getTextContent();
+			String name = item.getAttributes().getNamedItem("name").getTextContent();
 			
 			ResourceType type = controller.getResourceController().createResourceType(name);
 			
@@ -127,8 +137,8 @@ public class ThemeXMLDAO {
 	@SuppressWarnings("unchecked")
 	private void addTaskType(Node item,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException, NullPointerException, DOMException, EmptyStringException {
 		if(item.getNodeName()!="#text"){
-			String id = item.getAttributes().item(0).getTextContent();
-			String name = item.getAttributes().item(1).getTextContent();
+			String id = item.getAttributes().getNamedItem("id").getTextContent();
+			String name = item.getAttributes().getNamedItem("name").getTextContent();
 			ArrayList<Field> fields = parseTaskTypeFields(item);
 			ArrayList<TaskTypeConstraint> constraints = parseTaskTypeConstraints(item,resourceTypeMap,userTypeMap);
 			
