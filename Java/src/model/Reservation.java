@@ -220,7 +220,7 @@ public class Reservation extends AssetAllocation implements Describable{
 	}
 	
 	@Override
-	protected GregorianCalendar getEarliest(){
+	protected GregorianCalendar getEarliestAvailableTime(){
 		return this.getTime();
 	}
 }

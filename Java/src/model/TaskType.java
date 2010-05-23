@@ -119,7 +119,7 @@ public class TaskType implements Describable {
 	 */
 	protected boolean checkConstraints(Task task, GregorianCalendar begin, int duration){
 		boolean isSatisfied = true;
-		for(TaskTypeConstraint constraint: constraints){
+		for(TaskTypeConstraint constraint: this.getConstraints()){
 			isSatisfied &= constraint.checkConstraint(task,begin,duration);
 		}
 		return isSatisfied;
@@ -130,7 +130,7 @@ public class TaskType implements Describable {
 	 */
 	protected boolean isAssetTypeRequired(AssetType assetType){
 		ArrayList<AssetType> types = new ArrayList<AssetType>();
-		for(TaskTypeConstraint constraint: constraints){
+		for(TaskTypeConstraint constraint: this.getConstraints()){
 			types.add(constraint.getAssetType());
 		}
 		return types.contains(assetType);
@@ -140,11 +140,25 @@ public class TaskType implements Describable {
 	 * Returns whether the Asset Constraint is full.
 	 */
 	protected boolean isAssetConstraintFull(Task task, AssetType assetType){
-		for(TaskTypeConstraint constraint: constraints){
+		for(TaskTypeConstraint constraint: this.getConstraints()){
 			if(constraint.getAssetType() == assetType){
 				return constraint.isAssetConstraintFull(task);
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Returns earliest execution for assets based on constraints
+	 */
+	protected GregorianCalendar getEarliestAssetConstrExecTime(Task task){
+		GregorianCalendar earliest = new GregorianCalendar(0, 0, 0);
+		for(TaskTypeConstraint constraint : this.getConstraints()){
+			GregorianCalendar temp =  constraint.getEarliestExecTime(task);
+			if(temp.after(earliest)){
+				earliest = temp;
+			}
+		}
+		return earliest;
 	}
 }

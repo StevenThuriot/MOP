@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
@@ -130,14 +131,26 @@ public class TaskAssetManager {
 			return count;
 		}
 		
-		protected GregorianCalendar getEarliestAssetTime(){
-			GregorianCalendar early = new GregorianCalendar(0, 0, 0);
+		protected GregorianCalendar getEarliestExecTime(AssetType assetType, int min){
+			ArrayList<AssetAllocation> assets = new ArrayList<AssetAllocation>();
 			for(AssetAllocation asset: assetAllocations){
-				if(asset.getEarliest().after(early)){
-					early = asset.getEarliest();
+				if(asset.getAssetType() == assetType){
+					assets.add(asset);
 				}
 			}
-			return early;
+			Comparator<AssetAllocation> comp = new Comparator<AssetAllocation>(){
+
+				@Override
+				public int compare(AssetAllocation o1, AssetAllocation o2) {
+					return o1.getEarliestAvailableTime().compareTo(o2.getEarliestAvailableTime());
+				}
+				
+			};
+			Collections.sort(assets, comp);
+			if(min > 0)
+				return assets.get(min-1).getEarliestAvailableTime();
+			else
+				return new GregorianCalendar(0, 0, 0);
 		}
 		
 }
