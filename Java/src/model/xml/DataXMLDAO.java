@@ -29,6 +29,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import exception.AssetAllocatedException;
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
@@ -101,8 +103,10 @@ public class DataXMLDAO {
 	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws NonExistingTypeSelected 
 	 * @throws WrongUserForTaskTypeException 
+	 * @throws AssetConstraintFullException 
+	 * @throws AssetTypeNotRequiredException 
 	 */
-	public ArrayList<User> Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException
+	public ArrayList<User> Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		parseResources();
 		parseProjects();
@@ -162,9 +166,11 @@ public class DataXMLDAO {
 	 * @throws NullPointerException 
 	 * @throws NonExistingTypeSelected 
 	 * @throws WrongUserForTaskTypeException 
+	 * @throws AssetConstraintFullException 
+	 * @throws AssetTypeNotRequiredException 
 	 */
 	private void parseTasks(Node userNode, User user) throws NameNotFoundException, ParseException, EmptyStringException, BusinessRule1Exception,
-			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException {
+			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException {
 		Node tasks = parser.getNodeByName(userNode, "mop:tasks");
 		NodeList taskList = tasks.getChildNodes();
 		
@@ -277,10 +283,12 @@ public class DataXMLDAO {
 	 * @throws NullPointerException 
 	 * @throws NonExistingTypeSelected 
 	 * @throws WrongUserForTaskTypeException 
+	 * @throws AssetConstraintFullException 
+	 * @throws AssetTypeNotRequiredException 
 	 */
 	@SuppressWarnings("unchecked")
 	private void injectTasks(User user, NodeList taskList, HashMap<Task, String> stateMap) throws NameNotFoundException, ParseException, EmptyStringException,
-			BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException {
+			BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException {
 		
 		for (int i = 0; i < taskList.getLength(); i++) {
 			Node childNode = taskList.item(i);
@@ -377,8 +385,10 @@ public class DataXMLDAO {
 	 * @throws IllegalStateCallException 
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
+	 * @throws AssetConstraintFullException 
+	 * @throws AssetTypeNotRequiredException 
 	 */
-	private void parseReservations(Node userNode, Task task) throws NameNotFoundException, ParseException, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException {
+	private void parseReservations(Node userNode, Task task) throws NameNotFoundException, ParseException, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException {
 		Node reservations = parser.getNodeByName(userNode, "mop:reservations");
 		NodeList reservationList = reservations.getChildNodes();
 		for (int i = 0; i < reservationList.getLength(); i++) {

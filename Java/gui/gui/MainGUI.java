@@ -12,6 +12,8 @@ import org.w3c.dom.DOMException;
 import controller.DispatchController;
 import controller.XMLController;
 import exception.AssetAllocatedException;
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
@@ -93,6 +95,10 @@ public class MainGUI implements Runnable{
 			MainGUI.writeError("An error has occurred while trying to make a task from a non existing type. This is most likely due to a faulty XML file.");
 		} catch (WrongUserForTaskTypeException e) {
 			MainGUI.writeError("An error has occurred while trying to make a task with an unallowed owner. This is most likely due to a faulty XML file.");
+		} catch (AssetTypeNotRequiredException e) {
+			MainGUI.writeError("An error has occurred while parsing the XML file. This is most likely due to a faulty XML file.");
+		} catch (AssetConstraintFullException e) {
+			MainGUI.writeError("An error has occurred while parsing the XML file. This is most likely due to a faulty XML file.");
 		}
 	
 		for (User user : users) {

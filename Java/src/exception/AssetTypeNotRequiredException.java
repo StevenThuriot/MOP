@@ -1,5 +1,6 @@
 package exception;
 
+@SuppressWarnings("serial")
 public class AssetTypeNotRequiredException extends Exception {
 	
 	public AssetTypeNotRequiredException()
