@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 
@@ -210,6 +211,20 @@ public class TaskDependencyManager {
 			isSatisfied &= task.isSuccesful();
 		}
 		return isSatisfied;
+	}
+	
+	/**
+	 * Returns the earliest execution time of the dependencies
+	 */
+	protected GregorianCalendar getEarliestDepExecTime(){
+		GregorianCalendar earliest = new GregorianCalendar(0, 0, 0);
+		for(Task dep: this.getDependencies()){
+			GregorianCalendar temp = dep.getEarliestExecTime();
+			if(temp.after(earliest)){
+				earliest = temp;
+			}
+		}
+		return earliest;
 	}
 	
 	

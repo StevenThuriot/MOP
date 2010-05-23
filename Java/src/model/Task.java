@@ -908,8 +908,19 @@ public class Task implements Describable, Subject, Observer<Task>{
 	/**
 	 * Returns earliest completion time based on AssetAllocations
 	 */
-	public GregorianCalendar getEarliestAssetTime(){
-		return this.tam.getEarliestAssetTime();
+	public GregorianCalendar getEarliestExecTime(){
+		GregorianCalendar earliest = this.tdm.getEarliestDepExecTime();
+		GregorianCalendar temp = this.getTaskType().getEarliestAssetConstrExecTime(this);
+		if(temp.after(earliest))
+			earliest = temp;
+		return earliest;
+	}
+	
+	/**
+	 * Pass-through from AssetManager
+	 */
+	protected GregorianCalendar getEarliestExecTime(AssetType assetType, int min){
+		return this.tam.getEarliestExecTime(assetType, min);
 	}
 	
 	/**
@@ -920,7 +931,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 
 		@Override
 		public int compare(Task o1, Task o2) {
-			return o1.getEarliestAssetTime().compareTo(o2.getEarliestAssetTime());
+			return o1.getEarliestExecTime().compareTo(o2.getEarliestExecTime());
 		}
 		
 	}

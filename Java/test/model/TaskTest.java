@@ -511,6 +511,8 @@ public class TaskTest {
 		task.addDependency(task2);
 		@SuppressWarnings("unused")
 		Reservation r = new Reservation(manager.getClock().getTime(),120,resource, task2);
+		Resource res = new Resource("ets", resourceType);
+		Reservation r2 = new Reservation(manager.getClock().getTime(),120,res, task);
 
 		task2.setSuccessful();
 		task.setSuccessful();

@@ -63,4 +63,11 @@ public class TaskTypeConstraint implements Describable{
 		return (task.getValidAssetCount(this.getAssetType()) == this.getMaximum());
 	}
 	
+	/**
+	 * Returns the earliest execution time for this constraint for the Task task
+	 */
+	protected GregorianCalendar getEarliestExecTime(Task task){
+		return task.getEarliestExecTime(getAssetType(), getMinimum());
+	}
+	
 }
