@@ -4,6 +4,10 @@ import exception.EmptyStringException;
 
 public abstract class Field<T> {
 	/**
+	 * Field id
+	 */
+	private String id;
+	/**
 	 * Field name
 	 */
 	private String name;
@@ -24,10 +28,11 @@ public abstract class Field<T> {
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
 	 */
-	public Field(String name, FieldType type, T value) throws NullPointerException, EmptyStringException {
+	public Field(String name, FieldType type, T value,String id) throws NullPointerException, EmptyStringException {
 		this.setName(name);
 		this.type = type;
 		this.setValue(value);
+		this.id = id;
 	}
 	
 	/**
@@ -36,6 +41,15 @@ public abstract class Field<T> {
 	 */
 	public final String getName() {
 		return name;
+	}
+	
+	/**
+	 * Return the ID of the field
+	 * @return
+	 */
+	public final String getId()
+	{
+		return id;
 	}
 	
 	/**
