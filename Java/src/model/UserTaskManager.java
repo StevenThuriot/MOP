@@ -46,6 +46,7 @@ public class UserTaskManager {
 	protected List<Task> getOwnedTasks() {
 		return Collections.unmodifiableList(this.ownedTasks);
 	}
+	
 	/**
 	 * Get the pending or accepted invitations for this user
 	 * Declined invitations are not shown

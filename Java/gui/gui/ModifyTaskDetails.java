@@ -3,8 +3,10 @@ package gui;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
+import model.AssetType;
 import model.Resource;
 import model.Task;
+import model.TaskTypeConstraint;
 import model.User;
 import controller.DispatchController;
 import exception.BusinessRule1Exception;
@@ -67,8 +69,8 @@ public class ModifyTaskDetails extends UseCase {
 		tasks.removeAll(deps);
 		ArrayList<Resource> res = new ArrayList<Resource>();
 		res.addAll(dController.getResourceController().getResources());
-		ArrayList<Resource> req = new ArrayList<Resource>();
-		req.addAll(dController.getTaskController().getRequiredResources(task));
+		ArrayList<TaskTypeConstraint> req = new ArrayList<TaskTypeConstraint>();
+		req.addAll(dController.getTaskController().getRequiredAssets(task));
 		res.removeAll(req);
 		descr.clear();
 		for(Task t : tasks){
@@ -89,7 +91,7 @@ public class ModifyTaskDetails extends UseCase {
 		boolean exit = false;
 		int choice2;
 		do {
-			choice = menu.menu("Select Action", "Add dependency", "Remove dependency", "Add required resource",
+			choice = menu.menu("Select Action", "Add dependency", "Remove dependency",
 					"Change description", "Change schedule", "Return to Menu");
 			switch (choice) {
 				case 0:
@@ -141,24 +143,8 @@ public class ModifyTaskDetails extends UseCase {
 						System.out.println("No dependencies to remove");
 					}
 					break;
+
 				case 2:
-					if (!res.isEmpty()) {
-						descr.clear();
-						for (Resource r : res) {
-							descr.add(r.getDescription());
-						}
-						choice2 = menu.menu("Select resource", descr);
-						try {
-							dController.getTaskController().addRequiredResource(task, res.get(choice2));
-						} catch (IllegalStateCallException e) {
-						    menu.println("The modification is cancelled, an illegal state was reached");
-						}
-						req.add(res.remove(choice2));
-					}else{
-						System.out.println("No resources to add");
-					}
-					break;
-				case 3:
 					try {
 						dController.getTaskController().setTaskDescription(task, menu.prompt("Give new task description"));
 					} catch (NullPointerException e) {
@@ -175,7 +161,7 @@ public class ModifyTaskDetails extends UseCase {
 					    menu.println("The modification is cancelled, an illegal state was reached");
 					}
 					break;
-				case 4:
+				case 3:
 					GregorianCalendar startDate = menu.promptDate("Give start Date");
 					GregorianCalendar dueDate = menu.promptDate("Give due date");
 					int duration = Integer.parseInt(menu.prompt("Duration?"));
