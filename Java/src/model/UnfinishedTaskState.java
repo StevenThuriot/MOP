@@ -145,6 +145,7 @@ public class UnfinishedTaskState extends TaskState {
 	protected void setSuccessful() throws IllegalStateChangeException
 		,BusinessRule2Exception, BusinessRule3Exception{
 		TaskState newState = new SuccessfulTaskState( this.getContext() );
+		
 		if ( this.canBeExecuted() ) 
 			if (newState.satisfiesBusinessRule2() && newState.satisfiesBusinessRule3()) 
 				this.getContext().doSetState(newState);
