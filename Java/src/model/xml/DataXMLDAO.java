@@ -65,6 +65,18 @@ public class DataXMLDAO {
 	Map<String, ResourceType> resourceTypeMap = null;
 	Map<String, UserType> userTypeMap = null;
 	
+	private Boolean ENABLE_DEBUG = true;
+	
+	/**
+	 * Debugger tool
+	 * @param message
+	 */
+	private void debug(String message)
+	{
+		if (!ENABLE_DEBUG)
+			System.out.println(message);
+	}
+	
 	/**
 	 * Constructor
 	 * @param filename
@@ -115,7 +127,17 @@ public class DataXMLDAO {
 				
 		ArrayList<User> users = new ArrayList<User>();
 		NodeList allNodes = parser.getRootNode().getChildNodes();
-				
+		
+		debug("------ Printing all users ------");
+		for(int teller = 0; teller < allNodes.getLength(); teller++){
+			Node userNode = allNodes.item(teller);
+			if (userNode.getNodeName() != "#text" && userNode.getNodeName().equals("mop:user"))
+			{
+				System.out.println(parser.getNodeByName(userNode, "mop:name").getTextContent());
+			}
+		}
+		debug("------ Finished printing all users ------");
+		
 		for(int teller = 0; teller < allNodes.getLength(); teller++){
 			Node userNode = allNodes.item(teller);
 			  
@@ -138,9 +160,9 @@ public class DataXMLDAO {
 				
 				User user = new User(userName.getTextContent(), typeOfUser);
 				
-				System.out.println("---- Parsing tasks for " + user.getName() + " ( Usernode: "+teller+" ) ----");
+				debug("---- Parsing tasks for " + user.getName() + " ( Usernode: "+teller+" ) ----");
 				parseTasks(userNode, user);
-				System.out.println("---- Finished parsing tasks for " + user.getName() + "----");
+				debug("---- Finished parsing tasks for " + user.getName() + "----");
 				
 				
 				users.add(user);
@@ -196,17 +218,17 @@ public class DataXMLDAO {
 	 * @throws BusinessRule2Exception
 	 */
 	private void setTaskStates(LinkedHashMap<Task, String> stateMap) throws UnknownStateException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception {
-		System.out.println("--- Start ---");
+		debug("--- Start ---");
 		
 		for (Task task : stateMap.keySet()) {
 			String state = stateMap.get(task);
 			
 			System.out.println(task.getDescription());
 		  
-			//controller.getTaskController().parseStateString(task, state);
+			controller.getTaskController().parseStateString(task, state);
 		}
 		
-		System.out.println("--- Stop ---");
+		debug("--- Stop ---");
 	}
 
 	/**

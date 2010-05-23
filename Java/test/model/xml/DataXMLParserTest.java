@@ -127,7 +127,7 @@ public class DataXMLParserTest {
         
         //assertEquals(4, dcontroller.getResourceController().getReservations().size());
     }
-    
+    /*
     /**
      * This test will test the relations between different objects
      * @throws NameNotFoundException
@@ -151,7 +151,7 @@ public class DataXMLParserTest {
      * @throws WrongFieldsForChosenTypeException 
      * @throws AssetAllocatedException 
      * @throws NoReservationOverlapException 
-     */
+     
     @Test
     public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException
 	    {
@@ -169,5 +169,5 @@ public class DataXMLParserTest {
         //assertTrue(taskMakeDesign.getRequiredResources().contains(devRoom)); //This task requires the dev room
     }
     
-    
+    */
 }
