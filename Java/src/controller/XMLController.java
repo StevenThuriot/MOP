@@ -10,6 +10,8 @@ import javax.naming.NameNotFoundException;
 import org.w3c.dom.DOMException;
 
 import exception.AssetAllocatedException;
+import exception.AssetConstraintFullException;
+import exception.AssetTypeNotRequiredException;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
@@ -63,8 +65,10 @@ public class XMLController {
 	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws NonExistingTypeSelected 
 	 * @throws WrongUserForTaskTypeException 
+	 * @throws AssetConstraintFullException 
+	 * @throws AssetTypeNotRequiredException 
 	 */
-	public ArrayList<User> parse(String dataFilename,String themefilename, DispatchController controller) throws NameNotFoundException, DOMException, NullPointerException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException
+	public ArrayList<User> parse(String dataFilename,String themefilename, DispatchController controller) throws NameNotFoundException, DOMException, NullPointerException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		ThemeXMLDAO themeParser = new ThemeXMLDAO(themefilename, controller);
 		

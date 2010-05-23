@@ -1,5 +1,6 @@
 package exception;
 
+@SuppressWarnings("serial")
 public class AssetConstraintFullException extends Exception {
 	
 	public AssetConstraintFullException(){
