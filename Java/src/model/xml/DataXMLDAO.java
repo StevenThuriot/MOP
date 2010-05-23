@@ -212,24 +212,7 @@ public class DataXMLDAO {
 			if (childNode.getNodeName() != "#text" && childNode.getNodeName().length() > 0)
 		    {
 				String id = childNode.getAttributes().item(0).getTextContent();
-				
-				Node resNode = parser.getNodeByName(childNode, "mop:requiredResources");
-				NodeList resList = resNode.getChildNodes();
-				
-				ArrayList<Resource> requiredResources = new ArrayList<Resource>();
-				
-				for (int j = 0; j < resList.getLength(); j++) {
-					Node resChild = resList.item(j);
-					if (resChild.getNodeName() != "#text" && resChild.getNodeName().length() > 0) {
-						String requiredResourceID = resChild.getTextContent();
-						
-						if(requiredResourceID.length() > 0)
-						{
-							requiredResources.add(resourceMap.get(requiredResourceID));
-						}
-					}
-				}
-				
+								
 				Node dependsNode = parser.getNodeByName(childNode, "mop:dependsOn");
 				NodeList dependsList = dependsNode.getChildNodes();		    
 				ArrayList<Task> dependencyList = new ArrayList<Task>();

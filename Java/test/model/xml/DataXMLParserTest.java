@@ -49,7 +49,7 @@ public class DataXMLParserTest {
     private DataXMLDAO parser;
     private RepositoryManager manager;
     private DispatchController dcontroller;    
-    ArrayList<User> users = new ArrayList<User>();
+    Map<String, User> users = new HashMap<String, User>();
     
     
     @Before
@@ -68,10 +68,11 @@ public class DataXMLParserTest {
 		
 		parser = new DataXMLDAO("students_public.xml", dcontroller, taskTypeMap, resourceTypeMap, userTypeMap);
 		
-		users = parser.Parse();
+		ArrayList<User> parsedUsers = parser.Parse();
 		
-		for (User user : users) {
+		for (User user : parsedUsers) {
 			manager.add(user);
+			users.put(user.getName(), user);
 		}
         
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
@@ -115,7 +116,15 @@ public class DataXMLParserTest {
     	assertEquals(3, users.size());
         assertEquals(1, manager.getProjects().size());
         assertEquals(6, manager.getResources().size());
-        //assertEquals(4,result.getTasks().size());
+        
+        User Bob = users.get("Bob");
+        User Eve = users.get("Eve");
+        User Alice = users.get("Alice");
+        
+        assertEquals(0, Bob.getTasks().size());
+        assertEquals(0, Eve.getTasks().size());
+        assertEquals(5, Alice.getTasks().size());
+        
         //assertEquals(4, dcontroller.getResourceController().getReservations().size());
     }
     
