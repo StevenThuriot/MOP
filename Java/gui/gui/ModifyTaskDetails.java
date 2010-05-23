@@ -3,7 +3,6 @@ package gui;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-import model.AssetType;
 import model.Resource;
 import model.Task;
 import model.TaskTypeConstraint;

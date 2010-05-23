@@ -1089,7 +1089,7 @@ public class TaskTest {
 		assertFalse(playGo.canBeExecuted());
 		
 		//Create reservation
-		Reservation reserveBoard = new Reservation(startDate,150, board, playGo);
+		new Reservation(startDate,150, board, playGo);
 		//Helper user still not satisfied though!
 		assertFalse(playGo.canBeExecuted());
 		
