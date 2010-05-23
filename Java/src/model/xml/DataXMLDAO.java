@@ -248,14 +248,6 @@ public class DataXMLDAO {
 				
 				Task task = taskMap.get(id);		
 				
-//				Naart schijnt hoeft dit ni meer : >
-//				if (requiredResources.size() > 0) {
-//					for (Resource r : requiredResources)
-//					{
-//						//task.addRequiredResource(r);
-//					}
-//				}
-				
 				if (dependencyList.size() > 0) {
 					for (Task t : dependencyList)
 						task.addDependency(t);
@@ -297,7 +289,6 @@ public class DataXMLDAO {
 		    {
 				String id = childNode.getAttributes().item(0).getTextContent();
 				String type = parser.getNodeByName(childNode, "mop:type").getTextContent();
-				String description = parser.getNodeByName(childNode, "mop:description").getTextContent();
 				String startString = parser.getNodeByName(childNode, "mop:startDate").getTextContent();
 			    			    
 			    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
@@ -358,7 +349,7 @@ public class DataXMLDAO {
 				    }
 			    }
 			    
-			    Task task = controller.getTaskController().createTask(description, theTaskType, fields, user, new TaskTimings(startDate, dueDate, duration));
+			    Task task = controller.getTaskController().createTask(id, theTaskType, fields, user, new TaskTimings(startDate, dueDate, duration));
 			    
 			    stateMap.put(task, state);
 			    
