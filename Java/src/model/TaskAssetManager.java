@@ -130,4 +130,14 @@ public class TaskAssetManager {
 			return count;
 		}
 		
+		protected GregorianCalendar getEarliestAssetTime(){
+			GregorianCalendar early = new GregorianCalendar(0, 0, 0);
+			for(AssetAllocation asset: assetAllocations){
+				if(asset.getEarliest().after(early)){
+					early = asset.getEarliest();
+				}
+			}
+			return early;
+		}
+		
 }

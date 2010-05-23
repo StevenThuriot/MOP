@@ -33,5 +33,9 @@ public abstract class AssetAllocation implements Describable {
 	public abstract AssetType getAssetType();
 	
 	public abstract AllocationType getAllocationType();
+	
+	protected GregorianCalendar getEarliest(){
+		return new GregorianCalendar(0, 0, 0);
+	}
 
 }

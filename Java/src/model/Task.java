@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -902,6 +903,26 @@ public class Task implements Describable, Subject, Observer<Task>{
 	public TaskType getTaskType()
 	{
 		return this.taskType;
+	}
+	
+	/**
+	 * Returns earliest completion time based on AssetAllocations
+	 */
+	public GregorianCalendar getEarliestAssetTime(){
+		return this.tam.getEarliestAssetTime();
+	}
+	
+	/**
+	 * suggestie voor comparator, moet geen embedded class zijn.
+	 *
+	 */
+	public class TaskAssetTimeComparator implements Comparator<Task>{
+
+		@Override
+		public int compare(Task o1, Task o2) {
+			return o1.getEarliestAssetTime().compareTo(o2.getEarliestAssetTime());
+		}
+		
 	}
 	
 }
