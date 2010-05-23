@@ -324,7 +324,7 @@ public class DataXMLDAO {
 			    NodeList fieldsNode = parser.getNodeByName(childNode, "mop:fields").getChildNodes();
 			    
 			    for (int j = 0; j < fieldsNode.getLength(); j++) {
-					Node fieldNode = fieldsNode.item(i);
+					Node fieldNode = fieldsNode.item(j);
 					
 					if (fieldNode.getNodeName() != "#text" && fieldNode.getNodeName().length() > 0)
 				    {
