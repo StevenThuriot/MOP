@@ -21,10 +21,11 @@ public class InvitationManager extends UseCase {
 
 	private Menu menu;
 	private DispatchController dController;
-	public InvitationManager(Menu menu, DispatchController dController)
+	public InvitationManager(Menu menu, DispatchController dController,User user)
 	{
 		this.menu = menu;
 		this.dController = dController;
+		this.user = user;
 	}
 	
 	@Override
@@ -35,7 +36,7 @@ public class InvitationManager extends UseCase {
 	@Override
 	public void startUseCase(Menu menu, DispatchController dController,
 			MainGUI mainGUI) {
-		(new InvitationManager(menu, dController)).mainMenu();
+		(new InvitationManager(menu, dController,mainGUI.getCurrentUser())).mainMenu();
 	}
 
 	private void mainMenu()

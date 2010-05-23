@@ -1,7 +1,9 @@
 package controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import model.Task;
 import model.User;
 import model.UserType;
 import model.repositories.RepositoryManager;
@@ -35,5 +37,14 @@ public class UserController {
 	public void createUser(UserType uType, String name) {
 		User newUser = new User(name, uType);
 		manager.add(newUser);
+	}
+	
+	public List<Task> getAllUnfinishedTasks(User user)
+	{
+		List<Task> tasks = new ArrayList<Task>();
+		for(Task task : user.getTasks())
+			if(task.isUnfinished())
+				tasks.add(task);
+		return tasks;
 	}
 }
