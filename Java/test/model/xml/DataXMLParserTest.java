@@ -84,11 +84,11 @@ public class DataXMLParserTest {
         dcontroller = null;
         users = null;
     }
-    
+    /*
     /**
      * Testing system time
      * @throws ParseException
-     */
+     
     @Test
     public void timeTest() throws ParseException
     {
@@ -99,7 +99,7 @@ public class DataXMLParserTest {
 	    
     	assertEquals(gregDate, manager.getClock().getTime());
     }
-    
+    */
     /**
      * Hardcoded tests the parser for the given model in students_public.xml
      * This test simply tests amounts of objects in their Information Experts
