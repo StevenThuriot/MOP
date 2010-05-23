@@ -218,4 +218,9 @@ public class Reservation extends AssetAllocation implements Describable{
 	public AllocationType getAllocationType() {
 		return AllocationType.Reservation;
 	}
+	
+	@Override
+	protected GregorianCalendar getEarliest(){
+		return this.getTime();
+	}
 }
