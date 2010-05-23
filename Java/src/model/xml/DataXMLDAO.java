@@ -67,7 +67,7 @@ public class DataXMLDAO {
 	Map<String, ResourceType> resourceTypeMap = null;
 	Map<String, UserType> userTypeMap = null;
 	
-	private Boolean ENABLE_DEBUG = true;
+	private Boolean ENABLE_DEBUG = false;
 	
 	/**
 	 * Debugger tool
@@ -75,7 +75,7 @@ public class DataXMLDAO {
 	 */
 	private void debug(String message)
 	{
-		if (!ENABLE_DEBUG)
+		if (ENABLE_DEBUG)
 			System.out.println(message);
 	}
 	
@@ -126,7 +126,6 @@ public class DataXMLDAO {
 	 */
 	public ArrayList<User> Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException
 	{
-		parseTime();
 		parseResources();
 		parseProjects();
 				
@@ -138,7 +137,7 @@ public class DataXMLDAO {
 			Node userNode = allNodes.item(teller);
 			if (userNode.getNodeName() != "#text" && userNode.getNodeName().equals("mop:user"))
 			{
-				System.out.println(parser.getNodeByName(userNode, "mop:name").getTextContent());
+				debug(parser.getNodeByName(userNode, "mop:name").getTextContent());
 			}
 		}
 		debug("------ Finished printing all users ------");
@@ -174,6 +173,8 @@ public class DataXMLDAO {
 			}
 		}
 
+		parseTime();
+
 		return users;
 	}
 
@@ -185,6 +186,8 @@ public class DataXMLDAO {
 	 * @throws TimeException
 	 */
 	private void parseTime() throws NameNotFoundException, DOMException, ParseException, TimeException {
+		debug("Parsing the time");
+		
 		Node systemTime = parser.getNodeByName(parser.getRootNode(), "mop:systemtime");
 		
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
@@ -192,7 +195,7 @@ public class DataXMLDAO {
 	    GregorianCalendar gregDate = new GregorianCalendar();
 	    gregDate.setTime(date);
 	    
-	    debug("Setting the system time.");
+	    debug("Setting the system time: " + systemTime.getTextContent());
 	    
         manager.getClock().setTime(gregDate);
 	}
@@ -289,7 +292,7 @@ public class DataXMLDAO {
 				}
 				
 				Task task = taskMap.get(id);		
-				
+								
 				if (dependencyList.size() > 0) {
 					for (Task t : dependencyList)
 						task.addDependency(t);
