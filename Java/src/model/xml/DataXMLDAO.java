@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -66,7 +67,10 @@ public class DataXMLDAO {
 	private DispatchController controller;
 	
 	private HashMap<String, Project> projectMap = new HashMap<String, Project>();
+	
 	private HashMap<String, Task> taskMap = new HashMap<String, Task>();
+	private LinkedHashMap<Task, String> stateMap = new LinkedHashMap<Task, String>();
+	
 	private HashMap<String, Resource> resourceMap = new HashMap<String, Resource>();
 	private Map<String,User> users = new HashMap<String,User>();
 	
@@ -164,7 +168,7 @@ public class DataXMLDAO {
 					
 				
 				User user = new User(userName.getTextContent(), typeOfUser);
-				parseTasks(userNode, user);
+				parseTasksInit(userNode, user);
 				users.put(userNode.getAttributes().getNamedItem("id").getTextContent(), user);
 				debug("---- Finished parsing tasks for " + user.getName() + "----");
 			}
@@ -178,6 +182,16 @@ public class DataXMLDAO {
 				parseInvitations(userNode,user);
 			}
 		}
+		for(int i=0;i<allNodes.getLength();i++)
+		{
+			Node userNode = allNodes.item(i);
+			if (userNode.getNodeName() != "#text" && userNode.getNodeName().equals("mop:user"))
+			{
+				User user = users.get(userNode.getAttributes().getNamedItem("id").getTextContent());
+				parseTasksLink(userNode,user);
+			}
+		}
+		parseTasksStates();
 		
 		parseTime();
 
@@ -231,7 +245,7 @@ public class DataXMLDAO {
 	}
 
 	/**
-	 * Parsing the tasks, linking them and setting the correct states.
+	 * Parsing the tasks, making Reservations.
 	 * @param userNode
 	 * @param user
 	 * @throws NameNotFoundException
@@ -256,16 +270,84 @@ public class DataXMLDAO {
 	 * @throws TimeException 
 	 * @throws InvitationInvitesOwnerException 
 	 */
-	private void parseTasks(Node userNode, User user) throws NameNotFoundException, ParseException, EmptyStringException, BusinessRule1Exception,
-			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException {
+	private void parseTasksInit(Node userNode, User user) throws NameNotFoundException, ParseException, EmptyStringException, BusinessRule1Exception,
+			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException 
+	{
 		Node tasks = parser.getNodeByName(userNode, "mop:tasks");
 		NodeList taskList = tasks.getChildNodes();
 		
-		LinkedHashMap<Task, String> stateMap = new LinkedHashMap<Task, String>();
+//		LinkedHashMap<Task, String> stateMap = new LinkedHashMap<Task, String>();
 		injectTasks(user, taskList, stateMap);
 		
-		linkDepedencies(taskList);
+//		linkDepedencies(taskList);
 		
+//		setTaskStates(stateMap);
+	}
+	
+	/**
+	 * Parsing the tasks: linking dependecies
+	 * @param userNode
+	 * @param user
+	 * @throws NameNotFoundException
+	 * @throws ParseException
+	 * @throws EmptyStringException
+	 * @throws BusinessRule1Exception
+	 * @throws DependencyCycleException
+	 * @throws IllegalStateCallException
+	 * @throws BusinessRule3Exception
+	 * @throws UnknownStateException
+	 * @throws IllegalStateChangeException
+	 * @throws BusinessRule2Exception
+	 * @throws NotAvailableException
+	 * @throws NoReservationOverlapException
+	 * @throws AssetAllocatedException
+	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws NullPointerException 
+	 * @throws NonExistingTypeSelected 
+	 * @throws WrongUserForTaskTypeException 
+	 * @throws AssetConstraintFullException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws TimeException 
+	 * @throws InvitationInvitesOwnerException 
+	 */
+	private void parseTasksLink(Node userNode, User user) throws NameNotFoundException, ParseException, EmptyStringException, BusinessRule1Exception,
+			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException 
+	{
+		Node tasks = parser.getNodeByName(userNode, "mop:tasks");
+		NodeList taskList = tasks.getChildNodes();
+		
+		linkDepedencies(taskList);
+	}
+	
+	/**
+	 * Parsing the tasks, making Reservations.
+	 * @param userNode
+	 * @param user
+	 * @throws NameNotFoundException
+	 * @throws ParseException
+	 * @throws EmptyStringException
+	 * @throws BusinessRule1Exception
+	 * @throws DependencyCycleException
+	 * @throws IllegalStateCallException
+	 * @throws BusinessRule3Exception
+	 * @throws UnknownStateException
+	 * @throws IllegalStateChangeException
+	 * @throws BusinessRule2Exception
+	 * @throws NotAvailableException
+	 * @throws NoReservationOverlapException
+	 * @throws AssetAllocatedException
+	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws NullPointerException 
+	 * @throws NonExistingTypeSelected 
+	 * @throws WrongUserForTaskTypeException 
+	 * @throws AssetConstraintFullException 
+	 * @throws AssetTypeNotRequiredException 
+	 * @throws TimeException 
+	 * @throws InvitationInvitesOwnerException 
+	 */
+	private void parseTasksStates() throws NameNotFoundException, ParseException, EmptyStringException, BusinessRule1Exception,
+			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException 
+	{
 		setTaskStates(stateMap);
 	}
 
@@ -281,12 +363,20 @@ public class DataXMLDAO {
 	private void setTaskStates(LinkedHashMap<Task, String> stateMap) throws UnknownStateException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception, TimeException {
 		debug("--- Start setting task states ---");
 		
-		for (Task task : stateMap.keySet()) {
+		ArrayList<Task> tasks = new ArrayList<Task>(stateMap.keySet());
+		Comparator<Task> comp = new Comparator<Task>() {
+			@Override
+			public int compare(Task o1, Task o2) {
+				return o1.getEarliestExecTime().compareTo(o2.getEarliestExecTime());
+			}
+		};
+		Collections.sort(tasks, comp);
+		for (Task task : tasks) {
 			String state = stateMap.get(task);
 			
-			debug(task.getDescription());
-			
-			this.setTime( task.getEarliestExecTime() );
+			debug(task.getDescription()+":"+state);
+			if(state.equals("Successful"))
+				this.setTime( task.getEarliestExecTime() );
 			controller.getTaskController().parseStateString(task, state);
 		}
 		
@@ -447,7 +537,7 @@ public class DataXMLDAO {
 	}
 
 	private void parseInvitations(Node invitationNode, User user) throws NameNotFoundException, AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException, InvitationNotPendingException {
-		debug("--- Start pasring Invitations ---");
+		debug("--- Start pasring Invitations for "+user.getDescription()+" ---");
 		Node invitations = parser.getNodeByName(invitationNode, "mop:invitations");
 		NodeList invitationList = invitations.getChildNodes();
 		for(int i=0;i<invitationList.getLength();i++){
@@ -460,9 +550,10 @@ public class DataXMLDAO {
 					createdInvitation.accept();
 				else if(childNode.getAttributes().getNamedItem("status").getTextContent().equals("declined"))
 					createdInvitation.decline();
+				debug(createdInvitation.toString());
 			}
 		}
-		debug("--- Stop parsing Invitations ---");
+		debug("--- Stop parsing Invitations for "+user.getDescription()+" ---");
 	}
 
 	/**

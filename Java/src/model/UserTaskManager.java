@@ -59,6 +59,14 @@ public class UserTaskManager {
 				pendingOrAcceptedInvitations.add(invi);
 		return Collections.unmodifiableList(pendingOrAcceptedInvitations);
 	}
+	
+	/**
+	 * Get all Invitations for this User, including declined Invitations
+	 */
+	protected List<Invitation> getAllInvitations(){
+		return Collections.unmodifiableList(this.invitations);
+	}
+	
 	/**
 	 * Get all the tasks this user owns as well as helps on
 	 * @return
