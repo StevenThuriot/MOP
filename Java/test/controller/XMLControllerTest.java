@@ -36,6 +36,7 @@ import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.InvitationInvitesOwnerException;
+import exception.InvitationNotPendingException;
 import exception.NoReservationOverlapException;
 import exception.NonExistingTypeSelected;
 import exception.NotAvailableException;
@@ -96,9 +97,10 @@ public class XMLControllerTest {
      * @throws NoReservationOverlapException 
      * @throws TimeException 
      * @throws InvitationInvitesOwnerException 
+     * @throws InvitationNotPendingException 
      */
     @Test
-    public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException
+    public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException, InvitationNotPendingException
     {
         ArrayList<User> result = controller.parse("students_public.xml","theme_development_1.xml", dcontroller);
         //manager.add(result);
@@ -133,9 +135,10 @@ public class XMLControllerTest {
      * @throws NoReservationOverlapException 
      * @throws TimeException 
      * @throws InvitationInvitesOwnerException 
+     * @throws InvitationNotPendingException 
      */
     @Test
-    public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException
+    public void testRelations() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException, InvitationNotPendingException
     {
         ArrayList<User> result = controller.parse("students_public.xml","theme_development_1.xml", dcontroller);
         Resource devRoom = manager.getResources().get(0); //Should be the 'Development room' resource

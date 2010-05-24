@@ -23,6 +23,7 @@ import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.InvitationInvitesOwnerException;
+import exception.InvitationNotPendingException;
 import exception.NoReservationOverlapException;
 import exception.NonExistingTypeSelected;
 import exception.NotAvailableException;
@@ -102,6 +103,8 @@ public class MainGUI implements Runnable{
 			MainGUI.writeError("An error has occurred while parsing the XML file. This is most likely due to a faulty XML file.");
 		} catch (InvitationInvitesOwnerException e) {
 			MainGUI.writeError("Cant invite the owner of a task. Probably faulty XML");
+		} catch (InvitationNotPendingException e) {
+			MainGUI.writeError("Tried to change the state of a non-pending invitation. This is probably a faulty XML");
 		}
 	
 		if(users!=null)

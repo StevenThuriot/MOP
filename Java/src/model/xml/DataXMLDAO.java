@@ -18,6 +18,7 @@ import javax.naming.NameNotFoundException;
 import controller.*;
 
 import model.Field;
+import model.Invitation;
 import model.Project;
 import model.Reservation;
 import model.Resource;
@@ -27,6 +28,7 @@ import model.TaskTimings;
 import model.TaskType;
 import model.User;
 import model.UserType;
+import model.Invitation.InvitationState;
 import model.repositories.RepositoryManager;
 
 import org.w3c.dom.DOMException;
@@ -45,6 +47,7 @@ import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.InvitationInvitesOwnerException;
+import exception.InvitationNotPendingException;
 import exception.NoReservationOverlapException;
 import exception.NonExistingTypeSelected;
 import exception.NotAvailableException;
@@ -65,7 +68,7 @@ public class DataXMLDAO {
 	private HashMap<String, Project> projectMap = new HashMap<String, Project>();
 	private HashMap<String, Task> taskMap = new HashMap<String, Task>();
 	private HashMap<String, Resource> resourceMap = new HashMap<String, Resource>();
-	private Map<String,User> users = new HashMap<String,User>();;
+	private Map<String,User> users = new HashMap<String,User>();
 	
 	Map<String, TaskType> taskTypeMap = null;
 	Map<String, ResourceType> resourceTypeMap = null;
@@ -128,8 +131,9 @@ public class DataXMLDAO {
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws TimeException 
 	 * @throws InvitationInvitesOwnerException 
+	 * @throws InvitationNotPendingException 
 	 */
-	public ArrayList<User> Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException
+	public ArrayList<User> Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException, InvitationNotPendingException
 	{
 		parseResources();
 		parseProjects();
@@ -160,8 +164,8 @@ public class DataXMLDAO {
 					
 				
 				User user = new User(userName.getTextContent(), typeOfUser);
+				parseTasks(userNode, user);
 				users.put(userNode.getAttributes().getNamedItem("id").getTextContent(), user);
-				
 				debug("---- Finished parsing tasks for " + user.getName() + "----");
 			}
 		}
@@ -171,7 +175,7 @@ public class DataXMLDAO {
 			if (userNode.getNodeName() != "#text" && userNode.getNodeName().equals("mop:user"))
 			{
 				User user = users.get(userNode.getAttributes().getNamedItem("id"));
-				parseTasks(userNode, user);
+				parseInvitations(userNode,user);
 			}
 		}
 		
@@ -430,9 +434,7 @@ public class DataXMLDAO {
 			    stateMap.put(task, state);
 			    
 			    parseReservations(childNode, task);
-			    
-			    parseInvitations(childNode, task);
-			    			    
+
 			    if (projectID.length() > 0 && projectID != null)
 			    {
 				    Project project = projectMap.get(projectID);
@@ -444,15 +446,19 @@ public class DataXMLDAO {
 		}
 	}
 
-	private void parseInvitations(Node invitationNode, Task task) throws NameNotFoundException, AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException {
-		Node invitations = parser.getNodeByName(invitationNode, "mop:invitees");
+	private void parseInvitations(Node invitationNode, User user) throws NameNotFoundException, AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException, InvitationNotPendingException {
+		Node invitations = parser.getNodeByName(invitationNode, "mop:invitations");
 		NodeList invitationList = invitations.getChildNodes();
 		for(int i=0;i<invitationList.getLength();i++){
 			Node childNode=invitationList.item(i);
 			if(childNode.getNodeName()!="#text")
 			{
-				User user = users.get(childNode.getTextContent());
-				this.controller.getInvitationController().createInvitation(task, user);
+				Task task = taskMap.get(childNode.getAttributes().getNamedItem("task"));
+				Invitation createdInvitation = this.controller.getInvitationController().createInvitation(task, user);
+				if(childNode.getAttributes().getNamedItem("status").equals("accepted"))
+					createdInvitation.accept();
+				else if(childNode.getAttributes().getNamedItem("status").equals("declined"))
+					createdInvitation.decline();
 			}
 		}
 	}
