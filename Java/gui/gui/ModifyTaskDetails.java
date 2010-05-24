@@ -9,6 +9,7 @@ import model.TaskTypeConstraint;
 import model.User;
 import controller.DispatchController;
 import exception.BusinessRule1Exception;
+import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
@@ -115,6 +116,11 @@ public class ModifyTaskDetails extends UseCase {
 							continue;
 						} catch (IllegalStateCallException e) {
 							menu.println("The modification is cancelled, an illegal state was reached");
+						} catch (BusinessRule2Exception e) {
+							System.out.println("Dependency would violate BusinessRule2");
+							choice2 = menu.menu("Select Action", "Retry", "Abort");
+							exit = choice2 == 1;
+							continue;
 						}
 					}else{
 						System.out.println("No more task to add");
