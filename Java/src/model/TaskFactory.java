@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import exception.BusinessRule1Exception;
+import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.EmptyStringException;
@@ -54,10 +55,11 @@ public class TaskFactory {
 	 * @throws BusinessRule1Exception 
 	 * @throws NullPointerException 
 	 * @throws WrongUserForTaskTypeException 
+	 * @throws BusinessRule2Exception 
 	 */
 	@SuppressWarnings("unchecked")
 	public static Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies, Clock clock) 
-		throws WrongFieldsForChosenTypeException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException
+		throws WrongFieldsForChosenTypeException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException, BusinessRule2Exception
 	{
 		Task newTask = new Task(type,fields, description, owner, timings, dependencies, clock);
 				

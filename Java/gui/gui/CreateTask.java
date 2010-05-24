@@ -12,6 +12,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import exception.BusinessRule1Exception;
+import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.EmptyStringException;
@@ -96,6 +97,8 @@ public class CreateTask extends UseCase {
 				menu.println("The passed fields do not match the selected type");
 			} catch (WrongUserForTaskTypeException e) {
 				menu.println(e.getMessage());
+			} catch (BusinessRule2Exception e) {
+				menu.println("One the dependencies was Failed");
 			}
 		}else{
 			try {

@@ -79,18 +79,18 @@ public class TaskController {
 	 * @param timings
 	 * @param dependencies
 	 * @return
-	 * @throws EmptyStringException
-	 * @throws BusinessRule1Exception
-	 * @throws DependencyCycleException
-	 * @throws NullPointerException
-	 * @throws IllegalStateCallException
-	 * @throws BusinessRule3Exception
-	 * @throws WrongFieldsForChosenTypeException
 	 * @throws WrongUserForTaskTypeException 
+	 * @throws BusinessRule3Exception 
+	 * @throws IllegalStateCallException 
+	 * @throws EmptyStringException 
+	 * @throws DependencyCycleException 
+	 * @throws BusinessRule1Exception 
+	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws NullPointerException 
+	 * @throws BusinessRule2Exception 
 	 */
 	@SuppressWarnings("unchecked")
-	public Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
+	public Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies) throws NullPointerException, WrongFieldsForChosenTypeException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException, BusinessRule2Exception 
 	{
 		return TaskFactory.createTask(description, type, fields, owner, timings, dependencies, manager.getClock());
 	}
@@ -192,8 +192,9 @@ public class TaskController {
 	 * @throws BusinessRule1Exception
 	 * @throws DependencyCycleException
 	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule2Exception 
 	 */
-	public void addDependency(Task task, Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException
+	public void addDependency(Task task, Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, BusinessRule2Exception
 	{
 		task.addDependency(dependency);
 	}

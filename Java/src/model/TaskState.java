@@ -31,8 +31,9 @@ public abstract class TaskState {
 	 * 			Adding the dependency would create a dependency cycle.
 	 * 			| !this.dependencyHasNoCycle()
 	 * @throws IllegalStateCallException If the call is not allowed in the current state
+	 * @throws BusinessRule2Exception 
 	 */
-	protected void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException{
+	protected void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, BusinessRule2Exception{
 		throw new IllegalStateCallException();
 	}
 	
