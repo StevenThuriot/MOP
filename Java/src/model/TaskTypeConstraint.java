@@ -53,7 +53,9 @@ public class TaskTypeConstraint implements Describable{
 	 */
 	protected boolean checkConstraint(Task task, GregorianCalendar begin, int duration){
 		int count = task.getAssetCountAvailableAt(begin, duration, this.getAssetType());
-		return (this.getMinimum() <= count) && (count <= this.getMaximum());
+		boolean min = this.getMinimum() <= count;
+		boolean max = count <= this.getMaximum();
+		return (min) && (max);
 	}
 	
 	/**

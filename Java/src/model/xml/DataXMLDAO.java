@@ -177,6 +177,36 @@ public class DataXMLDAO {
 
 		return users;
 	}
+	
+	/**
+	 * Setting the system time.
+	 * @param time
+	 * @throws TimeException
+	 * @throws ParseException 
+	 */
+	private void setTime(String time) throws TimeException, ParseException
+	{
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+        Date date = sdf.parse(time);
+	    GregorianCalendar gregDate = new GregorianCalendar();
+	    gregDate.setTime(date);
+	    
+	    debug("Setting the system time: " + time);
+	    
+        manager.getClock().setTime(gregDate);
+	}
+	
+	/**
+	 * Setting the system time.
+	 * @param time
+	 * @throws TimeException
+	 */
+	private void setTime(GregorianCalendar gregDate) throws TimeException
+	{	    
+	    debug("Setting the system time: " + gregDate.toString());
+	    
+        manager.getClock().setTime(gregDate);
+	}
 
 	/**
 	 * Parsing system time
@@ -190,14 +220,7 @@ public class DataXMLDAO {
 		
 		Node systemTime = parser.getNodeByName(parser.getRootNode(), "mop:systemtime");
 		
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
-        Date date = sdf.parse(systemTime.getTextContent());
-	    GregorianCalendar gregDate = new GregorianCalendar();
-	    gregDate.setTime(date);
-	    
-	    debug("Setting the system time: " + systemTime.getTextContent());
-	    
-        manager.getClock().setTime(gregDate);
+		setTime(systemTime.getTextContent());
 	}
 
 	/**
@@ -223,9 +246,10 @@ public class DataXMLDAO {
 	 * @throws WrongUserForTaskTypeException 
 	 * @throws AssetConstraintFullException 
 	 * @throws AssetTypeNotRequiredException 
+	 * @throws TimeException 
 	 */
 	private void parseTasks(Node userNode, User user) throws NameNotFoundException, ParseException, EmptyStringException, BusinessRule1Exception,
-			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException {
+			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException {
 		Node tasks = parser.getNodeByName(userNode, "mop:tasks");
 		NodeList taskList = tasks.getChildNodes();
 		
@@ -244,14 +268,17 @@ public class DataXMLDAO {
 	 * @throws BusinessRule3Exception
 	 * @throws IllegalStateChangeException
 	 * @throws BusinessRule2Exception
+	 * @throws TimeException 
 	 */
-	private void setTaskStates(LinkedHashMap<Task, String> stateMap) throws UnknownStateException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception {
+	private void setTaskStates(LinkedHashMap<Task, String> stateMap) throws UnknownStateException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception, TimeException {
 		debug("--- Start setting task states ---");
 		
 		for (Task task : stateMap.keySet()) {
 			String state = stateMap.get(task);
 			
 			debug(task.getDescription());
+			
+			this.setTime( task.getEarliestExecTime() );
 		  
 			controller.getTaskController().parseStateString(task, state);
 		}
