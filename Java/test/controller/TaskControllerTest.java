@@ -61,7 +61,7 @@ public class TaskControllerTest {
 	}
 	
 	/**
-	 * TODO: Duration
+	 * Duration
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 

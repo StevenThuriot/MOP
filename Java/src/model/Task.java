@@ -155,9 +155,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @post 	The duration of this Task is <duration>
 	 * 			| getDuration() == duration
 	 * @post 	The task is set not to require any resource
-	 * 			TODO: formal definition
 	 * @post	The task has dependencies nor dependent tasks
-	 * 			TODO: formal definition
 	 */
 	@SuppressWarnings("unchecked")
 	public Task(TaskType taskT,List<Field> fields, String description,User user, TaskTimings timings, Clock clock) 

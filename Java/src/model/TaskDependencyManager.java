@@ -22,7 +22,6 @@ public class TaskDependencyManager {
 	/**
 	 * An ArrayList containing the Tasks that this Task is depending on.
 	 * @invar	Every effective element in $dependencies references a Task.
-	 * 			TODO: formal definition
 	 * @invar	$dependencies and $dependentTasks must be consistent:
 	 * 			Every element in $dependencies must have this task as a dependent task.
 	 */
@@ -31,10 +30,8 @@ public class TaskDependencyManager {
 	/**
 	 * An ArrayList containing the Tasks that depend on this Task.
 	 * @invar 	Every element in $dependentTasks references a Task.
-	 * 			TODO: formal definition
 	 * @invar	$dependencies and $dependenTasks must be consistent:
 	 * 			Every element in $dependentTasks has this task as a dependency
-	 * 			TODO: formal definition
 	 */
 	private ArrayList<Task> dependentTasks;
 	
