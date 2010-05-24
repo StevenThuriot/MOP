@@ -157,4 +157,12 @@ public class Invitation extends AssetAllocation implements Describable{
 	public AllocationType getAllocationType() {
 		return AllocationType.Invitation;
 	}
+
+	@Override
+	protected GregorianCalendar getEarliestAvailableTime() {
+		if(status == InvitationState.ACCEPTED)
+			return new GregorianCalendar(0, 0, 0);
+		else 
+			return null;
+	}
 }

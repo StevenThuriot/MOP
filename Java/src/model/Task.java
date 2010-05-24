@@ -909,10 +909,17 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * Returns earliest completion time based on AssetAllocations
 	 */
 	public GregorianCalendar getEarliestExecTime(){
-		GregorianCalendar earliest = this.tdm.getEarliestDepExecTime();
-		GregorianCalendar temp = this.getTaskType().getEarliestAssetConstrExecTime(this);
+		GregorianCalendar earliest = (GregorianCalendar) this.getStartDate().clone();
+		GregorianCalendar temp = this.tdm.getEarliestDepExecTime();
 		if(temp.after(earliest))
 			earliest = temp;
+		temp = this.getTaskType().getEarliestAssetConstrExecTime(this);
+		if (temp != null) {
+			if (temp.after(earliest))
+				earliest = temp;
+		}else{
+			return this.getDueDate();
+		}
 		return earliest;
 	}
 	

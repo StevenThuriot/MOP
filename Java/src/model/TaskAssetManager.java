@@ -132,23 +132,18 @@ public class TaskAssetManager {
 		}
 		
 		protected GregorianCalendar getEarliestExecTime(AssetType assetType, int min){
-			ArrayList<AssetAllocation> assets = new ArrayList<AssetAllocation>();
+			ArrayList<GregorianCalendar> times = new ArrayList<GregorianCalendar>();
 			for(AssetAllocation asset: assetAllocations){
-				if(asset.getAssetType() == assetType){
-					assets.add(asset);
+				if(asset.getAssetType() == assetType && asset.getEarliestAvailableTime() != null){
+					times.add(asset.getEarliestAvailableTime());
 				}
 			}
-			Comparator<AssetAllocation> comp = new Comparator<AssetAllocation>(){
-
-				@Override
-				public int compare(AssetAllocation o1, AssetAllocation o2) {
-					return o1.getEarliestAvailableTime().compareTo(o2.getEarliestAvailableTime());
-				}
-				
-			};
-			Collections.sort(assets, comp);
+			Collections.sort(times, null);
 			if(min > 0)
-				return assets.get(min-1).getEarliestAvailableTime();
+				if(times.size() >= min)
+					return times.get(min-1);
+				else
+					return null;
 			else
 				return new GregorianCalendar(0, 0, 0);
 		}
