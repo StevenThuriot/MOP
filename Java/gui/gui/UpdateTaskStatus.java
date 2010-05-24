@@ -104,8 +104,7 @@ public class UpdateTaskStatus extends UseCase {
 					try {
 						dController.getTaskController().setFailed(task);
 					} catch (IllegalStateChangeException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						menu.println("Error setting the task to failed: Not allowed.");
 					}
 				break;
 		} 
