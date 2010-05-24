@@ -57,8 +57,11 @@ public class TaskDependencyTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		// 4 days to finish the task from now on
 		int duration = 1;
+		ArrayList<UserType> userTypes = new ArrayList<UserType>();
+		userTypes.add(user.getType());
+		
 		taskType = new TaskType("reorganizing the test cases", 
-				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>(), userTypes);
 		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, endDate, duration), manager.getClock());
 		//sets up a second Task

@@ -47,7 +47,11 @@ public class TaskControllerTest {
 		manager = new RepositoryManager();
 		controller = new TaskController(manager);
 		user = new User("John",new UserType(""));
-		taskType = controller.addTaskType("MyType",new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+		
+		ArrayList<UserType> userTypes = new ArrayList<UserType>();
+		userTypes.add(user.getType());
+		
+		taskType = controller.addTaskType("MyType",new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>(), userTypes);
 	}
 	
 	@After

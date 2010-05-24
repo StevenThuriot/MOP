@@ -71,8 +71,12 @@ public class ProjectTest {
         User user = new User("John",new UserType(""));
         GregorianCalendar endDate = new GregorianCalendar();
         endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
+        
+        ArrayList<UserType> userTypes = new ArrayList<UserType>();
+		userTypes.add(user.getType());
+        
         TaskType taskType = new TaskType("reorganizing the test cases", 
-				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>(), userTypes);
         Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(new GregorianCalendar(),endDate,120), manager.getClock());
         proj.bindTask(task);

@@ -33,7 +33,6 @@ public class TaskFactory {
 	public static Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, Clock clock) 
 		throws  WrongFieldsForChosenTypeException,NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException
 	{
-		type.checkOwner(owner);
 		Task newTask = new Task(type,fields, description, owner, timings, clock);
 		return newTask;
 	}
@@ -60,7 +59,6 @@ public class TaskFactory {
 	public static Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies, Clock clock) 
 		throws WrongFieldsForChosenTypeException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException
 	{
-		type.checkOwner(owner);
 		Task newTask = new Task(type,fields, description, owner, timings, dependencies, clock);
 				
 		return newTask;

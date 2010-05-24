@@ -51,8 +51,12 @@ public class UserTaskManagerTest {
 		int duration = 1;
 		ArrayList<TaskTypeConstraint> constraints = new ArrayList<TaskTypeConstraint>();
 			constraints.add(new TaskTypeConstraint(userType,1,2));
+			
+			ArrayList<UserType> userTypes = new ArrayList<UserType>();
+			userTypes.add(user.getType());
+			
 		TaskType taskType = new TaskType("reorganizing the test cases", 
-				new ArrayList<Field>(), constraints);
+				new ArrayList<Field>(), constraints, userTypes);
 		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, endDate, duration), manager.getClock());
 	}

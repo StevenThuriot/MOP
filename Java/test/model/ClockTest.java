@@ -35,10 +35,15 @@ public class ClockTest {
 		manager = new RepositoryManager();
 		clock = manager.getClock();
 		clock.setTime(startDate);
-		user = new User("Kwinten",new UserType(""));
+		user = new User("Kwinten",new UserType("UserType"));
 		manager.add(user);
+		
+		ArrayList<UserType> userTypes = new ArrayList<UserType>();
+		userTypes.add(user.getType());
+		
 		TaskType taskType = new TaskType("reorganizing the test cases", 
-				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>(), userTypes);
+		
 		task = TaskFactory.createTask("Make Clock Tests", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, dueDate, 120), clock);
 	}

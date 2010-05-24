@@ -119,10 +119,11 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	public Task(TaskType taskT,List<Field> fields, String description,User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock)
-			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
+			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
 		
 		this(taskT,fields,description, user, timings, clock);
 		
@@ -144,6 +145,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
+	 * @throws WrongUserForTaskTypeException 
 	 * @post	The user responsible for this Task is  <user>.
 	 * 			| getUser() == user
 	 * @post	The start date of this Task is <startDate>
@@ -159,7 +161,9 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 */
 	@SuppressWarnings("unchecked")
 	public Task(TaskType taskT,List<Field> fields, String description,User user, TaskTimings timings, Clock clock) 
-			throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException{
+			throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
+		
+		taskT.checkOwner(user);
 		
 		tdm = new TaskDependencyManager(this);
 		tam = new TaskAssetManager(this);

@@ -24,6 +24,7 @@ import model.TaskTimings;
 import model.TaskType;
 import model.TaskTypeConstraint;
 import model.User;
+import model.UserType;
 import model.repositories.RepositoryManager;
 
 /**
@@ -102,9 +103,9 @@ public class TaskController {
 	 * @return the newly created tasktype
 	 */
 	@SuppressWarnings("unchecked")
-	public TaskType addTaskType(String name,ArrayList<Field> fields, ArrayList<TaskTypeConstraint> constraints)
+	public TaskType addTaskType(String name,ArrayList<Field> fields, ArrayList<TaskTypeConstraint> constraints, ArrayList<UserType> userTypes)
 	{
-		TaskType type = new TaskType(name, fields, constraints);
+		TaskType type = new TaskType(name, fields, constraints, userTypes);
 		manager.add(type);
 		return type;
 	}
