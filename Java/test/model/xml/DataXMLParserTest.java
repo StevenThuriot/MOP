@@ -131,7 +131,7 @@ public class DataXMLParserTest {
         User Eve = users.get("Eve");
         User Alice = users.get("Alice");
         
-        assertEquals(2, Bob.getInvitations().size());
+        assertEquals(2, Bob.getAllInvitations().size());
         
         assertEquals(0, Bob.getTasks().size());
         assertEquals(0, Eve.getTasks().size());

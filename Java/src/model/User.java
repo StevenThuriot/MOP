@@ -129,6 +129,10 @@ public class User implements Asset,Describable{
 	public List<Invitation> getInvitations() {
 		return taskManager.getInvitations();
 	}
+	
+	public List<Invitation> getAllInvitations(){
+		return taskManager.getAllInvitations();
+	}
 
 	public UserType getType() {
 		return type;
