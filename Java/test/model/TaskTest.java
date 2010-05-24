@@ -95,8 +95,12 @@ public class TaskTest {
         resource = new Resource("Projector", resourceType);
         ArrayList<TaskTypeConstraint> constraints = new ArrayList<TaskTypeConstraint>();
 		constraints.add(new TaskTypeConstraint(resourceType,1,2));
+		
+		ArrayList<UserType> userTypes = new ArrayList<UserType>();
+		userTypes.add(user.getType());
+		
         taskType = new TaskType("reorganizing the test cases", 
-				new ArrayList<Field>(), constraints);
+				new ArrayList<Field>(), constraints,userTypes);
 		task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
 	}
@@ -658,7 +662,6 @@ public class TaskTest {
 		@SuppressWarnings("unused")
 		Reservation r = new Reservation(manager.getClock().getTime(),120,resource, task);
 		task.setSuccessful();
-		new Reservation(startDate, 180, resource, task);
 	}
 	
 	/**
@@ -909,7 +912,7 @@ public class TaskTest {
 	@Test
 	public void testToString()
 	{
-		assertEquals("Descr", task.toString());
+		assertEquals("Descr\n", task.toString());
 	}
 
 	/**
@@ -1081,9 +1084,12 @@ public class TaskTest {
 		assetsReq.add(constraintBoard);
 		assetsReq.add(constraintOwner);
 		assetsReq.add(constraintHelper);
-
+		
+		ArrayList<UserType> userTypes = new ArrayList<UserType>();
+		userTypes.add(user.getType());
+		
 		TaskType goGame = new TaskType("Playing go", 
-				new ArrayList<Field>(), assetsReq);
+				new ArrayList<Field>(), assetsReq, userTypes);
 		Task playGo = TaskFactory.createTask("Playing Go", goGame, new ArrayList<Field>(), 
 				kwinten, new TaskTimings(startDate, endDate, 120), manager.getClock());
 		
@@ -1100,5 +1106,25 @@ public class TaskTest {
 		inviteSteven.accept();
 		//Task should be ready to run
 		assertTrue(playGo.canBeExecuted());
+	}
+	
+	/**
+	 * Bob is not allowed to create tasks!
+	 * @throws NullPointerException
+	 * @throws WrongFieldsForChosenTypeException
+	 * @throws EmptyStringException
+	 * @throws BusinessRule1Exception
+	 * @throws IllegalStateCallException
+	 * @throws BusinessRule3Exception
+	 * @throws WrongUserForTaskTypeException
+	 */
+	@SuppressWarnings("unchecked")
+	@Test (expected=WrongUserForTaskTypeException.class)
+	public void notAllowedToCreate() throws NullPointerException, WrongFieldsForChosenTypeException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException
+	{
+		User bob = new User("Bob", new UserType("type1"));
+		
+		task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
+				bob, new TaskTimings(startDate, endDate, 120), manager.getClock());
 	}
 }

@@ -16,8 +16,11 @@ public class TaskTypeTest {
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp(){
+		ArrayList<UserType> userTypes = new ArrayList<UserType>();
+		userTypes.add(new UserType("type"));
+		
 		taskT = new TaskType("Playing Go", new ArrayList<Field>()
-				, new ArrayList<TaskTypeConstraint>());
+				, new ArrayList<TaskTypeConstraint>(), userTypes);
 	}
 	
 	@Test

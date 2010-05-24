@@ -44,10 +44,13 @@ public class ResourceTest {
 		endDate.add(Calendar.DAY_OF_YEAR, 4);
 		manager = new RepositoryManager();
 		// 4 days to finish task
+		ArrayList<UserType> userTypes = new ArrayList<UserType>();
+		userTypes.add(user.getType());
+		
 		ArrayList<TaskTypeConstraint> constraints = new ArrayList<TaskTypeConstraint>();
 		constraints.add(new TaskTypeConstraint(resourceType,1,2));
 		TaskType taskType = new TaskType("reorganizing the test cases", 
-				new ArrayList<Field>(), constraints);
+				new ArrayList<Field>(), constraints,userTypes);
 		task1 = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(new GregorianCalendar(),endDate,1440), manager.getClock());
 	}

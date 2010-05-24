@@ -41,10 +41,14 @@ public class FocusStrategyTest {
         end1.add(Calendar.DAY_OF_MONTH, 1);
         GregorianCalendar end2 = new GregorianCalendar();
         end2.add(Calendar.MONTH, 1);
+        
+        ArrayList<UserType> userTypes = new ArrayList<UserType>();
+		userTypes.add(user.getType());
+        
         taskType = new TaskType("reorganizing the test cases", 
-				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>(), userTypes);
         taskType2 = new TaskType("Doing something else", 
-				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>());
+				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>(), userTypes);
         controller.createTask("Task1",taskType,new ArrayList<Field>(), user, new TaskTimings(new GregorianCalendar(), end1, 10));
         controller.createTask("Task2",taskType,new ArrayList<Field>(), user, new TaskTimings(new GregorianCalendar(), end2, 3600));
         controller.createTask("Task3",taskType2,new ArrayList<Field>(), user, new TaskTimings(new GregorianCalendar(), end2, 3600));

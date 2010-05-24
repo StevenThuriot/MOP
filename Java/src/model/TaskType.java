@@ -26,16 +26,28 @@ public class TaskType implements Describable {
 	 * Specifies the constraints relating to resources.
 	 */
 	private ArrayList<TaskTypeConstraint> constraints;
+	
+	/**
+	 * The types of users that are allowed to create a task with this tasktype	
+	 */
+	private ArrayList<UserType> userTypes;
 
 		
-	
+	/**
+	 * Constructor
+	 * @param name
+	 * @param fields
+	 * @param constraints
+	 */
 	@SuppressWarnings("unchecked")
 	public TaskType(String name, ArrayList<Field> fields, 
-			ArrayList<TaskTypeConstraint> constraints){
+			ArrayList<TaskTypeConstraint> constraints, ArrayList<UserType> userTypes)
+	{
 		this.name = name;
 		this.template = fields;
 		this.constraints = constraints;
-		}
+		this.userTypes = userTypes;
+	}
 	
 	
 	/**
@@ -101,10 +113,10 @@ public class TaskType implements Describable {
 		}
 	}
 	
-	public boolean checkOwner(User owner) throws WrongUserForTaskTypeException
+	public void checkOwner(User owner) throws WrongUserForTaskTypeException
 	{
-		return true;
-		//TODO: checken of de User een owner mag zijn?
+		if (! userTypes.contains(owner.getType()) )
+			throw new WrongUserForTaskTypeException();
 	}
 
 	/**

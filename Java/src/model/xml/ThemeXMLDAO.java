@@ -134,6 +134,29 @@ public class ThemeXMLDAO {
 		}
 	}
 	
+	private ArrayList<UserType> parseUserTypeConstraints(Node item, Map<String, UserType> userTypeMap) throws NameNotFoundException
+	{
+		ArrayList<UserType> userTypes = new ArrayList<UserType>();
+		
+		Node constraintNode = parser.getNodeByName(item, "t:owners");
+		NodeList constraintNodes = constraintNode.getChildNodes();
+		for(int i=0;i<constraintNodes.getLength();i++)
+		{
+			Node constraint = constraintNodes.item(i);
+			if(constraint.getNodeName()!="#text"){
+				String ownerType = constraint.getAttributes().getNamedItem("type").getTextContent();
+				
+				if ( userTypeMap.containsKey(ownerType) ) {
+					userTypes.add( userTypeMap.get(ownerType) );
+				} else {
+					throw new NameNotFoundException();
+				}
+			}
+		}
+		
+		return userTypes;
+	}
+	
 	@SuppressWarnings("unchecked")
 	private void addTaskType(Node item,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException, NullPointerException, DOMException, EmptyStringException {
 		if(item.getNodeName()!="#text"){
@@ -142,7 +165,9 @@ public class ThemeXMLDAO {
 			ArrayList<Field> fields = parseTaskTypeFields(item);
 			ArrayList<TaskTypeConstraint> constraints = parseTaskTypeConstraints(item,resourceTypeMap,userTypeMap);
 			
-			TaskType type = controller.getTaskController().addTaskType(name,fields,constraints);
+			ArrayList<UserType> userTypes = parseUserTypeConstraints(item, userTypeMap);
+			
+			TaskType type = controller.getTaskController().addTaskType(name,fields,constraints,userTypes);
 			
 			taskTypeMap.put(id, type);
 		}
