@@ -22,6 +22,7 @@ import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
+import exception.InvitationInvitesOwnerException;
 import exception.NoReservationOverlapException;
 import exception.NonExistingTypeSelected;
 import exception.NotAvailableException;
@@ -99,6 +100,8 @@ public class MainGUI implements Runnable{
 			MainGUI.writeError("An error has occurred while parsing the XML file. This is most likely due to a faulty XML file.");
 		} catch (AssetConstraintFullException e) {
 			MainGUI.writeError("An error has occurred while parsing the XML file. This is most likely due to a faulty XML file.");
+		} catch (InvitationInvitesOwnerException e) {
+			MainGUI.writeError("Cant invite the owner of a task. Probably faulty XML");
 		}
 	
 		if(users!=null)
