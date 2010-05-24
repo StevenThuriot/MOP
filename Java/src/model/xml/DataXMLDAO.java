@@ -174,7 +174,7 @@ public class DataXMLDAO {
 			Node userNode = allNodes.item(i);
 			if (userNode.getNodeName() != "#text" && userNode.getNodeName().equals("mop:user"))
 			{
-				User user = users.get(userNode.getAttributes().getNamedItem("id"));
+				User user = users.get(userNode.getAttributes().getNamedItem("id").getTextContent());
 				parseInvitations(userNode,user);
 			}
 		}
@@ -453,11 +453,11 @@ public class DataXMLDAO {
 			Node childNode=invitationList.item(i);
 			if(childNode.getNodeName()!="#text")
 			{
-				Task task = taskMap.get(childNode.getAttributes().getNamedItem("task"));
+				Task task = taskMap.get(childNode.getAttributes().getNamedItem("task").getTextContent());
 				Invitation createdInvitation = this.controller.getInvitationController().createInvitation(task, user);
-				if(childNode.getAttributes().getNamedItem("status").equals("accepted"))
+				if(childNode.getAttributes().getNamedItem("status").getTextContent().equals("accepted"))
 					createdInvitation.accept();
-				else if(childNode.getAttributes().getNamedItem("status").equals("declined"))
+				else if(childNode.getAttributes().getNamedItem("status").getTextContent().equals("declined"))
 					createdInvitation.decline();
 			}
 		}
