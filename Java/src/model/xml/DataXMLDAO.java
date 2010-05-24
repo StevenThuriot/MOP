@@ -447,6 +447,7 @@ public class DataXMLDAO {
 	}
 
 	private void parseInvitations(Node invitationNode, User user) throws NameNotFoundException, AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException, InvitationNotPendingException {
+		debug("--- Start pasring Invitations ---");
 		Node invitations = parser.getNodeByName(invitationNode, "mop:invitations");
 		NodeList invitationList = invitations.getChildNodes();
 		for(int i=0;i<invitationList.getLength();i++){
@@ -461,6 +462,7 @@ public class DataXMLDAO {
 					createdInvitation.decline();
 			}
 		}
+		debug("--- Stop parsing Invitations ---");
 	}
 
 	/**
