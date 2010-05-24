@@ -38,6 +38,7 @@ import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.InvitationInvitesOwnerException;
+import exception.InvitationNotPendingException;
 import exception.NoReservationOverlapException;
 import exception.NonExistingTypeSelected;
 import exception.NotAvailableException;
@@ -54,7 +55,7 @@ public class DataXMLParserTest {
     
     
     @Before
-    public void setUp() throws TimeException, ParseException, NameNotFoundException, DOMException, NullPointerException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, InvitationInvitesOwnerException
+    public void setUp() throws TimeException, ParseException, NameNotFoundException, DOMException, NullPointerException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, InvitationInvitesOwnerException, InvitationNotPendingException
     {
         manager = new RepositoryManager();
         dcontroller = new DispatchController(manager);
@@ -130,9 +131,13 @@ public class DataXMLParserTest {
         User Eve = users.get("Eve");
         User Alice = users.get("Alice");
         
+        assertEquals(2, Bob.getInvitations().size());
+        
         assertEquals(0, Bob.getTasks().size());
         assertEquals(0, Eve.getTasks().size());
         assertEquals(5, Alice.getTasks().size());
+        
+        
         
         //assertEquals(4, dcontroller.getResourceController().getReservations().size());
     }
