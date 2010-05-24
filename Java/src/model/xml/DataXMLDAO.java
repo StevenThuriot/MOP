@@ -204,7 +204,8 @@ public class DataXMLDAO {
 	 */
 	private void setTime(GregorianCalendar gregDate) throws TimeException
 	{	    
-	    debug("Setting the system time: " + gregDate.toString());
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US);
+	    debug("Setting the system time: " + sdf.format(gregDate.getTime()));
 	    
         manager.getClock().setTime(gregDate);
 	}
@@ -280,7 +281,6 @@ public class DataXMLDAO {
 			debug(task.getDescription());
 			
 			this.setTime( task.getEarliestExecTime() );
-		  
 			controller.getTaskController().parseStateString(task, state);
 		}
 		
