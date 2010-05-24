@@ -51,7 +51,7 @@ public class MainGUI implements Runnable{
 		dController = new DispatchController(manager);
 		menu = new Menu(in,out);
 		
-		dController.getTimeController().setTime(menu.promptDate("Give Current Time"));
+		//dController.getTimeController().setTime(menu.promptDate("Give Current Time"));
 		
 		XMLController xmlController = dController.getXmlController();
 		
@@ -116,14 +116,15 @@ public class MainGUI implements Runnable{
 		this.out = out;
 		useCases = new ArrayList<UseCase>();
 		useCases.add(new CreateTask());
+		useCases.add(new InvitationManager());
 		useCases.add(new RemoveTask());
 		useCases.add(new UpdateTaskStatus());
+		useCases.add(new ModifyTaskDetails());
 		useCases.add(new CreateProject());
 		useCases.add(new RemoveProject());
 		useCases.add(new CreateResource());
 		useCases.add(new MakeResourceReservation());
 		useCases.add(new FocusWork());
-		useCases.add(new ModifyTaskDetails());
 	}
 	
 	/**

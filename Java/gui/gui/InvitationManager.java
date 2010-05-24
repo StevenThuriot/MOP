@@ -18,10 +18,13 @@ import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
 
 public class InvitationManager extends UseCase {
+	
+	public InvitationManager(){
+	}
 
 	private Menu menu;
 	private DispatchController dController;
-	public InvitationManager(Menu menu, DispatchController dController,User user)
+	private InvitationManager(Menu menu, DispatchController dController,User user)
 	{
 		this.menu = menu;
 		this.dController = dController;
