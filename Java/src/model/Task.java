@@ -918,7 +918,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 			if (temp.after(earliest))
 				earliest = temp;
 		}else{
-			return this.getDueDate();
+			return (GregorianCalendar) this.getDueDate().clone();
 		}
 		return earliest;
 	}
