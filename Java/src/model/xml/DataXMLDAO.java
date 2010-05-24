@@ -390,8 +390,9 @@ public class DataXMLDAO {
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule1Exception
 	 * @throws DependencyCycleException
+	 * @throws BusinessRule2Exception 
 	 */
-	private void linkDepedencies(NodeList taskList) throws NameNotFoundException, IllegalStateCallException, BusinessRule1Exception, DependencyCycleException {
+	private void linkDepedencies(NodeList taskList) throws NameNotFoundException, IllegalStateCallException, BusinessRule1Exception, DependencyCycleException, BusinessRule2Exception {
 		for (int i = 0; i < taskList.getLength(); i++) {
 			Node childNode = taskList.item(i);
 			

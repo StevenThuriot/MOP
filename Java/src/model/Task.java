@@ -120,10 +120,11 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws WrongUserForTaskTypeException 
+	 * @throws BusinessRule2Exception 
 	 */
 	@SuppressWarnings("unchecked")
 	public Task(TaskType taskT,List<Field> fields, String description,User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock)
-			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
+			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, BusinessRule2Exception{
 		
 		this(taskT,fields,description, user, timings, clock);
 		
@@ -207,8 +208,9 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * 			Adding the dependency would create a dependency cycle.
 	 * 			| !this.dependencyHasNoCycle()
 	 * @throws IllegalStateCallException 
+	 * @throws BusinessRule2Exception 
 	 */
-	public void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException{
+	public void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, BusinessRule2Exception{
 		this.taskState.addDependency(dependency);
 	}
 	
@@ -274,7 +276,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 		if(!this.dependencySatisfiesBusinessRule1(dependency))
 			throw new BusinessRule1Exception(
 			"This dependency would not satisfy business rule 1");
-		
 		if(!this.dependencyHasNoCycle(dependency))
 			throw new DependencyCycleException(
 			"This dependency would create a dependency cycle");
@@ -530,6 +531,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 */
 	public void removeDependency(Task dependency) throws DependencyException, IllegalStateCallException{
 		this.taskState.removeDependency(dependency);
+	}
+	
+	protected void doRemoveDependency(Task dependency) throws DependencyException{
+		this.tdm.removeDependency(dependency);
 	}
 	
 	/**
@@ -930,19 +935,5 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 */
 	protected GregorianCalendar getEarliestExecTime(AssetType assetType, int min){
 		return this.tam.getEarliestExecTime(assetType, min);
-	}
-	
-	/**
-	 * suggestie voor comparator, moet geen embedded class zijn.
-	 *
-	 */
-	public class TaskAssetTimeComparator implements Comparator<Task>{
-
-		@Override
-		public int compare(Task o1, Task o2) {
-			return o1.getEarliestExecTime().compareTo(o2.getEarliestExecTime());
-		}
-		
-	}
-	
+	}	
 }

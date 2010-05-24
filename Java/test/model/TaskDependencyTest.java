@@ -14,6 +14,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.BusinessRule1Exception;
+import exception.BusinessRule2Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
 import exception.IllegalStateCallException;
@@ -116,7 +117,7 @@ public class TaskDependencyTest {
 	}
 	
 	@Test
-	public void recursiveDependencies1() throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException{
+	public void recursiveDependencies1() throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, BusinessRule2Exception{
 		tdm.addDependency(taskHelp);
 		taskHelp.addDependency(taskHelp2);
 		// tdm (or taskMain) should be recursively dependent on both taskHelp and taskHelp2
@@ -125,7 +126,7 @@ public class TaskDependencyTest {
 	}
 	
 	@Test(expected=DependencyCycleException.class)
-	public void recursiveDependencies2() throws BusinessRule1Exception, IllegalStateCallException, DependencyCycleException {
+	public void recursiveDependencies2() throws BusinessRule1Exception, IllegalStateCallException, DependencyCycleException, BusinessRule2Exception {
 		tdm.addDependency(taskHelp);
 		// A DependencyCycleException should be thrown here:
 		// taskMain depends on taskHelp which depends on taskMain again
@@ -133,7 +134,7 @@ public class TaskDependencyTest {
 	}
 	
 	@Test(expected=IllegalStateChangeException.class)
-	public void statusUpdate() throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, IllegalStateChangeException{
+	public void statusUpdate() throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, IllegalStateChangeException, BusinessRule2Exception{
 		tdm.addDependency(taskHelp);
 		taskHelp.addDependency(taskHelp2);
 		taskHelp2.setFailed();

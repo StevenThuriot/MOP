@@ -27,8 +27,11 @@ public class UnfinishedTaskState extends TaskState {
 	 * @throws 	DependencyCycleException
 	 * 			Adding the dependency would create a dependency cycle.
 	 * 			| !this.dependencyHasNoCycle()
+	 * @throws BusinessRule2Exception 
 	 */
-	protected void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException{
+	protected void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, BusinessRule2Exception{
+		if(!this.satisfiesBusinessRule2Proposed(dependency))
+			throw new BusinessRule2Exception("Adding this dependency would violate BusinessRule2, probably because it's state is Failed");
 		this.getContext().doAddDependency(dependency);
 	}
 		
@@ -62,7 +65,7 @@ public class UnfinishedTaskState extends TaskState {
 	 * 			|! (new.getDependentTasks()).contains(dependent)
 	 */
 	public void removeDependency(Task dependency) throws DependencyException {
-		this.getContext().getTaskDependencyManager().removeDependency(dependency);
+		this.getContext().doRemoveDependency(dependency);
 	}
 	
 	/**
@@ -71,7 +74,7 @@ public class UnfinishedTaskState extends TaskState {
 	 */
 	protected Boolean satisfiesBusinessRule2()
 	{
-		List<Task> list = this.getContext().getTaskDependencyManager().getDependencies();
+		List<Task> list = this.getContext().getDependencies();
 		boolean failed = false;
 		boolean unfinished = false;
 		
@@ -93,6 +96,16 @@ public class UnfinishedTaskState extends TaskState {
 			return false;
 		}
 		
+		return true;
+	}
+	
+	/**
+	 * Returns whether the current task fulfills BusinessRule2 for this proposed dependency
+	 */
+	private Boolean satisfiesBusinessRule2Proposed(Task task){
+		if (task.isFailed()) {
+			return false;
+		}	
 		return true;
 	}
 	
