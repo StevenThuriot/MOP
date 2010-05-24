@@ -155,9 +155,12 @@ public class TaskType implements Describable {
 		GregorianCalendar earliest = new GregorianCalendar(0, 0, 0);
 		for(TaskTypeConstraint constraint : this.getConstraints()){
 			GregorianCalendar temp =  constraint.getEarliestExecTime(task);
-			if(temp.after(earliest)){
-				earliest = temp;
-			}
+			if(temp != null){
+				if(temp.after(earliest))
+					earliest = temp;
+			}else
+				return null;
+			
 		}
 		return earliest;
 	}

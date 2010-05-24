@@ -34,8 +34,6 @@ public abstract class AssetAllocation implements Describable {
 	
 	public abstract AllocationType getAllocationType();
 	
-	protected GregorianCalendar getEarliestAvailableTime(){
-		return new GregorianCalendar(0, 0, 0);
-	}
+	protected abstract GregorianCalendar getEarliestAvailableTime();
 
 }
