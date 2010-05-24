@@ -36,11 +36,11 @@ public class TaskTypeConstraint implements Describable{
 	}
 	
 	public int getMinimum(){
-		return min;
+		return this.min;
 	}
 	
 	public int getMaximum(){
-		return max;
+		return this.max;
 	}
 
 	@Override

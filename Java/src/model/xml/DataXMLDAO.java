@@ -18,6 +18,7 @@ import controller.*;
 
 import model.Field;
 import model.Project;
+import model.Reservation;
 import model.Resource;
 import model.ResourceType;
 import model.Task;
@@ -474,7 +475,7 @@ public class DataXMLDAO {
 				
 				Resource resource = resourceMap.get(refResource);
 				
-				controller.getResourceController().createReservation(startTime, duration, resource, task);	
+				controller.getResourceController().createReservation(startTime, duration, resource, task);
 		    }
 		}
 		

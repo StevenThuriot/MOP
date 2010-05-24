@@ -135,7 +135,7 @@ public class Reservation extends AssetAllocation implements Describable{
 		GregorianCalendar end = (GregorianCalendar) begin.clone();
 		end.add(Calendar.MINUTE, duration);
 		GregorianCalendar endReservation = (GregorianCalendar) this.getTime().clone();
-		endReservation.add(Calendar.MINUTE, duration);
+		endReservation.add(Calendar.MINUTE, this.duration);
 		if(this.getTime().compareTo(begin)<=0 && endReservation.compareTo(end)>=0 )
 			return true;
 		return false;
