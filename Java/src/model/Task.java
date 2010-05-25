@@ -93,6 +93,11 @@ public class Task implements Describable, Subject, Observer<Task>{
 	private Clock clock;
 	
 	/**
+	 * The Project this Task belongs to.
+	 */
+	private Project project;
+	
+	/**
 	 * Initializes a task with the given user, start date, due date, duration,
 	 * dependencies and required resources.
 	 * @param 	user
@@ -122,10 +127,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @throws BusinessRule2Exception 
 	 */
 	@SuppressWarnings("unchecked")
-	public Task(TaskType taskT,List<Field> fields, String description,User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock)
+	public Task(TaskType taskT,List<Field> fields, String description,User user,TaskTimings timings, ArrayList<Task> dependencies, Clock clock, Project project)
 			throws BusinessRule1Exception, DependencyCycleException, EmptyStringException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, BusinessRule2Exception{
 		
-		this(taskT,fields,description, user, timings, clock);
+		this(taskT,fields,description, user, timings, clock, project);
 		
 		for(Task t: dependencies){
 			if (t != null)
@@ -157,7 +162,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * @post	The task has dependencies nor dependent tasks
 	 */
 	@SuppressWarnings("unchecked")
-	public Task(TaskType taskT,List<Field> fields, String description,User user, TaskTimings timings, Clock clock) 
+	public Task(TaskType taskT,List<Field> fields, String description,User user, TaskTimings timings, Clock clock, Project project) 
 			throws EmptyStringException, BusinessRule1Exception, NullPointerException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
 		
 		taskT.checkOwner(user);
@@ -168,6 +173,8 @@ public class Task implements Describable, Subject, Observer<Task>{
 		this.taskType = taskT;
 		this.doSetFields(fields);
 		this.doSetDescription(description);
+		this.project = project;
+		project.bindTask(this);
 		
 		this.taskState = new UnfinishedTaskState(this);
 		
@@ -943,5 +950,12 @@ public class Task implements Describable, Subject, Observer<Task>{
 	public List<Field> getFields()
 	{
 		return Collections.unmodifiableList(this.fields);
+	}
+	
+	/**
+	 * Returns the project this Task belongs to.
+	 */
+	public Project getProject(){
+		return project;
 	}
 }

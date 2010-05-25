@@ -1,6 +1,7 @@
 package gui;
 
 import model.Field;
+import model.Project;
 import model.Task;
 import model.TaskTimings;
 import model.TaskType;
@@ -76,10 +77,13 @@ public class CreateTask extends UseCase {
 		
 		TaskTimings timing = new TaskTimings(startDate, dueDate, duration);
 		
+		Project project = menu.menuGen("What project does the Task belong too?", 
+				dController.getProjectController().getProjects());
+		
 				
 		if (hasDep){
 			try {
-				dController.getTaskController().createTask(descr, type, taskFields, user, timing, deps);
+				dController.getTaskController().createTask(descr, type, taskFields, user, timing, deps, project);
 			} catch (EmptyStringException e) {
 				menu.println("Empty description");
 			} catch (BusinessRule1Exception e) {
@@ -102,7 +106,7 @@ public class CreateTask extends UseCase {
 			}
 		}else{
 			try {
-				dController.getTaskController().createTask(descr, type, taskFields, user, timing);
+				dController.getTaskController().createTask(descr, type, taskFields, user, timing, project);
 			} catch (EmptyStringException e) {
 				menu.println("Empty description");
 			} catch (BusinessRule1Exception e) {

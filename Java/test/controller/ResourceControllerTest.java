@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import model.Field;
+import model.Project;
 import model.Reservation;
 import model.Resource;
 import model.ResourceType;
@@ -60,7 +61,7 @@ public class ResourceControllerTest {
 		TaskType taskType = new TaskType("reorganizing the test cases", 
 				new ArrayList<Field>(), constraints, userTypes);
 		task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(new GregorianCalendar(),endDate,1440), manager.getClock());
+				user, new TaskTimings(new GregorianCalendar(),endDate,1440), manager.getClock(),new Project("X"));
 	}
 	
 	/**

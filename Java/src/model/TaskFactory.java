@@ -31,10 +31,10 @@ public class TaskFactory {
 	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
-	public static Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, Clock clock) 
+	public static Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, Clock clock, Project project) 
 		throws  WrongFieldsForChosenTypeException,NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException
 	{
-		Task newTask = new Task(type,fields, description, owner, timings, clock);
+		Task newTask = new Task(type,fields, description, owner, timings, clock, project);
 		return newTask;
 	}
 	
@@ -58,10 +58,10 @@ public class TaskFactory {
 	 * @throws BusinessRule2Exception 
 	 */
 	@SuppressWarnings("unchecked")
-	public static Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies, Clock clock) 
+	public static Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies, Clock clock, Project project) 
 		throws WrongFieldsForChosenTypeException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException, BusinessRule2Exception
 	{
-		Task newTask = new Task(type,fields, description, owner, timings, dependencies, clock);
+		Task newTask = new Task(type,fields, description, owner, timings, dependencies, clock, project);
 				
 		return newTask;
 	}

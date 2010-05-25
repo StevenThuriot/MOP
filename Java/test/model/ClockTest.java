@@ -45,7 +45,7 @@ public class ClockTest {
 				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>(), userTypes);
 		
 		task = TaskFactory.createTask("Make Clock Tests", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, dueDate, 120), clock);
+				user, new TaskTimings(startDate, dueDate, 120), clock, new Project("X"));
 	}
 	
 	/**
