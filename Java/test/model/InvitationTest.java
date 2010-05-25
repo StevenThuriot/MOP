@@ -74,7 +74,7 @@ public class InvitationTest {
 		User user2 = new User("Jack",userType);
 		invitation = new Invitation(taskMain, user2);
 		assertTrue(taskMain.getTaskAssetManager().getAssetAllocations().contains(invitation));
-		//TODO: Check this for the user
+		assertTrue(user2.getAllInvitations().contains(invitation));
 	}
 	@Test
 	public void removeTest() throws AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
