@@ -53,26 +53,29 @@ public class InvitationManager extends UseCase {
 		}
 	}
 	
-	@SuppressWarnings("null")
 	private void acceptDeclineMenu()
 	{
 		Invitation selectedInvitation = null;
-		while(selectedInvitation==null && selectedInvitation.getState()!=InvitationState.PENDING)
-		{
-			selectedInvitation = menu.menuGen("Select an invitation to be updated.", user.getInvitations());
-			if(selectedInvitation.getState().equals(InvitationState.ACCEPTED))
-				menu.print("You can't update this invitation. It is already accepted.");
-		}
+		do{
+			Invitation inv = menu.menuGen("Select an invitation to be updated.", user.getInvitations());
+			if(inv.getState()==InvitationState.PENDING)
+				selectedInvitation = inv;
+			else
+				menu.println("You can't update this invitation. It is not pending.");
+		}while(selectedInvitation==null);
+
 		if(menu.dialogYesNo("Accept this invitation?"))
 		{
 			try {
 				this.dController.getInvitationController().acceptInvitation(selectedInvitation);
+				menu.println("Invitation got accepted");
 			} catch (InvitationNotPendingException e) {
 				menu.print("You can't update this invitation. It is already been set.");
 			}
 		}else{
 			try {
 				this.dController.getInvitationController().declineInvitation(selectedInvitation);
+				menu.println("Invitation got declined");
 			} catch (InvitationNotPendingException e) {
 				menu.print("You can't update this invitation. It is already been set.");
 			}
@@ -87,18 +90,18 @@ public class InvitationManager extends UseCase {
 			User user = menu.menuGen("Select a user to be invited for this task:",dController.getInvitationController().getAllUsers());
 			try {
 				Invitation createdInvite = dController.getInvitationController().createInvitation(selectedTask, user);
-				menu.print("User invited for task, following invitation was created:\n");
-				menu.print(createdInvite.toString());
+				menu.println("User invited for task, following invitation was created:\n");
+				menu.println(createdInvite.toString());
 			} catch (AssetAllocatedException e) {
-				menu.print("This user was already invited for this task.");
+				menu.println("This user was already invited for this task.");
 			} catch (InvitationInvitesOwnerException e) {
-				menu.print("You can't invite yourself to the invitation.");
+				menu.println("You can't invite yourself to the invitation.");
 			} catch (IllegalStateCallException e) {
-				menu.print("Task is finished, you can no longer extend invitations for it.");
+				menu.println("Task is finished, you can no longer extend invitations for it.");
 			} catch (AssetTypeNotRequiredException e) {
-				menu.print("This UserType can not be invited");
+				menu.println("This UserType can not be invited");
 			} catch (AssetConstraintFullException e) {
-				menu.print("This UserType has been invited enough already");
+				menu.println("This UserType has been invited enough already");
 			}
 		}else{
 			List<AssetAllocation> allocations =  selectedTask.getAssetAllocations();
@@ -110,7 +113,7 @@ public class InvitationManager extends UseCase {
 			}
 			Invitation removeInvitation = menu.menuGen("Select an invitation to be removed", invitations);
 			dController.getInvitationController().removeInvitation(removeInvitation);
-			menu.print("Invitation removed");
+			menu.println("Invitation removed");
 		}
 	}
 

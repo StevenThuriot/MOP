@@ -3,7 +3,6 @@ package model;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -142,7 +141,6 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * 			Time data for the Task such as duration, startDate and dueDate
 	 * @throws EmptyStringException 
 	 * @throws BusinessRule1Exception 
-	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
@@ -160,7 +158,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 */
 	@SuppressWarnings("unchecked")
 	public Task(TaskType taskT,List<Field> fields, String description,User user, TaskTimings timings, Clock clock) 
-			throws EmptyStringException, BusinessRule1Exception, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
+			throws EmptyStringException, BusinessRule1Exception, NullPointerException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException{
 		
 		taskT.checkOwner(user);
 		
@@ -935,5 +933,15 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 */
 	protected GregorianCalendar getEarliestExecTime(AssetType assetType, int min){
 		return this.tam.getEarliestExecTime(assetType, min);
-	}	
+	}
+	
+	/**
+	 * Return an unmodifiable list of fields in this Task
+	 * @return
+	 */
+	@SuppressWarnings("unchecked")
+	public List<Field> getFields()
+	{
+		return Collections.unmodifiableList(this.fields);
+	}
 }

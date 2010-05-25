@@ -162,7 +162,7 @@ public class Menu {
 	 * @return
 	 */
 	public GregorianCalendar promptDate(String message){
-		String dStr = this.prompt(message+" eg. "+ df.format((new GregorianCalendar()).getTime()));
+		String dStr = this.prompt(message);
 		Date date;
 		try {
 			date = df.parse(dStr);
