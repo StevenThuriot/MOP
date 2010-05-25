@@ -78,7 +78,7 @@ public class ProjectTest {
         TaskType taskType = new TaskType("reorganizing the test cases", 
 				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>(), userTypes);
         Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(new GregorianCalendar(),endDate,120), manager.getClock());
+				user, new TaskTimings(new GregorianCalendar(),endDate,120), manager.getClock(), new Project("X"));
         proj.bindTask(task);
         assertTrue(proj.getTasks().contains(task));
         proj.remove();

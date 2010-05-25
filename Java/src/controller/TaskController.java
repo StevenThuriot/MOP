@@ -65,10 +65,10 @@ public class TaskController {
 	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
-	public Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings) 
+	public Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, Project project) 
 	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
-		return TaskFactory.createTask(description, type, fields, owner, timings, manager.getClock());
+		return TaskFactory.createTask(description, type, fields, owner, timings, manager.getClock(), project);
 	}
 	
 	/**
@@ -91,9 +91,10 @@ public class TaskController {
 	 * @throws BusinessRule2Exception 
 	 */
 	@SuppressWarnings("unchecked")
-	public Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies) throws NullPointerException, WrongFieldsForChosenTypeException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException, BusinessRule2Exception 
+	public Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, ArrayList<Task> dependencies, Project project) 
+	throws NullPointerException, WrongFieldsForChosenTypeException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException, BusinessRule2Exception 
 	{
-		return TaskFactory.createTask(description, type, fields, owner, timings, dependencies, manager.getClock());
+		return TaskFactory.createTask(description, type, fields, owner, timings, dependencies, manager.getClock(), project);
 	}
 
 	/**

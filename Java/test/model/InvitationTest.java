@@ -59,7 +59,7 @@ public class InvitationTest {
 		TaskType taskType = new TaskType("reorganizing the test cases", 
 				new ArrayList<Field>(), constraints, userTypes);
 		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, duration), manager.getClock());
+				user, new TaskTimings(startDate, endDate, duration), manager.getClock(), new Project("X"));
 	}
 	@After
 	public void tearDown(){

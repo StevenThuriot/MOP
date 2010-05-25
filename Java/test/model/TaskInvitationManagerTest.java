@@ -68,7 +68,7 @@ public class TaskInvitationManagerTest {
 				new ArrayList<Field>(), constraints, userTypes);
 		//taskMain = new Task("Main Task",owner,new TaskTimings(startDate,endDate,duration), manager.getClock());
 		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
-				owner, new TaskTimings(startDate, endDate, duration), manager.getClock());
+				owner, new TaskTimings(startDate, endDate, duration), manager.getClock(),new Project("X"));
 		tim = taskMain.getTaskAssetManager();
 	}
 	

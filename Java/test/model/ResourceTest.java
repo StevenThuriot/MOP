@@ -52,7 +52,7 @@ public class ResourceTest {
 		TaskType taskType = new TaskType("reorganizing the test cases", 
 				new ArrayList<Field>(), constraints,userTypes);
 		task1 = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(new GregorianCalendar(),endDate,1440), manager.getClock());
+				user, new TaskTimings(new GregorianCalendar(),endDate,1440), manager.getClock(),new Project("X"));
 	}
 
 	@After

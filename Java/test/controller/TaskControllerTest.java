@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 import model.Field;
+import model.Project;
 import model.Task;
 import model.TaskFactory;
 import model.TaskTimings;
@@ -77,7 +78,7 @@ public class TaskControllerTest {
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
-		Task taak = controller.createTask("Task",taskType,new ArrayList<Field>(),user,new TaskTimings(new GregorianCalendar(), end, 120));
+		Task taak = controller.createTask("Task",taskType,new ArrayList<Field>(),user,new TaskTimings(new GregorianCalendar(), end, 120), new Project("X"));
 		assertTrue(controller.getTasks(user).contains(taak));
 	}
 	
@@ -99,7 +100,7 @@ public class TaskControllerTest {
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
-		Task taak = controller.createTask("Task",taskType,new ArrayList<Field>(),user,new TaskTimings( new GregorianCalendar(), end, 120));
+		Task taak = controller.createTask("Task",taskType,new ArrayList<Field>(),user,new TaskTimings( new GregorianCalendar(), end, 120), new Project("X"));
 		controller.removeTask(taak);
 		assertFalse(controller.getTasks(user).contains(taak));
 	}
@@ -123,8 +124,8 @@ public class TaskControllerTest {
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
-		Task taak = controller.createTask("Beschrijving",taskType,new ArrayList<Field>(),user, new TaskTimings( new GregorianCalendar(), end, 120));
-		Task taak2 = controller.createTask("Beschrijving",taskType,new ArrayList<Field>(),user, new TaskTimings( new GregorianCalendar(), end, 120));
+		Task taak = controller.createTask("Beschrijving",taskType,new ArrayList<Field>(),user, new TaskTimings( new GregorianCalendar(), end, 120), new Project("X"));
+		Task taak2 = controller.createTask("Beschrijving",taskType,new ArrayList<Field>(),user, new TaskTimings( new GregorianCalendar(), end, 120), new Project("X"));
 		controller.addDependency(taak2, taak);
 		controller.removeTaskRecursively(taak);
 		assertFalse(controller.getTasks(user).contains(taak));
@@ -167,7 +168,7 @@ public class TaskControllerTest {
 		
 		manager = new RepositoryManager();
 		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(new GregorianCalendar(), endDate, 120), manager.getClock());
+				user, new TaskTimings(new GregorianCalendar(), endDate, 120), manager.getClock(),new Project("X"));
 		
 		controller.setFailed(task);
 		assertEquals(true, task.isFailed());
@@ -195,7 +196,7 @@ public class TaskControllerTest {
 		manager = new RepositoryManager();
 		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
 				user, new TaskTimings((GregorianCalendar) manager.getClock().getTime().clone(),endDate,120)
-		, manager.getClock());
+		, manager.getClock(),new Project("X"));
 		
 		controller.setSuccessful(task);
 		assertEquals(true, task.isSuccesful());
@@ -224,7 +225,7 @@ public class TaskControllerTest {
 
 		manager = new RepositoryManager();
 		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock(),new Project("X"));
 		
 		controller.parseStateString(task, "Successful");
 		assertEquals(true, task.isSuccesful());
@@ -252,9 +253,9 @@ public class TaskControllerTest {
 
 		manager = new RepositoryManager();
 		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock(),new Project("X"));
 		Task task2 = TaskFactory.createTask("some dependency", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock(),new Project("X"));
 		task.addDependency(task2);
 		
 		assertEquals(task.getDependentTasks(), controller.getDependentTasks(task));
@@ -282,9 +283,9 @@ public class TaskControllerTest {
 
 		manager = new RepositoryManager();
 		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock(),new Project("X"));
 		Task task2 = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock(),new Project("X"));
 		task.addDependency(task2);
 
 		assertEquals(true, controller.hasDependentTasks(task2));
@@ -313,9 +314,9 @@ public class TaskControllerTest {
 
 		manager = new RepositoryManager();
 		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock(),new Project("X"));
 		Task task2 = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock(),new Project("X"));
 		task.addDependency(task2);
 
 		assertEquals(false, controller.hasDependencies(task2));
@@ -345,9 +346,9 @@ public class TaskControllerTest {
 
 		manager = new RepositoryManager();
 		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock(),new Project("X"));
 		Task task2 = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock(),new Project("X"));
 		
 		controller.addDependency(task, task2);
 
@@ -383,7 +384,7 @@ public class TaskControllerTest {
 
 		manager = new RepositoryManager();
 		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock(),new Project("X"));
 		controller.setTaskDescription(task, "blub");
 		
 		assertEquals("blub", task.getDescription());
@@ -414,9 +415,9 @@ public class TaskControllerTest {
 
 		manager = new RepositoryManager();
 		Task task = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, 120), manager.getClock());
+				user, new TaskTimings(startDate, endDate, 120), manager.getClock(),new Project("X"));
 		Task task2 = TaskFactory.createTask("Descr", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate2, endDate2, 200), manager.getClock());
+				user, new TaskTimings(startDate2, endDate2, 200), manager.getClock(),new Project("X"));
 		controller.setTaskSchedule(task2, startDate, endDate, 120);
 
 		assertEquals(task.getStartDate(), task2.getStartDate());

@@ -519,18 +519,12 @@ public class DataXMLDAO {
 						}						
 				    }
 			    }
-			    
-			    Task task = controller.getTaskController().createTask(id, theTaskType, fields, user, new TaskTimings(startDate, dueDate, duration));
+			    Project project = projectMap.get(projectID);
+			    Task task = controller.getTaskController().createTask(id, theTaskType, fields, user, new TaskTimings(startDate, dueDate, duration), project);
 			    
 			    stateMap.put(task, state);
 			    
 			    parseReservations(childNode, task);
-
-			    if (projectID.length() > 0 && projectID != null)
-			    {
-				    Project project = projectMap.get(projectID);
-				    controller.getProjectController().bind(project, task);
-			    }
 			    
 			    taskMap.put(id, task);
 		    }

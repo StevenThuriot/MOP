@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import model.Field;
+import model.Project;
 import model.Task;
 import model.TaskTimings;
 import model.TaskType;
@@ -49,9 +50,9 @@ public class FocusStrategyTest {
 				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>(), userTypes);
         taskType2 = new TaskType("Doing something else", 
 				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>(), userTypes);
-        controller.createTask("Task1",taskType,new ArrayList<Field>(), user, new TaskTimings(new GregorianCalendar(), end1, 10));
-        controller.createTask("Task2",taskType,new ArrayList<Field>(), user, new TaskTimings(new GregorianCalendar(), end2, 3600));
-        controller.createTask("Task3",taskType2,new ArrayList<Field>(), user, new TaskTimings(new GregorianCalendar(), end2, 3600));
+        controller.createTask("Task1",taskType,new ArrayList<Field>(), user, new TaskTimings(new GregorianCalendar(), end1, 10), new Project("X"));
+        controller.createTask("Task2",taskType,new ArrayList<Field>(), user, new TaskTimings(new GregorianCalendar(), end2, 3600), new Project("X"));
+        controller.createTask("Task3",taskType2,new ArrayList<Field>(), user, new TaskTimings(new GregorianCalendar(), end2, 3600), new Project("X"));
         
     }
     

@@ -5,6 +5,7 @@ import java.util.GregorianCalendar;
 
 import model.Field;
 import model.Invitation;
+import model.Project;
 import model.Task;
 import model.TaskFactory;
 import model.TaskTimings;
@@ -63,7 +64,7 @@ public class InvitationControllerTest {
 			new ArrayList<Field>(), constraints, userTypes);
 		//taskMain = new Task("Main Task",owner,new TaskTimings(startDate,endDate,duration), manager.getClock());
 		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
-				owner, new TaskTimings(startDate, endDate, duration), manager.getClock());
+				owner, new TaskTimings(startDate, endDate, duration), manager.getClock(), new Project("X"));
 	
 	}
 	

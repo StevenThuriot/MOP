@@ -64,13 +64,13 @@ public class TaskDependencyTest {
 		taskType = new TaskType("reorganizing the test cases", 
 				new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>(), userTypes);
 		taskMain = TaskFactory.createTask("Main Task", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, duration), manager.getClock());
+				user, new TaskTimings(startDate, endDate, duration), manager.getClock(),new Project("X"));
 		//sets up a second Task
 		taskHelp = TaskFactory.createTask("Help Task", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, duration), manager.getClock());
+				user, new TaskTimings(startDate, endDate, duration), manager.getClock(),new Project("Y"));
 		//sets up yet another Task
 		taskHelp2 = TaskFactory.createTask("Help Task2", taskType, new ArrayList<Field>(),
-				user, new TaskTimings(startDate, endDate, duration), manager.getClock());
+				user, new TaskTimings(startDate, endDate, duration), manager.getClock(),new Project("Z"));
 		//sets up the TDM
 		tdm = taskMain.getTaskDependencyManager();
 	}
