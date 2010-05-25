@@ -47,7 +47,6 @@ public class Reservation extends AssetAllocation implements Describable{
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws AssetConstraintFullException 
 	 */
-	//TODO : update status of resource object
 	public Reservation(GregorianCalendar newTime, int newDuration, Resource newResource, Task task) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		if(newTime == null || newResource == null || task == null)
 			throw new NullPointerException();

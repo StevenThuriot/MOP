@@ -139,7 +139,8 @@ public class TaskTest {
 		assertTrue(task.getDescription().equals("Descr"));
 		// <task> should satisfy the business rules
 		assertTrue(task.satisfiesBusinessRule1());
-		// TODO: other BR's here?
+		assertTrue(task.satisfiesBusinessRule2());
+		assertTrue(task.satisfiesBusinessRule3());
 		// <task> is initially unfinished
 		assertTrue(task.isUnfinished());
 		
@@ -1082,7 +1083,6 @@ public class TaskTest {
 		User steven = new User("Dieter", goPlayer);
 		TaskTypeConstraint constraintBoard = new TaskTypeConstraint(goBoard, 1,1);
 		TaskTypeConstraint constraintOwner = new TaskTypeConstraint(goPlayer, 1,1);
-		//TODO!!! Verschil tussen helper en owner in constraints.
 		TaskTypeConstraint constraintHelper = new TaskTypeConstraint(goPlayer,1,1);
 		ArrayList<TaskTypeConstraint> assetsReq = new ArrayList<TaskTypeConstraint>();
 		assetsReq.add(constraintBoard);

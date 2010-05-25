@@ -81,7 +81,6 @@ public class ResourceControllerTest {
 	
 	/**
 	 * Create a correct reservation
-	 * TODO: Duration aanpassen
 	 * @throws NotAvailableException 
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
