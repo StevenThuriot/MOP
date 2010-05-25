@@ -21,6 +21,7 @@
 \tableofcontents
 
 \newpage
+\part{Iteration 1 + 2}
 \section{Introduction}
 		This document serves as a documentation instrument for the first and second Iteration of the MOP Team Assignment.\\
 		In the following chapters, the reader will get a general overview of the outer- and inner workings of the application, accompanied by several diagrams. At first, we will discuss the view layer. The user will be explained how the user interacts with the system. Delving deeper, we lay out how packages were used to ensure safe, decoupled and thought-through class-to-class communication.
@@ -370,6 +371,36 @@ Class diagrams of different subsystems are included in the appendix in the end o
 	
 	The system has now fully started and is ready for use.	
 	
+	\part{Iteration 3}
+	
+	\section{New requirement and related changes}
+		\subsection{Invitation system}
+		%Helper Users, Invitation system --> TAM, Asset substructure
+		%Hoe wordt Owner User behandelt?
+	
+		\subsection{Custom Themes}
+		%Kleine algemene inleiding
+			\subsubsection{General implementation}
+			%Algemeen: Resource, User, Task Types
+			\subsubsection{TaskType dependent requirements}
+			%Constraints per TaskType --> TaskTypeConstraint 
+			%Meer complexiteit --> TaskFactory
+		
+		\subsection{Login}
+			\subsubsection{Administrator}
+			%Leg uit waarom hardcoded! (voor- en nadelen)
+	
+		\subsection{Focus Work update}
+		
+		\subsection{Iets dat ik vergeten ben :-)?}
+	
+	\section{Other changes}
+		\subsection{Refactoring}
+			%Zie andere rapport
+			%Veranderingen die niet in dat rapport staan: onder meer verhuis van Factories
+		\subsection{Software Initialization}
+		
+\part{Testing Approach}
 	
 	\section{Testing}
 		\subsection{Technology}
@@ -382,6 +413,9 @@ Class diagrams of different subsystems are included in the appendix in the end o
 		We also tested most methods for both cases. This means that we test both failure and succession of a method. Testing only for success does not guarantee a correct Exception is thrown, or success in all cases.
 		\subsection{Coverage Report}
 		We had a 94 \% test coverage on the source folder of our project. An Eclemma coverage report is included in the zip file. Unfortunately, this coverage report does not distinguish between our model classes and the testclasses. As such, the Eclemma report can be a bit confusing, and its figures may differ from the actual test coverage.
+	
+	\part{Project Management}
+	
 	\section{Project Management - Iteration 1}
 		\subsection{Planning}
 		Our Team Assignment had the following planning in iteration 1:\\
@@ -452,6 +486,12 @@ Class diagrams of different subsystems are included in the appendix in the end o
 		We divided the actual code among us, so it would be manageable to work on. Kwinten took care of making the time controller, the clock and the task dependency manager. Steven handled implementing the state pattern. Koen worked on the observer pattern, the describable wrapper and the GUI. Bart also worked on the GUI, but he also implemented the strategy pattern and the repositories. Finally, we all worked hard on writing tests and adjusting the UML diagrams.
 	
 		Everything was discussed thoroughly and everyone put in his best effort to try and make this iteration a success as well.
+		
+		\section{Project Management - Iteration 1}
+			\subsection{Planning}
+			\subsection{Teamwork}
+			\subsection{Self-Evaluation}
+		
 	\newpage
 	\appendix
 	\section{State Pattern}
