@@ -8,6 +8,15 @@ public class FailedTaskState extends TaskState {
 	}
 	
 	/**
+	 * Overriden method to set the state to failed.
+	 * This method doesn't have to do anything as the current state is already set to failed
+	 */
+	@Override
+	protected void setFailed()
+	{
+	}
+	
+	/**
 	 * Returns whether a task is failed or not.
 	 * @return
 	 */

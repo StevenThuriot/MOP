@@ -135,14 +135,6 @@ public class Invitation extends AssetAllocation implements Describable{
 		return false;
 	}
 
-	/**
-	 * Invitations shouldn't interfere with overlap so return true by default.
-	 */
-	@Override
-	public boolean checkProposedAllocation(AssetAllocation assetAllocation) {
-		return true;
-	}
-
 	@Override
 	public UserType getAssetType() {
 		return user.getType();

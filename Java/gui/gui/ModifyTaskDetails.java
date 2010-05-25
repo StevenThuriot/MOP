@@ -2,7 +2,9 @@ package gui;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
+import model.Field;
 import model.Resource;
 import model.Task;
 import model.TaskTypeConstraint;
@@ -43,6 +45,7 @@ public class ModifyTaskDetails extends UseCase {
 		modifyTaskDetails(menu.menuGen("Select Task", dController.getTaskController().getTasks(user)));
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void modifyTaskDetails(Task task){
 		int choice;
 		menu.println(task.getDescription());
@@ -92,7 +95,7 @@ public class ModifyTaskDetails extends UseCase {
 		int choice2;
 		do {
 			choice = menu.menu("Select Action", "Add dependency", "Remove dependency",
-					"Change description", "Change schedule", "Return to Menu");
+					"Change field values", "Change schedule", "Return to Menu");
 			switch (choice) {
 				case 0:
 					if (!tasks.isEmpty()) {
@@ -150,20 +153,30 @@ public class ModifyTaskDetails extends UseCase {
 					break;
 
 				case 2:
-					try {
-						dController.getTaskController().setTaskDescription(task, menu.prompt("Give new task description"));
-					} catch (NullPointerException e) {
-						System.out.println("Description is null");
-						choice2 = menu.menu("Select Action", "Retry", "Abort");
-						exit = choice2==1;
-						continue;
-					} catch (EmptyStringException e) {
-						System.out.println("Description is empty");
-						choice2 = menu.menu("Select Action", "Retry", "Abort");
-						exit = choice2==1;
-						continue;
-					} catch (IllegalStateCallException e) {
-					    menu.println("The modification is cancelled, an illegal state was reached");
+					if(menu.dialogYesNo("Would you like to change the Task name?"))
+						try {
+							task.setDescription(menu.prompt("Please give the new task name"));
+						} catch (NullPointerException e1) {
+							menu.println("Null was passed to the Task name");
+						} catch (EmptyStringException e1) {
+							menu.println("You can't give an empty name to a task");
+						} catch (IllegalStateCallException e1) {
+							menu.println("You can't change the name in the current state");
+						}
+					List<Field> fields = task.getFields();
+					for(Field field:fields)
+					{
+						if(menu.dialogYesNo("Would you like to change " + field.getName() +"?")){
+							String value = menu.prompt("Please set the value of " + field.getName());
+							switch(field.getType())
+							{
+								case Numeric:
+									field.setValue(Integer.parseInt(value));
+									break;
+								default:
+									field.setValue(value);
+							}
+						}
 					}
 					break;
 				case 3:

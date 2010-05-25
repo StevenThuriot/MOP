@@ -48,6 +48,11 @@ public class SuccessfulTaskState extends TaskState {
 		return true;
 	}
 	
+	@Override
+	protected void setSuccessful()
+	{
+	}
+	
 	/**
 	 * Returns whether the current task satisfies the business rule 3.
 	 * @return Boolean

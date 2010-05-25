@@ -1,5 +1,9 @@
 package gui;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+
 import controller.DispatchController;
 import exception.TimeException;
 
@@ -25,7 +29,8 @@ public class SetClock extends UseCase {
 	private void setClock(){
 		
 		try {
-			dController.getTimeController().setTime(menu.promptDate("Give Current Time"));
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+			dController.getTimeController().setTime(menu.promptDate("Give Current Time"+" eg. "+ df.format(dController.getTimeController().getTime().getTime())));
 		} catch (TimeException e) {
 			menu.println("Incorrect Time");
 		}

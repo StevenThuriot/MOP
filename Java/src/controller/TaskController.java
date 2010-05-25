@@ -18,6 +18,7 @@ import exception.WrongFieldsForChosenTypeException;
 import exception.WrongUserForTaskTypeException;
 
 import model.Field;
+import model.Project;
 import model.Task;
 import model.TaskFactory;
 import model.TaskTimings;
