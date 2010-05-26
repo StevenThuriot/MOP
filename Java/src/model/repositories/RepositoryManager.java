@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import exception.IllegalStateCallException;
-
 import model.Clock;
 import model.Project;
 import model.Resource;
@@ -119,9 +117,8 @@ public class RepositoryManager {
      * Overridable method remove. Will remove a Project to the Project repository if it exists
      * @param project
      * @return
-     * @throws IllegalStateCallException 
      */
-    public boolean remove(Project project) throws IllegalStateCallException
+    public boolean remove(Project project)
     {
         project.remove();
         return projectRepository.remove(project);

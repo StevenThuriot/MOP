@@ -5,7 +5,6 @@ package controller;
 
 import java.util.List;
 import exception.EmptyStringException;
-import exception.IllegalStateCallException;
 import model.Project;
 import model.Task;
 import model.repositories.RepositoryManager;
@@ -55,9 +54,8 @@ public class ProjectController {
 	/**
 	 * Remove a Project
 	 * @param p
-	 * @throws IllegalStateCallException 
 	 */
-	public void removeProject(Project p) throws IllegalStateCallException {
+	public void removeProject(Project p) {
 		p.remove();
 		manager.remove(p);
 	}

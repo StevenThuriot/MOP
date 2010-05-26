@@ -39,7 +39,7 @@ public class UserTaskManagerTest {
 	
 	@SuppressWarnings("unchecked")
 	@Before
-	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
+	public void setUp() throws NullPointerException, EmptyStringException, BusinessRule1Exception, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		manager = new RepositoryManager();
 		userType = new UserType("");

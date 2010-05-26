@@ -10,8 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import exception.EmptyStringException;
-import exception.IllegalStateCallException;
-import exception.ResourceBusyException;
 import static org.junit.Assert.*;
 public class TypeRepoTest {
     private Project proj;
@@ -36,7 +34,7 @@ public class TypeRepoTest {
     }
     
     @Test
-    public void testAddRemoveProject() throws IllegalStateCallException
+    public void testAddRemoveProject()
     {
         manager.add(proj);
         assertFalse(manager.getProjects().isEmpty());
@@ -54,7 +52,7 @@ public class TypeRepoTest {
     }
     
     @Test
-    public void testAddRemoveResource() throws ResourceBusyException
+    public void testAddRemoveResource()
     {
         manager.add(res);
         assertFalse(manager.getResources().isEmpty());
@@ -82,7 +80,7 @@ public class TypeRepoTest {
     }
     
     @Test(expected=UnsupportedOperationException.class)
-    public void testModifiableUser() throws EmptyStringException
+    public void testModifiableUser()
     {
         manager.add(u);
         manager.getUsers().add(new User("John", new UserType("")));

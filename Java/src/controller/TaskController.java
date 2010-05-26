@@ -57,16 +57,14 @@ public class TaskController {
 	 * @return
 	 * @throws EmptyStringException
 	 * @throws BusinessRule1Exception
-	 * @throws DependencyCycleException
 	 * @throws NullPointerException
-	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	public Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, Project project) 
-	throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
+	throws EmptyStringException, BusinessRule1Exception, NullPointerException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		return TaskFactory.createTask(description, type, fields, owner, timings, manager.getClock(), project);
 	}

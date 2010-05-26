@@ -111,13 +111,8 @@ public class CreateTask extends UseCase {
 				menu.println("Empty description");
 			} catch (BusinessRule1Exception e) {
 				menu.println("Task not completable");
-			} catch (DependencyCycleException e) {
-				menu.println("Cyclic Dependency");
 			} catch (NullPointerException e) {
 				menu.println("Something very bad has happend");
-				e.printStackTrace();
-			} catch (IllegalStateCallException e) {
-				menu.println("This call is not allowed on the current state.");
 				e.printStackTrace();
 			} catch (BusinessRule3Exception e) {
 				menu.println("This schedule would violate Business Rule 3. This is probably: starttime after the current time, or the deadline before the current time.");

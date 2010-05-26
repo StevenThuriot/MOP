@@ -16,7 +16,6 @@ import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
-import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
@@ -58,7 +57,6 @@ public class XMLController {
 	 * @throws ParseException
 	 * @throws BusinessRule1Exception
 	 * @throws DependencyCycleException
-	 * @throws DependencyException
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws NotAvailableException
@@ -76,7 +74,7 @@ public class XMLController {
 	 * @throws InvitationInvitesOwnerException 
 	 * @throws InvitationNotPendingException 
 	 */
-	public ArrayList<User> parse(String dataFilename,String themefilename, DispatchController controller) throws NameNotFoundException, DOMException, NullPointerException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException, InvitationNotPendingException
+	public ArrayList<User> parse(String dataFilename,String themefilename, DispatchController controller) throws NameNotFoundException, DOMException, NullPointerException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException, InvitationNotPendingException
 	{
 		ThemeXMLDAO themeParser = new ThemeXMLDAO(themefilename, controller);
 		

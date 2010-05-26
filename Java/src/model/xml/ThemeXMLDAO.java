@@ -44,13 +44,13 @@ public class ThemeXMLDAO {
 		
 				
 	}
-	private void parseUserTypes(Node userTypes,Map<String,UserType> userTypeMap) throws NameNotFoundException {
+	private void parseUserTypes(Node userTypes,Map<String,UserType> userTypeMap) {
 		NodeList types = userTypes.getChildNodes();
 		for(int i=0;i<types.getLength();i++)
 			addUserType(types.item(i),userTypeMap);
 	}
 
-	private void parseResourceTypes(Node resourceTypes,Map<String,ResourceType> resourceTypeMap) throws NameNotFoundException {
+	private void parseResourceTypes(Node resourceTypes,Map<String,ResourceType> resourceTypeMap) {
 		NodeList types = resourceTypes.getChildNodes();
 		for(int i=0;i<types.getLength();i++)
 			addResourceType(types.item(i),resourceTypeMap);
