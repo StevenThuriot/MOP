@@ -50,20 +50,6 @@ public class FieldTest {
 	}
 	
 	/**
-	 * Testing setName
-	 * @throws EmptyStringException 
-	 * @throws NullPointerException 
-	 */
-	@Test
-	public void setName() throws NullPointerException, EmptyStringException
-	{
-		String s = "New text";
-		numField.setName(s);
-		
-		assertEquals(s, numField.getName());
-	}
-	
-	/**
 	 * Testing getType
 	 */
 	@Test
