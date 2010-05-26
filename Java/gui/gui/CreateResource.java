@@ -3,6 +3,7 @@ package gui;
 import model.ResourceType;
 import model.User;
 import controller.DispatchController;
+import exception.EmptyListPassedToMenuException;
 import exception.EmptyStringException;
 
 public class CreateResource extends UseCase {
@@ -27,7 +28,13 @@ public class CreateResource extends UseCase {
 	
 	private void createResource(){
 		String descr = menu.prompt("Give resource description");
-		ResourceType choice = menu.menuGen("Select resource type", dController.getResourceController().getResourceTypes());
+		ResourceType choice = null;
+		try {
+			choice = menu.menuGen("Select resource type", dController.getResourceController().getResourceTypes());
+		} catch (EmptyListPassedToMenuException e1) {
+			menu.println("There are no resourcetypes to select. Going back to menu.");
+			return;
+		}
 		try {
 			dController.getResourceController().createResource(descr, choice);
 		} catch (EmptyStringException e) {

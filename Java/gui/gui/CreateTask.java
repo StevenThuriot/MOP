@@ -16,6 +16,7 @@ import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
+import exception.EmptyListPassedToMenuException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.WrongFieldsForChosenTypeException;
@@ -45,7 +46,13 @@ public class CreateTask extends UseCase {
 	private void createTask(){
 		String descr = menu.prompt("Give Task Description");
 		
-		TaskType type =  menu.menuGen("Select task type", dController.getTaskController().getAllTypes());
+		TaskType type = null;
+		try {
+			type = menu.menuGen("Select task type", dController.getTaskController().getAllTypes());
+		} catch (EmptyListPassedToMenuException e1) {
+			menu.println("There are no tasktypes to select. Going back to menu.");
+			return;
+		}
 		
 		List<Field> taskFields = type.getTemplate();
 		
@@ -69,7 +76,12 @@ public class CreateTask extends UseCase {
 				
 		ArrayList<Task> deps = new ArrayList<Task>();
 		if(hasDep)
-			deps = menu.menuGenMulti("Select dependency", dController.getTaskController().getTasks(user));
+			try {
+				deps = menu.menuGenMulti("Select dependency", dController.getTaskController().getTasks(user));
+			} catch (EmptyListPassedToMenuException e2) {
+				menu.println("There are no tasks to select as dependency.");
+				hasDep = false;
+			}
 		
 		GregorianCalendar startDate = menu.promptDate("Give start Date");
 		GregorianCalendar dueDate = menu.promptDate("Give due date");
@@ -77,8 +89,14 @@ public class CreateTask extends UseCase {
 		
 		TaskTimings timing = new TaskTimings(startDate, dueDate, duration);
 		
-		Project project = menu.menuGen("What project does the Task belong too?", 
-				dController.getProjectController().getProjects());
+		Project project;
+		try {
+			project = menu.menuGen("What project does the Task belong too?", 
+					dController.getProjectController().getProjects());
+		} catch (EmptyListPassedToMenuException e1) {
+			menu.println("There are no projects to select. Going back to menu.");
+			return;
+		}
 		
 				
 		if (hasDep){

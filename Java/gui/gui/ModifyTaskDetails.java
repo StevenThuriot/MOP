@@ -15,6 +15,7 @@ import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
 import exception.DependencyException;
+import exception.EmptyListPassedToMenuException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 
@@ -43,7 +44,12 @@ public class ModifyTaskDetails extends UseCase {
 	
 	private void modifyTaskDetails()
 	{
-			modifyTaskDetails(menu.menuGen("Select Task", dController.getTaskController().getTasks(user)));
+			try {
+				modifyTaskDetails(menu.menuGen("Select Task", dController.getTaskController().getTasks(user)));
+			} catch (EmptyListPassedToMenuException e) {
+				menu.println("There are no tasks to select. Going back to menu.");
+				return;
+			}
 	}
 	
 	@SuppressWarnings("unchecked")

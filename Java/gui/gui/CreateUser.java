@@ -2,6 +2,7 @@ package gui;
 
 import model.UserType;
 import controller.DispatchController;
+import exception.EmptyListPassedToMenuException;
 
 public class CreateUser extends UseCase {
 
@@ -25,7 +26,13 @@ public class CreateUser extends UseCase {
 	}
 
 	private void show() {
-		UserType selectedType = menu.menuGen("Select the type of user:", dController.getUserController().getAllUserTypes());
+		UserType selectedType = null;
+		try {
+			selectedType = menu.menuGen("Select the type of user:", dController.getUserController().getAllUserTypes());
+		} catch (EmptyListPassedToMenuException e) {
+			menu.println("There are no usertypes to select. Going back to menu.");
+			return;
+		}
 		String name = menu.prompt("What should the user be called?");
 		dController.getUserController().createUser(selectedType,name);
 	}

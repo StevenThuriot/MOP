@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import exception.EmptyListPassedToMenuException;
+
 public class Menu {
 	private InputStream in;
 	private PrintStream out;
@@ -62,8 +64,12 @@ public class Menu {
 	 * @param title
 	 * @param options
 	 * @return
+	 * @throws EmptyListPassedToMenuException 
 	 */
-	public <D extends Describable> D menuGen(String title, List<D> options){
+	public <D extends Describable> D menuGen(String title, List<D> options) throws EmptyListPassedToMenuException{
+		if (options == null || options.size() == 0)
+			throw new EmptyListPassedToMenuException();
+		
 		this.printListGen(title, options);
 		int choice=0;
 		while (true) {
@@ -111,8 +117,12 @@ public class Menu {
 	 * @param title
 	 * @param options
 	 * @return
+	 * @throws EmptyListPassedToMenuException 
 	 */
-	public <D extends Describable> ArrayList<D> menuGenMulti(String title, List<D> options){
+	public <D extends Describable> ArrayList<D> menuGenMulti(String title, List<D> options) throws EmptyListPassedToMenuException{
+		if (options == null || options.size() == 0)
+			throw new EmptyListPassedToMenuException();
+		
 		ArrayList<D> o = new ArrayList<D>(options);
 		ArrayList<D> l = new ArrayList<D>();
 		int choice = 0;

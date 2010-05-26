@@ -12,6 +12,7 @@ import controller.DispatchController;
 import exception.AssetAllocatedException;
 import exception.AssetConstraintFullException;
 import exception.AssetTypeNotRequiredException;
+import exception.EmptyListPassedToMenuException;
 import exception.IllegalStateCallException;
 import exception.NoReservationOverlapException;
 import exception.NotAvailableException;
@@ -37,8 +38,20 @@ public class MakeResourceReservation extends UseCase {
 	}
 	
 	private void makeResourceReservation(){
-		Task selectedTask = menu.menuGen("Select a task to make a reservation for:", dController.getUserController().getAllUnfinishedTasks(user));
-		Resource resource = menu.menuGen("Select resource to reserve", dController.getResourceController().getResources());
+		Task selectedTask = null;
+		try {
+			selectedTask = menu.menuGen("Select a task to make a reservation for:", dController.getUserController().getAllUnfinishedTasks(user));
+		} catch (EmptyListPassedToMenuException e1) {
+			menu.println("There are no tasks to select. Going back to menu.");
+			return;
+		}
+		Resource resource = null;
+		try {
+			resource = menu.menuGen("Select resource to reserve", dController.getResourceController().getResources());
+		} catch (EmptyListPassedToMenuException e1) {
+			menu.println("There are no resources to select. Going back to menu.");
+			return;
+		}
 		List<Reservation> reservations = resource.getReservations();
 		ArrayList<String> rsvDescr = new ArrayList<String>();
 		for(Reservation rsv : reservations){

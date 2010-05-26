@@ -6,6 +6,7 @@ import model.User;
 import controller.DispatchController;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
+import exception.EmptyListPassedToMenuException;
 import exception.IllegalStateChangeException;
 
 import java.util.ArrayDeque;
@@ -34,7 +35,12 @@ public class UpdateTaskStatus extends UseCase {
 	}
 	
 	private void updateTaskStatus(){
-		updateTaskStatus(menu.menuGen("Select Task", dController.getTaskController().getTasks(user)));
+		try {
+			updateTaskStatus(menu.menuGen("Select Task", dController.getTaskController().getTasks(user)));
+		} catch (EmptyListPassedToMenuException e) {
+			menu.println("There are no tasks to select. Going back to menu.");
+			return;
+		}
 	}
 
 	private void updateTaskStatus(Task task) {
