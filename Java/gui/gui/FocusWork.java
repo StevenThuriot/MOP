@@ -146,6 +146,7 @@ public class FocusWork extends UseCase {
 					}
 				} else {
 					System.out.println("No tasks has been found with the selected settings.");
+					return;
 				}
 				
 			} catch (ArrayLengthException e) {
