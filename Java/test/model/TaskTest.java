@@ -644,6 +644,8 @@ public class TaskTest {
 	 * @throws AssetConstraintFullException 
 	 * @throws UnknownStateException 
 	 */
+	
+	//TODO: IllegalStateCall wordt nergens gethrowd. Moet dit wel erroren? (Bart op 26/05)
 	@Test(expected=IllegalStateCallException.class)
 	public void checkStateTwentySeven() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule3Exception, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException 
 	{
