@@ -103,6 +103,14 @@ public class User implements Asset,Describable{
 	}
 	
 	/**
+	 * Returns all the tasks that this user owns or is invited for.
+	 */
+	
+	public List<Task> getAllTasks(){
+		return Collections.unmodifiableList(taskManager.getTasks());
+	}
+	
+	/**
 	 * Add an invitation to the user
 	 * @param invitation
 	 */

@@ -21,6 +21,7 @@ public class Menu {
 	private SimpleDateFormat df;
 	
 	/**
+	 * Initialize menu with i for input and o for output.
 	 * @param i
 	 * @param o
 	 */
@@ -34,6 +35,7 @@ public class Menu {
 	}
 	
 	/**
+	 * Prompt for string in put with message.
 	 * @param message
 	 * @return
 	 */
@@ -43,6 +45,7 @@ public class Menu {
 	}
 	
 	/**
+	 * Simple yes/no dialog
 	 * @param message
 	 * @return
 	 */
@@ -56,6 +59,8 @@ public class Menu {
 	}
 	
 	/**
+	 * Print menu with title and options,
+	 * return user selection.
 	 * @param title
 	 * @param options
 	 * @return
@@ -66,6 +71,7 @@ public class Menu {
 	}
 	
 	/**
+	 * Select a Describable object out of the List
 	 * @param title
 	 * @param options
 	 * @return
@@ -93,6 +99,7 @@ public class Menu {
 	}
 	
 	/**
+	 * Select a Describable object out of the List, with option to quit.
 	 * @param title
 	 * @param options
 	 * @return
@@ -119,6 +126,7 @@ public class Menu {
 	}
 	
 	/**
+	 * Select multiple object from the List
 	 * @param title
 	 * @param options
 	 * @return
@@ -175,6 +183,7 @@ public class Menu {
 	}
 	
 	/**
+	 * Prompt date, return GregorianCalendar from formated date.
 	 * @param message
 	 * @return
 	 */
