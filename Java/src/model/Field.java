@@ -58,7 +58,7 @@ public abstract class Field<T> {
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException
 	 */
-	public final void setName(String name) throws EmptyStringException, NullPointerException {
+	private final void setName(String name) throws EmptyStringException, NullPointerException {
 		if (name == null)
 			throw new NullPointerException("Null was passed");
 		
