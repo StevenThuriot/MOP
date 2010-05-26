@@ -387,8 +387,53 @@ Class diagrams of different subsystems are included in the appendix in the end o
 			%Meer complexiteit --> TaskFactory
 		
 		\subsection{Login}
+			From the start of the project, we started with the idea of a multiple user system. Therefor it was very easy to adjust our application to work with data that consisted of multiple users.\\
+			We implemented a log in solution as described in the assignment. By getting a list of all of the users in the system, that were stored in repositories, we would provide the system user with the option to select and log in as his own user.\\
+			Once logged in, the application is user based. Every action the system user undertakes is done in his/her name.
 			\subsubsection{Administrator}
-			%Leg uit waarom hardcoded! (voor- en nadelen)
+			The assignment also mentioned there had to be a user in the role of administrator. This user had other permissions then normal users. He (and only he) could:
+			\begin{itemize}
+				\item{Adjust the current time}
+				\item{Create a user}
+			\end{itemize}
+			
+			We discussed on how to implement the administrator role. We considered that the UserTypes that were introduced in the third iteration would be a possible option. Also putting a hardcoded user, with a hardcoded usertype in the application would be an option. Or simply creating a menu-item called "Administrator Menu".\\
+			\begin{tabular}{|l|l|}
+				\hline
+				\multicolumn{2}{|c|}{(Dis)advantages User Types} \\
+				\hline
+				+ & The user model stays intact\\
+				+ & In future, permissions can be mixed. Users can have multiple usertypes\\
+				\hline
+				- & We can't be sure there is a UserType with the name Admin\\
+				- & More then 1 person can become administrator\\
+				\hline
+			\end{tabular}
+			
+			\begin{tabular}{|l|l|}
+				\hline
+				\multicolumn{2}{|c|}{(Dis)advantages Hardcoded administrator} \\
+				\hline
+				+ & The user model stays intact\\
+				+ & In future, permissions can be mixed. Users can have multiple usertypes\\
+				\hline
+				- & Hardcoded is not dynamic\\
+				- & More then 1 person can become administrator\\
+				\hline
+			\end{tabular}
+			
+			\begin{tabular}{|l|l|}
+				\hline
+				\multicolumn{2}{|c|}{(Dis)advantages Administrator Menu} \\
+				\hline
+				+ & Administrator and user actions are cleanly seperated\\
+				+ & No hardcoded data\\
+				\hline
+				- & The administrator is not a user\\
+				\hline
+			\end{tabular}
+			
+			In the end, we chose for the Administrator Menu. A simple, seperated menu for the administrator. This seemed better to us in many ways as everything is seperated, no hardcoded data is needed. Also the specifications (xml, assignment) were not clear about who can/can't be administrator. Therefore this seemed clearest to us all.
 	
 		\subsection{Focus Work update}
 		
