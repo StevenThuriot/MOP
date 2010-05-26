@@ -386,7 +386,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * 	as an instance of the GregorianCalendar Class.
 	 */
 	public GregorianCalendar getDueDate(){
-		return dueDate;
+		return (GregorianCalendar) dueDate.clone();
 	}
 	
 	/**
@@ -411,7 +411,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 	 * 	as an instance of the GregorianCalendar Class.
 	 */
 	public GregorianCalendar getStartDate(){
-		return startDate;
+		return (GregorianCalendar) startDate.clone();
 	}	
 	
 	/**
@@ -523,6 +523,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		this.getTaskAssetManager().removeAll();
 		
 		this.getOwner().removeTask(this);
+		this.getProject().removeTask(this);
 	}
 	
 	/**
@@ -781,6 +782,14 @@ public class Task implements Describable, Subject, Observer<Task>{
 			this.setDuration(oldDuration);
 			
 			throw new BusinessRule1Exception("");
+		}
+		if(!this.satisfiesBusinessRule3()){
+			// revert to old values, then throw exception
+			this.setStartDate(oldStart);
+			this.setDueDate(oldDue);
+			this.setDuration(oldDuration);
+			
+			throw new BusinessRule3Exception("");
 		}
 	}
 

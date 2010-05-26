@@ -77,15 +77,18 @@ public class CreateTask extends UseCase {
 		ArrayList<Task> deps = new ArrayList<Task>();
 		if(hasDep)
 			try {
-				deps = menu.menuGenMulti("Select dependency", dController.getTaskController().getTasks(user));
+				deps = menu.menuGenMulti("Select dependency", dController.getTaskController().getAllTasks());
 			} catch (EmptyListPassedToMenuException e2) {
 				menu.println("There are no tasks to select as dependency.");
 				hasDep = false;
 			}
 		
-		GregorianCalendar startDate = menu.promptDate("Give start Date");
-		GregorianCalendar dueDate = menu.promptDate("Give due date");
+		GregorianCalendar time =  dController.getTimeController().getTime();
+		GregorianCalendar startDate = menu.promptDate("Give start Date eg. "+ menu.format(time));
 		int duration = Integer.parseInt(menu.prompt("Duration?"));
+		time = (GregorianCalendar) time.clone();
+		time.add(GregorianCalendar.MINUTE, duration);
+		GregorianCalendar dueDate = menu.promptDate("Give due date eg. "+ menu.format(time));
 		
 		TaskTimings timing = new TaskTimings(startDate, dueDate, duration);
 		

@@ -91,6 +91,13 @@ public class Project implements Describable{
 					"A project must have a non-empty description");
 		description = newDescription;
 	}
+	
+	/**
+	 * Removes the Task from this project
+	 */
+	protected void removeTask(Task task){
+		this.projectTasks.remove(task);
+	}
 
 
 }

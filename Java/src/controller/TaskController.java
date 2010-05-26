@@ -278,4 +278,11 @@ public class TaskController {
 	{
 		return taak.getRequiredResources();
 	}
+	
+	/**
+	 * Returns all Tasks of all users
+	 */
+	public List<Task> getAllTasks(){
+		return manager.getTasks();
+	}
 }

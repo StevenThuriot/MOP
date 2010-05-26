@@ -45,7 +45,11 @@ public class InvitationManager extends UseCase {
 
 	private void mainMenu()
 	{
-		int choice = menu.menu("What would you like to do", "Add/Remove Invitation", "Accept/Decline Invitation");
+		int choice=0;
+		try {
+			choice = menu.menu("What would you like to do", "Add/Remove Invitation", "Accept/Decline Invitation");
+		} catch (EmptyListPassedToMenuException e) {
+		}
 		if(choice == 0)
 		{
 			this.addRemoveMenu();
@@ -97,7 +101,11 @@ public class InvitationManager extends UseCase {
 			menu.println("There are no tasks to select. Going back to menu.");
 			return;
 		}
-		int choice = menu.menu("What would you like to do?", "Add an invitation","Remove an invitation");
+		int choice=0;
+		try {
+			choice = menu.menu("What would you like to do?", "Add an invitation","Remove an invitation");
+		} catch (EmptyListPassedToMenuException e2) {
+		}
 		if(choice == 0)
 		{
 			User user = null;

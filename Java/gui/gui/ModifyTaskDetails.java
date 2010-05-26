@@ -5,7 +5,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import model.Field;
-import model.Resource;
 import model.Task;
 import model.TaskTypeConstraint;
 import model.User;
@@ -54,7 +53,7 @@ public class ModifyTaskDetails extends UseCase {
 	
 	@SuppressWarnings("unchecked")
 	private void modifyTaskDetails(Task task){
-		int choice;
+		int choice =0;
 		menu.println(task.getDescription());
 		
 		List<Field> fields = task.getFields();
@@ -84,15 +83,12 @@ public class ModifyTaskDetails extends UseCase {
 		menu.println("Due date: "+menu.format(task.getDueDate()) );
 		menu.println("Duration: "+task.getDuration()+" Minutes");
 		ArrayList<Task> tasks = new ArrayList<Task>();
-		tasks.addAll(dController.getTaskController().getTasks(user));
+		tasks.addAll(dController.getTaskController().getAllTasks());
 		ArrayList<Task> deps = new ArrayList<Task>();
 		deps.addAll(dController.getTaskController().getDependencies(task));
 		tasks.removeAll(deps);
-		ArrayList<Resource> res = new ArrayList<Resource>();
-		res.addAll(dController.getResourceController().getResources());
 		ArrayList<TaskTypeConstraint> req = new ArrayList<TaskTypeConstraint>();
 		req.addAll(dController.getTaskController().getRequiredAssets(task));
-		res.removeAll(req);
 		descr.clear();
 		for(Task t : tasks){
 			descr.add(t.getDescription());
@@ -102,18 +98,19 @@ public class ModifyTaskDetails extends UseCase {
 		}
 		menu.printList("Dependable Task, * for already depending", descr);
 		descr.clear();
-		for(Resource r : res){
+		for(TaskTypeConstraint r : req){
 			descr.add(r.getDescription());
 		}
-		for(Resource r : res){
-			descr.add(r.getDescription()+"*");
-		}
-		menu.printList("Available resources, * for already required", descr);
+		menu.printList("All required Assets", descr);
 		boolean exit = false;
-		int choice2;
+		int choice2=0;
 		do {
-			choice = menu.menu("Select Action", "Add dependency", "Remove dependency",
-					"Change field values", "Change schedule", "Return to Menu");
+			try {
+				choice = menu.menu("Select Action", "Add dependency", "Remove dependency",
+						"Change field values", "Change schedule", "Return to Menu");
+			} catch (EmptyListPassedToMenuException e2) {
+				
+			}
 			switch (choice) {
 				case 0:
 					if (!tasks.isEmpty()) {
@@ -121,25 +118,38 @@ public class ModifyTaskDetails extends UseCase {
 						for (Task t : tasks) {
 							descr.add(t.getDescription());
 						}
-						choice2 = menu.menu("Select task", descr);
+						try {
+							choice2 = menu.menu("Select task", descr);
+						} catch (EmptyListPassedToMenuException e1) {
+						}
 						try {
 							dController.getTaskController().addDependency(task, tasks.get(choice2));
 							deps.add(tasks.remove(choice2));
 						} catch (BusinessRule1Exception e) {
 							System.out.println("Dependency would violate BusinessRule1");
-							choice2 = menu.menu("Select Action", "Retry", "Abort");
+							try {
+								choice2 = menu.menu("Select Action", "Retry", "Abort");
+							} catch (EmptyListPassedToMenuException e1) {
+								
+							}
 							exit = choice2 == 1;
 							continue;
 						} catch (DependencyCycleException e) {
 							System.out.println("Dependency would cause cycle");
-							choice2 = menu.menu("Select Action", "Retry", "Abort");
+							try {
+								choice2 = menu.menu("Select Action", "Retry", "Abort");
+							} catch (EmptyListPassedToMenuException e1) {
+							}
 							exit = choice2 == 1;
 							continue;
 						} catch (IllegalStateCallException e) {
 							menu.println("The modification is cancelled, an illegal state was reached");
 						} catch (BusinessRule2Exception e) {
 							System.out.println("Dependency would violate BusinessRule2");
-							choice2 = menu.menu("Select Action", "Retry", "Abort");
+							try {
+								choice2 = menu.menu("Select Action", "Retry", "Abort");
+							} catch (EmptyListPassedToMenuException e1) {
+							}
 							exit = choice2 == 1;
 							continue;
 						}
@@ -153,13 +163,19 @@ public class ModifyTaskDetails extends UseCase {
 						for (Task t : deps) {
 							descr.add(t.getDescription());
 						}
-						choice2 = menu.menu("Select task", descr);
+						try {
+							choice2 = menu.menu("Select task", descr);
+						} catch (EmptyListPassedToMenuException e1) {
+						}
 						try {
 							dController.getTaskController().removeDependency(task, deps.get(choice2));
 							tasks.add(deps.remove(choice2));
 						} catch (DependencyException e) {
 							System.out.println("Dependency does not exist");
-							choice2 = menu.menu("Select Action", "Retry", "Abort");
+							try {
+								choice2 = menu.menu("Select Action", "Retry", "Abort");
+							} catch (EmptyListPassedToMenuException e1) {
+							}
 							exit = choice2 == 1;
 							continue;
 						} catch (IllegalStateCallException e) {
@@ -198,14 +214,20 @@ public class ModifyTaskDetails extends UseCase {
 					}
 					break;
 				case 3:
-					GregorianCalendar startDate = menu.promptDate("Give start Date");
-					GregorianCalendar dueDate = menu.promptDate("Give due date");
+					GregorianCalendar time =  dController.getTimeController().getTime();
+					GregorianCalendar startDate = menu.promptDate("Give start Date eg. "+ menu.format(time));
 					int duration = Integer.parseInt(menu.prompt("Duration?"));
+					time = (GregorianCalendar) time.clone();
+					time.add(GregorianCalendar.MINUTE, duration);
+					GregorianCalendar dueDate = menu.promptDate("Give due date eg. "+ menu.format(time));
 					try {
 						dController.getTaskController().setTaskSchedule(task, startDate, dueDate, duration);
 					} catch (BusinessRule1Exception e) {
 						System.out.println("New schedule would violate BusinessRule1");
-						choice2 = menu.menu("Select Action", "Retry", "Abort");
+						try {
+							choice2 = menu.menu("Select Action", "Retry", "Abort");
+						} catch (EmptyListPassedToMenuException e1) {
+						}
 						exit = choice2==1;
 						continue;
 					} catch (NullPointerException e) {

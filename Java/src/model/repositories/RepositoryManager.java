@@ -1,6 +1,7 @@
 package model.repositories;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -169,7 +170,7 @@ public class RepositoryManager {
     			tasks.add(task);
     		}
     	}
-    	return tasks;
+    	return Collections.unmodifiableList(tasks);
     }
     
     /**
