@@ -42,7 +42,10 @@ public class ModifyTaskDetails extends UseCase {
 	}
 	
 	private void modifyTaskDetails(){
-		modifyTaskDetails(menu.menuGen("Select Task", dController.getTaskController().getTasks(user)));
+		if(dController.getTaskController().getTasks(user).size()>0)
+			modifyTaskDetails(menu.menuGen("Select Task", dController.getTaskController().getTasks(user)));
+		else
+			menu.println("You don't own any tasks at this moment");
 	}
 	
 	@SuppressWarnings("unchecked")
