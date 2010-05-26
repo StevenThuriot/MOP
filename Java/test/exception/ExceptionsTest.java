@@ -52,5 +52,8 @@ public class ExceptionsTest {
         assertEquals("You can't invite the owner of a task to help on that task", (new InvitationInvitesOwnerException()).getMessage());
         //WrongUserForTaskTypeException
         assertEquals("The user can not create a task of this tasktype",(new WrongUserForTaskTypeException()).getMessage());
+        //EmptyListPassedToMenuException
+        assertEquals("An empty list was passed to the menu.",(new EmptyListPassedToMenuException()).getMessage());
+        
     }
 }
