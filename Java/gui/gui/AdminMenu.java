@@ -1,6 +1,7 @@
 package gui;
 
 import controller.DispatchController;
+import exception.EmptyListPassedToMenuException;
 
 public class AdminMenu extends UseCase {
 	
@@ -27,7 +28,11 @@ public class AdminMenu extends UseCase {
 	private void showMenu() {
 		boolean run = true;
 		while(run){
-			int choice = menu.menu("What would you like to do?", "Adjust clock value","Create user","Go back to main menu");
+			int choice=0;
+			try {
+				choice = menu.menu("What would you like to do?", "Adjust clock value","Create user","Go back to main menu");
+			} catch (EmptyListPassedToMenuException e) {
+			}
 			if(choice == 0)
 			{
 				(new SetClock()).startUseCase(menu, dController,null);

@@ -269,7 +269,7 @@ public class DataXMLDAO {
 	}
 	
 	/**
-	 * Parsing the tasks: linking dependecies
+	 * Parsing the tasks: linking dependencies
 	 * @param userNode
 	 * @param user
 	 * @throws NameNotFoundException

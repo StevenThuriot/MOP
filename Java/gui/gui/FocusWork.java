@@ -46,7 +46,11 @@ public class FocusWork extends UseCase {
 				focusTypes.add(focusType.toString());
 			}
 			
-			int choice = menu.menu("How would you like your tasks to be shown?", focusTypes);
+			int choice=0;
+			try {
+				choice = menu.menu("How would you like your tasks to be shown?", focusTypes);
+			} catch (EmptyListPassedToMenuException e1) {
+			}
 			model.focus.FocusWork focus;
 			FocusController fController = dController.getFocusController();
 			
@@ -128,7 +132,10 @@ public class FocusWork extends UseCase {
 						menu.println("Start date: " + menu.format(task.getStartDate()));
 						menu.println("Due date: " + menu.format(task.getDueDate()));
 						menu.println("Duration: " + task.getDuration() + " Minutes");
-						choice = menu.menu("Select Action", "Change type of focus", "Return to List", "Change Task Status", "Modify Task Details", "Return to Menu");
+						try {
+							choice = menu.menu("Select Action", "Change type of focus", "Return to List", "Change Task Status", "Modify Task Details", "Return to Menu");
+						} catch (EmptyListPassedToMenuException e) {
+						}
 						switch (choice) {
 							case 0:
 								continue focus;

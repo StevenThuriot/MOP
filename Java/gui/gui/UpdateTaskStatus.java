@@ -44,7 +44,7 @@ public class UpdateTaskStatus extends UseCase {
 	}
 
 	private void updateTaskStatus(Task task) {
-		int choice;
+		int choice=0;
 		menu.println(task.getDescription());
 		if(dController.getTaskController().hasDependentTasks(task))
 			menu.printListGen("Dependent Tasks", dController.getTaskController().getDependentTasks(task));
@@ -67,7 +67,10 @@ public class UpdateTaskStatus extends UseCase {
 		}else{
 			menu.println("Current Task status is "+(task.canBeExecuted()?"Available.":"Unavailable."));
 		}
-		choice = menu.menu("Select New Status", "Succesful", "Failed");
+		try {
+			choice = menu.menu("Select New Status", "Succesful", "Failed");
+		} catch (EmptyListPassedToMenuException e1) {
+		}
 		switch (choice) {
 			case 0:
 				try {

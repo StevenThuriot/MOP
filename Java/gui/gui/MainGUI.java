@@ -136,7 +136,11 @@ public class MainGUI implements Runnable{
 	public void run(){
 		boolean runStart = true;
 		while(runStart){
-			int adminOrExit = menu.menu("What would you like to do", "Log in as administrator","Log in as user","Exit");
+			int adminOrExit=0;
+			try {
+				adminOrExit = menu.menu("What would you like to do", "Log in as administrator","Log in as user","Exit");
+			} catch (EmptyListPassedToMenuException e1) {
+			}
 			if(adminOrExit==0)
 			{
 				UseCase adminMenu = new AdminMenu();

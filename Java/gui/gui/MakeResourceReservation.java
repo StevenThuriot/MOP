@@ -60,8 +60,8 @@ public class MakeResourceReservation extends UseCase {
 		if(rsvDescr.isEmpty())
 			rsvDescr.add("None");
 		menu.printList("Reservations", rsvDescr);
-		GregorianCalendar startDate = menu.promptDate("Give Start Date");
-		int duration = Integer.parseInt(menu.prompt("Duration?"));
+		GregorianCalendar startDate = menu.promptDate("Give Start Date eg."+menu.format(selectedTask.getStartDate()));
+		int duration = Integer.parseInt(menu.prompt("Duration? eg."+selectedTask.getDuration()));
 		try {
 			dController.getResourceController().createReservation(startDate, duration, resource, selectedTask);
 		} catch (NotAvailableException e) {

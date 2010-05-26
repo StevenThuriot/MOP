@@ -47,7 +47,11 @@ public class Menu {
 	 * @return
 	 */
 	public boolean dialogYesNo(String message){
-		int choice = this.menu(message, "yes", "no");
+		int choice = 0;
+		try {
+			choice = this.menu(message, "yes", "no");
+		} catch (EmptyListPassedToMenuException e) {
+		}
 		return choice == 0;
 	}
 	
@@ -55,8 +59,9 @@ public class Menu {
 	 * @param title
 	 * @param options
 	 * @return
+	 * @throws EmptyListPassedToMenuException 
 	 */
-	public int menu(String title, List<String> options){
+	public int menu(String title, List<String> options) throws EmptyListPassedToMenuException{
 		return menu(title, options.toArray(new String[0]));
 	}
 	
@@ -149,7 +154,9 @@ public class Menu {
 	 * @param options
 	 * @return
 	 */
-	public int menu(String title, String... options){
+	public int menu(String title, String... options) throws EmptyListPassedToMenuException{
+		if (options == null || options.length == 0)
+			throw new EmptyListPassedToMenuException();
 		this.printList(title, options);
 		int choice = 0;
 		while (true) {
