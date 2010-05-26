@@ -3,6 +3,7 @@ package gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.Field;
 import model.Task;
 import model.TaskType;
 import model.User;
@@ -31,6 +32,7 @@ public class FocusWork extends UseCase {
 		(new FocusWork(menu, dController,mainGUI.getCurrentUser())).focusWork();
 	}
 	
+	@SuppressWarnings("unchecked")
 	private void focusWork() {
 		focus: while (true) {
 			//Which kind of Focus would we like to see?
@@ -87,6 +89,17 @@ public class FocusWork extends UseCase {
 					
 					Task task = menu.menuGen("Select Task", tasks);
 					menu.println(task.getDescription());
+					
+					List<Field> fields = task.getFields();
+					if (fields.size() > 0)
+					{
+						menu.println("Fields");
+						
+						for (int i = 0; i < fields.size(); i++) {
+							menu.println(i + ": " + fields.get(i).getName() + " ( " + fields.get(i).getType() + " ): \"" + fields.get(i).getValue() + "\"");
+						}
+					}
+					
 					if (dController.getTaskController().hasDependentTasks(task))
 						menu.printListGen("Dependent Tasks", dController.getTaskController().getDependentTasks(task));
 					else
