@@ -451,8 +451,10 @@ public class DataXMLDAO {
 					if (fieldNode.getNodeName() != "#text" && fieldNode.getNodeName().length() > 0)
 				    {
 						for (Field field : fields) {
-							if (field.getName().equals(fieldNode.getAttributes().item(0).getTextContent())) {
-								String value = fieldNode.getTextContent();
+							String fieldID = field.getId();
+							String nodeID = fieldNode.getAttributes().item(0).getTextContent();
+							if (fieldID.equals(nodeID)) {
+								String value = fieldNode.getAttributes().item(1).getTextContent();
 								
 								switch (field.getType()) {
 								case Numeric:
