@@ -49,6 +49,17 @@ public class ModifyTaskDetails extends UseCase {
 	private void modifyTaskDetails(Task task){
 		int choice;
 		menu.println(task.getDescription());
+		
+		List<Field> fields = task.getFields();
+		if (fields.size() > 0)
+		{
+			menu.println("Fields");
+			
+			for (int i = 0; i < fields.size(); i++) {
+				menu.println(i + ": " + fields.get(i).getName() + " ( " + fields.get(i).getType() + " ): \"" + fields.get(i).getValue() + "\"");
+			}
+		}
+		
 		ArrayList<String> descr = new ArrayList<String>();
 		if(dController.getTaskController().hasDependentTasks(task))
 			menu.printListGen("Dependent Tasks", dController.getTaskController().getDependentTasks(task));
@@ -163,7 +174,7 @@ public class ModifyTaskDetails extends UseCase {
 						} catch (IllegalStateCallException e1) {
 							menu.println("You can't change the name in the current state");
 						}
-					List<Field> fields = task.getFields();
+
 					for(Field field:fields)
 					{
 						if(menu.dialogYesNo("Would you like to change " + field.getName() +"?")){
