@@ -63,10 +63,8 @@ public class TaskControllerTest {
 	
 	/**
 	 * Duration
-	 * @throws DependencyCycleException 
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
-	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
@@ -74,7 +72,7 @@ public class TaskControllerTest {
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void createTask() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
+	public void createTask() throws EmptyStringException, BusinessRule1Exception, NullPointerException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
@@ -86,9 +84,6 @@ public class TaskControllerTest {
 	 * Test to see if tasks are removed
 	 * @throws EmptyStringException
 	 * @throws BusinessRule1Exception
-	 * @throws DependencyCycleException
-	 * @throws DependencyException
-	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws WrongFieldsForChosenTypeException 
@@ -96,7 +91,7 @@ public class TaskControllerTest {
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void removeTask() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
+	public void removeTask() throws EmptyStringException, BusinessRule1Exception, NullPointerException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
@@ -110,7 +105,6 @@ public class TaskControllerTest {
 	 * @throws EmptyStringException
 	 * @throws BusinessRule1Exception
 	 * @throws DependencyCycleException
-	 * @throws DependencyException
 	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
@@ -120,7 +114,7 @@ public class TaskControllerTest {
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void removeTaskRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, BusinessRule2Exception
+	public void removeTaskRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, BusinessRule2Exception
 	{
 		GregorianCalendar end = new GregorianCalendar();
 		end.add(Calendar.MONTH,1);
@@ -134,15 +128,10 @@ public class TaskControllerTest {
 	
 	/**
 	 * Test to see if the controller's constructor checks for null
-	 * @throws EmptyStringException
-	 * @throws BusinessRule1Exception
-	 * @throws DependencyCycleException
 	 * @throws NullPointerException
-	 * @throws IllegalStateCallException
-	 * @throws BusinessRule3Exception
 	 */
 	@Test(expected=NullPointerException.class)
-	public void createController() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception
+	public void createController() throws NullPointerException
 	{
 		@SuppressWarnings("unused")
 		TaskController test = new TaskController(null);
@@ -153,7 +142,6 @@ public class TaskControllerTest {
 	 * @throws EmptyStringException
 	 * @throws NullPointerException
 	 * @throws BusinessRule1Exception
-	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws IllegalStateChangeException
 	 * @throws WrongFieldsForChosenTypeException 
@@ -161,7 +149,7 @@ public class TaskControllerTest {
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testSetFailed() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
+	public void testSetFailed() throws EmptyStringException, NullPointerException, BusinessRule1Exception, BusinessRule3Exception, IllegalStateChangeException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		GregorianCalendar endDate = new GregorianCalendar();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
@@ -179,7 +167,6 @@ public class TaskControllerTest {
 	 * @throws EmptyStringException
 	 * @throws NullPointerException
 	 * @throws BusinessRule1Exception
-	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws IllegalStateChangeException
 	 * @throws BusinessRule2Exception 
@@ -188,7 +175,7 @@ public class TaskControllerTest {
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testSetSuccessful() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
+	public void testSetSuccessful() throws EmptyStringException, NullPointerException, BusinessRule1Exception, BusinessRule3Exception, IllegalStateChangeException, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		GregorianCalendar endDate = (GregorianCalendar) manager.getClock().getTime().clone();
 		endDate.add(Calendar.DAY_OF_YEAR, 4); // 4 days to finish
@@ -207,7 +194,6 @@ public class TaskControllerTest {
 	 * @throws EmptyStringException
 	 * @throws NullPointerException
 	 * @throws BusinessRule1Exception
-	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws IllegalStateChangeException
 	 * @throws UnknownStateException 
@@ -217,7 +203,7 @@ public class TaskControllerTest {
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testSetSuccessful2() throws EmptyStringException, NullPointerException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, IllegalStateChangeException, UnknownStateException, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
+	public void testSetSuccessful2() throws EmptyStringException, NullPointerException, BusinessRule1Exception, BusinessRule3Exception, IllegalStateChangeException, UnknownStateException, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		GregorianCalendar startDate = (GregorianCalendar) manager.getClock().getTime().clone();//Now
 		GregorianCalendar endDate = (GregorianCalendar) manager.getClock().getTime().clone();
@@ -395,14 +381,13 @@ public class TaskControllerTest {
 	 * @throws NullPointerException
 	 * @throws EmptyStringException
 	 * @throws BusinessRule1Exception
-	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws WrongUserForTaskTypeException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void testShedule() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
+	public void testShedule() throws NullPointerException, EmptyStringException, BusinessRule1Exception, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
 	{
 		GregorianCalendar startDate = new GregorianCalendar();//Now
 		GregorianCalendar endDate = new GregorianCalendar();

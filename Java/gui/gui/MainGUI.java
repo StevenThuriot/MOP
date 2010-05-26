@@ -18,7 +18,6 @@ import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
-import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
@@ -73,8 +72,6 @@ public class MainGUI implements Runnable{
 			MainGUI.writeError("Business rule 1 violation.");
 		} catch (DependencyCycleException e) {
 			MainGUI.writeError("A cycle between dependancies has been found.");
-		} catch (DependencyException e) {
-			MainGUI.writeError("A problem with the dependancies has occured.");
 		} catch (IllegalStateCallException e) {
 			MainGUI.writeError("It is impossible to change to the defined state.");
 		} catch (BusinessRule3Exception e) {

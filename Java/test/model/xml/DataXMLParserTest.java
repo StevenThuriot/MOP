@@ -1,18 +1,12 @@
 package model.xml;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import javax.naming.NameNotFoundException;
 
-import model.Resource;
 import model.ResourceType;
-import model.Task;
 import model.TaskType;
 import model.User;
 import model.UserType;
@@ -33,7 +27,6 @@ import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
-import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
@@ -55,7 +48,7 @@ public class DataXMLParserTest {
     
     
     @Before
-    public void setUp() throws TimeException, ParseException, NameNotFoundException, DOMException, NullPointerException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, DependencyException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, InvitationInvitesOwnerException, InvitationNotPendingException
+    public void setUp() throws TimeException, ParseException, NameNotFoundException, DOMException, NullPointerException, EmptyStringException, BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, InvitationInvitesOwnerException, InvitationNotPendingException
     {
         manager = new RepositoryManager();
         dcontroller = new DispatchController(manager);
@@ -105,23 +98,11 @@ public class DataXMLParserTest {
     /**
      * Hardcoded tests the parser for the given model in students_public.xml
      * This test simply tests amounts of objects in their Information Experts
-     * @throws NameNotFoundException
      * @throws DOMException
-     * @throws EmptyStringException
-     * @throws ParseException
-     * @throws BusinessRule1Exception
-     * @throws DependencyCycleException
-     * @throws DependencyException
-     * @throws IllegalStateCallException 
      * @throws NullPointerException 
-     * @throws BusinessRule3Exception 
-     * @throws NotAvailableException 
-     * @throws UnknownStateException 
-     * @throws BusinessRule2Exception 
-     * @throws IllegalStateChangeException 
      */
     @Test
-    public void testModelParseAmounts() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception
+    public void testModelParseAmounts() throws DOMException, NullPointerException
     {
     	assertEquals(3, users.size());
         assertEquals(1, manager.getProjects().size());

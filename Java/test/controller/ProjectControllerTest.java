@@ -11,7 +11,6 @@ import static org.junit.Assert.*;
 
 import controller.ProjectController;
 import exception.EmptyStringException;
-import exception.IllegalStateCallException;
 
 
 public class ProjectControllerTest {
@@ -71,10 +70,9 @@ public class ProjectControllerTest {
 	 * Remove a project
 	 * Warning: Test relies on correct execution of ProjectController.createProject
 	 * @throws EmptyStringException
-	 * @throws IllegalStateCallException 
 	 */
 	@Test
-	public void removeProject() throws EmptyStringException, IllegalStateCallException
+	public void removeProject() throws EmptyStringException
 	{
 		Project p = controller.createProject("Project B");
 		controller.removeProject(p);
@@ -84,10 +82,9 @@ public class ProjectControllerTest {
 	/**
 	 * Remove a null project
 	 * @throws NullPointerException
-	 * @throws IllegalStateCallException 
 	 */
 	@Test(expected=NullPointerException.class)
-	public void removeNullProject() throws NullPointerException, IllegalStateCallException
+	public void removeNullProject() throws NullPointerException
 	{
 		controller.removeProject(null);
 	}

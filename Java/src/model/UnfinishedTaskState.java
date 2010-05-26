@@ -181,7 +181,7 @@ public class UnfinishedTaskState extends TaskState {
 		}
 	}
 	
-	protected void addAssetAllocation(AssetAllocation assetAllocation) throws IllegalStateCallException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException{
+	protected void addAssetAllocation(AssetAllocation assetAllocation) throws AssetTypeNotRequiredException, AssetConstraintFullException, AssetAllocatedException{
 		this.getContext().doAddAssetAllocation(assetAllocation);
 	}
 }

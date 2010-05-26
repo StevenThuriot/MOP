@@ -33,6 +33,7 @@ public abstract class TaskState {
 	 * @throws IllegalStateCallException If the call is not allowed in the current state
 	 * @throws BusinessRule2Exception 
 	 */
+	@SuppressWarnings("unused")
 	protected void addDependency(Task dependency) throws BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, BusinessRule2Exception{
 		throw new IllegalStateCallException();
 	}
@@ -157,6 +158,7 @@ public abstract class TaskState {
 	 * @post 	The task is no longer dependent on <dependency>
 	 * 			|! (new.getDependentTasks()).contains(dependent)
 	 */
+	@SuppressWarnings("unused")
 	protected void removeDependency(Task dependency) throws IllegalStateCallException, DependencyException{
 		throw new IllegalStateCallException();
 	}
@@ -177,11 +179,12 @@ public abstract class TaskState {
 	 * Sets <newDescription> to be the new description of this task.
 	 * @param	newDescription
 	 * 			The new description
-	 * @throws EmptyStringException 
 	 * @throws IllegalStateCallException 
+	 * @throws EmptyStringException 
 	 * @post	| new.getDescription()== newDescription
 	 */
-	protected void setDescription(String newDescription) throws EmptyStringException, NullPointerException, IllegalStateCallException {
+	@SuppressWarnings("unused")
+	protected void setDescription(String newDescription) throws NullPointerException, IllegalStateCallException, EmptyStringException {
 		throw new IllegalStateCallException();
 	}
 	
@@ -198,6 +201,7 @@ public abstract class TaskState {
 	 * Set the current state to successful
 	 * @throws IllegalStateChangeException
 	 */
+	@SuppressWarnings("unused")
 	protected void setSuccessful() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception
 	{
 		throw new IllegalStateChangeException();
@@ -205,7 +209,8 @@ public abstract class TaskState {
 	
 	public abstract String toString();
 	
-	protected void addAssetAllocation(AssetAllocation assetAllocation) throws IllegalStateCallException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException{
+	@SuppressWarnings("unused")
+	protected void addAssetAllocation(AssetAllocation assetAllocation) throws IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException, AssetAllocatedException{
 		throw new IllegalStateCallException();
 	}	
 }

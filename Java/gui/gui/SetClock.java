@@ -2,8 +2,6 @@ package gui;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
-
 import controller.DispatchController;
 import exception.TimeException;
 

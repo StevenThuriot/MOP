@@ -14,7 +14,6 @@ import org.junit.Test;
 import exception.BusinessRule1Exception;
 import exception.BusinessRule3Exception;
 import exception.EmptyStringException;
-import exception.IllegalStateCallException;
 import exception.WrongFieldsForChosenTypeException;
 import exception.WrongUserForTaskTypeException;
 
@@ -65,7 +64,7 @@ public class ProjectTest {
     
     @SuppressWarnings("unchecked")
 	@Test
-    public void testTask() throws NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
+    public void testTask() throws NullPointerException, EmptyStringException, BusinessRule1Exception, BusinessRule3Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException
     {
         Project proj = new Project("ABC");
         User user = new User("John",new UserType(""));

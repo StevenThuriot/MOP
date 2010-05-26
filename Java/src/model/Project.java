@@ -1,13 +1,11 @@
 package model;
 
+import exception.EmptyStringException;
+import gui.Describable;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import gui.Describable;
-
-
-import exception.EmptyStringException;
-import exception.IllegalStateCallException;
 
 public class Project implements Describable{
 
@@ -43,9 +41,8 @@ public class Project implements Describable{
 	 * Removes this project and all of its tasks.
 	 * Warning: tasks are deleted recursively - if other tasks depend on a deleted
 	 * task, they will be deleted as well.
-	 * @throws IllegalStateCallException 
 	 */
-	public void remove() throws IllegalStateCallException{
+	public void remove(){
 			for(Task task: this.getTasks()){
 				task.remove();
 			}

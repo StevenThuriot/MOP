@@ -24,7 +24,6 @@ public class TaskFactory {
 	 * @return A new task
 	 * @throws WrongFieldsForChosenTypeException In case the passed fields don't match
 	 * @throws BusinessRule3Exception 
-	 * @throws IllegalStateCallException 
 	 * @throws BusinessRule1Exception 
 	 * @throws EmptyStringException 
 	 * @throws NullPointerException 
@@ -32,7 +31,7 @@ public class TaskFactory {
 	 */
 	@SuppressWarnings("unchecked")
 	public static Task createTask(String description, TaskType type, List<Field> fields, User owner, TaskTimings timings, Clock clock, Project project) 
-		throws  WrongFieldsForChosenTypeException,NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, WrongUserForTaskTypeException
+		throws  WrongFieldsForChosenTypeException,NullPointerException, EmptyStringException, BusinessRule1Exception, BusinessRule3Exception, WrongUserForTaskTypeException
 	{
 		Task newTask = new Task(type,fields, description, owner, timings, clock, project);
 		return newTask;

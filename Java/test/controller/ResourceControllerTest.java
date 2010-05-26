@@ -74,7 +74,7 @@ public class ResourceControllerTest {
     }
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		controller = null;
 		resource = null;
 		user = null;
@@ -140,7 +140,6 @@ public class ResourceControllerTest {
 	 * Create a resource, create a reservation on that resource
 	 * Get a general list of reservations, see of the reservation contains the one we created
 	 * @throws NotAvailableException 
-	 * @throws EmptyStringException 
 	 * @throws AssetAllocatedException 
 	 * @throws NoReservationOverlapException 
 	 * @throws IllegalStateCallException 
@@ -148,7 +147,7 @@ public class ResourceControllerTest {
 	 * @throws AssetConstraintFullException 
 	 */
 	@Test
-	public void testReservations() throws NotAvailableException, EmptyStringException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
+	public void testReservations() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 	    Reservation reservation = controller.createReservation(new GregorianCalendar(), 101, resource, task);
 	    assertTrue(resource.getReservations().contains(reservation));

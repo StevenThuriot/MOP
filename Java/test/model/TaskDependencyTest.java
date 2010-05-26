@@ -76,7 +76,7 @@ public class TaskDependencyTest {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		tdm = null;
 		taskMain = null;
 		taskHelp = null;

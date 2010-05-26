@@ -8,7 +8,6 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -21,7 +20,6 @@ import controller.*;
 import model.Field;
 import model.Invitation;
 import model.Project;
-import model.Reservation;
 import model.Resource;
 import model.ResourceType;
 import model.Task;
@@ -29,7 +27,6 @@ import model.TaskTimings;
 import model.TaskType;
 import model.User;
 import model.UserType;
-import model.Invitation.InvitationState;
 import model.repositories.RepositoryManager;
 
 import org.w3c.dom.DOMException;
@@ -43,7 +40,6 @@ import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
-import exception.DependencyException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
@@ -118,7 +114,6 @@ public class DataXMLDAO {
 	 * @throws ParseException 
 	 * @throws DependencyCycleException 
 	 * @throws BusinessRule1Exception 
-	 * @throws DependencyException 
 	 * @throws IllegalStateCallException 
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
@@ -137,7 +132,7 @@ public class DataXMLDAO {
 	 * @throws InvitationInvitesOwnerException 
 	 * @throws InvitationNotPendingException 
 	 */
-	public ArrayList<User> Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, DependencyException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException, InvitationNotPendingException
+	public ArrayList<User> Parse() throws NameNotFoundException, DOMException, EmptyStringException, ParseException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException, InvitationNotPendingException
 	{
 		parseResources();
 		parseProjects();
@@ -252,12 +247,8 @@ public class DataXMLDAO {
 	 * @throws ParseException
 	 * @throws EmptyStringException
 	 * @throws BusinessRule1Exception
-	 * @throws DependencyCycleException
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
-	 * @throws UnknownStateException
-	 * @throws IllegalStateChangeException
-	 * @throws BusinessRule2Exception
 	 * @throws NotAvailableException
 	 * @throws NoReservationOverlapException
 	 * @throws AssetAllocatedException
@@ -267,21 +258,14 @@ public class DataXMLDAO {
 	 * @throws WrongUserForTaskTypeException 
 	 * @throws AssetConstraintFullException 
 	 * @throws AssetTypeNotRequiredException 
-	 * @throws TimeException 
-	 * @throws InvitationInvitesOwnerException 
 	 */
 	private void parseTasksInit(Node userNode, User user) throws NameNotFoundException, ParseException, EmptyStringException, BusinessRule1Exception,
-			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException 
+			IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException 
 	{
 		Node tasks = parser.getNodeByName(userNode, "mop:tasks");
 		NodeList taskList = tasks.getChildNodes();
 		
-//		LinkedHashMap<Task, String> stateMap = new LinkedHashMap<Task, String>();
 		injectTasks(user, taskList, stateMap);
-		
-//		linkDepedencies(taskList);
-		
-//		setTaskStates(stateMap);
 	}
 	
 	/**
@@ -289,29 +273,14 @@ public class DataXMLDAO {
 	 * @param userNode
 	 * @param user
 	 * @throws NameNotFoundException
-	 * @throws ParseException
-	 * @throws EmptyStringException
 	 * @throws BusinessRule1Exception
 	 * @throws DependencyCycleException
 	 * @throws IllegalStateCallException
-	 * @throws BusinessRule3Exception
-	 * @throws UnknownStateException
-	 * @throws IllegalStateChangeException
 	 * @throws BusinessRule2Exception
-	 * @throws NotAvailableException
-	 * @throws NoReservationOverlapException
-	 * @throws AssetAllocatedException
-	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws NullPointerException 
-	 * @throws NonExistingTypeSelected 
-	 * @throws WrongUserForTaskTypeException 
-	 * @throws AssetConstraintFullException 
-	 * @throws AssetTypeNotRequiredException 
-	 * @throws TimeException 
-	 * @throws InvitationInvitesOwnerException 
 	 */
-	private void parseTasksLink(Node userNode, User user) throws NameNotFoundException, ParseException, EmptyStringException, BusinessRule1Exception,
-			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException 
+	private void parseTasksLink(Node userNode, User user) throws NameNotFoundException, BusinessRule1Exception,
+			DependencyCycleException, IllegalStateCallException, BusinessRule2Exception, NullPointerException 
 	{
 		Node tasks = parser.getNodeByName(userNode, "mop:tasks");
 		NodeList taskList = tasks.getChildNodes();
@@ -323,30 +292,14 @@ public class DataXMLDAO {
 	 * Parsing the tasks, making Reservations.
 	 * @param userNode
 	 * @param user
-	 * @throws NameNotFoundException
-	 * @throws ParseException
-	 * @throws EmptyStringException
-	 * @throws BusinessRule1Exception
-	 * @throws DependencyCycleException
-	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws UnknownStateException
 	 * @throws IllegalStateChangeException
 	 * @throws BusinessRule2Exception
-	 * @throws NotAvailableException
-	 * @throws NoReservationOverlapException
-	 * @throws AssetAllocatedException
-	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws NullPointerException 
-	 * @throws NonExistingTypeSelected 
-	 * @throws WrongUserForTaskTypeException 
-	 * @throws AssetConstraintFullException 
-	 * @throws AssetTypeNotRequiredException 
 	 * @throws TimeException 
-	 * @throws InvitationInvitesOwnerException 
 	 */
-	private void parseTasksStates() throws NameNotFoundException, ParseException, EmptyStringException, BusinessRule1Exception,
-			DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, TimeException, InvitationInvitesOwnerException 
+	private void parseTasksStates() throws BusinessRule3Exception, UnknownStateException, IllegalStateChangeException, BusinessRule2Exception, NullPointerException, TimeException 
 	{
 		setTaskStates(stateMap);
 	}
@@ -435,7 +388,6 @@ public class DataXMLDAO {
 	 * @throws ParseException
 	 * @throws EmptyStringException
 	 * @throws BusinessRule1Exception
-	 * @throws DependencyCycleException
 	 * @throws IllegalStateCallException
 	 * @throws BusinessRule3Exception
 	 * @throws AssetAllocatedException 
@@ -447,11 +399,10 @@ public class DataXMLDAO {
 	 * @throws WrongUserForTaskTypeException 
 	 * @throws AssetConstraintFullException 
 	 * @throws AssetTypeNotRequiredException 
-	 * @throws InvitationInvitesOwnerException 
 	 */
 	@SuppressWarnings("unchecked")
 	private void injectTasks(User user, NodeList taskList, LinkedHashMap<Task, String> stateMap) throws NameNotFoundException, ParseException, EmptyStringException,
-			BusinessRule1Exception, DependencyCycleException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, InvitationInvitesOwnerException {
+			BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, NullPointerException, WrongFieldsForChosenTypeException, NonExistingTypeSelected, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException {
 		
 		for (int i = 0; i < taskList.getLength(); i++) {
 			Node childNode = taskList.item(i);

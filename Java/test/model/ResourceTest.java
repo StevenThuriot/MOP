@@ -56,7 +56,7 @@ public class ResourceTest {
 	}
 
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		user = null;
 		resource = null;
 		task1 = null;

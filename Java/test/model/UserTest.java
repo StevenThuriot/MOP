@@ -18,19 +18,17 @@ public class UserTest {
 	
 	/**
 	 * Setting all variables to be used in tests
-	 * @throws Exception
 	 */
 	@Before
-	public void setUp() throws Exception {
+	public void setUp() {
 		user = new User("John",new UserType(""));
 	}
 
 	/**
 	 * Clearing all variables
-	 * @throws Exception
 	 */
 	@After
-	public void tearDown() throws Exception {
+	public void tearDown() {
 		user = null;
 	}
 	
