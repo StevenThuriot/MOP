@@ -13,6 +13,7 @@ import controller.DispatchController;
 import exception.AssetAllocatedException;
 import exception.AssetConstraintFullException;
 import exception.AssetTypeNotRequiredException;
+import exception.EmptyListPassedToMenuException;
 import exception.IllegalStateCallException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
@@ -57,7 +58,13 @@ public class InvitationManager extends UseCase {
 	{
 		Invitation selectedInvitation = null;
 		do{
-			Invitation inv = menu.menuGen("Select an invitation to be updated.", user.getInvitations());
+			Invitation inv = null;
+			try {
+				inv = menu.menuGen("Select an invitation to be updated.", user.getInvitations());
+			} catch (EmptyListPassedToMenuException e) {
+				menu.println("There are no invitations to select. Going back to menu.");
+				return;
+			}
 			if(inv.getState()==InvitationState.PENDING)
 				selectedInvitation = inv;
 			else
@@ -83,11 +90,23 @@ public class InvitationManager extends UseCase {
 	}
 	
 	private void addRemoveMenu() {
-		Task selectedTask = menu.menuGen("Select a task:", user.getTasks());
+		Task selectedTask = null;
+		try {
+			selectedTask = menu.menuGen("Select a task:", user.getTasks());
+		} catch (EmptyListPassedToMenuException e1) {
+			menu.println("There are no tasks to select. Going back to menu.");
+			return;
+		}
 		int choice = menu.menu("What would you like to do?", "Add an invitation","Remove an invitation");
 		if(choice == 0)
 		{
-			User user = menu.menuGen("Select a user to be invited for this task:",dController.getInvitationController().getAllUsers());
+			User user = null;
+			try {
+				user = menu.menuGen("Select a user to be invited for this task:",dController.getInvitationController().getAllUsers());
+			} catch (EmptyListPassedToMenuException e1) {
+				menu.println("There are no users to select. Going back to menu.");
+				return;
+			}
 			try {
 				Invitation createdInvite = dController.getInvitationController().createInvitation(selectedTask, user);
 				menu.println("User invited for task, following invitation was created:\n");
@@ -111,7 +130,13 @@ public class InvitationManager extends UseCase {
 					invitations.add((Invitation) allocation);
 				}
 			}
-			Invitation removeInvitation = menu.menuGen("Select an invitation to be removed", invitations);
+			Invitation removeInvitation = null;
+			try {
+				removeInvitation = menu.menuGen("Select an invitation to be removed", invitations);
+			} catch (EmptyListPassedToMenuException e) {
+				menu.println("There are no invitations to select. Going back to menu.");
+				return;
+			}
 			dController.getInvitationController().removeInvitation(removeInvitation);
 			menu.println("Invitation removed");
 		}

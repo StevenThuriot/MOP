@@ -11,6 +11,7 @@ import controller.DispatchController;
 import controller.FocusController;
 import model.focus.FocusType;
 import exception.ArrayLengthException;
+import exception.EmptyListPassedToMenuException;
 
 public class FocusWork extends UseCase {
 	
@@ -73,7 +74,13 @@ public class FocusWork extends UseCase {
 						focus = fController.createFocus(FocusType.DurationFocus, user, settings);
 						break;
 					case 2:
-						TaskType selectedTaskType = menu.menuGen("Select a tasktype to filter on", dController.getTaskController().getAllTypes());
+					TaskType selectedTaskType = null;
+						try {
+							selectedTaskType = menu.menuGen("Select a tasktype to filter on", dController.getTaskController().getAllTypes());
+						} catch (EmptyListPassedToMenuException e) {
+							menu.println("There are no tasktypes to select. Going back to menu.");
+							return;
+						}
 						int amountOfTasks = Integer.parseInt(menu.prompt("How many tasks would you like to see?"));
 						settings = new Object[] {amountOfTasks,selectedTaskType};
 						focus = fController.createFocus(FocusType.TaskTypeFocus, user, settings);
@@ -87,7 +94,13 @@ public class FocusWork extends UseCase {
 				{
 					loop: while (true) {
 					
-					Task task = menu.menuGen("Select Task", tasks);
+					Task task = null;
+					try {
+						task = menu.menuGen("Select Task", tasks);
+					} catch (EmptyListPassedToMenuException e) {
+						menu.println("There are no tasks to select. Going back to menu.");
+						return;
+					}
 					menu.println(task.getDescription());
 					
 					List<Field> fields = task.getFields();

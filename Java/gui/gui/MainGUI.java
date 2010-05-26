@@ -18,6 +18,7 @@ import exception.BusinessRule1Exception;
 import exception.BusinessRule2Exception;
 import exception.BusinessRule3Exception;
 import exception.DependencyCycleException;
+import exception.EmptyListPassedToMenuException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
@@ -141,7 +142,11 @@ public class MainGUI implements Runnable{
 				UseCase adminMenu = new AdminMenu();
 				adminMenu.startUseCase(menu, dController, this);
 			}else if(adminOrExit==1){
-				currentUser = menu.menuGen("Select User", manager.getUsers());
+				try {
+					currentUser = menu.menuGen("Select User", manager.getUsers());
+				} catch (EmptyListPassedToMenuException e) {
+					menu.println("The menu files have been corrupted.");
+				}
 				boolean run = true;
 				while (run) {
 					UseCase choice = menu.menuGenOpt("Select Action", useCases,"Log out");
