@@ -25,7 +25,7 @@ public class FocusWork {
      */
 	public List<Task> getTasks()
 	{
-		List<Task> tasks = this.copyList(currentUser.getTasks());
+		List<Task> tasks = this.copyList(currentUser.getAllTasks());
 		return strategy.filter(strategy.sort(tasks));		
 	}
 	

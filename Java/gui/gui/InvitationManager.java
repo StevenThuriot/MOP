@@ -81,14 +81,14 @@ public class InvitationManager extends UseCase {
 				this.dController.getInvitationController().acceptInvitation(selectedInvitation);
 				menu.println("Invitation got accepted");
 			} catch (InvitationNotPendingException e) {
-				menu.print("You can't update this invitation. It is already been set.");
+				menu.println("You can't update this invitation. It is already been set.");
 			}
 		}else{
 			try {
 				this.dController.getInvitationController().declineInvitation(selectedInvitation);
 				menu.println("Invitation got declined");
 			} catch (InvitationNotPendingException e) {
-				menu.print("You can't update this invitation. It is already been set.");
+				menu.println("You can't update this invitation. It is already been set.");
 			}
 		}
 	}
