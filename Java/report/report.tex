@@ -434,9 +434,16 @@ Class diagrams of different subsystems are included in the appendix in the end o
 			\end{tabular}
 			
 			In the end, we chose for the Administrator Menu. A simple, seperated menu for the administrator. This seemed better to us in many ways as everything is seperated, no hardcoded data is needed. Also the specifications (xml, assignment) were not clear about who can/can't be administrator. Therefore this seemed clearest to us all.
-	
+			\begin{figure}[H]
+				\begin{center}
+					\includegraphics[scale=0.5]{images/ssd_log_in.png}
+				\end{center}
+				\caption{System Sequence Diagram describing the removing of a resource}
+			\end{figure}
 		\subsection{Focus Work update}
-		
+			In the previous iteration, we decided to use an implementation of Strategy pattern for the Focus Work use case. This worked very well for us in the third iteration, as we encountered a new strategy to list tasks: by a task type.\\
+			Our implementation of strategy pattern contained 2 methods: \emph{List<Task> filter(List<Task> tasks)} and \emph{List<Task> sort(List<Task> tasks)} as all these methods only had to be sorted by a certain strategy (By deadline/...) and filtered (Only show the first \emph{n} tasks/Only show tasks of TaskType X/...)\\
+			
 		\subsection{Iets dat ik vergeten ben :-)?}
 	
 	\section{Other changes}
