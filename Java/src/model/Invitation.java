@@ -145,10 +145,10 @@ public class Invitation extends AssetAllocation implements Describable{
 		return (status == InvitationState.ACCEPTED || status == InvitationState.PENDING);
 	}
 
-	@Override
-	public AllocationType getAllocationType() {
-		return AllocationType.Invitation;
-	}
+//	@Override
+//	public AllocationType getAllocationType() {
+//		return AllocationType.Invitation;
+//	}
 
 	@Override
 	protected GregorianCalendar getEarliestAvailableTime() {
