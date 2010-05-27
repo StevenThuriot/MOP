@@ -486,7 +486,7 @@ Class diagrams of different subsystems are included in the appendix in the end o
 				A long method means a lot is going on in one method. If a lot is going on, the
 				method becomes bloated and more difficult to understand.
 				Splitting it up makes it very clear to see what happens, and gives the
-				developper a great overview so he can make faster and better changes.
+				developer a great overview so he can make faster and better changes.
 				Smaller methods are usually very clear in exactly what they do, no matter how
 				small their footprint.
 				This is also the case for duplicate code. Often a small operation is used
@@ -505,9 +505,24 @@ Class diagrams of different subsystems are included in the appendix in the end o
 			During one of our meetings with Mario, it became clear that we completely misunderstood where the XML parser and the factories actually belonged. Previously, we were rather confident that these belonged in the controller package. Thanks to Mario, we now understand that this is not the case. Some refactoring had to be done! Sadly we only discovered this one week after turning in our report about refactoring, so we were not able to include it there.
 			
 			We moved the factories and the parser to the model, where they truly belonged. Because we still needed to access them outside of the model package, controllers were also created for these.
-			%Veranderingen die niet in dat rapport staan: onder meer verhuis van Factories
 		\subsection{Software Initialization}
-					
+			The initialization changed quite a bit since the last report. This is mainly caused by the new requirements. The biggest changes are in the parsing of the XML files.
+			
+			The first step in initiating the program is creating a new repository manager used to save all the objects. Next the dispatch controller gets created. This controller also gets a reference to the manager so it can easily pass it to all the other controllers. The dispatch controller's main task is to take care of the creation of all the other controllers and passing on the manager to them as well. After that, the dispatch controller will be used to call the right controller for the job.
+			
+			Now that both the manager and the controllers are initiated, it's time to start reading the XML files. This is done by calling the XML controller and asking it to parse the files you pass to it. The controller will receive two files. One theme file and one data file. The theme file is the one with all the information in it regarding all the types of tasks, users, resources and so on. The data file is the one with the actual data.
+			
+			The controller will create a temporary theme parser and pass the theme file to it. It will also pass three maps by reference. One for task types, one for resource types and one for user types. The theme parser will then read in all the data from the theme file and save it in both the repository manager and place them in the maps. The maps are needed because we do not save most of the id's in our model. Since the data parser references to these id's, we still need to keep them around during the whole parsing time. The maps' keys are the id's and the values are the created objects.
+			
+			When the theme parser has finished parsing, it's time for the data parser to get to work. The parser will first parse all the resources and projects. It will then create and save them in the repository manager respectively. After that, it will start parsing all the users and create them one by one. At the same time it will start creating these users' tasks. These tasks get bound to their project and their reservations are made from the start. 
+			
+			Now that all tasks are created, all the invitations are parsed and made for each task. Once this is done, we can finally start linking all the tasks' dependencies. 
+			
+			Most of the work is done by now. The parser only needs to set all the tasks to their defined state in the XML data file.
+			
+			The only thing left to do now, is parse the system time and set it in the system's clock. The data parser will then return the list of parsed users to the controller, which in its turn passes it to the GUI. The GUI will check if the parsing succeeded and will start printing the menu. If something went wrong during the parsing, it will print a message describing the error.
+			
+			The program is now up and running and the user can start using it!
 		
 \part{Testing Approach}
 	
