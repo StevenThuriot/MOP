@@ -207,8 +207,8 @@ public class Reservation extends AssetAllocation implements Describable{
 
 
 	@Override
-	public boolean countsTowardsLimits() {
-		return true;
+	public boolean isFailed() {
+		return false;
 	}
 
 

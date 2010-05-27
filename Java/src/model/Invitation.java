@@ -141,8 +141,8 @@ public class Invitation extends AssetAllocation implements Describable{
 	}
 
 	@Override
-	public boolean countsTowardsLimits() {
-		return (status == InvitationState.ACCEPTED || status == InvitationState.PENDING);
+	public boolean isFailed() {
+		return (status == InvitationState.DECLINED);
 	}
 
 //	@Override
