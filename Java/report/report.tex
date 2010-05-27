@@ -390,8 +390,54 @@ Class diagrams of different subsystems are included in the appendix in the end o
 				
 				This class TaskType specifies the fields that must be given for a certain TaskType, as well a list of constraints, which in turn are represented by objects of the TaskTypeConstraint class. Every TaskTypeConstraint object can check whether the constraint it represents is satisfied, making use of the checkConstraint() method. This method takes an argument of type Task, as well as a duration and a start date, and returns a boolean indicating whether the constraint is satisfied (the required assets are allocated) during the given time interval. The method is polymorph, treating both Resource and User objects as Asset. However, the constraint specifying what user types are allowed for a given task is not specified in a TaskTypeConstraint object, but is tested for directly in the TaskType.checkOwner() method. Alternatively, we could have made two subclasses of the abstract TaskTypeConstraint class, specifying helper user or resource constraints (TaskTypeAssetConstraint) or owner constraints (TaskTypeOwnerConstraint). %Prentjes, tabellen!
 				
-				Note also that the checkConstraint() method takes an argument of type Task. The checkConstraint() method needs access to the Task object for which it must check the constraints. In particular, it must know how many Assets are available for the given Task at the given time. It does not have this reference, because TaskType objects contain no reference to a specific Task. Indeed, if two Tasks are of the same type, they refer to the same TaskType object. Initially, our plan was to also include task-specific information in the TaskType class, such as the Task it references to, or the value of the fields related to the task type. Eventually, we decided not to keep this information and functionality in the TaskType class. This makes for better cohesion, as the TaskType class now is a well-defined concept. Additionally, it makes checking a task's type simple and straightforward: as in resource types and user types, it suffices to check that two attributes reference the same object. %tabelletje?
-			%Meer complexiteit --> TaskFactory
+				Note also that the checkConstraint() method takes an argument of type Task. The checkConstraint() method needs access to the Task object for which it must check the constraints. In particular, it must know how many Assets are available for the given Task at the given time. It does not have this reference, because TaskType objects contain no reference to a specific Task. Indeed, if two Tasks are of the same type, they refer to the same TaskType object. Initially, our plan was to also include task-specific information in the TaskType class, such as the Task it references to, or the value of the fields related to the task type. Eventually, we decided not to keep this information and functionality in the TaskType class. This makes for better cohesion, as the TaskType class now is a well-defined concept. Additionally, it makes checking a task's type simple and straightforward: as in resource types and user types, it suffices to check that two attributes reference the same object. This comparison is summarised in table \ref{Independent TT}.
+			
+			\begin{table}
+			\begin{tabular}{|l|}
+				\hline
+				(Dis)advantages Task-independent TaskType \\
+				\hline
+				+ The TaskType class has high cohesion \\
+				+ A task's task type can be compared in an good and easy way \\
+				+ Lower coupling: TaskType has no reference to any Task \\
+				\hline
+				- Coupling is still in place via the checkConstraints() method\\
+				\hline
+			\end{tabular}
+
+			\caption{Advantages and disadvantages of a Task-independent TaskType}
+						\label{Independent TT}
+			\end{table}
+			
+						\begin{figure}
+			\includegraphics[scale=0.5]{images/checkConstraints().jpg}
+			\caption{Sequence diagram for TaskType.checkConstraints()}
+						\label{checkConstraints}
+			\end{figure}
+			
+			As mentioned, we use the TaskType class to check the constraints. In turn, it needs to access the Task argument it receives to check whether enough Assets are available for the constraint to be satisfied. A sequence diagram indicating the flow of events is given in figure \ref{checkConstraints}. Alternatively, we could have checked for the constraints in the TaskAssetManager, but then this class needed to be aware of constraints. We summarised advantages and disadvantages of checking constraints in the TaskAssetManager or in the TaskType in table \ref{TaskType Tam}.
+						
+			\begin{table}
+			\begin{tabular}{|p{7cm}|p{5cm}|}
+				\hline
+				(Dis)advantages checking in TaskType & (Dis)advantages checking in TaskAssetManager\\
+				\hline
+				
+				+ TT knows what constraints have to be satisfied & + TAM knows what Assets are available\\
+				+ High cohesion: TaskType specifies and checks constraints;&\\ 
+					TAM needs not know about constraints, only Assets and AssetAllocations& \\
+				\hline
+				- checkConstraints() needs to pass Task as argument & - Lower cohesion: TAM needs to know about constraints\\
+				& - TAM needs to fetch constraints from TT\\
+				\hline
+			\end{tabular}
+			\caption{Advantages and disadvantages of checking constraints in the TaskType or in the TaskAssetManager}
+						\label{TaskType Tam}
+			\end{table}
+			
+
+			
+						%Meer complexiteit --> TaskFactory
 		
 		
 		\subsection{Login}
