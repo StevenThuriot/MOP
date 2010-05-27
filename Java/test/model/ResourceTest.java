@@ -31,13 +31,12 @@ public class ResourceTest {
 	private User user;
 	private RepositoryManager manager;
 	
-	
 	Task task1;
 	
 	@SuppressWarnings("unchecked")
 	@Before
 	public void setUp() throws Exception {
-		resourceType = new ResourceType("");
+		resourceType = new ResourceType("descr");
 		resource = new Resource("Description",resourceType);
 		user = new User("John",new UserType(""));
 		GregorianCalendar endDate = new GregorianCalendar();
@@ -263,6 +262,14 @@ public class ResourceTest {
     public void testSetType()
     {
     	resource.setType(null);
+    }
+    
+    @Test
+    public void typeTest()
+    {
+    	assertEquals("descr", resourceType.getDescription());
+    	assertEquals("descr", resourceType.getTypeDescription());
+    	assertEquals("descr", resourceType.toString());
     }
 
 }

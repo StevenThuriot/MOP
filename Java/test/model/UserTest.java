@@ -21,7 +21,8 @@ public class UserTest {
 	 */
 	@Before
 	public void setUp() {
-		user = new User("John",new UserType(""));
+		UserType type = new UserType("descr");
+		user = new User("John", type);
 	}
 
 	/**
@@ -44,6 +45,10 @@ public class UserTest {
 		assertEquals("John", user.toString());
 	}
 	
+	/**
+	 * Testing the setname
+	 * @throws EmptyStringException
+	 */
 	@Test
 	public void setName() throws EmptyStringException{
 		//Null argument - exception should be thrown
@@ -63,4 +68,11 @@ public class UserTest {
 		assertTrue(user.getName().equals("Mario"));
 	}
 	
+	@Test
+	public void type()
+	{
+		assertEquals("descr", user.getType().getDescription());
+		assertEquals("descr", user.getType().getTypeDescription());
+		assertEquals("descr", user.getType().toString());
+	}
 }
