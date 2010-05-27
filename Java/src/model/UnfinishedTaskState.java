@@ -184,4 +184,14 @@ public class UnfinishedTaskState extends TaskState {
 	protected void addAssetAllocation(AssetAllocation assetAllocation) throws AssetTypeNotRequiredException, AssetConstraintFullException, AssetAllocatedException{
 		this.getContext().doAddAssetAllocation(assetAllocation);
 	}
+	
+	/**
+	 * Set the fields. This state is valid for setting fields
+	 * @throws WrongFieldsForChosenTypeException 
+	 */
+	@Override
+	protected void setFields(List<Field> fields) throws IllegalStateCallException, WrongFieldsForChosenTypeException
+	{
+		this.getContext().doSetFields(fields);
+	}
 }

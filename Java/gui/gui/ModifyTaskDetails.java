@@ -17,6 +17,7 @@ import exception.DependencyException;
 import exception.EmptyListPassedToMenuException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
+import exception.WrongFieldsForChosenTypeException;
 
 public class ModifyTaskDetails extends UseCase {
 	public ModifyTaskDetails(){}
@@ -211,6 +212,13 @@ public class ModifyTaskDetails extends UseCase {
 									field.setValue(value);
 							}
 						}
+					}
+					try {
+						task.setFields(fields);
+					} catch (WrongFieldsForChosenTypeException e2) {
+						menu.println("These fields are not correct for this task type");
+					} catch (IllegalStateCallException e2) {
+						menu.println("You can't change the fields of this task. It is not in the correct state");
 					}
 					break;
 				case 3:
