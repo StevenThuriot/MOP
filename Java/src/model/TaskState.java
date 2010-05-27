@@ -220,7 +220,7 @@ public abstract class TaskState {
 	 * @throws IllegalStateCallException
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
-	@SuppressWarnings("unchecked")
+	@SuppressWarnings({ "unchecked", "unused" })
 	protected void setFields(List<Field> fields) throws IllegalStateCallException, WrongFieldsForChosenTypeException
 	{
 		throw new IllegalStateCallException("Can't set fields right now. The task is not in the right state");

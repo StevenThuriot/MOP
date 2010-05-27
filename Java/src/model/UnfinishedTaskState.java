@@ -189,8 +189,9 @@ public class UnfinishedTaskState extends TaskState {
 	 * Set the fields. This state is valid for setting fields
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	protected void setFields(List<Field> fields) throws IllegalStateCallException, WrongFieldsForChosenTypeException
+	protected void setFields(List<Field> fields) throws WrongFieldsForChosenTypeException
 	{
 		this.getContext().doSetFields(fields);
 	}

@@ -51,8 +51,6 @@ public class MainGUI implements Runnable{
 		dController = new DispatchController(manager);
 		menu = new Menu(in,out);
 		
-		//dController.getTimeController().setTime(menu.promptDate("Give Current Time"));
-		
 		XMLController xmlController = dController.getXmlController();
 		
 		ArrayList<User> users = null;
@@ -148,17 +146,18 @@ public class MainGUI implements Runnable{
 			}else if(adminOrExit==1){
 				try {
 					currentUser = menu.menuGen("Select User", manager.getUsers());
-				} catch (EmptyListPassedToMenuException e) {
-					menu.println("The menu files have been corrupted.");
-				}
-				boolean run = true;
-				while (run) {
-					UseCase choice = menu.menuGenOpt("Select Action", useCases,"Log out");
-					if (choice == null) {
-						run = false;
-					}else{
-					choice.startUseCase(menu, dController, this);
+					boolean run = true;
+					while (run) {
+						UseCase choice = menu.menuGenOpt("Select Action", useCases,"Log out");
+						if (choice == null) {
+							run = false;
+						}else{
+						choice.startUseCase(menu, dController, this);
+						}
 					}
+				} catch (EmptyListPassedToMenuException e) {
+					menu.println("There are no users to select. Create one in the administrator menu first.");
+					
 				}
 			}else{
 				runStart = false;
