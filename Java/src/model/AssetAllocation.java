@@ -40,7 +40,7 @@ public abstract class AssetAllocation implements Describable {
 	 * Returns if this AssetAllocation count towards the Constraint Limit.
 	 * @return
 	 */
-	protected abstract boolean countsTowardsLimits(); 
+	protected abstract boolean isFailed(); 
 	
 	/**
 	 * Destroy all bindings between the this allocation, the allocating task and the asset.

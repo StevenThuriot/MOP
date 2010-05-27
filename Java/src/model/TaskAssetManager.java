@@ -140,7 +140,7 @@ public class TaskAssetManager {
 		protected int getValidAssetCount(AssetType assetType){
 			int count = 0;
 			for(AssetAllocation allocation:assetAllocations){
-				if (allocation.getAssetType().equals(assetType) && allocation.countsTowardsLimits()) {
+				if (allocation.getAssetType().equals(assetType) && !allocation.isFailed()) {
 					count++;
 				}
 			}
