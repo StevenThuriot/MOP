@@ -189,13 +189,19 @@ public class Task implements Describable, Subject, Observer<Task>{
 		
 		user.addTask(this);
 	}
+	
+	public void setFields(List<Field> fields) throws WrongFieldsForChosenTypeException, IllegalStateCallException
+	{
+		this.taskState.setFields(fields);
+	}
+	
 	/**
 	 * Check the fields with the current tasktype
 	 * @param fields2
 	 * @throws WrongFieldsForChosenTypeException 
 	 */
 	@SuppressWarnings("unchecked")
-	private void doSetFields(List<Field> fields2) throws WrongFieldsForChosenTypeException {
+	protected void doSetFields(List<Field> fields2) throws WrongFieldsForChosenTypeException {
 		taskType.checkFields(fields2);
 		this.fields = fields2;
 	}
@@ -958,7 +964,10 @@ public class Task implements Describable, Subject, Observer<Task>{
 	@SuppressWarnings("unchecked")
 	public List<Field> getFields()
 	{
-		return Collections.unmodifiableList(this.fields);
+		ArrayList<Field> clonedList = new ArrayList<Field>();
+		for(Field field:this.fields)
+			clonedList.add(field.clone());
+		return Collections.unmodifiableList(clonedList);
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import exception.*;
 
@@ -212,5 +213,16 @@ public abstract class TaskState {
 	@SuppressWarnings("unused")
 	protected void addAssetAllocation(AssetAllocation assetAllocation) throws IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException, AssetAllocatedException{
 		throw new IllegalStateCallException();
-	}	
+	}
+	/**
+	 * Set the fields. Throw an exception if the task is not in an invalid state
+	 * @param fields
+	 * @throws IllegalStateCallException
+	 * @throws WrongFieldsForChosenTypeException 
+	 */
+	@SuppressWarnings("unchecked")
+	protected void setFields(List<Field> fields) throws IllegalStateCallException, WrongFieldsForChosenTypeException
+	{
+		throw new IllegalStateCallException("Can't set fields right now. The task is not in the right state");
+	}
 }
