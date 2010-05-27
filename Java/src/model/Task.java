@@ -190,6 +190,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		user.addTask(this);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public void setFields(List<Field> fields) throws WrongFieldsForChosenTypeException, IllegalStateCallException
 	{
 		this.taskState.setFields(fields);

@@ -77,7 +77,7 @@ public class DataXMLDAO {
 	private Boolean ENABLE_DEBUG = false;
 	
 	/**
-	 * Debugger tool
+	 * Top Secret Debugging Tool!
 	 * @param message
 	 */
 	private void debug(String message)
@@ -168,6 +168,7 @@ public class DataXMLDAO {
 				debug("---- Finished parsing tasks for " + user.getName() + "----");
 			}
 		}
+		
 		for(int i=0;i<allNodes.getLength();i++)
 		{
 			Node userNode = allNodes.item(i);
@@ -177,6 +178,7 @@ public class DataXMLDAO {
 				parseInvitations(userNode,user);
 			}
 		}
+		
 		for(int i=0;i<allNodes.getLength();i++)
 		{
 			Node userNode = allNodes.item(i);
@@ -186,6 +188,7 @@ public class DataXMLDAO {
 				parseTasksLink(userNode,user);
 			}
 		}
+		
 		parseTasksStates();
 		
 		parseTime();
@@ -484,6 +487,18 @@ public class DataXMLDAO {
 		}
 	}
 
+	/**
+	 * Parsing the inviations
+	 * @param invitationNode
+	 * @param user
+	 * @throws NameNotFoundException
+	 * @throws AssetAllocatedException
+	 * @throws InvitationInvitesOwnerException
+	 * @throws IllegalStateCallException
+	 * @throws AssetTypeNotRequiredException
+	 * @throws AssetConstraintFullException
+	 * @throws InvitationNotPendingException
+	 */
 	private void parseInvitations(Node invitationNode, User user) throws NameNotFoundException, AssetAllocatedException, InvitationInvitesOwnerException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException, InvitationNotPendingException {
 		debug("--- Start pasring Invitations for "+user.getDescription()+" ---");
 		Node invitations = parser.getNodeByName(invitationNode, "mop:invitations");
