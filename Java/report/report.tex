@@ -506,7 +506,7 @@ Class diagrams of different subsystems are included in the appendix in the end o
 			
 			We moved the factories and the parser to the model, where they truly belonged. Because we still needed to access them outside of the model package, controllers were also created for these.
 		\subsection{Software Initialization}
-			The initialization changed quite a bit since the last report. This is mainly caused by the new requirements. The biggest changes are in the parsing of the XML files.
+			The initialization changed quite a bit since the last report. This is mainly caused by the new requirements. The biggest changes are in the parsing of the XML files. The parser got split up into two different parsers. One to parse the theme and one to parse the actual data.
 			
 			The first step in initiating the program is creating a new repository manager used to save all the objects. Next the dispatch controller gets created. This controller also gets a reference to the manager so it can easily pass it to all the other controllers. The dispatch controller's main task is to take care of the creation of all the other controllers and passing on the manager to them as well. After that, the dispatch controller will be used to call the right controller for the job.
 			
