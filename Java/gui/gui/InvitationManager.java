@@ -3,6 +3,7 @@ package gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import model.AllocationType;
 import model.AssetAllocation;
 import model.Invitation;
 import model.Task;
@@ -131,13 +132,13 @@ public class InvitationManager extends UseCase {
 			}
 		}else{
 			List<AssetAllocation> allocations =  selectedTask.getAssetAllocations();
-			ArrayList<Invitation> invitations = new ArrayList<Invitation>();
+			ArrayList<AssetAllocation> invitations = new ArrayList<AssetAllocation>();
 			for(AssetAllocation allocation: allocations){
-				if(allocation.getClass() == Invitation.class){
-					invitations.add((Invitation) allocation);
+				if(allocation.getAllocationType() == AllocationType.Invitation){
+					invitations.add(allocation);
 				}
 			}
-			Invitation removeInvitation = null;
+			AssetAllocation removeInvitation = null;
 			try {
 				removeInvitation = menu.menuGen("Select an invitation to be removed", invitations);
 			} catch (EmptyListPassedToMenuException e) {

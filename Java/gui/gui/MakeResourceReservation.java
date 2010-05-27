@@ -55,7 +55,7 @@ public class MakeResourceReservation extends UseCase {
 		List<Reservation> reservations = resource.getReservations();
 		ArrayList<String> rsvDescr = new ArrayList<String>();
 		for(Reservation rsv : reservations){
-			rsvDescr.add("For "+rsv.getTask()+" on "+menu.format( rsv.getTime() )+" for "+rsv.getDuration()+" Minutes");
+			rsvDescr.add("For "+rsv.getTask()+" on "+menu.format( rsv.getStartDate() )+" for "+rsv.getDuration()+" Minutes");
 		}
 		if(rsvDescr.isEmpty())
 			rsvDescr.add("None");

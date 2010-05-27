@@ -68,9 +68,9 @@ public class Resource implements Describable, Asset{
 		end.add(Calendar.MINUTE, duration);
 		
 		for(Reservation reservation: getReservations()){
-			GregorianCalendar endReservation = (GregorianCalendar) reservation.getTime().clone();
+			GregorianCalendar endReservation = (GregorianCalendar) reservation.getStartDate().clone();
 			endReservation.add(Calendar.MINUTE, reservation.getDuration());
-			if(reservation.getTime().before(end) && endReservation.after(begin) )
+			if(reservation.getStartDate().before(end) && endReservation.after(begin) )
 				return false;
 		}
 		return true;

@@ -45,7 +45,7 @@ public abstract class AssetAllocation implements Describable {
 	/**
 	 * Destroy all bindings between the this allocation, the allocating task and the asset.
 	 */
-	protected abstract void remove();
+	public abstract void remove();
 	
 	/**
 	 * Return the type of the asset allocated.
@@ -53,14 +53,30 @@ public abstract class AssetAllocation implements Describable {
 	 */
 	public abstract AssetType getAssetType();
 	
-//	/**
-//	 * Return what allocation kind this is.
-//	 */
-//	public abstract AllocationType getAllocationType();
+	/**
+	 * Return what allocation kind this is.
+	 */
+	public abstract AllocationType getAllocationType();
 	
 	/**
 	 * Return the earliest time at which this allocation becomes available.
 	 */
-	protected abstract GregorianCalendar getEarliestAvailableTime();
+	protected GregorianCalendar getEarliestAvailableTime(){
+		return this.getStartDate();
+	}
+	
+	/**
+	 * Return start date of this asset allocation, default is task start date.
+	 */
+	protected GregorianCalendar getStartDate(){
+		return (GregorianCalendar) this.getTask().getStartDate().clone();
+	}
+	
+	/**
+	 * Return end date of this asset allocation, default is task end date.
+	 */
+	protected GregorianCalendar getEndDate(){
+		return (GregorianCalendar) this.getTask().getDueDate().clone();
+	}
 
 }
