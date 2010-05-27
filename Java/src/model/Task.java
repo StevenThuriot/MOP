@@ -845,6 +845,7 @@ public class Task implements Describable, Subject, Observer<Task>{
 		return this.tam.checkProposedAllocation(assetAllocation);
 	}
 	
+	@Deprecated
 	protected Map<AssetType,Integer> getAssetsAvailableAt(GregorianCalendar begin, int duration){
 		return this.tam.getAssetsAvailableAt(begin, duration);
 	}

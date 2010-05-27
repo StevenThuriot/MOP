@@ -3,7 +3,6 @@ package gui;
 import java.util.ArrayList;
 import java.util.List;
 
-import model.AllocationType;
 import model.AssetAllocation;
 import model.Invitation;
 import model.Task;
@@ -134,7 +133,7 @@ public class InvitationManager extends UseCase {
 			List<AssetAllocation> allocations =  selectedTask.getAssetAllocations();
 			ArrayList<Invitation> invitations = new ArrayList<Invitation>();
 			for(AssetAllocation allocation: allocations){
-				if(allocation.getAllocationType() == AllocationType.Invitation){
+				if(allocation.getClass() == Invitation.class){
 					invitations.add((Invitation) allocation);
 				}
 			}

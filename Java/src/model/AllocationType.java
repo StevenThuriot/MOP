@@ -1,6 +1,6 @@
-package model;
-
-public enum AllocationType {
-Invitation,
-Reservation
-}
+//package model;
+//
+//public enum AllocationType {
+//Invitation,
+//Reservation
+//}

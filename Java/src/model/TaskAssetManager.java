@@ -35,6 +35,11 @@ public class TaskAssetManager {
 			this.assetAllocations = new ArrayList<AssetAllocation>();
 		}
 
+		/**
+		 * Add AssetAllocation to this manager's task.
+		 * @param assetAllocation
+		 * @throws AssetAllocatedException when there is already a Allocation for the same asset.
+		 */
 		protected void add(AssetAllocation assetAllocation) throws AssetAllocatedException
 		{
 			if(this.alreadyAllocated(assetAllocation))
@@ -42,6 +47,10 @@ public class TaskAssetManager {
 			assetAllocations.add(assetAllocation);
 		}
 		
+		/**
+		 * Remove assetAllocation from this manager's task.
+		 * @param assetAllocation
+		 */
 		protected void remove(AssetAllocation assetAllocation) {
 			this.assetAllocations.remove(assetAllocation);
 		}
@@ -90,6 +99,8 @@ public class TaskAssetManager {
 			}
 			return isAccepted;
 		}
+		
+		@Deprecated
 		protected Map<AssetType,Integer> getAssetsAvailableAt(GregorianCalendar begin, int duration){
 			HashMap<AssetType,Integer> assetMap = new HashMap<AssetType, Integer>();
 			for(AssetAllocation allocation:assetAllocations){
@@ -104,6 +115,13 @@ public class TaskAssetManager {
 			return assetMap;
 		}
 		
+		/**
+		 * Returns the amount of assets of the specified type allocated during this time period.
+		 * @param begin
+		 * @param duration
+		 * @param assetType
+		 * @return
+		 */
 		protected int getAssetCountAvailableAt(GregorianCalendar begin, int duration, AssetType assetType){
 			int count = 0;
 			for(AssetAllocation allocation:assetAllocations){
@@ -114,6 +132,11 @@ public class TaskAssetManager {
 			return count;
 		}
 		
+		/**
+		 * Returns the amount of asset allocations of this type that count towards the constraint limit.
+		 * @param assetType
+		 * @return
+		 */
 		protected int getValidAssetCount(AssetType assetType){
 			int count = 0;
 			for(AssetAllocation allocation:assetAllocations){
@@ -124,6 +147,12 @@ public class TaskAssetManager {
 			return count;
 		}
 		
+		/**
+		 * Returns the earliest time at which the min amount of assets of this type are available.
+		 * @param assetType
+		 * @param min
+		 * @return
+		 */
 		protected GregorianCalendar getEarliestExecTime(AssetType assetType, int min){
 			ArrayList<GregorianCalendar> times = new ArrayList<GregorianCalendar>();
 			for(AssetAllocation asset: assetAllocations){

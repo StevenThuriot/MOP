@@ -134,14 +134,25 @@ public class User implements Asset,Describable{
 		return taskManager;
 	}
 
+	/**
+	 * Return all accepted or pending invitations for this user.
+	 * @return
+	 */
 	public List<Invitation> getInvitations() {
 		return taskManager.getInvitations();
 	}
 	
+	/**
+	 * Return all invitations for this user.
+	 * @return
+	 */
 	public List<Invitation> getAllInvitations(){
 		return taskManager.getAllInvitations();
 	}
 
+	/**
+	 * Return this user's type.
+	 */
 	public UserType getType() {
 		return type;
 	}

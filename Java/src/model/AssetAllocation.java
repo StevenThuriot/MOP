@@ -6,10 +6,23 @@ import java.util.GregorianCalendar;
 
 public abstract class AssetAllocation implements Describable {
 	
+	/**
+	 * The task to which this AssetAllocation allocates an asset to.
+	 */
 	protected Task task;
 	
+	/**
+	 * Returns whether the asset is available at the specified time.
+	 * @param begin
+	 * @param duration
+	 * @return
+	 */
 	public abstract boolean isAvailableAt(GregorianCalendar begin, int duration); 
 	
+	/**
+	 * Return the task to which this AssetAllocation allocates an asset to.
+	 * @return
+	 */
 	public Task getTask(){
 		return this.task;
 	}
@@ -23,6 +36,10 @@ public abstract class AssetAllocation implements Describable {
 		return true;
 	}
 	
+	/**
+	 * Returns if this AssetAllocation count towards the Constraint Limit.
+	 * @return
+	 */
 	protected abstract boolean countsTowardsLimits(); 
 	
 	/**
@@ -30,10 +47,20 @@ public abstract class AssetAllocation implements Describable {
 	 */
 	protected abstract void remove();
 	
+	/**
+	 * Return the type of the asset allocated.
+	 * @return
+	 */
 	public abstract AssetType getAssetType();
 	
-	public abstract AllocationType getAllocationType();
+//	/**
+//	 * Return what allocation kind this is.
+//	 */
+//	public abstract AllocationType getAllocationType();
 	
+	/**
+	 * Return the earliest time at which this allocation becomes available.
+	 */
 	protected abstract GregorianCalendar getEarliestAvailableTime();
 
 }
