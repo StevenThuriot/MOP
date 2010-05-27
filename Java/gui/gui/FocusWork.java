@@ -88,6 +88,7 @@ public class FocusWork extends UseCase {
 						int amountOfTasks = Integer.parseInt(menu.prompt("How many tasks would you like to see?"));
 						settings = new Object[] {amountOfTasks,selectedTaskType};
 						focus = fController.createFocus(FocusType.TaskTypeFocus, user, settings);
+						break;
 					default:
 						focus = fController.createFocus(FocusType.Default, user, new Object[0]);
 				}
