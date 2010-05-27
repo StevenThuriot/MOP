@@ -189,4 +189,23 @@ public class FieldTest {
 	{
 		new TextField("", "string", null);
 	}
+	
+	/**
+	 * Testing the clones
+	 */
+	@Test
+	public void cloneTest()
+	{
+		NumericField nf = (NumericField) numField.clone();
+		TextField tf = (TextField) textField.clone();
+		
+		assertEquals(numField.getName(), nf.getName());
+		assertEquals(numField.getType(), nf.getType());
+		assertEquals(numField.getValue(), nf.getValue());
+		
+		assertEquals(textField.getName(), tf.getName());
+		assertEquals(textField.getType(), tf.getType());
+		assertEquals(textField.getValue(), tf.getValue());
+		
+	}
 }

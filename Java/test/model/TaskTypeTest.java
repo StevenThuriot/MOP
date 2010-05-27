@@ -30,5 +30,4 @@ public class TaskTypeTest {
 		assertTrue(taskT.getName().equals("Playing Go"));
 	}
 	
-	
 }
