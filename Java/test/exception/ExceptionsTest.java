@@ -54,6 +54,24 @@ public class ExceptionsTest {
         assertEquals("The user can not create a task of this tasktype",(new WrongUserForTaskTypeException()).getMessage());
         //EmptyListPassedToMenuException
         assertEquals("An empty list was passed to the menu.",(new EmptyListPassedToMenuException()).getMessage());
+
+        assertEquals("The passed fields do not match the chosen type.", (new WrongFieldsForChosenTypeException().getMessage()));
+        assertEquals("blub", (new WrongFieldsForChosenTypeException("blub").getMessage()));
+
+        assertEquals("A non existing type was selected", (new NonExistingTypeSelected().getMessage()));
+
+        assertEquals("There is no overlapping timespan between the current Reservation and past ones", (new NoReservationOverlapException().getMessage()));
+        assertEquals("blub", (new NoReservationOverlapException("blub").getMessage()));
+
+        assertEquals("This AssetType is not required by this Task", (new AssetTypeNotRequiredException().getMessage()));
+        assertEquals("blub", (new AssetTypeNotRequiredException("blub").getMessage()));
+        
+        assertEquals("The Asset Constraint for this AssetType is already full", (new AssetConstraintFullException().getMessage()));
+        assertEquals("blub", (new AssetConstraintFullException("blub").getMessage()));
+        
+        assertEquals("The passed settingsarray has a faulty length for the chosen type.", (new ArrayLengthException().getMessage()));
+        assertEquals("blub", (new ArrayLengthException("blub").getMessage()));
+        
         
     }
 }

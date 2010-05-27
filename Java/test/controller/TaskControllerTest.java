@@ -51,6 +51,7 @@ public class TaskControllerTest {
 		
 		ArrayList<UserType> userTypes = new ArrayList<UserType>();
 		userTypes.add(user.getType());
+		manager.add(user.getType());
 		
 		taskType = controller.addTaskType("MyType",new ArrayList<Field>(), new ArrayList<TaskTypeConstraint>(), userTypes);
 	}
@@ -408,5 +409,14 @@ public class TaskControllerTest {
 		assertEquals(task.getStartDate(), task2.getStartDate());
 		assertEquals(task.getDueDate(), task2.getDueDate());
 		assertEquals(task.getDuration(), task2.getDuration());
+	}
+	
+	/**
+	 * Getting all types
+	 */
+	@Test
+	public void getAllTypes()
+	{
+		assertEquals(1, controller.getAllTypes().size());
 	}
 }

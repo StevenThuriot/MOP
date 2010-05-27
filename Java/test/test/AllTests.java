@@ -39,7 +39,8 @@ import exception.ExceptionsTest;
 		DispatchControllerTest.class,FocusFactoryTest.class,FocusStrategyTest.class,DataXMLParserTest.class,
 		ExceptionsTest.class, ClockTest.class, TimeControllerTest.class, FieldTest.class,
 		TaskInvitationManagerTest.class, InvitationTest.class,UserTaskManagerTest.class,
-		InvitationControllerTest.class,XMLControllerTest.class, FocusControllerTest.class, TaskTypeTest.class,ThemeXMLParserTest.class})
+		InvitationControllerTest.class,XMLControllerTest.class, FocusControllerTest.class, TaskTypeTest.class,
+		ThemeXMLParserTest.class})
 public class AllTests {
 
 }
