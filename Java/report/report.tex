@@ -27,7 +27,7 @@
 
 \section{Introduction}
 		This document serves as a documentation instrument for the MOP Team Assignment.\\
-		In the following chapters, the reader will get a general overview of the outer- and inner workings of the application, accompanied by several diagrams. The report is made up in two parts. The first part contains all the design dicisions we made in the first and second iteration of the project. In part 2 we will discuss how we handled the new requirements and how we changed our application to meet those requirements.
+		In the following chapters, the reader will get a general overview of the outer- and inner workings of the application, accompanied by several diagrams. The report is made up in two parts. The first part contains all the design decisions we made in the first and second iteration of the project. In part 2 we will discuss how we handled the new requirements and how we changed our application to meet those requirements.
 		We will go in depth about the structure of our code. We will discuss in detail just which classes have which responsibility, and why. Also our testing approach is explained in short.\\
 		We conclude with our team organization, planning and a short self-evaluation.
 	\section{System Operations}
@@ -72,7 +72,7 @@
 			\subsection{Getting a task overview}		
 			\emph{
 			When asking for a overview of tasks, it is sometimes easy to sort and/or filter tasks in a different manner. That way you can get a better overview.\\
-			We provided a handy interface for this in the way of a loop. The user can choose how he wants his tasks sorted: by deadline of by duration. In case the user selects to sort the tasks by deadline, he is asked how many tasks are to be shown. Is duration selected, a minimum and maximum duration is asked. It's made particulary easy to alter and/or add sorting and filtering methods.\\
+			We provided a handy interface for this in the way of a loop. The user can choose how he wants his tasks sorted: by deadline of by duration. In case the user selects to sort the tasks by deadline, he is asked how many tasks are to be shown. Is duration selected, a minimum and maximum duration is asked. It's made particularly easy to alter and/or add sorting and filtering methods.\\
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/ssd_focus_work.jpg}
@@ -284,8 +284,8 @@ Class diagrams of different subsystems are included in the appendix in the end o
 			\subsubsection{Observer Pattern}
 				\emph{When the state of a task changes this may invalidate Business Rule 2, so when a state is changed other tasks may have to change state as well. We made it the responsibility off the task it self to make sure it's state is consistent with the state of it's dependencies. For this we used the observer pattern to notify all dependent task of a state change so that they can check the new state and change their state accordingly.}
 				
-				\emph{At first, because one of the use-cases required to test which dependent task would change state as a result of the change of state of a task without actually changing the states, we considered using the push model. This would allow us to notify an observer of a state change, the new state where upon it would report back if and how it and it's dependent tasks would have changed state without changing state. This however would have limited the reusabilty of the observer pattern. But as the use-case requirement could be solved in the UI the observer pattern was reverted to the pull model.\\
-				The two entities of the pattern are presented by the Subject and Observer<S extends Subject> interfaces using generics to improve reusabilty of the interfaces. Sadly, the type-erasure implementation of generics in Java only permits an interface to be implemented once by a class, even with different type arguments. A posible solution to this would have been that for each type implementation of the interface we make a sub-interface whick implements the type and then implement the interface in the class. This however would defeat the purpose of the generic super-interface.\\
+				\emph{At first, because one of the use-cases required to test which dependent task would change state as a result of the change of state of a task without actually changing the states, we considered using the push model. This would allow us to notify an observer of a state change, the new state where upon it would report back if and how it and it's dependent tasks would have changed state without changing state. This however would have limited the reusability of the observer pattern. But as the use-case requirement could be solved in the UI the observer pattern was reverted to the pull model.\\
+				The two entities of the pattern are presented by the Subject and Observer<S extends Subject> interfaces using generics to improve reusability of the interfaces. Sadly, the type-erasure implementation of generics in Java only permits an interface to be implemented once by a class, even with different type arguments. A possible solution to this would have been that for each type implementation of the interface we make a sub-interface which implements the type and then implement the interface in the class. This however would defeat the purpose of the generic super-interface.\\
 				As the Subject-Observer relationship is an implicit aspect of the task dependency relationship no subscribe(Observer) method is needed. While it is the TaskDependecyManager that maintains the dependency relationship we still chose to make Task both the Observer and Subject as it is Task that keeps the current state. When the state of a task is changed the publish() method is called to notify() all observing tasks, which will then decide whether they will update their own state. In order to comply with Business Rule 2 the observing task only needs to change status if the subject state is Failed. The update(Task subject) method of the observer is passed the subject which published the state change, but the observer still needs to verify if it is actually subscribed to the subject to ensure consistency.}
 
 				\begin{figure}[H]
@@ -310,7 +310,7 @@ Class diagrams of different subsystems are included in the appendix in the end o
 		We found our solution in the Strategy pattern: We start off by creating an instance of FocusWork. This instance is injected with an implementation of FocusStrategy and the current User.
 		The instance of FocusWork will be responsible for getting the list of tasks. Since the sorting and filtering can differ from strategy to strategy, they are handled by the injected instance of FocusStrategy. That way, neither controller nor FocusWork (context) are responsible, or even aware, of how these algorithms work.\\
 		There was however the issue of creating an instance of FocusWork. We found it bad design to let both GUI nor TaskController call the constructor of an implementation of FocusStrategy. This would mean higher coupling between those classes. It would also mean a larger footprint when adding new FocusStrategies, more classes had to be adjusted. We therefore opted for using the Factory Method pattern to create instances of FocusWork with an injected Strategy.\\
-		The class FocusFactory takes care of Strategy constructors and injecting. The GUI now simply calls a method in this class, a pre-fabricated FocusWork is returned. A class diagram of the FocusWork subsystem is included in the appendix.\\
+		The class FocusFactory takes care of Strategy constructors and injecting. The GUI now simply calls a method in this class, a prefabricated FocusWork is returned. A class diagram of the FocusWork subsystem is included in the appendix.\\
 		All this combined makes sure that when we create a new implementation of FocusStrategy, the footprint is returned to a minimum: We have to adjust the GUI to make sure it asks the right questions, and the FocusFactory is adjusted so right constructor is called in the right way.\\}
 		
 		\begin{figure}[H]
@@ -329,11 +329,11 @@ Class diagrams of different subsystems are included in the appendix in the end o
 			\begin{center}
 				\includegraphics[scale=0.5]{images/focus_class_diagram.jpg}
 			\end{center}
-			\caption{Specialised class diagram explaining the Strategy Pattern}
+			\caption{Specialized class diagram explaining the Strategy Pattern}
 		\end{figure}
 		\subsection{Time representation}
 		\emph{
-		Because Business Rule 3 relates so strongly to time, it seems natural to look for a way to represent time in our software system. As time progresses, the status of a Task may have to be changed to satisfy Business Rule 3. For example, if the deadline of a Task has passed and it wasn't finished yet, the Task was failed. This leaves us with two questions. How should we represent time in our system? How should we design the system so that Business Rule 3 can be uphold for all tasks at all time?}
+		Because Business Rule 3 relates so strongly to time, it seems natural to look for a way to represent time in our software system. As time progresses, the status of a Task may have to be changed to satisfy Business Rule 3. For example, if the deadline of a Task has passed and it was not finished yet, the Task was failed. This leaves us with two questions. How should we represent time in our system? How should we design the system so that Business Rule 3 can be uphold for all tasks at all time?}
 		
 		\emph{
 		To represent time, we created a class 'Clock'. This class represents a certain moment in time, and supports a few very basic operations, such as setTime() en getTime(). If necessary, this class can easily be expanded later to allow for more complex behavior.
@@ -399,7 +399,7 @@ Class diagrams of different subsystems are included in the appendix in the end o
 				\item{Create a user}
 			\end{itemize}
 			
-			We discussed on how to implement the administrator role. We considered that the UserTypes that were introduced in the third iteration would be a possible option. Also putting a hardcoded user, with a hardcoded usertype in the application would be an option. Or simply creating a menu-item called "Administrator Menu".\\
+			We discussed on how to implement the administrator role. We considered that the UserTypes that were introduced in the third iteration would be a possible option. Also putting a hard-coded user, with a hard-coded usertype in the application would be an option. Or simply creating a menu-item called "Administrator Menu".\\
 			\begin{tabular}{|l|l|}
 				\hline
 				\multicolumn{2}{|c|}{(Dis)advantages User Types} \\
@@ -419,7 +419,7 @@ Class diagrams of different subsystems are included in the appendix in the end o
 				+ & The user model stays intact\\
 				+ & In future, permissions can be mixed. Users can have multiple usertypes\\
 				\hline
-				- & Hardcoded is not dynamic\\
+				- & Hard-coded is not dynamic\\
 				- & More then 1 person can become administrator\\
 				\hline
 			\end{tabular}
@@ -428,14 +428,14 @@ Class diagrams of different subsystems are included in the appendix in the end o
 				\hline
 				\multicolumn{2}{|c|}{(Dis)advantages Administrator Menu} \\
 				\hline
-				+ & Administrator and user actions are cleanly seperated\\
-				+ & No hardcoded data\\
+				+ & Administrator and user actions are cleanly separated\\
+				+ & No hard-coded data\\
 				\hline
 				- & The administrator is not a user\\
 				\hline
 			\end{tabular}
 			
-			In the end, we chose for the Administrator Menu. A simple, seperated menu for the administrator. This seemed better to us in many ways as everything is seperated, no hardcoded data is needed. Also the specifications (xml, assignment) were not clear about who can/can't be administrator. Therefore this seemed clearest to us all.
+			In the end, we chose for the Administrator Menu. A simple, separated menu for the administrator. This seemed better to us in many ways as everything is separated, no hard-coded data is needed. Also the specifications (XML, assignment) were not clear about who can/can't be administrator. Therefore this seemed clearest to us all.
 			\begin{figure}[H]
 				\begin{center}
 					\includegraphics[scale=0.5]{images/ssd_log_in.png}
@@ -560,7 +560,7 @@ Class diagrams of different subsystems are included in the appendix in the end o
 		\begin{center}
 			\includegraphics[scale=0.5]{images/focus_class_diagram.jpg}
 		\end{center}
-		\caption{Specialised class diagram explaining the Strategy Pattern}
+		\caption{Specialized class diagram explaining the Strategy Pattern}
 	\end{figure}
 	\section{Controller Class Diagram}
 	\begin{figure}[H]
