@@ -48,6 +48,10 @@ public class InvitationControllerTest {
 		userType = new UserType("");
 		user = new User("John",userType);
 		owner = new User("Bart",userType);
+
+		manager.add(user);
+		manager.add(owner);
+		
 		controller = new InvitationController(manager);
 		GregorianCalendar startDate = new GregorianCalendar();
 		GregorianCalendar endDate = new GregorianCalendar();
@@ -138,6 +142,12 @@ public class InvitationControllerTest {
 		Invitation invitation = controller.createInvitation(taskMain,user);
 		controller.declineInvitation(invitation);
 		controller.declineInvitation(invitation);
+	}
+	
+	@Test
+	public void getAllUsers()
+	{
+		assertEquals(2, controller.getAllUsers().size());
 	}
 	
 }
