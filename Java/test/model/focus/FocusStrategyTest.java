@@ -101,5 +101,9 @@ public class FocusStrategyTest {
     	Object[] settings = {Integer.MAX_VALUE,this.taskType};
     	List<Task> tasks = new FocusWork(user, new TaskTypeFocus(settings)).getTasks();
     	assertEquals(2, tasks.size());
+    	
+    	settings[1] = this.taskType2;
+    	tasks = new FocusWork(user, new TaskTypeFocus(settings)).getTasks();
+    	assertEquals(1, tasks.size());
     }
 }
