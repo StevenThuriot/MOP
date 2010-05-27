@@ -374,18 +374,25 @@ Class diagrams of different subsystems are included in the appendix in the end o
 	
 	\part{Iteration 3}
 	
-	\section{New requirements and related changes}
+		\section{New requirement and related changes}
 		\subsection{Invitation system}
 		%Helper Users, Invitation system --> TAM, Asset substructure
 		%Hoe wordt Owner User behandelt?
 	
 		\subsection{Custom Themes}
-		%Kleine algemene inleiding
+			An important new feature in the third iteration is that the task manager should be customizable to match specific task domains. When the application starts, a custom theme is loaded, which is then used troughout the program. This custom theme contains customization for tasks, resources and users. Each of these now belongs to a specific type. In particular, the type of a task specifies many of the requirements for a task. It may for example specify the need for a resource or helper user of a given type.
 			\subsubsection{General implementation}
-			%Algemeen: Resource, User, Task Types
+				Both tasks, resources and users are divided into specific types. These types are specified in the custom theme, and as such can be different for each execution of the program. Corresponding to these types are the software classes TaskType, ResourceType and UserType. These types are created when the application is started and the xml file is parsed. At the moment, it is not possible to create or modify the types after the theme is loaded. 
+				
+				Please note that a given type corresponds to an object, not a class. For example, a ResourceType object may specify a type of resource called \emph{computer}. This is absolutely required to cope with the customization. The types are referenced by the corresponding classes, ie a Resource object has an attribute of class ResourceType, a User an attribute of class UserType and a Task an attribute of class TaskType. These attributes allow for easy and straightforward testing of types. For example, suppose there is a UserType named \emph{developper} and we have to check whether a given User \emph{john} is of this type. All we have to do then is call the User.getType() method on the user \emph{john} and check that it references the UserType \emph{developper}.
 			\subsubsection{TaskType dependent requirements}
-			%Constraints per TaskType --> TaskTypeConstraint 
+				The meaning of the custom types becomes apparent in the requirements for tasks and tasktypes. Every task is of a given task type. In the task's type is specified what types of resources and what types of helper users are needed, as well as the types of users that are allowed to start a task of the given type. Because these requirements are inherent to the task type and not to the specific task at hand, we decided that they are best kept and checked for in the TaskType class.
+				
+				This class TaskType specifies the fields that must be given for a certain TaskType, as well a list of constraints, which in turn are represented by objects of the TaskTypeConstraint class. Every TaskTypeConstraint object can check whether the constraint it represents is satisfied, making use of the checkConstraint() method. This method takes an argument of type Task, as well as a duration and a start date, and returns a boolean indicating whether the constraint is satisfied (the required assets are allocated) during the given time interval. The method is polymorph, treating both Resource and User objects as Asset. However, the constraint specifying what user types are allowed for a given task is not specified in a TaskTypeConstraint object, but is tested for directly in the TaskType.checkOwner() method. Alternatively, we could have made two subclasses of the abstract TaskTypeConstraint class, specifying helper user or resource constraints (TaskTypeAssetConstraint) or owner constraints (TaskTypeOwnerConstraint). %Prentjes, tabellen!
+				
+				Note also that the checkConstraint() method takes an argument of type Task. The checkConstraint() method needs access to the Task object for which it must check the constraints. In particular, it must know how many Assets are available for the given Task at the given time. It does not have this reference, because TaskType objects contain no reference to a specific Task. Indeed, if two Tasks are of the same type, they refer to the same TaskType object. Initially, our plan was to also include task-specific information in the TaskType class, such as the Task it references to, or the value of the fields related to the task type. Eventually, we decided not to keep this information and functionality in the TaskType class. This makes for better cohesion, as the TaskType class now is a well-defined concept. Additionally, it makes checking a task's type simple and straightforward: as in resource types and user types, it suffices to check that two attributes reference the same object. %tabelletje?
 			%Meer complexiteit --> TaskFactory
+		
 		
 		\subsection{Login}
 			From the start of the project, we started with the idea of a multiple user system. Therefor it was very easy to adjust our application to work with data that consisted of multiple users.\\
