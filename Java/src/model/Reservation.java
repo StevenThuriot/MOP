@@ -78,7 +78,7 @@ public class Reservation extends AssetAllocation implements Describable{
 	/**
 	 * Returns the start date for this reservation.
 	 */
-	public GregorianCalendar getTime(){
+	public GregorianCalendar getStartDate(){
 		return (GregorianCalendar) time.clone();
 	}
 	
@@ -133,9 +133,9 @@ public class Reservation extends AssetAllocation implements Describable{
 		
 		GregorianCalendar end = (GregorianCalendar) begin.clone();
 		end.add(Calendar.MINUTE, duration);
-		GregorianCalendar endReservation = (GregorianCalendar) this.getTime().clone();
+		GregorianCalendar endReservation = (GregorianCalendar) this.getStartDate().clone();
 		endReservation.add(Calendar.MINUTE, this.getDuration());
-		if(this.getTime().compareTo(begin)<=0 && endReservation.compareTo(end)>=0 )
+		if(this.getStartDate().compareTo(begin)<=0 && endReservation.compareTo(end)>=0 )
 			return true;
 		return false;
 	}
@@ -156,16 +156,16 @@ public class Reservation extends AssetAllocation implements Describable{
 	 */
 	@Override
 	public boolean checkProposedAllocation(AssetAllocation assetAllocation) {
-		if(assetAllocation.getClass() != Reservation.class)
+//		if(assetAllocation.getClass() != Reservation.class)
+//			return true;
+//		Reservation assetAllocation = (Reservation) assetAllocation;
+		if(assetAllocation.getTask() != this.getTask())
 			return true;
-		Reservation reservation = (Reservation) assetAllocation;
-		if(reservation.getTask() != this.getTask())
-			return true;
-		GregorianCalendar endReservation = (GregorianCalendar) reservation.getTime().clone();
-		endReservation.add(Calendar.MINUTE, reservation.getDuration()-this.getTask().getDuration());
-		GregorianCalendar end = (GregorianCalendar) this.getTime().clone();
-		end.add(Calendar.MINUTE, this.getDuration()-this.getTask().getDuration());
-		if(this.getTime().compareTo(endReservation)<=0 && end.compareTo(reservation.getTime())>=0 )
+		GregorianCalendar endAllocation = (GregorianCalendar) assetAllocation.getEndDate().clone();
+		endAllocation.add(Calendar.MINUTE, -this.getTask().getDuration());
+		GregorianCalendar end = (GregorianCalendar) this.getEndDate().clone();
+		end.add(Calendar.MINUTE, -this.getTask().getDuration());
+		if(this.getStartDate().compareTo(endAllocation)<=0 && end.compareTo(assetAllocation.getStartDate())>=0 )
 			return true;
 		return false;
 	}
@@ -213,13 +213,23 @@ public class Reservation extends AssetAllocation implements Describable{
 
 
 
+	@Override
+	public AllocationType getAllocationType() {
+		return AllocationType.Reservation;
+	}
+	
 //	@Override
-//	public AllocationType getAllocationType() {
-//		return AllocationType.Reservation;
+//	protected GregorianCalendar getEarliestAvailableTime(){
+//		return this.getStartDate();
 //	}
 	
+	/**
+	 * Return the end date of this reservation.
+	 */
 	@Override
-	protected GregorianCalendar getEarliestAvailableTime(){
-		return this.getTime();
+	public GregorianCalendar getEndDate(){
+		GregorianCalendar end = this.getStartDate();
+		end.add(Calendar.MINUTE, getDuration());
+		return end;
 	}
 }

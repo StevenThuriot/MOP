@@ -39,12 +39,10 @@ public class Project implements Describable{
 	
 	/**
 	 * Removes this project and all of its tasks.
-	 * Warning: tasks are deleted recursively - if other tasks depend on a deleted
-	 * task, they will be deleted as well.
 	 */
 	public void remove(){
-			for(Task task: this.getTasks()){
-				task.remove();
+			while(!projectTasks.isEmpty()){
+				projectTasks.get(0).remove();
 			}
 	}
 	

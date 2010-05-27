@@ -8,6 +8,7 @@ import exception.AssetTypeNotRequiredException;
 import exception.IllegalStateCallException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
+import model.AssetAllocation;
 import model.Invitation;
 import model.Task;
 import model.User;
@@ -51,7 +52,7 @@ public class InvitationController {
 	 * Remove the Invitation from the model
 	 * @param invitation
 	 */
-	public void removeInvitation(Invitation invitation)
+	public void removeInvitation(AssetAllocation invitation)
 	{
 		invitation.remove();
 	}
