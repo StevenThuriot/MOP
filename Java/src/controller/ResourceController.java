@@ -13,7 +13,7 @@ import exception.AssetConstraintFullException;
 import exception.AssetTypeNotRequiredException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
-import exception.NoReservationOverlapException;
+import exception.BadAllocationTimingException;
 import exception.NotAvailableException;
 
 /**
@@ -43,13 +43,13 @@ public class ResourceController {
      * @param date
      * @return
 	 * @throws NotAvailableException
-     * @throws NoReservationOverlapException 
+     * @throws BadAllocationTimingException 
      * @throws AssetAllocatedException 
      * @throws IllegalStateCallException 
      * @throws AssetTypeNotRequiredException 
      * @throws AssetConstraintFullException 
 	 */
-	public Reservation createReservation(GregorianCalendar startTime, int duration, Resource resource, Task task) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException {
+	public Reservation createReservation(GregorianCalendar startTime, int duration, Resource resource, Task task) throws NotAvailableException, BadAllocationTimingException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException {
 		return new Reservation(startTime,duration,  resource, task);
 	}
 

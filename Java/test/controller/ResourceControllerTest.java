@@ -30,7 +30,7 @@ import exception.AssetConstraintFullException;
 import exception.AssetTypeNotRequiredException;
 import exception.EmptyStringException;
 import exception.IllegalStateCallException;
-import exception.NoReservationOverlapException;
+import exception.BadAllocationTimingException;
 import exception.NotAvailableException;
 
 public class ResourceControllerTest {
@@ -84,17 +84,17 @@ public class ResourceControllerTest {
 	 * Create a correct reservation
 	 * @throws NotAvailableException 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws IllegalStateCallException 
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws AssetConstraintFullException 
 	 */
 	@Test
-	public void createReservation() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
+	public void createReservation() throws NotAvailableException, BadAllocationTimingException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	
 	{
 		GregorianCalendar begin = new GregorianCalendar();
-		Reservation reservatie = controller.createReservation(begin, 140, resource, task);
+		Reservation reservatie = controller.createReservation(begin, 1440, resource, task);
 		assertEquals(reservatie, resource.getReservations().get(0));
 	}
 	
@@ -102,15 +102,15 @@ public class ResourceControllerTest {
 	 * Create an overlapping reservation. Should throw a NotAvailableException
 	 * @throws NotAvailableException
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws IllegalStateCallException 
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws AssetConstraintFullException 
 	 */
 	@Test(expected=NotAvailableException.class)
-	public void createNoReservation() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
+	public void createNoReservation() throws NotAvailableException, BadAllocationTimingException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
-		controller.createReservation(new GregorianCalendar(), 140, resource, task);
+		controller.createReservation(new GregorianCalendar(), 1440, resource, task);
 		controller.createReservation(new GregorianCalendar(), 30, resource, task);
 	}
 	
@@ -141,15 +141,15 @@ public class ResourceControllerTest {
 	 * Get a general list of reservations, see of the reservation contains the one we created
 	 * @throws NotAvailableException 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws IllegalStateCallException 
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws AssetConstraintFullException 
 	 */
 	@Test
-	public void testReservations() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
+	public void testReservations() throws NotAvailableException, BadAllocationTimingException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
-	    Reservation reservation = controller.createReservation(new GregorianCalendar(), 101, resource, task);
+	    Reservation reservation = controller.createReservation(new GregorianCalendar(), 1440, resource, task);
 	    assertTrue(resource.getReservations().contains(reservation));
 	}
 	

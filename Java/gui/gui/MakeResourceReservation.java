@@ -14,7 +14,7 @@ import exception.AssetConstraintFullException;
 import exception.AssetTypeNotRequiredException;
 import exception.EmptyListPassedToMenuException;
 import exception.IllegalStateCallException;
-import exception.NoReservationOverlapException;
+import exception.BadAllocationTimingException;
 import exception.NotAvailableException;
 
 public class MakeResourceReservation extends UseCase {
@@ -66,7 +66,7 @@ public class MakeResourceReservation extends UseCase {
 			dController.getResourceController().createReservation(startDate, duration, resource, selectedTask);
 		} catch (NotAvailableException e) {
 			menu.println("Resource is already reserved");
-		} catch (NoReservationOverlapException e) {
+		} catch (BadAllocationTimingException e) {
 			menu.println(e.getMessage());
 		} catch (AssetAllocatedException e) {
 			menu.println(e.getMessage());

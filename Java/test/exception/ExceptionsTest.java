@@ -60,8 +60,8 @@ public class ExceptionsTest {
 
         assertEquals("A non existing type was selected", (new NonExistingTypeSelected().getMessage()));
 
-        assertEquals("There is no overlapping timespan between the current Reservation and past ones", (new NoReservationOverlapException().getMessage()));
-        assertEquals("blub", (new NoReservationOverlapException("blub").getMessage()));
+        assertEquals("Allocation timings are bad.", (new BadAllocationTimingException().getMessage()));
+        assertEquals("blub", (new BadAllocationTimingException("blub").getMessage()));
 
         assertEquals("This AssetType is not required by this Task", (new AssetTypeNotRequiredException().getMessage()));
         assertEquals("blub", (new AssetTypeNotRequiredException("blub").getMessage()));

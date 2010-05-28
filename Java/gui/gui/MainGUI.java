@@ -24,7 +24,7 @@ import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
-import exception.NoReservationOverlapException;
+import exception.BadAllocationTimingException;
 import exception.NonExistingTypeSelected;
 import exception.NotAvailableException;
 import exception.TimeException;
@@ -83,7 +83,7 @@ public class MainGUI implements Runnable{
 			MainGUI.writeError("An illegal state chance has occurred. This is most likely due to a faulty XML file.");
 		} catch (BusinessRule2Exception e) {
 			MainGUI.writeError("A business rule 2 violation has occurred. This is most likely due to a faulty XML file.");
-		} catch (NoReservationOverlapException e) {
+		} catch (BadAllocationTimingException e) {
 			MainGUI.writeError("A reservation overlap has occurred. This is most likely due to a faulty XML file.");
 		} catch (AssetAllocatedException e) {
 			MainGUI.writeError("A asset allocation error has occurred. This is most likely due to a faulty XML file.");
