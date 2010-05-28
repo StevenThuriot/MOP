@@ -22,13 +22,14 @@
 
 \newpage
 
-\part{Iteration 1 + 2}
-
-\section{Introduction}
+\part{Introduction}
 		This document serves as a documentation instrument for the MOP Team Assignment.\\
 		In the following chapters, the reader will get a general overview of the outer- and inner workings of the application, accompanied by several diagrams. The report is made up in two parts. The first part contains all the design decisions we made in the first and second iteration of the project. In part 2 we will discuss how we handled the new requirements and how we changed our application to meet those requirements.
 		We will go in depth about the structure of our code. We will discuss in detail just which classes have which responsibility, and why. Also our testing approach is explained in short.\\
 		We conclude with our team organization, planning and a short self-evaluation.
+
+\part{Iteration 1 + 2}
+
 	\section{System Operations}
 		\subsection{Task Management}
 			The system revolves around Tasks. There are many different entities to keep in mind such as Users, Resources or Projects.
@@ -545,9 +546,7 @@ Class diagrams of different subsystems are included in the appendix in the end o
 		\subsection{Focus Work update}
 			In the previous iteration, we decided to use an implementation of Strategy pattern for the Focus Work use case. This worked very well for us in the third iteration, as we encountered a new strategy to list tasks: by a task type.\\
 			Our implementation of strategy pattern contained 2 methods: \emph{List<Task> filter(List<Task> tasks)} and \emph{List<Task> sort(List<Task> tasks)} as all these methods only had to be sorted by a certain strategy (By deadline/...) and filtered (Only show the first \emph{n} tasks/Only show tasks of TaskType X/...)\\
-			
-		\subsection{Iets dat ik vergeten ben :-)?}
-	
+				
 	\section{Other changes}
 		\subsection{Refactoring}
 			We decided not to refactor the GUI of our project. We figured this was outside the scope of the assignment, and furthermore, no unit tests were available to support refactoring. Only one significant change (documented below) was made in the GUI, and otherwise, the code was left as it was before. The following then, is a short overview of the refactoring work done on the controllers and model section of our project. The reader will notice that this report is quite brief. We believe that our original code was already of high quality; relatively few bad smells were detected, and consequently, relatively little refactoring has been done.
@@ -645,7 +644,7 @@ Class diagrams of different subsystems are included in the appendix in the end o
 		This way we get a good view on where errors are: model, controller or view.\\
 		We also tested most methods for both cases. This means that we test both failure and succession of a method. Testing only for success does not guarantee a correct Exception is thrown, or success in all cases.
 		\subsection{Coverage Report}
-		We had a 94 \% test coverage on the source folder of our project. An Eclemma coverage report is included in the zip file. Unfortunately, this coverage report does not distinguish between our model classes and the testclasses. As such, the Eclemma report can be a bit confusing, and its figures may differ from the actual test coverage.
+		We had a 88 \% test coverage on the source folder of our project. An Eclemma coverage report is included in the zip file. Unfortunately, this coverage report does not distinguish between our model classes and the testclasses. As such, the Eclemma report can be a bit confusing, and its figures may differ from the actual test coverage.
 	
 	\part{Project Management}
 	
@@ -720,10 +719,44 @@ Class diagrams of different subsystems are included in the appendix in the end o
 	
 		Everything was discussed thoroughly and everyone put in his best effort to try and make this iteration a success as well.
 		
-		\section{Project Management - Iteration 1}
+		\section{Project Management - Iteration 3}
 			\subsection{Planning}
+			\begin{tabular}{p{200 pt}|c}
+
+			Activity & Date\\
+			\hline
+			\multicolumn{2}{l}{\emph{Refactoring:}} \\
+			\hline
+			First meeting and discussion: & 9/3/2010 \\
+			\hline
+			Bad smells detecteren en documenteren: & 10/3 - 20/3/2010	\\
+			\hline
+			Meeting en verdeling van refactoren: & 22/3/2010\\
+			\hline
+			Refactoren: & 23/3 - 10/4/2010\\
+			\hline
+			Refactoring rapport & 11/4 - 21/4/2010\\\hline
+			\multicolumn{2}{l}{\emph{Iteration 3}} \\ \hline
+			Weekly meetings discussing new requirements & 23/4 - 21/5/2010\\\hline
+			Development and weekly evaluation & 3/5-25/5/2010 \\\hline
+			GUI testing and code finalization & 25/5/2010\\ \hline
+			\end{tabular}
+
 			\subsection{Teamwork}
+			We spent approximately 5 hours meeting to refactor the code, and about 10-15 hours meeting to code the last iteration. The time each team member spent individually is shown in the table.
+			 
+			\begin{tabular}{l|l|l}
+			Member & Time(+/-) \\ \hline
+			Kwinten Missiaen & 23 \\
+			Steven Thuriot & 26 \\
+			Koen Van den dries  & 25 \\
+			Bart Vangeneugden & 27 \\
+			\end{tabular}
+			
 			\subsection{Self-Evaluation}
+			Just like last time, we had no serious problems regarding teamwork. As before, we spent a lot of time meeting and discussing the project.
+
+			Our planning this semester was not great. Because we didn't have to spend a lot of time refactoring, we lost our rhytm, and started a bit too late. Even though one of our team members was very busy, we still managed to finish the project - thanks also to an extension of the deadline by one week.
 		
 	\newpage
 	\appendix
