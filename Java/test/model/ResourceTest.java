@@ -233,20 +233,20 @@ public class ResourceTest {
 	@Test(expected=BadAllocationTimingException.class)
 	public void reservation8() throws NotAvailableException, BadAllocationTimingException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException {
 		
-		Reservation s1 = new Reservation(new GregorianCalendar(), 100, resource, task1);
+		new Reservation(new GregorianCalendar(), 100, resource, task1);
 		GregorianCalendar gr = new GregorianCalendar();
 		gr.add(GregorianCalendar.MINUTE, 95);
-		Reservation s2 = new Reservation(gr, 100, resource2, task1);
+		new Reservation(gr, 100, resource2, task1);
 		
 	}
 	
 	@Test
 	public void reservation9() throws NotAvailableException, BadAllocationTimingException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException {
 		
-		Reservation s1 = new Reservation(new GregorianCalendar(), 100, resource, task1);
+		new Reservation(new GregorianCalendar(), 100, resource, task1);
 		GregorianCalendar gr = new GregorianCalendar();
 		gr.add(GregorianCalendar.MINUTE, 90);
-		Reservation s2 = new Reservation(gr, 100, resource2, task1);
+		new Reservation(gr, 100, resource2, task1);
 		
 	}
 	
