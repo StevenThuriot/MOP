@@ -34,9 +34,10 @@ public class UserController {
 		return manager.getUserTypes();
 	}
 
-	public void createUser(UserType uType, String name) {
+	public User createUser(UserType uType, String name) {
 		User newUser = new User(name, uType);
 		manager.add(newUser);
+		return newUser;
 	}
 	
 	public List<Task> getAllUnfinishedTasks(User user)

@@ -29,6 +29,7 @@ import controller.ProjectControllerTest;
 import controller.ResourceControllerTest;
 import controller.TaskControllerTest;
 import controller.TimeControllerTest;
+import controller.UserControllerTest;
 import controller.XMLControllerTest;
 import exception.ExceptionsTest;
 
@@ -40,7 +41,7 @@ import exception.ExceptionsTest;
 		ExceptionsTest.class, ClockTest.class, TimeControllerTest.class, FieldTest.class,
 		TaskInvitationManagerTest.class, InvitationTest.class,UserTaskManagerTest.class,
 		InvitationControllerTest.class,XMLControllerTest.class, FocusControllerTest.class, TaskTypeTest.class,
-		ThemeXMLParserTest.class})
+		ThemeXMLParserTest.class,UserControllerTest.class})
 public class AllTests {
 
 }
