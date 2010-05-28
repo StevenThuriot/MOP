@@ -164,7 +164,7 @@ public class TaskType implements Describable {
 	 * Returns earliest execution for assets based on constraints
 	 */
 	protected GregorianCalendar getEarliestAssetConstrExecTime(Task task){
-		GregorianCalendar earliest = new GregorianCalendar(0, 0, 0);
+		GregorianCalendar earliest = task.getStartDate();
 		for(TaskTypeConstraint constraint : this.getConstraints()){
 			GregorianCalendar temp =  constraint.getEarliestExecTime(task);
 			if(temp != null){
