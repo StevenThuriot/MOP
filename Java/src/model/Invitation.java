@@ -153,7 +153,7 @@ public class Invitation extends AssetAllocation implements Describable{
 	@Override
 	protected GregorianCalendar getEarliestAvailableTime() {
 		if(status == InvitationState.ACCEPTED)
-			return new GregorianCalendar(0, 0, 0);
+			return getStartDate();
 		else 
 			return null;
 	}
