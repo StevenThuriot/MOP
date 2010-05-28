@@ -7,7 +7,7 @@ import exception.AssetAllocatedException;
 import exception.AssetConstraintFullException;
 import exception.AssetTypeNotRequiredException;
 import exception.IllegalStateCallException;
-import exception.NoReservationOverlapException;
+import exception.BadAllocationTimingException;
 import exception.NotAvailableException;
 import gui.Describable;
 
@@ -39,7 +39,7 @@ public class Reservation extends AssetAllocation implements Describable{
 	 * @throws 	NotAvailableException
 	 * 			The resource is not available at the given time.
 	 * 			|!newResource.availableAt(newTime)
-	 * @throws  NoReservationOverlapException 
+	 * @throws  BadAllocationTimingException 
 	 * 			This reservation does not have a overlapping time span with the other reservations
 	 * 			|!newTask.checkOverlap(newTime, newDuration)
 	 * @throws AssetAllocatedException 
@@ -47,7 +47,7 @@ public class Reservation extends AssetAllocation implements Describable{
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws AssetConstraintFullException 
 	 */
-	public Reservation(GregorianCalendar newTime, int newDuration, Resource newResource, Task task) throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException{
+	public Reservation(GregorianCalendar newTime, int newDuration, Resource newResource, Task task) throws NotAvailableException, BadAllocationTimingException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		if(newTime == null || newResource == null || task == null)
 			throw new NullPointerException();
 		setTime(newTime);
@@ -57,8 +57,10 @@ public class Reservation extends AssetAllocation implements Describable{
 		if(!newResource.availableAt(newTime, newDuration))
 			throw new NotAvailableException(
 					"This resource is not available at the given time.");
+		if(duration < getTask().getDuration())
+			throw new BadAllocationTimingException("This reservation's duration is to short");
 		if(!getTask().checkProposedAllocation(this))
-			throw new NoReservationOverlapException("This reservation does not have a overlapping time span with the other reservations");
+			throw new BadAllocationTimingException("This reservation does not have a overlapping time span with the other reservations");
 		
 		setReservedResource(newResource);
 		try {

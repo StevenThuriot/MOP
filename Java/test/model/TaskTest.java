@@ -28,7 +28,7 @@ import exception.IllegalStateCallException;
 import exception.IllegalStateChangeException;
 import exception.InvitationInvitesOwnerException;
 import exception.InvitationNotPendingException;
-import exception.NoReservationOverlapException;
+import exception.BadAllocationTimingException;
 import exception.NotAvailableException;
 import exception.TaskFailedException;
 import exception.UnknownStateException;
@@ -161,11 +161,11 @@ public class TaskTest {
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws IllegalStateCallException 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws NotAvailableException 
 	 */
 	@Test
-	public void checkStateZero() throws NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
+	public void checkStateZero() throws NotAvailableException, BadAllocationTimingException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		@SuppressWarnings("unused")
 		Reservation r = new Reservation(manager.getClock().getTime(),120,resource, task);
@@ -182,11 +182,11 @@ public class TaskTest {
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws IllegalStateCallException 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws NotAvailableException 
 	 */
 	@Test
-	public void checkStateOne() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
+	public void checkStateOne() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception, NotAvailableException, BadAllocationTimingException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		@SuppressWarnings("unused")
 		Reservation r = new Reservation(manager.getClock().getTime(),120,resource, task);
@@ -264,11 +264,11 @@ public class TaskTest {
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws IllegalStateCallException 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws NotAvailableException 
 	 */
 	@Test
-	public void checkStateSix() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
+	public void checkStateSix() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception, NotAvailableException, BadAllocationTimingException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		@SuppressWarnings("unused")
 		Reservation r = new Reservation(manager.getClock().getTime(),120,resource, task);
@@ -314,12 +314,12 @@ public class TaskTest {
 	 * @throws AssetConstraintFullException 
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws NotAvailableException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void checkStateEight() throws IllegalStateChangeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException
+	public void checkStateEight() throws IllegalStateChangeException, NullPointerException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, DependencyCycleException, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, NotAvailableException, BadAllocationTimingException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		Task task2 = TaskFactory.createTask("some name", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, endDate, 50), manager.getClock(), project);
@@ -343,11 +343,11 @@ public class TaskTest {
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws IllegalStateCallException 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws NotAvailableException 
 	 */
 	@Test
-	public void checkStateNine() throws IllegalStateChangeException, UnknownStateException, BusinessRule2Exception, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
+	public void checkStateNine() throws IllegalStateChangeException, UnknownStateException, BusinessRule2Exception, BusinessRule3Exception, NotAvailableException, BadAllocationTimingException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		@SuppressWarnings("unused")
 		Reservation r = new Reservation(manager.getClock().getTime(),120,resource, task);
@@ -425,12 +425,12 @@ public class TaskTest {
 	 * @throws AssetConstraintFullException 
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
 	 */
 	@Test
-	public void checkStateFourteen() throws IllegalStateChangeException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException
+	public void checkStateFourteen() throws IllegalStateChangeException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, BusinessRule2Exception, NotAvailableException, BadAllocationTimingException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException
 	{
 		@SuppressWarnings("unused")
 		Reservation r = new Reservation(manager.getClock().getTime(),120,resource, task);
@@ -459,14 +459,14 @@ public class TaskTest {
 	 * @throws AssetConstraintFullException 
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws NotAvailableException 
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test(expected=IllegalStateCallException.class)
-	public void checkStateSeventeen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException 
+	public void checkStateSeventeen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, NotAvailableException, BadAllocationTimingException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException 
 	{
 		@SuppressWarnings("unused")
 		Reservation r = new Reservation(manager.getClock().getTime(),120,resource, task);
@@ -498,14 +498,14 @@ public class TaskTest {
 	 * @throws AssetConstraintFullException 
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws NotAvailableException 
 	 * @throws NotAvailableException 
 	 * @throws UnknownStateException 
 	 */
 	@SuppressWarnings("unchecked")
 	@Test(expected=IllegalStateCallException.class)
-	public void checkStateNineteen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException 
+	public void checkStateNineteen() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule1Exception, DependencyCycleException, EmptyStringException, BusinessRule3Exception, DependencyException, BusinessRule2Exception, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, NotAvailableException, BadAllocationTimingException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException 
 	{
 		Task task2 = TaskFactory.createTask("some name", taskType, new ArrayList<Field>(),
 				user, new TaskTimings(startDate, endDate, 50), manager.getClock(), project);
@@ -609,11 +609,11 @@ public class TaskTest {
 	 * @throws AssetTypeNotRequiredException 
 	 * @throws IllegalStateCallException 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws NotAvailableException 
 	 */
 	@Test
-	public void checkStateTwentySix() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException 
+	public void checkStateTwentySix() throws IllegalStateChangeException, BusinessRule2Exception, BusinessRule3Exception, NotAvailableException, BadAllocationTimingException, AssetAllocatedException, IllegalStateCallException, AssetTypeNotRequiredException, AssetConstraintFullException 
 	{
 		ArrayList<String> list = new ArrayList<String>();
 		
@@ -637,7 +637,7 @@ public class TaskTest {
 	 * @throws DependencyException 
 	 * @throws BusinessRule2Exception 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws NotAvailableException 
 	 * @throws NotAvailableException 
 	 * @throws AssetTypeNotRequiredException 
@@ -647,7 +647,7 @@ public class TaskTest {
 	
 	//TODO: IllegalStateCall wordt nergens gethrowd. Moet dit wel erroren? (Bart op 26/05)
 	@Test(expected=IllegalStateCallException.class)
-	public void checkStateTwentySeven() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule3Exception, BusinessRule2Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException 
+	public void checkStateTwentySeven() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule3Exception, BusinessRule2Exception, NotAvailableException, BadAllocationTimingException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException 
 	{
 		@SuppressWarnings("unused")
 		Reservation r = new Reservation(manager.getClock().getTime(),120,resource, task);
@@ -776,7 +776,7 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws NotAvailableException 
 	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws WrongUserForTaskTypeException 
@@ -786,7 +786,7 @@ public class TaskTest {
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, BusinessRule2Exception{
+	public void remove() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, BadAllocationTimingException, AssetAllocatedException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, BusinessRule2Exception{
 		//Sets up a resource reservation, and a dependency in both directions
 		assertTrue(task.isUnfinished());
 		Reservation reservation = new Reservation(startDate, 120, resource, task);
@@ -814,7 +814,7 @@ public class TaskTest {
 	 * @throws NullPointerException 
 	 * @throws BusinessRule3Exception 
 	 * @throws AssetAllocatedException 
-	 * @throws NoReservationOverlapException 
+	 * @throws BadAllocationTimingException 
 	 * @throws NotAvailableException 
 	 * @throws WrongFieldsForChosenTypeException 
 	 * @throws WrongUserForTaskTypeException 
@@ -824,7 +824,7 @@ public class TaskTest {
 	 */
 	@SuppressWarnings("unchecked")
 	@Test
-	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, NoReservationOverlapException, AssetAllocatedException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, BusinessRule2Exception{
+	public void removeRecursively() throws EmptyStringException, BusinessRule1Exception, DependencyCycleException, NullPointerException, IllegalStateCallException, BusinessRule3Exception, NotAvailableException, BadAllocationTimingException, AssetAllocatedException, WrongFieldsForChosenTypeException, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException, BusinessRule2Exception{
 		Reservation reservation = new Reservation(startDate, 120, resource, task);
 		//Sets up 2 additional resources
 		Resource resource2 = new Resource("some resource",resourceType);
@@ -1057,7 +1057,7 @@ public class TaskTest {
 	 * Tests whether the CanBeExecuted method works properly in various
 	 * situations.
 	 */
-	public void testCanBeExecuted() throws NullPointerException, WrongFieldsForChosenTypeException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, AssetAllocatedException, InvitationInvitesOwnerException, InvitationNotPendingException, NotAvailableException, NoReservationOverlapException, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException{
+	public void testCanBeExecuted() throws NullPointerException, WrongFieldsForChosenTypeException, EmptyStringException, BusinessRule1Exception, IllegalStateCallException, BusinessRule3Exception, AssetAllocatedException, InvitationInvitesOwnerException, InvitationNotPendingException, NotAvailableException, BadAllocationTimingException, WrongUserForTaskTypeException, AssetTypeNotRequiredException, AssetConstraintFullException{
 		
 		ResourceType goBoard = new ResourceType("Go board");
 		Resource board = new Resource("Kwinten's go board",goBoard);
