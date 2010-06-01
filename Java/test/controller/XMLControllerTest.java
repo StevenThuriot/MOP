@@ -53,7 +53,7 @@ public class XMLControllerTest {
 	        dcontroller = new DispatchController(manager);
 	        parser = dcontroller.getXmlController();
 	        
-	        ArrayList<User> parsedUsers = parser.parse("students_public.xml", "theme_development_1.xml", dcontroller);
+	        ArrayList<User> parsedUsers = parser.parse("students_public.xml.bak", "theme_development_1.xml.bak", dcontroller);
 			
 			for (User user : parsedUsers) {
 				manager.add(user);
