@@ -74,7 +74,7 @@ public class DataXMLDAO {
 	Map<String, ResourceType> resourceTypeMap = null;
 	Map<String, UserType> userTypeMap = null;
 	
-	private Boolean ENABLE_DEBUG = true;
+	private Boolean ENABLE_DEBUG = false;
 	
 	/**
 	 * Top Secret Debugging Tool!
