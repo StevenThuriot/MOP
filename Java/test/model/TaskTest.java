@@ -625,36 +625,6 @@ public class TaskTest {
 	}
 	
 	/**
-	 * Testing default implementation for add dependancy
-	 * @throws IllegalStateChangeException 
-	 * @throws IllegalStateChangeException 
-	 * @throws IllegalStateCallException 
-	 * @throws BusinessRule3Exception 
-	 * @throws NullPointerException 
-	 * @throws EmptyStringException 
-	 * @throws NullPointerException 
-	 * @throws BusinessRule3Exception 
-	 * @throws DependencyException 
-	 * @throws BusinessRule2Exception 
-	 * @throws AssetAllocatedException 
-	 * @throws BadAllocationTimingException 
-	 * @throws NotAvailableException 
-	 * @throws NotAvailableException 
-	 * @throws AssetTypeNotRequiredException 
-	 * @throws AssetConstraintFullException 
-	 * @throws UnknownStateException 
-	 */
-	
-	//TODO: IllegalStateCall wordt nergens gethrowd. Moet dit wel erroren? (Bart op 26/05)
-	@Test(expected=IllegalStateCallException.class)
-	public void checkStateTwentySeven() throws IllegalStateChangeException, IllegalStateCallException, NullPointerException, BusinessRule3Exception, BusinessRule2Exception, NotAvailableException, BadAllocationTimingException, AssetAllocatedException, AssetTypeNotRequiredException, AssetConstraintFullException 
-	{
-		@SuppressWarnings("unused")
-		Reservation r = new Reservation(manager.getClock().getTime(),120,resource, task);
-		task.setSuccessful();
-	}
-	
-	/**
 	 * Test to see if description is set properly
 	 * @throws EmptyStringException
 	 * @throws IllegalStateCallException 

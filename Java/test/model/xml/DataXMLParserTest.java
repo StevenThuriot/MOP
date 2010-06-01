@@ -57,7 +57,7 @@ public class DataXMLParserTest {
         manager = new RepositoryManager();
         dcontroller = new DispatchController(manager);
         
-        ThemeXMLDAO themeParser = new ThemeXMLDAO("theme_development_1.xml", dcontroller);
+        ThemeXMLDAO themeParser = new ThemeXMLDAO("theme_development_1.xml.bak", dcontroller);
 		
 		Map<String, TaskType> taskTypeMap = new HashMap<String, TaskType>();
 		Map<String, ResourceType> resourceTypeMap = new HashMap<String, ResourceType>();
@@ -65,7 +65,7 @@ public class DataXMLParserTest {
 		
 		themeParser.Parse(taskTypeMap,resourceTypeMap,userTypeMap);
 		
-		parser = new DataXMLDAO("students_public.xml", manager, dcontroller, taskTypeMap, resourceTypeMap, userTypeMap);
+		parser = new DataXMLDAO("students_public.xml.bak", manager, dcontroller, taskTypeMap, resourceTypeMap, userTypeMap);
 		
 		ArrayList<User> parsedUsers = parser.Parse();
 		

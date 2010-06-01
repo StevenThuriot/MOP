@@ -71,7 +71,7 @@ public class ThemeXMLDAO {
 		for(int i=0;i<fieldNodes.getLength();i++)
 		{
 			Node field = fieldNodes.item(i);
-			if(field.getNodeName()!="#text"){
+			if(field.getNodeName()!="#text" && field.getNodeName() != "#comment"){
 				Field newField = null;
 				if(field.getAttributes().getNamedItem("nature").getTextContent().equals("textual"))
 				{
@@ -93,7 +93,7 @@ public class ThemeXMLDAO {
 		for(int i=0;i<constraintNodes.getLength();i++)
 		{
 			Node constraint = constraintNodes.item(i);
-			if(constraint.getNodeName()!="#text"){
+			if(constraint.getNodeName()!="#text" && constraint.getNodeName() != "#comment"){
 				String assetTypeID = constraint.getAttributes().getNamedItem("type").getTextContent();
 				int minimum = Integer.parseInt(constraint.getAttributes().getNamedItem("min").getTextContent());
 				int maximum = 0;
@@ -113,7 +113,7 @@ public class ThemeXMLDAO {
 	}
 	
 	private void addUserType(Node item,Map<String, UserType> userTypeMap) {
-		if(item.getNodeName()!="#text"){
+		if(item.getNodeName()!="#text" && item.getNodeName() != "#comment"){
 			String id = item.getAttributes().getNamedItem("id").getTextContent();
 			String name = item.getAttributes().getNamedItem("name").getTextContent();
 			
@@ -124,7 +124,7 @@ public class ThemeXMLDAO {
 	}
 
 	private void addResourceType(Node item,Map<String, ResourceType> resourceTypeMap) {
-		if(item.getNodeName()!="#text"){
+		if(item.getNodeName()!="#text" && item.getNodeName() != "#comment"){
 			String id = item.getAttributes().getNamedItem("id").getTextContent();
 			String name = item.getAttributes().getNamedItem("name").getTextContent();
 			
@@ -143,7 +143,7 @@ public class ThemeXMLDAO {
 		for(int i=0;i<constraintNodes.getLength();i++)
 		{
 			Node constraint = constraintNodes.item(i);
-			if(constraint.getNodeName()!="#text"){
+			if(constraint.getNodeName()!="#text" && constraint.getNodeName() != "#comment"){
 				String ownerType = constraint.getAttributes().getNamedItem("type").getTextContent();
 				
 				if ( userTypeMap.containsKey(ownerType) ) {
@@ -159,7 +159,7 @@ public class ThemeXMLDAO {
 	
 	@SuppressWarnings("unchecked")
 	private void addTaskType(Node item,Map<String,TaskType> taskTypeMap,Map<String,ResourceType> resourceTypeMap,Map<String,UserType> userTypeMap) throws NameNotFoundException, NullPointerException, DOMException, EmptyStringException {
-		if(item.getNodeName()!="#text"){
+		if(item.getNodeName()!="#text" && item.getNodeName() != "#comment"){
 			String id = item.getAttributes().getNamedItem("id").getTextContent();
 			String name = item.getAttributes().getNamedItem("name").getTextContent();
 			ArrayList<Field> fields = parseTaskTypeFields(item);

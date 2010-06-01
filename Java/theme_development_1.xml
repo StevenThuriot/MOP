@@ -1,72 +1,91 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<t:theme xmlns:t="http://www.cs.kuleuven.be/mop/theme" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.cs.kuleuven.be/mop/theme http://www.cs.kuleuven.be/~thomash/theme.xsd">
+<t:theme xmlns:t="http://www.cs.kuleuven.be/mop/theme"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.cs.kuleuven.be/mop/theme http://www.cs.kuleuven.be/~thomash/theme.xsd">
 
 	<t:taskTypes>
-		<t:taskType id="implementfeature" name="implement a feature">
+		<t:taskType id="cleanveg" name="Clean Vegetables">
 			<t:fields>
-				<t:field id="feature" name="Feature Name" nature="textual"/>
+				<t:field id="color" name="Salad Color" nature="textual" />
 			</t:fields>
 			<t:requires>
-				<t:requirement type="computer" min="1" max="1"/>
-				<t:requirement type="caffeine" min="1" max="*"/>
+				<t:requirement type="vegetable" min="1" max="*" />
+				<t:requirement type="knife" min="0" max="1" />
+				<t:requirement type="souschef" min="1" max="*" />
 			</t:requires>
 			<t:owners>
-				<t:owner type="devuser"/>
+				<t:owner type="chef" />
+			</t:owners>
+		</t:taskType>
+		
+		<t:taskType id="cutfries" name="Cut Fries">
+			<t:fields>
+				<t:field id="size" name="Size (in mm)" nature="numeric" />
+			</t:fields>
+			<t:requires>
+				<t:requirement type="potato" min="1" max="*" />
+				<t:requirement type="knife" min="1" max="*" />
+				<t:requirement type="souschef" min="1" max="*" />
+			</t:requires>
+			<t:owners>
+				<t:owner type="chef" />
 			</t:owners>
 		</t:taskType>
 
-		<t:taskType id="pair" name="pair programming">
+		<t:taskType id="bakesteak" name="Bake Steak">
 			<t:fields>
-				<t:field id="feature" name="Feature Name" nature="textual"/>
+				<t:field id="cuisson" name="Cuisson" nature="textual" />
+				<t:field id="sauce" name="Sauce" nature="textual" />
 			</t:fields>
 			<t:requires>
-				<t:requirement type="computer" min="1" max="1"/>
-				<t:requirement type="devuser" min="1" max="1"/>
+				<t:requirement type="steak" min="1" max="1" />
+				<t:requirement type="pan" min="1" max="1" />
+				<t:requirement type="souschef" min="1" max="1" />
 			</t:requires>
 			<t:owners>
-				<t:owner type="devuser"/>
+				<t:owner type="chef" />
 			</t:owners>
 		</t:taskType>
-
-		<t:taskType id="testfeature" name="test a feature">
+		
+		<t:taskType id="fryfries" name="Fry Fries">
 			<t:fields>
-				<t:field id="feature" name="Feature Name" nature="textual"/>
-				<t:field id="junit" name="Name of JUnit Test Class" nature="textual"/>
 			</t:fields>
 			<t:requires>
-				<t:requirement type="computer" min="1" max="1"/>
-				<t:requirement type="devuser" min="0" max="5"/>
-				<t:requirement type="testuser" min="0" max="*"/>
+				<t:requirement type="fryer" min="1" max="1" />
+				<t:requirement type="souschef" min="1" max="1" />
 			</t:requires>
 			<t:owners>
-				<t:owner type="testuser"/>
-				<t:owner type="devuser"/>
+				<t:owner type="chef" />
 			</t:owners>
 		</t:taskType>
-
-		<t:taskType id="testdistributed" name="test a distributed feature">
+		
+		<t:taskType id="prepare" name="Prepare Steak With Fries">
 			<t:fields>
-				<t:field id="feature" name="Feature Name" nature="textual"/>
-				<t:field id="junit" name="Name of JUnit Test Class" nature="textual"/>
+				<t:field id="table" name="Table Number" nature="numeric" />
 			</t:fields>
 			<t:requires>
-				<t:requirement type="computer" min="2" max="*"/>
+				<t:requirement type="plate" min="1" max="*" />
+				<t:requirement type="souschef" min="2" max="*" />
 			</t:requires>
 			<t:owners>
-				<t:owner type="testuser"/>
-				<t:owner type="devuser"/>
+				<t:owner type="chef" />
 			</t:owners>
 		</t:taskType>
 	</t:taskTypes>
 
 	<t:userTypes>
-		<t:userType id="devuser" name="Software Developer"/>
-		<t:userType id="testuser" name="Software Tester"/>
+		<t:userType id="chef" name="Chef" />
+		<t:userType id="souschef" name="Sous-Chef" />
 	</t:userTypes>
 
 	<t:resourceTypes>
-		<t:resourceType id="computer" name="All kinds of computers (workstations, notebooks, ...)"/>
-		<t:resourceType id="caffeine" name="caffeine"/>
+		<t:resourceType id="pan"    name="Frying Pan" />
+		<t:resourceType id="fryer"  name="Fryer" />
+		<t:resourceType id="plate"  name="Plate" />
+		<t:resourceType id="knife"  name="Knife" />
+		<t:resourceType id="vegetable" name="Vegetable" />
+		<t:resourceType id="potato" name="Potato" />
+		<t:resourceType id="steak" name="Steak" />
 	</t:resourceTypes>
 
 </t:theme>

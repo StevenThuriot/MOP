@@ -32,7 +32,7 @@ public class ThemeXMLParserTest {
 	{
 		manager = new RepositoryManager();
         dcontroller = new DispatchController(manager);
-        parser = new ThemeXMLDAO("theme_development_1.xml",dcontroller);
+        parser = new ThemeXMLDAO("theme_development_1.xml.bak",dcontroller);
         taskTypeMap  = new HashMap<String, TaskType>();
         resourceTypeMap = new HashMap<String, ResourceType>();
         userTypeMap = new HashMap<String, UserType>();

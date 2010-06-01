@@ -74,7 +74,7 @@ public class DataXMLDAO {
 	Map<String, ResourceType> resourceTypeMap = null;
 	Map<String, UserType> userTypeMap = null;
 	
-	private Boolean ENABLE_DEBUG = false;
+	private Boolean ENABLE_DEBUG = true;
 	
 	/**
 	 * Top Secret Debugging Tool!
@@ -142,7 +142,7 @@ public class DataXMLDAO {
 		debug("------ Printing all users ------");
 		for(int teller = 0; teller < allNodes.getLength(); teller++){
 			Node userNode = allNodes.item(teller);
-			if (userNode.getNodeName() != "#text" && userNode.getNodeName().equals("mop:user"))
+			if (userNode.getNodeName() != "#text" && userNode.getNodeName() != "#comment" && userNode.getNodeName().equals("mop:user"))
 			{
 				
 				debug(parser.getNodeByName(userNode, "mop:name").getTextContent());
@@ -172,7 +172,7 @@ public class DataXMLDAO {
 		for(int i=0;i<allNodes.getLength();i++)
 		{
 			Node userNode = allNodes.item(i);
-			if (userNode.getNodeName() != "#text" && userNode.getNodeName().equals("mop:user"))
+			if (userNode.getNodeName() != "#text" && userNode.getNodeName()  != "#comment" && userNode.getNodeName().equals("mop:user"))
 			{
 				User user = users.get(userNode.getAttributes().getNamedItem("id").getTextContent());
 				parseInvitations(userNode,user);
@@ -182,7 +182,7 @@ public class DataXMLDAO {
 		for(int i=0;i<allNodes.getLength();i++)
 		{
 			Node userNode = allNodes.item(i);
-			if (userNode.getNodeName() != "#text" && userNode.getNodeName().equals("mop:user"))
+			if (userNode.getNodeName() != "#text" && userNode.getNodeName() != "#comment" && userNode.getNodeName().equals("mop:user"))
 			{
 				User user = users.get(userNode.getAttributes().getNamedItem("id").getTextContent());
 				parseTasksLink(userNode,user);
@@ -352,7 +352,7 @@ public class DataXMLDAO {
 		for (int i = 0; i < taskList.getLength(); i++) {
 			Node childNode = taskList.item(i);
 			
-			if (childNode.getNodeName() != "#text" && childNode.getNodeName().length() > 0)
+			if (childNode.getNodeName() != "#text" && childNode.getNodeName() != "#comment" && childNode.getNodeName().length() > 0)
 		    {
 				String id = childNode.getAttributes().item(0).getTextContent();
 								
@@ -362,7 +362,7 @@ public class DataXMLDAO {
 				
 				for (int j = 0; j < dependsList.getLength(); j++) {
 					Node depChild = dependsList.item(j);
-					if (depChild.getNodeName() != "#text" && depChild.getNodeName().length() > 0) {
+					if (depChild.getNodeName() != "#text" && depChild.getNodeName() != "#comment" && depChild.getNodeName().length() > 0) {
 						String requiredTaskID = depChild.getTextContent();
 
 						if(requiredTaskID.length() > 0)
@@ -410,7 +410,7 @@ public class DataXMLDAO {
 		for (int i = 0; i < taskList.getLength(); i++) {
 			Node childNode = taskList.item(i);
 			
-			if (childNode.getNodeName() != "#text" && childNode.getNodeName().length() > 0)
+			if (childNode.getNodeName() != "#text" && childNode.getNodeName() != "#comment" && childNode.getNodeName().length() > 0)
 		    {
 				String id = childNode.getAttributes().item(0).getTextContent();
 				String type = parser.getNodeByName(childNode, "mop:type").getTextContent();
@@ -451,7 +451,7 @@ public class DataXMLDAO {
 			    for (int j = 0; j < fieldsNode.getLength(); j++) {
 					Node fieldNode = fieldsNode.item(j);
 					
-					if (fieldNode.getNodeName() != "#text" && fieldNode.getNodeName().length() > 0)
+					if (fieldNode.getNodeName() != "#text" && fieldNode.getNodeName() != "#comment" && fieldNode.getNodeName().length() > 0)
 				    {
 						for (Field field : fields) {
 							String fieldID = field.getId();
@@ -505,7 +505,7 @@ public class DataXMLDAO {
 		NodeList invitationList = invitations.getChildNodes();
 		for(int i=0;i<invitationList.getLength();i++){
 			Node childNode=invitationList.item(i);
-			if(childNode.getNodeName()!="#text")
+			if(childNode.getNodeName()!="#text" && childNode.getNodeName() != "#comment")
 			{
 				Task task = taskMap.get(childNode.getAttributes().getNamedItem("task").getTextContent());
 				Invitation createdInvitation = this.controller.getInvitationController().createInvitation(task, user);
@@ -540,7 +540,7 @@ public class DataXMLDAO {
 		for (int i = 0; i < reservationList.getLength(); i++) {
 			Node childNode = reservationList.item(i);
 			
-			if (childNode.getNodeName() != "#text")
+			if (childNode.getNodeName() != "#text" && childNode.getNodeName() != "#comment")
 		    {
 				String startString = parser.getNodeByName(childNode, "mop:time").getTextContent();
 			    
@@ -576,7 +576,7 @@ public class DataXMLDAO {
 		for (int i = 0; i < projectList.getLength(); i++) {
 			Node childNode = projectList.item(i);
 			
-			if (childNode.getNodeName() != "#text")
+			if (childNode.getNodeName() != "#text" && childNode.getNodeName() != "#comment")
 		    {
 				String id = childNode.getAttributes().item(0).getTextContent();
 				String description = parser.getNodeByName(childNode, "mop:description").getTextContent();
@@ -603,7 +603,7 @@ public class DataXMLDAO {
 		for (int i = 0; i < resourceList.getLength(); i++) {
 			Node childNode = resourceList.item(i);
 			
-			if (childNode.getNodeName() != "#text")
+			if (childNode.getNodeName() != "#text" && childNode.getNodeName() != "#comment")
 		    {
 				String id = childNode.getAttributes().item(0).getTextContent();
 				String description = parser.getNodeByName(childNode, "mop:description").getTextContent();

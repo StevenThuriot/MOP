@@ -1,0 +1,247 @@
+<?xml version="1.0"?>
+
+<mop:taskplanner xmlns:mop="http://www.cs.kuleuven.be/mop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.cs.kuleuven.be/mop http://www.cs.kuleuven.be/~thomash/mop_iteratie3.xsd">
+
+	<mop:systemtime>2009-10-22T00:00:00</mop:systemtime>
+
+	<mop:projects>
+		<mop:project id="projectZero">
+			<mop:description>Secret Development Project</mop:description>
+		</mop:project>
+
+	</mop:projects>
+
+	<mop:resources>
+		<mop:resource id="workstation">
+			<mop:description>Fully Equipped Workstation</mop:description>
+			<mop:type>computer</mop:type>
+		</mop:resource>
+		<mop:resource id="notebook">
+
+			<mop:description>Personal Notebook</mop:description>
+			<mop:type>computer</mop:type>
+		</mop:resource>
+		<mop:resource id="server">
+			<mop:description>Internet hosted server</mop:description>
+			<mop:type>computer</mop:type>
+		</mop:resource>
+
+		<mop:resource id="coffee">
+			<mop:description>Delicious coffee</mop:description>
+			<mop:type>caffeine</mop:type>
+		</mop:resource>
+		<mop:resource id="cocacola">
+			<mop:description>Coca cola</mop:description>
+			<mop:type>caffeine</mop:type>
+
+		</mop:resource>
+		<mop:resource id="beans">
+			<mop:description>Unprocessed Coffee Beans</mop:description>
+			<mop:type>caffeine</mop:type>
+		</mop:resource>
+	</mop:resources>
+
+	<mop:user id="dev1">
+
+		<mop:name>Alice</mop:name>
+		<mop:type>devuser</mop:type>
+		
+		<mop:tasks>
+			<mop:task id="taskDevelopCore">
+				<mop:type>implementfeature</mop:type>
+				<mop:startDate>2009-10-18T08:00:00</mop:startDate>
+				<mop:endDate>2009-10-21T20:00:00</mop:endDate>
+
+				<mop:duration>1440</mop:duration>
+				<mop:status>Successful</mop:status>
+				<mop:refProject>projectZero</mop:refProject>
+				<mop:dependsOn>
+				</mop:dependsOn>
+				<mop:fields>
+					<mop:field id="feature" value="Core modules" />
+
+				</mop:fields>
+				<mop:invitees>
+				</mop:invitees>
+				<mop:reservations>
+					<mop:reservation>
+						<mop:time>2009-10-18T08:00:00</mop:time>
+						<mop:duration>2000</mop:duration>
+						<mop:refResource>workstation</mop:refResource>
+
+					</mop:reservation>
+					<mop:reservation>
+						<mop:time>2009-10-18T10:00:00</mop:time>
+						<mop:duration>2400</mop:duration>
+						<mop:refResource>coffee</mop:refResource>
+					</mop:reservation>
+				</mop:reservations>
+
+			</mop:task>
+
+			<mop:task id="taskTestCore">
+				<mop:type>testfeature</mop:type>
+				<mop:startDate>2009-10-20T08:00:00</mop:startDate>
+				<mop:endDate>2009-10-25T20:00:00</mop:endDate>
+				<mop:duration>180</mop:duration>
+
+				<mop:status>Unfinished</mop:status>
+				<mop:refProject>projectZero</mop:refProject>
+				<mop:dependsOn>
+					<mop:refTask>taskDevelopCore</mop:refTask>
+				</mop:dependsOn>
+				<mop:fields>
+					<mop:field id="feature" value="Core modules" />
+
+					<mop:field id="junit" value="TestCore.java" />
+				</mop:fields>
+				<mop:invitees>
+					<mop:refUser>dev2</mop:refUser>
+					<mop:refUser>test1</mop:refUser>
+				</mop:invitees>
+				<mop:reservations>
+					<mop:reservation>
+
+						<mop:time>2009-10-23T14:00:00</mop:time>
+						<mop:duration>200</mop:duration>
+						<mop:refResource>workstation</mop:refResource>
+					</mop:reservation>
+				</mop:reservations>
+			</mop:task>
+
+			<mop:task id="taskDevelopComm">
+
+				<mop:type>pair</mop:type>
+				<mop:startDate>2009-10-01T08:00:00</mop:startDate>
+				<mop:endDate>2009-11-28T20:00:00</mop:endDate>
+				<mop:duration>14400</mop:duration>
+				<mop:status>Successful</mop:status>
+				<mop:refProject>projectZero</mop:refProject>
+
+				<mop:dependsOn>
+					<mop:refTask>taskDevelopCore</mop:refTask>
+				</mop:dependsOn>
+				<mop:fields>
+					<mop:field id="feature" value="Communication module" />
+				</mop:fields>
+				<mop:invitees>
+					<mop:refUser>dev2</mop:refUser>
+
+				</mop:invitees>
+				<mop:reservations>
+					<mop:reservation>
+						<mop:time>2009-10-01T14:00:00</mop:time>
+						<mop:duration>86400</mop:duration>
+						<mop:refResource>notebook</mop:refResource>
+					</mop:reservation>
+
+				</mop:reservations>
+			</mop:task>
+
+			<mop:task id="taskTestComm">
+				<mop:type>testdistributed</mop:type>
+				<mop:startDate>2009-10-01T08:00:00</mop:startDate>
+				<mop:endDate>2009-11-28T20:00:00</mop:endDate>
+				<mop:duration>14400</mop:duration>
+
+				<mop:status>Unfinished</mop:status>
+				<mop:refProject>projectZero</mop:refProject>
+				<mop:dependsOn>
+					<mop:refTask>taskDevelopComm</mop:refTask>
+				</mop:dependsOn>
+				<mop:fields>
+					<mop:field id="feature" value="Communication module" />
+
+					<mop:field id="junit" value="TestComm.java" />
+				</mop:fields>
+				<mop:invitees>
+				</mop:invitees>
+				<mop:reservations>
+					<mop:reservation>
+						<mop:time>2009-10-24T14:00:00</mop:time>
+						<mop:duration>53280</mop:duration>
+
+						<mop:refResource>workstation</mop:refResource>
+					</mop:reservation>
+					<mop:reservation>
+						<mop:time>2009-10-24T14:00:00</mop:time>
+						<mop:duration>53280</mop:duration>
+						<mop:refResource>server</mop:refResource>
+					</mop:reservation>
+
+				</mop:reservations>
+			</mop:task>
+			
+			<mop:task id="taskDevelopGui">
+				<mop:type>implementfeature</mop:type>
+				<mop:startDate>2009-12-01T08:00:00</mop:startDate>
+				<mop:endDate>2009-12-24T20:00:00</mop:endDate>
+				<mop:duration>20000</mop:duration>
+
+				<mop:status>Unfinished</mop:status>
+				<mop:refProject>projectZero</mop:refProject>
+				<mop:dependsOn>
+					<mop:refTask>taskDevelopCore</mop:refTask>
+					<mop:refTask>taskTestCore</mop:refTask>
+					<mop:refTask>taskDevelopComm</mop:refTask>
+
+					<mop:refTask>taskTestComm</mop:refTask>
+				</mop:dependsOn>
+				<mop:fields>
+					<mop:field id="feature" value="User Interface" />
+				</mop:fields>
+				<mop:invitees>
+				</mop:invitees>
+				<mop:reservations>
+
+					<mop:reservation>
+						<mop:time>2009-12-02T08:00:00</mop:time>
+						<mop:duration>23000</mop:duration>
+						<mop:refResource>notebook</mop:refResource>
+					</mop:reservation>
+					<mop:reservation>
+						<mop:time>2009-12-01T14:00:00</mop:time>
+
+						<mop:duration>53280</mop:duration>
+						<mop:refResource>beans</mop:refResource>
+					</mop:reservation>
+				</mop:reservations>
+			</mop:task>
+		</mop:tasks>
+	
+		<mop:invitations>
+		</mop:invitations>
+
+	</mop:user>
+	
+	<mop:user id="dev2">
+		<mop:name>Bob</mop:name>
+		<mop:type>devuser</mop:type>
+		
+		<mop:tasks>		
+		</mop:tasks>
+
+		<mop:invitations>
+			<mop:invitation task="taskDevelopComm" status="accepted" />
+
+			<mop:invitation task="taskTestCore" status="declined" />
+		</mop:invitations>
+		
+	</mop:user>
+	
+	<mop:user id="test1">
+		<mop:name>Eve</mop:name>
+		<mop:type>testuser</mop:type>
+		
+		<mop:tasks>			
+		</mop:tasks>
+
+		
+		<mop:invitations>
+			<mop:invitation task="taskTestCore" status="pending" />
+		</mop:invitations>
+	</mop:user>
+
+</mop:taskplanner>
