@@ -63,13 +63,10 @@ public class InvitationManager extends UseCase {
 		Invitation selectedInvitation = null;
 		do{
 			Invitation inv = null;
-			try {
-				inv = menu.menuGen("Select an invitation to be updated.", user.getInvitations());
-			} catch (EmptyListPassedToMenuException e) {
-				menu.println("There are no invitations to select. Going back to menu.");
+			inv = menu.menuGenOpt("Select an invitation to be updated.", user.getInvitations(),"Exit");
+			if(inv == null)
 				return;
-			}
-			if(inv.getState()==InvitationState.PENDING)
+			else if(inv.getState()==InvitationState.PENDING)
 				selectedInvitation = inv;
 			else
 				menu.println("You can't update this invitation. It is not pending.");
